@@ -1,0 +1,19 @@
+{
+  "name": "carpal",
+  "version": "1.0.0",
+  "description": "The SDK for CarPal fleet solution development.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarPalFleet/JavaScript-SDK.git"
+  },
+  "author": "Chen Cheng",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CarPalFleet/JavaScript-SDK/issues"
+  },
+  "homepage": "https://github.com/CarPalFleet/JavaScript-SDK#readme"
+}
