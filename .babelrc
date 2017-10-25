@@ -1,5 +1,9 @@
 {
-    "moduleId": "carpal",
     "presets": ["es2015", "stage-0"],
-    "plugins": ["add-module-exports"]
+    "plugins": ["transform-es2015-arrow-functions", "transform-async-to-generator", "transform-es2015-destructuring"],
+    "env": {
+      "test": {
+        "presets": ["es2015", "stage-0"]
+      }
+    }
 }
