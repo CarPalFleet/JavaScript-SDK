@@ -1,8 +1,8 @@
 import axios from 'axios';
 import endpoints, { cid, secret } from '../Endpoint';
 
-export function* getTokenAsync({email, password}){
-    yield axios({method: 'post', 
+export const getTokenAsync = async (email, password)=>{
+    return axios({method: 'post', 
                  url: endpoints.OAUTH,
                  headers: {'Content-Type': 'application/json'},
                  data: {
