@@ -6,6 +6,7 @@ export const secret = '3rDkxFSgweH4yFlH4Oq9fo9QHNPFfUNEu2kEBfvx';
 const endpoints = {
     LANGUAGES: `${urlPrefix}/languages`,
     IDENTITIES: `${urlPrefix}/identities`,
+    COUNTRIES: `${urlPrefix}/countries`,
     ACCOUNTS: `${urlPrefix}/drivers`,
     OAUTH: `${urlPrefix}/authentication`,
 }
