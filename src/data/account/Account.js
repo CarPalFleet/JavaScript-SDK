@@ -12,17 +12,28 @@ export const resetPasswordAsync = async (email)=>{
         return response.data;
                 
     }catch(e){
-        return null
+        return null;
     }
 }  
 
-export const getMyJobsAsync = async (id, token, date)=>{
+export const getDriverJobsAsync = async (id, token, date)=>{
     try{
         const response = await axios({method: 'get', 
                                       url: endpoints.MY_JOBS.replace('{1}', id).replace('{2}', date),
                                       headers: {'Authorization': token}});
         return response.data.data;
     }catch(e){
-        return null
+        return null;
     }    
+}
+
+export const getDriverLegsAsync = async(id, token, date)=>{
+    try{
+        const response = await axios({method: 'get', 
+                                      url: endpoints.MY_LEGS.replace('{1}', id).replace('{2}', date),
+                                      headers: {'Authorization': token}});
+        return response.data.data;
+    }catch(e){
+        return null;
+    }
 }

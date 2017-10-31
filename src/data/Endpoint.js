@@ -10,7 +10,8 @@ const endpoints = {
     ACCOUNTS: `${urlPrefix}/drivers`,
     OAUTH: `${urlPrefix}/authentication`,
     PASSWORD_RESET: `${urlPrefix}/users/password/reset`,
-    MY_JOBS: `${urlPrefix}/drivers/{0}/my-jobs?date={1}`,
+    MY_JOBS: `${urlPrefix}/drivers/{0}/jobs?date={1}`,
+    MY_LEGS: `${urlPrefix}/drivers/{0}/legs?date={1}`,
 }
 
 export default endpoints;
