@@ -1,6 +1,10 @@
 # JavaScript-SDK
 The JavaScript SDK for developers(including third party developers/vendors) to create custom modules by using Carpal Fleet core services.
 
+The SDK is under active development, we will release the latest version to npm on weekly basis.
+
+The current version of this SDK is **0.0.26**
+
 To install CarPal SDK: **npm i --save carpal**
 
 # Methods
