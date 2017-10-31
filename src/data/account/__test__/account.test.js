@@ -1,4 +1,4 @@
-import { resetPasswordAsync, getMyJobs } from '../Account';
+import { resetPasswordAsync, getMyJobsAsync } from '../Account';
 import { getTokenAsync } from '../Auth';
 
 test('Test for reset password', async ()=>{    
@@ -10,7 +10,7 @@ test('Test for reset password', async ()=>{
 test('Test for getting my jobs.', async ()=>{    
     const result = getTokenAsync('demo@carpal.me', 'carpaldemo');
     const token = await result;
-    const response = getMyJobs(1, token.access_token);
+    const response = getMyJobsAsync(1, token.access_token, '2017-11-01');
     const myJobs = await response;
     expect(myJobs instanceof Array).toBe(true);
 })

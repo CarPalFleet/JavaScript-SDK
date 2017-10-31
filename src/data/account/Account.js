@@ -16,10 +16,10 @@ export const resetPasswordAsync = async (email)=>{
     }
 }  
 
-export const getMyJobs = async (id, token)=>{
+export const getMyJobsAsync = async (id, token, date)=>{
     try{
         const response = await axios({method: 'get', 
-                                      url: endpoints.MY_JOBS.replace('{}', id),
+                                      url: endpoints.MY_JOBS.replace('{1}', id).replace('{2}', date),
                                       headers: {'Authorization': token}});
         return response.data.data;
     }catch(e){
