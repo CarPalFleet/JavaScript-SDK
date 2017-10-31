@@ -3,7 +3,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm on weekly basis.
 
-The current version of this SDK is **0.0.26**
+The current version of this SDK is **0.0.27**
 
 To install CarPal SDK: **npm i --save carpal**
 
