@@ -12,10 +12,10 @@ export const getTokenAsync = async (email, password)=>{
                                         grant_type: "password",
                                         client_id: cid,
                                         client_secret: secret,
-                                        scope: ""
+                                        scope: "full-access"
                                       }})
         return response.data.data;     
     }catch(e){
-        return null
+        return null;
     }
 }            
