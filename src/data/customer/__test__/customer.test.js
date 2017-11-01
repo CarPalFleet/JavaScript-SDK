@@ -1,9 +1,7 @@
-import { createNewCustomer } from '../Customer';
+import { createNewCustomerAsync } from '../Customer';
 import { getTokenAsync } from '../../account/Auth';
 
 test('Creating new customer account', async () => {
-    const result = getTokenAsync('demo@carpal.me', 'carpaldemo');
-    const token = await result;
     const random = Date.now();
     const customer = {
         email: `vader${random}@carpal.me`,
@@ -17,6 +15,6 @@ test('Creating new customer account', async () => {
         coPhone: "+6564352178",
         coVatNo: "NASA123456789"
     }
-    const response = await createNewCustomer(customer, token.access_token)
+    const response = await createNewCustomerAsync(customer)
     expect(response).toBe(true);
 })
