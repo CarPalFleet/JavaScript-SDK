@@ -9,6 +9,8 @@ To install CarPal SDK: **npm i --save carpal**
 
 If you were using webpack and had encountered the ***regeneratorRuntime is not defined*** error, you may need to include babel-polyfill to your project. For more info, you can find it from here https://stackoverflow.com/questions/33527653/babel-6-regeneratorruntime-is-not-defined
 
+We only tested it with ES6, theoretically it should work with ES5. Use it at your own risk for ES5.
+
 # Methods
 
 | Module                        | Method                                | Description                                                          |
