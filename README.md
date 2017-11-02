@@ -25,4 +25,45 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/customer/Customer | createNewCustomerAsync(customerObj)               | This returns true/false for registration result. The **customerObj** payload example" {email:'xxx@example.com', password: '123456', firstName:'John', lastName:'Lennon', phone:'+6512345678', birthday:'d-m-y', identityId:1, coName:'ABC Pte ltd', coPhone:'+6512345678', coVatNo:'xxxxxx'}            |
 
 
+# Tutorial
+This is a simple tutorial to show you how to use CarPal JavaScript SDK to quickly build a web based fleet management application.
+
+First, you need to request for your **client ID** and **secret**.
+
+Then you can start with Customer registration(we use ReactJS here):
+
+```javascript
+import React ...
+import { getTokenAsync } from 'carpal/dist/data/account/Auth ';
+import { createNewCustomerAsync } from 'carpal/dist/data/customer/Customer';
+
+export default Class Registration extends Component{
+  
+  register = (formData)=>{
+    const result = createNewCustomerAsync(formData); //This will return true if registration successful
+    
+    //user login immediately after registration success
+    if(result){
+      const authResult = getTokenAsync('xxx@example.com', 'xxxxxx', 1, 'secret string...');
+      
+      //Store the tokens in localstorage
+      localStorage.setItem('auth', {accessToken: authResult.access_token, 
+                                    refreshToken: authResult.refreshToken, 
+                                    customerId: authResult.customer_id);
+      
+      //Navigate to other page...
+    }
+  }
+  render(){
+    return (
+      ...
+      <Button onPress={()=>this.register(formData)}
+      ...
+    )
+  }
+}
+
+```
+
+
 License: MIT https://opensource.org/licenses/MIT
