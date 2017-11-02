@@ -7,17 +7,17 @@ test('Test for reset password', async ()=>{
     expect(result).not.toBeNull();
 })
 
-test('Test for getting my jobs.', async ()=>{    
-    const result = getTokenAsync('demo@carpal.me', 'carpaldemo');
-    const token = await result;
+test('Test for getting my jobs.', async ()=>{
+    const result = getTokenAsync('demo@carpal.me', 'carpaldemo', 2, 'jWu9Qz4L3ha4SRgM5J6oBzAljg6f9zDzs2hIIIUh');
+    const token = await result;  
     const response = getDriverJobsAsync(1, token.access_token, '2017-11-01');
-    const myJobs = await response;
+    const myJobs = await response;   
     expect(myJobs instanceof Array).toBe(true);
 })
 
 test('Test for getting my legs.', async ()=>{    
-    const result = getTokenAsync('demo@carpal.me', 'carpaldemo');
-    const token = await result;
+    const result = getTokenAsync('demo@carpal.me', 'carpaldemo', 2, 'jWu9Qz4L3ha4SRgM5J6oBzAljg6f9zDzs2hIIIUh');
+    const token = await result;  
     const response = getDriverLegsAsync(1, token.access_token, '2017-11-01');
     const myLegs = await response;
     expect(myLegs instanceof Array).toBe(true);

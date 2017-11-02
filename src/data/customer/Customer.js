@@ -1,5 +1,5 @@
 import axios from 'axios';
-import endpoints, { cid, secret } from '../Endpoint';
+import endpoints from '../Endpoint';
 
 export const createNewCustomerAsync = async ({email, password, firstName, lastName, phone, 
                                          birthday, identityId, coName, coPhone, coVatNo})=>{

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import endpoints, { cid, secret } from '../Endpoint';
+import endpoints from '../Endpoint';
 
 export const resetPasswordAsync = async (email)=>{
     try{
@@ -12,6 +12,7 @@ export const resetPasswordAsync = async (email)=>{
         return response.data;
                 
     }catch(e){
+        console.log(e);
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }  
