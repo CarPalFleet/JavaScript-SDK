@@ -6,6 +6,6 @@ export const getCountriesAsync = async ()=>{
         const response = await axios.get(endpoints.COUNTRIES)
         return response.data.data;               
     }catch(e){
-        return null
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }            

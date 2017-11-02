@@ -6,6 +6,6 @@ export const getLanguagesAsync = async ()=>{
         const response = await axios.get(endpoints.LANGUAGES)
         return response.data.data;           
     }catch(e){
-        return null
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }            

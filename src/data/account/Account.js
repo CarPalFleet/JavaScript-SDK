@@ -12,7 +12,7 @@ export const resetPasswordAsync = async (email)=>{
         return response.data;
                 
     }catch(e){
-        return null;
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }  
 
@@ -23,7 +23,7 @@ export const getDriverJobsAsync = async (id, token, date)=>{
                                       headers: {'Authorization': token}});
         return response.data.data;
     }catch(e){
-        return null;
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }    
 }
 
@@ -34,6 +34,6 @@ export const getDriverLegsAsync = async(id, token, date)=>{
                                       headers: {'Authorization': token}});
         return response.data.data;
     }catch(e){
-        return null;
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }

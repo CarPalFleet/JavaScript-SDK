@@ -1,11 +1,12 @@
 import { getTokenAsync } from '../Auth';
 
-test('test for account nick@carpal.me', async ()=>{    
-    const result1 = getTokenAsync('demo@carpal.me', 'carpaldemo');
-    const token1 = await result1;
-    expect(token1).not.toBeNull();
+test('test for account demo@carpal.me', async ()=>{    
+    const result = getTokenAsync('demo@carpal.me', 'carpaldemo');
+    const token = await result;
+    expect(token).not.toBeNull();
+})
 
-    const result2 = getTokenAsync('demo@carpal.me', 'carpaldemo1');
-    const token2 = await result2;
-    expect(token2).toBeNull();
+test('test for account demo@carpal.me with wrong password', async()=>{  
+    const result = getTokenAsync('demo@carpal.me', 'carpaldemo1');
+    await expect(result).rejects.toHaveProperty('statusCode', 401);
 })
