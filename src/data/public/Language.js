@@ -1,5 +1,5 @@
 import axios from 'axios';
-import endpoints, { cid, secret } from '../Endpoint';
+import endpoints from '../Endpoint';
 
 export const getLanguagesAsync = async ()=>{
     try{
