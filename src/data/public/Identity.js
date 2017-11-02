@@ -6,6 +6,6 @@ export const getIdentitiesAsync = async ()=>{
         const response = await axios.get(endpoints.IDENTITIES)
         return response.data.data;                
     }catch(e){
-        return null
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }            

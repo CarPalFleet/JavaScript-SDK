@@ -21,6 +21,6 @@ export const createNewCustomerAsync = async ({email, password, firstName, lastNa
                                       }})
         return response.data.data;     
     }catch(e){
-        return null;
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
