@@ -49,7 +49,7 @@ export default Class Registration extends Component{
       //Store the tokens in localstorage
       localStorage.setItem('auth', {accessToken: authResult.access_token, 
                                     refreshToken: authResult.refreshToken, 
-                                    customerId: authResult.customer_id);
+                                    customerId: authResult.customer_id});
       
       //Navigate to other page...
     }
