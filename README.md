@@ -57,7 +57,9 @@ export default Class Registration extends Component{
   render(){
     return (
       ...
-      <Button onPress={()=>this.register(formData)}
+      <Button onPress={()=>this.register(formData)}>
+        <Text>Register</Text>
+      </Button>
       ...
     )
   }
