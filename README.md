@@ -15,14 +15,14 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
-| carpal/dist/data/account/Auth      | getTokenAsync(email, password, clientId, secret)  | This returns the both access token and refresh token.                |
-| carpal/dist/data/account/Account   | resetPasswordAsync(email)                         | This will call the email service to send out a link                  |
-| carpal/dist/data/account/Account   | getDriverJobsAsync(id, token, date)               | This returns list of a driver's jobs for given date                  |
-| carpal/dist/data/account/Account   | getDriverLegsAsync(id, token, date)               | This returns list of a driver's legs for given date                  |
-| carpal/dist/data/public/Country    | getCountriesAsync()                               | This returns list of countries available for carpal services         |
-| carpal/dist/data/public/Identity   | getIdentitiesAsync()                              | This returns list of identities(cities) available for carpal services|
-| carpal/dist/data/public/Language   | getLanguagesAsync()                               | This returns list of languages supported by carpal system            |
-| carpal/dist/data/customer/Customer | createNewCustomerAsync(customerObj)               | This returns true/false for registration result. The **customerObj** payload example" {email:'xxx@example.com', password: '123456', firstName:'John', lastName:'Lennon', phone:'+6512345678', birthday:'d-m-y', identityId:1, coName:'ABC Pte ltd', coPhone:'+6512345678', coVatNo:'xxxxxx'}            |
+| carpal/dist/data/account/Auth      | getTokenAsync(email, password, clientId, secret)  | This returns a Promise object with both access token and refresh token.                |
+| carpal/dist/data/account/Account   | resetPasswordAsync(email)                         | This will call the email service to send out a link and return a Promise object                  |
+| carpal/dist/data/account/Account   | getDriverJobsAsync(id, token, date)               | This returns a Promise object with a list of a driver's jobs for given date                  |
+| carpal/dist/data/account/Account   | getDriverLegsAsync(id, token, date)               | This returns a Promise object with a list of a driver's legs for given date                  |
+| carpal/dist/data/public/Country    | getCountriesAsync()                               | This returns a Promise object with a list of countries available for carpal services         |
+| carpal/dist/data/public/Identity   | getIdentitiesAsync()                              | This returns a Promise object with a list of identities(cities) available for carpal services|
+| carpal/dist/data/public/Language   | getLanguagesAsync()                               | This returns a Promise object with a list of languages supported by carpal system            |
+| carpal/dist/data/customer/Customer | createNewCustomerAsync(customerObj)               | This returns a Promise object with true/false for registration result. The **customerObj** payload example" {email:'xxx@example.com', password: '123456', firstName:'John', lastName:'Lennon', phone:'+6512345678', birthday:'d-m-y', identityId:1, coName:'ABC Pte ltd', coPhone:'+6512345678', coVatNo:'xxxxxx'}            |
 
 
 # Tutorial
@@ -39,19 +39,23 @@ import { createNewCustomerAsync } from 'carpal/dist/data/customer/Customer';
 
 export default Class Registration extends Component{
   
-  register = (formData)=>{
-    const result = createNewCustomerAsync(formData); //This will return true if registration successful
-    
-    //user login immediately after registration success
-    if(result){
-      const authResult = getTokenAsync('xxx@example.com', 'xxxxxx', 1, 'secret string...');
-      
-      //Store the tokens in localstorage
-      localStorage.setItem('auth', {accessToken: authResult.access_token, 
-                                    refreshToken: authResult.refreshToken, 
-                                    customerId: authResult.customer_id});
-      
-      //Navigate to other page...
+  register = async (formData)=>{
+    try{
+      const result = await createNewCustomerAsync(formData); //This function will return a promise with result true if registration successful
+
+      //user login immediately after registration success
+      if(result){
+        const authResult = await getTokenAsync('xxx@example.com', 'xxxxxx', 1, 'secret string...');
+
+        //Store the tokens in localstorage
+        localStorage.setItem('auth', {accessToken: authResult.access_token, 
+                                      refreshToken: authResult.refreshToken, 
+                                      customerId: authResult.customer_id});
+
+        //Navigate to other page...
+      }
+    }catch(e){
+      //Handle error here
     }
   }
   render(){
