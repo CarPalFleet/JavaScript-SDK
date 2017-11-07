@@ -23,7 +23,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/public/Identity   | getIdentitiesAsync()                              | This returns a Promise object with a list of identities(cities) available for carpal services|
 | carpal/dist/data/public/Language   | getLanguagesAsync()                               | This returns a Promise object with a list of languages supported by carpal system            |
 | carpal/dist/data/customer/Customer | createNewCustomerAsync(customerObj)               | This returns a Promise object with true/false for registration result. The **customerObj** payload example" {email:'xxx@example.com', password: '123456', firstName:'John', lastName:'Lennon', phone:'+6512345678', birthday:'d-m-y', identityId:1, coName:'ABC Pte ltd', coPhone:'+6512345678', coVatNo:'xxxxxx'}            |
-
+| carpal/dist/data/customer/Setting   | getWhiteLabelAsync()                             | This returns a Promise object with Logo and Background Image           |
 
 # Tutorial
 This is a simple tutorial to show you how to use CarPal JavaScript SDK to quickly build a web based fleet management application.
@@ -38,7 +38,7 @@ import { getTokenAsync } from 'carpal/dist/data/account/Auth ';
 import { createNewCustomerAsync } from 'carpal/dist/data/customer/Customer';
 
 export default Class Registration extends Component{
-  
+
   register = async (formData)=>{
     try{
       const result = await createNewCustomerAsync(formData); //This function will return a promise with result true if registration successful
@@ -48,8 +48,8 @@ export default Class Registration extends Component{
         const authResult = await getTokenAsync('xxx@example.com', 'xxxxxx', 1, 'secret string...');
 
         //Store the tokens in localstorage
-        localStorage.setItem('auth', {accessToken: authResult.access_token, 
-                                      refreshToken: authResult.refreshToken, 
+        localStorage.setItem('auth', {accessToken: authResult.access_token,
+                                      refreshToken: authResult.refreshToken,
                                       customerId: authResult.customer_id});
 
         //Navigate to other page...
