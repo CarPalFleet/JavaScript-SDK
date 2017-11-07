@@ -12,7 +12,9 @@ test('Test for getting WhiteLabel for customer', async () =>{
 // test('Test for getting WhiteLabel for public with invalid domain', async()=>{
 //     const response = getWhiteLabelAsync(CONFIG.invalidDomain);
 //     const whiteLabel = await response;
-//     console.log("REJECT", whiteLabel);
 //     expect(whiteLabel).rejects.toHaveProperty('statusCode', 404);
+//     // const aa = expect(whiteLabel).rejects;
+//     // console.log("REJECT", aa);
+//     // expect(whiteLabel).rejects.toHaveProperty('statusCode', 404);
 //     // expect(whiteLabel).rejects.toHaveProperty('Code', 'NotFoundError');
 // })

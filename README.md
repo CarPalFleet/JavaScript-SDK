@@ -3,7 +3,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is **0.0.32**
+The current version of this SDK is **0.0.33**
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -22,9 +22,10 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/public/Country    | getCountriesAsync()                               | This returns a Promise object with a list of countries available for carpal services         |
 | carpal/dist/data/public/Identity   | getIdentitiesAsync()                              | This returns a Promise object with a list of identities(cities) available for carpal services|
 | carpal/dist/data/public/Language   | getLanguagesAsync()                               | This returns a Promise object with a list of languages supported by carpal system            |
-| carpal/dist/data/public/Setting   | getWhiteLabelAsync()                             | This returns a Promise object with Logo and Background Image URL          |
+| carpal/dist/data/public/Setting   | getWhiteLabelAsync(domain)                             | This returns a Promise object with Logo and Background Image URL        |
 | carpal/dist/data/customer/Customer | createNewCustomerAsync(customerObj)               | This returns a Promise object with true/false for registration result. The **customerObj** payload example" {email:'xxx@example.com', password: '123456', firstName:'John', lastName:'Lennon', phone:'+6512345678', birthday:'d-m-y', identityId:1, coName:'ABC Pte ltd', coPhone:'+6512345678', coVatNo:'xxxxxx'}            |
-| carpal/dist/data/customer/Setting   | getWhiteLabelAsync()                             | This returns a Promise object with Logo and Background Image URL          |
+| carpal/dist/data/customer/Setting   | getWhiteLabelAsync(domain, token)                             | This returns a Promise object with Logo and Background Image URL for Customer         |
+| carpal/dist/data/customer/Order   | getOrderDetailAsync(customerId, orderId, token)                          | This returns a Promise object with Order Detail with given orderId        |
 
 # Tutorial
 This is a simple tutorial to show you how to use CarPal JavaScript SDK to quickly build a web based fleet management application.
