@@ -1,5 +1,6 @@
 import { createNewCustomerAsync } from '../Customer';
 import { getTokenAsync } from '../../account/Auth';
+import { CONFIG } from 'Config';
 
 test('Creating new customer account', () => {
     // const random = Date.now();
