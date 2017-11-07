@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const CamelCase = (data) => {
-  let camelCaseObject = {};
+  let camelCaseObject = _.isArray(data)? [] : {};
   _.forEach(
     data,
     function(value, key) {
