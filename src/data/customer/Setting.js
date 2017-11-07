@@ -5,7 +5,7 @@ import toCamelCase from '../CamelCase';
 export const getWhiteLabelAsync = async (domain, token) => {
     try{
         const response = await axios({method: 'get',
-                                      url: endpoints.WHITE_LABEL.replace('{0}', domain),
+                                      url: endpoints.WHITE_LABEL.replace('{1}', domain),
                                       headers: {'Authorization': token}});
         return toCamelCase(response.data);
     }catch(e){
