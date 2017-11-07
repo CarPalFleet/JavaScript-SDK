@@ -3,9 +3,7 @@ import { getWhiteLabelAsync } from '../Setting';
 import CONFIG from './Config';
 
 test('Test for getting WhiteLabel for customer', async () =>{
-    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
-    const token = await result;
-    const response = getWhiteLabelAsync(CONFIG.domain, token.accessToken);
+    const response = getWhiteLabelAsync(CONFIG.domain);
     const whiteLabel = await response;
     expect(whiteLabel instanceof Object).toBe(true);
 })
