@@ -10,7 +10,7 @@ const endpoints = {
     MY_JOBS: `${urlPrefix}/drivers/{0}/jobs?date={1}`,
     MY_LEGS: `${urlPrefix}/drivers/{0}/legs?date={1}`,
     NEW_CUSTOMER:  `${urlPrefix}/customers`,
-    WHITE_LABEL:  `${urlPrefix}/transaction-groups/{1}`,
+    TRANSACTION_GROUP_SETTING:  `${urlPrefix}/transaction-groups/{1}`,
     ORDER_DETAIL: `${urlPrefix}/customers/{0}/orders/{1}`,
 }
 
