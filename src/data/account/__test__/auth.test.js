@@ -8,6 +8,6 @@ test('test for account demo@carpal.me', async ()=>{
 })
 
 test('test for account demo@carpal.me with wrong password', async()=>{
-    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+    const result = getTokenAsync(CONFIG.email, CONFIG.emptyString, CONFIG.clientId, CONFIG.token);
     await expect(result).rejects.toHaveProperty('statusCode', 401);
 })
