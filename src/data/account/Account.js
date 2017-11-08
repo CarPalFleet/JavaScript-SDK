@@ -2,7 +2,7 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import toCamelCase from '../CamelCase';
 
-export const resetPasswordAsync = async (email)=>{
+export const resetPasswordRequestAsync = async (email)=>{
     try{
         const response = await axios({method: 'post',
                                       url: endpoints.PASSWORD_RESET,
@@ -10,9 +10,28 @@ export const resetPasswordAsync = async (email)=>{
                                       data: {
                                         email
                                       }})
-        return toCamelCase(response.data);
+        console.log(response.data.data);
+        const test = toCamelCase(response.data.data);
+        console.log(test);
+        return toCamelCase(response.data.data);
     }catch(e){
-        console.log(e);
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    }
+}
+
+export const resetPasswordAsync = async (token, email, password, confirmPassword) => {
+    try{
+        const response = await axios({method: 'put',
+                                      url: endpoints.PASSWORD_RESET,
+                                      headers: {'Content-Type': 'application/json'},
+                                      data: {
+                                          token,
+                                          email,
+                                          password,
+                                          confirmPassword
+                                      }})
+        return toCamelCase(response.data.data);
+    }catch(e){
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }

@@ -6,7 +6,7 @@ export const getCustomerPublicProfileSettingsAsync = async (domain) => {
     try{
         const response = await axios({method: 'get',
                                       url: endpoints.TRANSACTION_GROUP_SETTING.replace('{1}', domain)});
-        return toCamelCase(response.data);
+        return toCamelCase(response.data.data);
     } catch(e) {
         let rejectObj = {};
         if (e.response) {
@@ -16,6 +16,7 @@ export const getCustomerPublicProfileSettingsAsync = async (domain) => {
           That will be undefined when status code is 403 Forbidden */
           rejectObj = {statusCode: 403, statusText: 'Forbidden'}
         }
+
         return Promise.reject(rejectObj);
     }
 }
