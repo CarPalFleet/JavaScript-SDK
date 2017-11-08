@@ -8,7 +8,7 @@ test('Test for getting WhiteLabel for customer', async () =>{
     const token = await result;
     const response = getCustomerPreferenceSettingsAsync(CONFIG.domain, token.accessToken);
     const whiteLabel = await response;
-    expect(_.findKey(whiteLabel.data, 'transactionGroupAssets')).toBeTruthy();
+    expect(_.findKey(whiteLabel, 'transactionGroupAssets')).toBeTruthy();
 })
 
 test('Test for getting WhiteLabel for public with invalid domain for customer', async () => {
@@ -16,11 +16,4 @@ test('Test for getting WhiteLabel for public with invalid domain for customer', 
     const token = await result;
     const response = getCustomerPreferenceSettingsAsync(CONFIG.invalidDomain, token.accessToken);
     await expect(response).rejects.toHaveProperty('statusCode', 404);
-})
-
-test('Test for getting WhiteLabel for public with empty string for customer', async () => {
-    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
-    const token = await result;
-    const response = getCustomerPreferenceSettingsAsync(CONFIG.emptyString, token.accessToken);
-    await expect(response).rejects.toHaveProperty('statusCode', 403);
 })
