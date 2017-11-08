@@ -8,12 +8,14 @@ export const getCustomerPublicProfileSettingsAsync = async (domain) => {
                                       url: endpoints.TRANSACTION_GROUP_SETTING.replace('{1}', domain)});
         return toCamelCase(response.data);
     } catch(e) {
-        try {
-          return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
-        } catch (e) {
+        let rejectObj = {};
+        if (e.response) {
+          rejectObj = {statusCode: e.response.status, statusText: e.response.statusText}
+        } else {
           /* Catch error of e.response
           That will be undefined when status code is 403 Forbidden */
-          return Promise.reject({statusCode: 403, statusText: 'Forbidden'});
+          rejectObj = {statusCode: 403, statusText: 'Forbidden'}
         }
+        return Promise.reject(rejectObj);
     }
 }
