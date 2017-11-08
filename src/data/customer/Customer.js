@@ -1,6 +1,6 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
-import toCamelCase from '../CamelCase';
+import camelize from 'camelize';
 
 export const createNewCustomerAsync = async ({email, password, firstName, lastName, phone,
                                          birthday, identityId, coName, coPhone, coVatNo})=>{
@@ -20,7 +20,7 @@ export const createNewCustomerAsync = async ({email, password, firstName, lastNa
                                         company_phone: coPhone,
                                         company_vat_number: coVatNo
                                       }})
-        return toCamelCase(response.data.data);
+        return camelize(response.data.data);
     }catch(e){
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
