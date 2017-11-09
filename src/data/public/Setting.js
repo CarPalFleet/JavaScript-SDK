@@ -1,12 +1,12 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
-import toCamelCase from '../CamelCase';
+import camelize from 'camelize';
 
 export const getCustomerPublicProfileSettingsAsync = async (domain) => {
     try{
         const response = await axios({method: 'get',
                                       url: endpoints.TRANSACTION_GROUP_SETTING.replace('{1}', domain)});
-        return toCamelCase(response.data.data);
+        return camelize(response.data.data);
     } catch(e) {
         let rejectObj = {};
         if (e.response) {
