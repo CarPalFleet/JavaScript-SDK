@@ -1,7 +1,14 @@
 import _ from 'lodash';
 
 const CamelCase = (data) => {
-  let camelCaseObject = _.isArray(data)? [] : {};
+  let camelCaseObject;
+  if (_.isArray(data)) {
+    camelCaseObject = [];
+  } else if (_.isPlainObject(data)) {
+    camelCaseObject = {};
+  } else {
+    return data;
+  }
   _.forEach(
     data,
     function(value, key) {

@@ -10,9 +10,6 @@ export const resetPasswordRequestAsync = async (email)=>{
                                       data: {
                                         email
                                       }})
-        console.log(response.data.data);
-        const test = toCamelCase(response.data.data);
-        console.log(test);
         return toCamelCase(response.data.data);
     }catch(e){
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
