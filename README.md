@@ -51,9 +51,9 @@ export default Class Registration extends Component{
         const authResult = await getTokenAsync('xxx@example.com', 'xxxxxx', 1, 'secret string...');
 
         //Store the tokens in localstorage
-        localStorage.setItem('auth', {accessToken: authResult.access_token,
+        localStorage.setItem('auth', {accessToken: authResult.accessToken,
                                       refreshToken: authResult.refreshToken,
-                                      customerId: authResult.customer_id});
+                                      customerId: authResult.customerId});
 
         //Navigate to other page...
       }
