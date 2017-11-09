@@ -22,7 +22,7 @@ export const getOrderDetailAsync = async (customerId, orderId, token)=>{
                                       headers: {'Authorization': token}})
         return camelize(response.data.data);
     }catch(e){
-      console.log("ORDER DETAIL", e.response);
+        console.log(e)
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
