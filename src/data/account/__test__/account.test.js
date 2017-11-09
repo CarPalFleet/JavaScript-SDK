@@ -2,16 +2,16 @@ import { resetPasswordRequestAsync, resetPasswordAsync, getDriverJobsAsync, getD
 import { getTokenAsync } from '../Auth';
 import CONFIG from './Config';
 
-test('Test for reset password request', async ()=>{
-    const response = resetPasswordRequestAsync(CONFIG.email);
-    const result = await response;
-    expect(result).toBe(true);
-})
+// test('Test for reset password request', async ()=>{
+//     const response = resetPasswordRequestAsync(CONFIG.email);
+//     const result = await response;
+//     expect(result).toBe(true);
+// })
 
 // test('Test for reset password', async ()=>{
-//     const response = resetPasswordAsync('6c328787ae0969bbde11be74ebbdcf1ba8d411d79502bb9bcc69729f5385370e', CONFIG.email, '123456', '123456');
-//     const result = await result;
-//     expect(result).toBe(true);
+//      const response = resetPasswordAsync('ecb548405bdf44df341f15729875e499430f122237122b907a38a2b0717ab8a0', CONFIG.email, 'carpaldemo', 'carpaldemo');
+//      const result = await result;
+//      expect(result).toBe(true);
 // })
 
 test('Test for getting my jobs.', async ()=>{
