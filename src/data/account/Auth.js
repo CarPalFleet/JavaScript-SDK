@@ -17,7 +17,6 @@ export const getTokenAsync = async (email, password, clientId, secret)=>{
                                       }})
         return toCamelCase(response.data.data);
     }catch(e){
-        console.log(e);
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
