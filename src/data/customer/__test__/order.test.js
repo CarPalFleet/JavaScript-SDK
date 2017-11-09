@@ -14,7 +14,7 @@ const ORDER_FILTERS = {
 }
 
 describe('Test for customer orders with filters', () => {
-    ORDER_FILTERS.withoutMandentoryFields.forEach((value, key) => {
+    ORDER_FILTERS.withoutMandentoryFields.forEach((value) => {
         it(value.description, async () => {
            const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
            const token = await result;
@@ -23,7 +23,7 @@ describe('Test for customer orders with filters', () => {
         })
     });
 
-    ORDER_FILTERS.withMandentoryFields.forEach((value, key) => {
+    ORDER_FILTERS.withMandentoryFields.forEach((value) => {
         it(value.description, async () => {
            const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
            const token = await result;
