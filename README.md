@@ -16,7 +16,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
 | carpal/dist/data/account/Auth      | getTokenAsync(email, password, clientId, secret)  | This returns a Promise object with both access token and refresh token.                |
-| carpal/dist/data/account/Account   | resetPasswordAsync(email)                         | This will call the email service to send out a link and return a Promise object                  |
+| carpal/dist/data/account/Account   | resetPasswordRequestAsync(email)                         | This will call the email service to send out a link and return a Promise object                  |
 | carpal/dist/data/account/Account   | getDriverJobsAsync(id, token, date)               | This returns a Promise object with a list of a driver's jobs for given date                  |
 | carpal/dist/data/account/Account   | getDriverLegsAsync(id, token, date)               | This returns a Promise object with a list of a driver's legs for given date                  |
 | carpal/dist/data/public/Country    | getCountriesAsync()                               | This returns a Promise object with a list of countries available for carpal services         |
