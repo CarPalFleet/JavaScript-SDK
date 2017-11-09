@@ -10,16 +10,8 @@ export const resetPasswordRequestAsync = async (email)=>{
                                       data: {
                                         email
                                       }})
-<<<<<<< HEAD
-        return toCamelCase(response.data.data);
-||||||| merged common ancestors
-        console.log(response.data.data);
-        const test = toCamelCase(response.data.data);
-        console.log(test);
-        return toCamelCase(response.data.data);
-=======
-        return camelize(response.data.data);
->>>>>>> 45821fd233dc53272b24bbfdd590c2c4af6dba9d
+
+        return toCamelCase(response.data.data); 
     }catch(e){
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }

@@ -10,9 +10,9 @@ export const getTokenAsync = async (email, password, clientId, secret)=>{
                                       data: {
                                           username: email,
                                           password,
-                                          grant_type: "password",
-                                          client_id: clientId,
-                                          client_secret: secret,
+                                          grantType: "password",
+                                          clientId,
+                                          clientSecret: secret,
                                           scope: "full-access"
                                       }})
         return camelize(response.data.data);

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
-import camelize from '../CamelCase';
+import camelize from 'camelize';
 
 export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
     try{

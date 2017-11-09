@@ -11,14 +11,14 @@ export const createNewCustomerAsync = async ({email, password, firstName, lastNa
                                       data: {
                                         email,
                                         password,
-                                        first_name: firstName,
-                                        last_name: lastName,
+                                        firstName,
+                                        lastName,
                                         phone,
-                                        identity_id: identityId,
+                                        identityId,
                                         birthday,
-                                        company_name: coName,
-                                        company_phone: coPhone,
-                                        company_vat_number: coVatNo
+                                        companyName: coName,
+                                        companyPhone: coPhone,
+                                        companyVatNumber: coVatNo
                                       }})
         return camelize(response.data.data);
     }catch(e){

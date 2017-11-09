@@ -9,7 +9,7 @@ import CONFIG from './Config';
 // })
 
 // test('Test for reset password', async ()=>{
-//      const response = resetPasswordAsync('ecb548405bdf44df341f15729875e499430f122237122b907a38a2b0717ab8a0', CONFIG.email, 'carpaldemo', 'carpaldemo');
+//      const response = resetPasswordAsync('af56e63633f278c59c15e5ebc55427ccf9d79da3698362d3c59c29bf6a257879', CONFIG.email, 'carpaldemo', 'carpaldemo');
 //      const result = await result;
 //      expect(result).toBe(true);
 // })
