@@ -27,9 +27,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/customer/Setting  | getCustomerPreferenceSettingsAsync(domain, token) | This returns a Promise object with Logo and Background Image URL for Customer         |
 | carpal/dist/data/customer/Order    | getOrderDetailAsync(customerId, orderId, token)   | This returns a Promise object with Order Detail with given orderId        |
 | carpal/dist/data/customer/Order    | createNewDeliveryWindow(deliveryWindowObj, token) | This returns a Promise object with delivery window Detail. The **deliveryWindowObj** payload example {customerId: 1, identityId: 1, productTypeId: 1,  transactionGroupId: 'optional',  displayName: 'xxx',  startTime: '12:00',  endTime: '16:00'}        |
-| carpal/dist/data/customer/Order    | getOrdersWithFilterAsync(filterObject, token) | This returns a Promise object with all customer's orders. The **filterObject** payload example {identityId: 1, pickupDate: '2017-11-06', orderOptionIds: [],  driverId: 2,  productTypeIds: [], statusIds: [],  fields: [],  page: 1, limit: 20, promotionIds: [], showCustomerOrderNumber: true, showOrderOptions: false, transactionGroupIds: []}
-**#Mandatory Field are identityId, pickupDate**
-Can use the **startPickupDate** And **endPickupDate** as Mandatory field instead of pickupDate      |
+| carpal/dist/data/customer/Order    | getOrdersWithFilterAsync(filterObject, token) | This returns a Promise object with all customer's orders. The **filterObject** payload example {identityId: 1, pickupDate: '2017-11-06', orderOptionIds: [],  driverId: 2,  productTypeIds: [], statusIds: [],  fields: [],  page: 1, limit: 20, promotionIds: [], showCustomerOrderNumber: true, showOrderOptions: false, transactionGroupIds: []} **#Mandatory Fields are identityId, pickupDate** Can use the **startPickupDate** And **endPickupDate** as Mandatory fields instead of **pickupDate**      |
 
 
 # Public
