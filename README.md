@@ -3,7 +3,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is **0.0.37**
+The current version of this SDK is **0.0.38**
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -27,6 +27,9 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/customer/Setting  | getCustomerPreferenceSettingsAsync(domain, token) | This returns a Promise object with Logo and Background Image URL for Customer         |
 | carpal/dist/data/customer/Order    | getOrderDetailAsync(customerId, orderId, token)   | This returns a Promise object with Order Detail with given orderId        |
 | carpal/dist/data/customer/Order    | createNewDeliveryWindow(deliveryWindowObj, token) | This returns a Promise object with delivery window Detail. The **deliveryWindowObj** payload example {customerId: 1, identityId: 1, productTypeId: 1,  transactionGroupId: 'optional',  displayName: 'xxx',  startTime: '12:00',  endTime: '16:00'}        |
+| carpal/dist/data/customer/Order    | getOrdersWithFilterAsync(filterObject, token) | This returns a Promise object with all customer's orders. The **filterObject** payload example {identityId: 1, pickupDate: '2017-11-06', orderOptionIds: [],  driverId: 2,  productTypeIds: [], statusIds: [],  fields: [],  page: 1, limit: 20, promotionIds: [], showCustomerOrderNumber: true, showOrderOptions: false, transactionGroupIds: []}
+**#Mandatory Field are identityId, pickupDate**
+Can use the **startPickupDate** And **endPickupDate** as Mandatory field instead of pickupDate      |
 
 
 # Public
