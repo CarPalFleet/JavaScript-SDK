@@ -22,7 +22,35 @@ export const getOrderDetailAsync = async (customerId, orderId, token)=>{
                                       headers: {'Authorization': token}})
         return camelize(response.data.data);
     }catch(e){
-        console.log(e)
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    }
+}
+
+export const createNewDeliveryWindow = async ({customerId,
+                                               identityId, 
+                                               productTypeId, 
+                                               transactionGroupId=null, 
+                                               displayName, 
+                                               startTime, 
+                                               endTime}, token) =>{
+    try{
+        let data = {
+            identityId,
+            productTypeId,
+            displayName,
+            startTime,
+            endTime
+        }
+
+        if(productTypeId == 3){
+            data.transactionGroupId = transactionGroupId;
+        }
+        const response = await axios({method: 'post',
+                                      url: endpoints.NEW_DELIVERY_WINDOW.replace('{0}', customerId),
+                                      headers: {'Authorization': token},
+                                      data})
+        return camelize(response.data.data);
+    }catch(e){
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
