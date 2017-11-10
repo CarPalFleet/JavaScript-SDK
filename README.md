@@ -3,7 +3,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is **0.0.36**
+The current version of this SDK is **0.0.37**
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -11,8 +11,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 
 **We only tested it with ES6, theoretically it should work with ES5. Use it at your own risk for ES5.**
 
-# Methods
-
+# Account
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
 | carpal/dist/data/account/Auth      | getTokenAsync(email, password, clientId, secret)  | This returns a Promise object with both access token and refresh token.                |
@@ -20,13 +19,23 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/account/Account   | resetPasswordAsync(token, email, password, confirmPassword) | This will actually update a user's password and return a Promise object with true/false                 |
 | carpal/dist/data/account/Account   | getDriverJobsAsync(id, token, date)               | This returns a Promise object with a list of a driver's jobs for given date                  |
 | carpal/dist/data/account/Account   | getDriverLegsAsync(id, token, date)               | This returns a Promise object with a list of a driver's legs for given date                  |
+
+# Customer
+| Module                             | Method                                            | Description                                                          |
+| ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
+| carpal/dist/data/customer/Customer | createNewCustomerAsync(customerObj)               | This returns a Promise object with true/false for registration result. The **customerObj** payload example {email:'xxx@example.com', password: '123456', firstName:'John', lastName:'Lennon', phone:'+6512345678', birthday:'d-m-y', identityId:1, coName:'ABC Pte ltd', coPhone:'+6512345678', coVatNo:'xxxxxx'}            |
+| carpal/dist/data/customer/Setting  | getCustomerPreferenceSettingsAsync(domain, token) | This returns a Promise object with Logo and Background Image URL for Customer         |
+| carpal/dist/data/customer/Order    | getOrderDetailAsync(customerId, orderId, token)   | This returns a Promise object with Order Detail with given orderId        |
+| carpal/dist/data/customer/Order    | createNewDeliveryWindow(deliveryWindowObj, token) | This returns a Promise object with delivery window Detail. The **deliveryWindowObj** payload example {customerId: 1, identityId: 1, productTypeId: 1,  transactionGroupId: 'optional',  displayName: 'xxx',  startTime: '12:00',  endTime: '16:00'}        |
+
+
+# Public
+| Module                             | Method                                            | Description                                                          |
+| ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
 | carpal/dist/data/public/Country    | getCountriesAsync()                               | This returns a Promise object with a list of countries available for carpal services         |
 | carpal/dist/data/public/Identity   | getIdentitiesAsync()                              | This returns a Promise object with a list of identities(cities) available for carpal services|
 | carpal/dist/data/public/Language   | getLanguagesAsync()                               | This returns a Promise object with a list of languages supported by carpal system            |
-| carpal/dist/data/public/Setting   | getCustomerPublicProfileSettingsAsync(domain)                             | This returns a Promise object with Logo and Background Image URL        |
-| carpal/dist/data/customer/Customer | createNewCustomerAsync(customerObj)               | This returns a Promise object with true/false for registration result. The **customerObj** payload example" {email:'xxx@example.com', password: '123456', firstName:'John', lastName:'Lennon', phone:'+6512345678', birthday:'d-m-y', identityId:1, coName:'ABC Pte ltd', coPhone:'+6512345678', coVatNo:'xxxxxx'}            |
-| carpal/dist/data/customer/Setting   | getCustomerPreferenceSettingsAsync(domain, token)                             | This returns a Promise object with Logo and Background Image URL for Customer         |
-| carpal/dist/data/customer/Order   | getOrderDetailAsync(customerId, orderId, token)                          | This returns a Promise object with Order Detail with given orderId        |
+| carpal/dist/data/public/Setting    | getCustomerPublicProfileSettingsAsync(domain)                             | This returns a Promise object with Logo and Background Image URL        |
 
 # Tutorial
 This is a simple tutorial to show you how to use CarPal JavaScript SDK to quickly build a web based fleet management application.
@@ -51,9 +60,9 @@ export default Class Registration extends Component{
         const authResult = await getTokenAsync('xxx@example.com', 'xxxxxx', 1, 'secret string...');
 
         //Store the tokens in localstorage
-        localStorage.setItem('auth', {accessToken: authResult.access_token,
+        localStorage.setItem('auth', {accessToken: authResult.accessToken,
                                       refreshToken: authResult.refreshToken,
-                                      customerId: authResult.customer_id});
+                                      customerId: authResult.customerId});
 
         //Navigate to other page...
       }
