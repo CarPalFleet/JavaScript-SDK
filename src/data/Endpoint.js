@@ -14,6 +14,7 @@ const endpoints = {
     ORDERS_WITH_FILTERS: `${urlPrefix}/customers/{0}/orders?{1}`,
     ORDER_DETAIL: `${urlPrefix}/customers/{0}/orders/{1}`,
     NEW_DELIVERY_WINDOW: `${urlPrefix}/customers/{0}/delivery-windows`,
+    NEW_DRIVER: `${urlPrefix}/customers/{0}/drivers`,
 }
 
 export default endpoints;

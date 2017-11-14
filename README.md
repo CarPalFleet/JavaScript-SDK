@@ -3,7 +3,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is **0.0.37**
+The current version of this SDK is **0.0.38**
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -11,7 +11,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 
 **We only tested it with ES6, theoretically it should work with ES5. Use it at your own risk for ES5.**
 
-# Account
+# Accountnp
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
 | carpal/dist/data/account/Auth      | getTokenAsync(email, password, clientId, secret)  | This returns a Promise object with both access token and refresh token.                |
@@ -27,6 +27,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/customer/Setting  | getCustomerPreferenceSettingsAsync(domain, token) | This returns a Promise object with Logo and Background Image URL for Customer         |
 | carpal/dist/data/customer/Order    | getOrderDetailAsync(customerId, orderId, token)   | This returns a Promise object with Order Detail with given orderId        |
 | carpal/dist/data/customer/Order    | createNewDeliveryWindow(deliveryWindowObj, token) | This returns a Promise object with delivery window Detail. The **deliveryWindowObj** payload example {customerId: 1, identityId: 1, productTypeId: 1,  transactionGroupId: 'optional',  displayName: 'xxx',  startTime: '12:00',  endTime: '16:00'}        |
+| carpal/dist/data/customer/Customer    | createNewDriverAsync(driverObj, customerId, token) | This returns a Promise object with new driver detail. The **driverObj** payload example {identityId: 1, productTypeId: 3, transactionGroupId: 1, isNewUser: true, firstName: 'xxx', lastName: 'xxx', email: 'xxx@example.com',password: 'xxxxxx', birthday: 'yyyy-mm-dd', phone: '+65xxxxxxxx'}       |
 
 
 # Public
