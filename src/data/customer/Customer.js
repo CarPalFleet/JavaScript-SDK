@@ -54,14 +54,3 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
-
-export const search = async (keywords, scope, fuzzy=true, token)=>{
-    try{
-        const response = await axios({method: 'get',
-                                      url: `${endpoints.SEARCH}?keywords=${keywords}&scope=${scope}&fuzzy=${fuzzy}`,
-                                      headers: {'Authorization': token}})
-        return camelize(response.data.data);
-    }catch(e){
-        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
-    }
-}
