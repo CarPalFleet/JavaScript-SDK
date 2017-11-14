@@ -7,6 +7,7 @@ const CONFIG = {
   emptyString: '',
   invalidDomain: 'aa.com',
   identityId: 1,
+  customerId: 1,
   pickupDate: '2017-11-06',
   startPickupDate: '2017-11-06',
   endPickupDate: '2017-11-09',

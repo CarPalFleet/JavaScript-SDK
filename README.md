@@ -11,7 +11,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 
 **We only tested it with ES6, theoretically it should work with ES5. Use it at your own risk for ES5.**
 
-# Accountnp
+# Account
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
 | carpal/dist/data/account/Auth      | getTokenAsync(email, password, clientId, secret)  | This returns a Promise object with both access token and refresh token.                |
@@ -27,7 +27,9 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/customer/Setting  | getCustomerPreferenceSettingsAsync(domain, token) | This returns a Promise object with Logo and Background Image URL for Customer         |
 | carpal/dist/data/customer/Order    | getOrderDetailAsync(customerId, orderId, token)   | This returns a Promise object with Order Detail with given orderId        |
 | carpal/dist/data/customer/Order    | createNewDeliveryWindow(deliveryWindowObj, token) | This returns a Promise object with delivery window Detail. The **deliveryWindowObj** payload example {customerId: 1, identityId: 1, productTypeId: 1,  transactionGroupId: 'optional',  displayName: 'xxx',  startTime: '12:00',  endTime: '16:00'}        |
+| carpal/dist/data/customer/Order    | getOrdersWithFilterAsync(filterObject, token) | This returns a Promise object with all customer's orders. The **filterObject** payload example {identityId: 1, pickupDate: '2017-11-06', orderOptionIds: [],  driverId: 2,  productTypeIds: [], statusIds: [],  fields: [],  page: 1, limit: 20, promotionIds: [], showCustomerOrderNumber: true, showOrderOptions: false, transactionGroupIds: []} **#Mandatory Fields are identityId, pickupDate** Can use the **startPickupDate** And **endPickupDate** as Mandatory fields instead of **pickupDate**      |
 | carpal/dist/data/customer/Customer    | createNewDriverAsync(driverObj, customerId, token) | This returns a Promise object with new driver detail. The **driverObj** payload example {identityId: 1, productTypeId: 3, transactionGroupId: 1, isNewUser: true, firstName: 'xxx', lastName: 'xxx', email: 'xxx@example.com',password: 'xxxxxx', birthday: 'yyyy-mm-dd', phone: '+65xxxxxxxx'}       |
+
 
 
 # Public
