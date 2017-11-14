@@ -7,7 +7,8 @@ test('test for account demo@carpal.me', async ()=>{
     expect(token).not.toBeNull();
 })
 
-test('test for account demo@carpal.me with wrong password', async()=>{ 
+test('test for account demo@carpal.me with wrong password', async()=>{
     const result = getTokenAsync(CONFIG.email, 'carpaldemo2', CONFIG.clientId, CONFIG.token);
     await expect(result).rejects.toHaveProperty('statusCode', 401);
 })
+
