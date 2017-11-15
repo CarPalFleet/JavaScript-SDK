@@ -55,11 +55,12 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
     }
 }
 
-export const getCustomerDriversAsync = async (identityId, productTypeId, transactionGroupId=null, 
+export const getCustomerDriversAsync = async (identityId, productTypeId, transactionGroupId, 
                                               driverStatusIds, showDriversWithOrders, customerId, token) =>{
     try{
+
         const response = await axios({method: 'get',
-                                      url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId)}?identityId=${identityId}&productTypeId=${productTypeId}&transactionGroupId=${transactionGroupId}&driverStatusIds=${driverStatusIds}&showDriversWithOrders=${showDriversWithOrders}`,
+                                      url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId)}?identityId=${identityId}&productTypeId=${productTypeId}&transactionGroupId=${transactionGroupId || null}&driverStatusIds=${driverStatusIds}&showDriversWithOrders=${showDriversWithOrders}`,
                                       headers: {'Authorization': token}})
 
         return camelize(response.data.data);
