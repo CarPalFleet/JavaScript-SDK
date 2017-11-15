@@ -3,7 +3,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is **0.0.39**
+The current version of this SDK is **0.0.40**
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -14,11 +14,10 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 # Account
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
-| carpal/dist/data/account/Auth      | getTokenAsync(email, password, clientId, secret)  | This returns a Promise object with both access token and refresh token.                |
-| carpal/dist/data/account/Account   | resetPasswordRequestAsync(email)                  | This will call the email service to send out a link and return a Promise object with true/false                  |
-| carpal/dist/data/account/Account   | resetPasswordAsync(token, email, password, confirmPassword) | This will actually update a user's password and return a Promise object with true/false                 |
-| carpal/dist/data/account/Account   | getDriverJobsAsync(id, token, date)               | This returns a Promise object with a list of a driver's jobs for given date                  |
-| carpal/dist/data/account/Account   | getDriverLegsAsync(id, token, date)               | This returns a Promise object with a list of a driver's legs for given date                  |
+| carpal/dist/data/account/Auth      | getTokenAsync(email, password, clientId, secret)  | This returns a Promise object with both access token and refresh token.  |
+| carpal/dist/data/account/Account   | resetPasswordRequestAsync(email)                  | This will call the email service to send out a link and return a Promise object with true/false   
+| carpal/dist/data/account/Account   | resetPasswordAsync(token, email, password, confirmPassword) | This will actually update a user's password and return a Promise object with true/false  |
+| carpal/dist/data/account/Account   | getNotificationsAsync(id, token)                  | This returns a Promise object with a list of notification items for a given user ID  
 
 # Customer
 | Module                             | Method                                            | Description                                                          |
@@ -29,13 +28,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/customer/Order    | createNewDeliveryWindow(deliveryWindowObj, token) | This returns a Promise object with delivery window Detail. The **deliveryWindowObj** payload example {customerId: 1, identityId: 1, productTypeId: 1,  transactionGroupId: 'optional',  displayName: 'xxx',  startTime: '12:00',  endTime: '16:00'}        |
 | carpal/dist/data/customer/Order    | getOrdersWithFilterAsync(filterObject, token) | This returns a Promise object with all customer's orders. The **filterObject** payload example {identityId: 1, pickupDate: '2017-11-06', orderOptionIds: [],  driverId: 2,  productTypeIds: [], statusIds: [],  fields: [],  page: 1, limit: 20, promotionIds: [], showCustomerOrderNumber: true, showOrderOptions: false, transactionGroupIds: []} **#Mandatory Fields are identityId, pickupDate** Can use the **startPickupDate** And **endPickupDate** as Mandatory fields instead of **pickupDate**      |
 | carpal/dist/data/customer/Customer    | createNewDriverAsync(driverObj, customerId, token) | This returns a Promise object with new driver detail. The **driverObj** payload example {identityId: 1, productTypeId: 3, transactionGroupId: 1, isNewUser: true, firstName: 'xxx', lastName: 'xxx', email: 'xxx@example.com',password: 'xxxxxx', birthday: 'yyyy-mm-dd', phone: '+65xxxxxxxx'}       |
-| carpal/dist/data/customer/Search    | searchAsync(keywords, scope, fuzzy, token)   | This returns a Promise object with search results within given scope. 
-
-**keywords** (aaa,bbb)|ccc will be translated to (aaa AND bbb) OR ccc 
-
-**scope** job,driver which specifies the search results are within job and driver domains, 
-
-**fuzzy** to indicate if is a fuzzy or accurate search |
+| carpal/dist/data/customer/Search    | searchAsync(keywords, scope, fuzzy, token)   | This returns a Promise object with search results within given scope. **keywords** (aaa,bbb)&#124;ccc will be translated to (aaa AND bbb) OR ccc **scope** job,driver which specifies the search results are within job and driver domains, **fuzzy** to indicate if is a fuzzy or accurate search     |
 
 
 

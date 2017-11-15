@@ -37,7 +37,7 @@ export const resetPasswordAsync = async (token, email, password, confirmPassword
 export const getDriverJobsAsync = async (id, token, date)=>{
     try{
         const response = await axios({method: 'get',
-                                      url: endpoints.MY_JOBS.replace('{1}', id).replace('{2}', date),
+                                      url: endpoints.MY_JOBS.replace('{0}', id).replace('{1}', date),
                                       headers: {'Authorization': token}});
         return camelize(response.data.data);
     }catch(e){
@@ -48,7 +48,18 @@ export const getDriverJobsAsync = async (id, token, date)=>{
 export const getDriverLegsAsync = async(id, token, date)=>{
     try{
         const response = await axios({method: 'get',
-                                      url: endpoints.MY_LEGS.replace('{1}', id).replace('{2}', date),
+                                      url: endpoints.MY_LEGS.replace('{0}', id).replace('{1}', date),
+                                      headers: {'Authorization': token}});
+        return camelize(response.data.data);
+    }catch(e){
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    }
+}
+
+export const getNotificationsAsync = async(id, token)=>{
+    try{
+        const response = await axios({method: 'get',
+                                      url: endpoints.NOTIFICATIONS.replace('{0}', id),
                                       headers: {'Authorization': token}});
         return camelize(response.data.data);
     }catch(e){
