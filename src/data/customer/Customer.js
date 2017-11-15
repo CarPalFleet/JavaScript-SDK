@@ -44,10 +44,24 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
             newPayload = {...payload, existingUserEmail, sendConfirmationSms};
         }
         const response = await axios({method: 'post',
-                                      url: endpoints.NEW_DRIVER.replace('{0}', customerId),
+                                      url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),
                                       headers: {'Content-Type': 'application/json',
                                                 'Authorization': token},
                                       data: newPayload})
+
+        return camelize(response.data.data);
+    }catch(e){
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    }
+}
+
+export const getCustomerDriversAsync = async (identityId, productTypeId, transactionGroupId, 
+                                              driverStatusIds, showDriversWithOrders, customerId, token) =>{
+    try{
+
+        const response = await axios({method: 'get',
+                                      url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId)}?identityId=${identityId}&productTypeId=${productTypeId}&transactionGroupId=${transactionGroupId || null}&driverStatusIds=${driverStatusIds}&showDriversWithOrders=${showDriversWithOrders}`,
+                                      headers: {'Authorization': token}})
 
         return camelize(response.data.data);
     }catch(e){
