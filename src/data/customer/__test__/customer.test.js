@@ -1,4 +1,4 @@
-import { createNewCustomerAsync, createNewDriverAsync, searchAsync } from '../Customer';
+import { createNewCustomerAsync, createNewDriverAsync, getCustomerDriversAsync } from '../Customer';
 import { getTokenAsync } from '../../account/Auth';
 import CONFIG from './Config';
 
@@ -40,7 +40,17 @@ test('Creating new driver account by a customer account', async () =>{
     }
 
     const response = await createNewDriverAsync(driver, 1, token.accessToken);
-    expect(response.code).toBe(10);
+
+    expect('driver' in response).toBe(true);
+})
+
+test('Test for retrieving drivers by a customer account', async () =>{
+    const result = getTokenAsync('transaction@carpal.me', 'transactioncustomer', CONFIG.clientId, CONFIG.token);
+    const token = await result;
+
+    const response = await getCustomerDriversAsync(1, 3, 1, '1,2,3', false, 1, token.accessToken);
+
+    expect(response instanceof Array).toBe(true);
 })
 
 function makeid(size) {

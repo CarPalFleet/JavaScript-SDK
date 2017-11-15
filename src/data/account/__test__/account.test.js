@@ -39,5 +39,6 @@ test('Test for account notifications.', async ()=>{
     const token = await result;
     const response = getNotificationsAsync(1, token.accessToken);
     const notifications = await response;
+
     expect('notifications' in notifications).toBe(true);
 })
