@@ -1,6 +1,6 @@
 {
   "name": "carpal",
-  "version": "0.0.41",
+  "version": "0.0.48",
   "description": "The SDK for CarPal fleet solution development.",
   "main": "dist/build.js",
   "scripts": {
@@ -30,6 +30,7 @@
     "webpack": "^2.7.0"
   },
   "dependencies": {
+    "ably": "^1.0.8",
     "axios": "^0.17.0",
     "camelize": "^1.0.0",
     "lodash": "^4.17.4"

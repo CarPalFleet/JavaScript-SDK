@@ -3,7 +3,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is **0.0.41**
+The current version of this SDK is **0.0.48**
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -30,6 +30,11 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/customer/Customer    | createNewDriverAsync(driverObj, customerId, token) | This returns a Promise object with new driver detail. <br /><br />The **driverObj** payload example {identityId: 1, productTypeId: 3, transactionGroupId: 1, isNewUser: true, firstName: 'xxx', lastName: 'xxx', email: 'xxx@example.com',password: 'xxxxxx', birthday: 'yyyy-mm-dd', phone: '+65xxxxxxxx'}       |
 | carpal/dist/data/customer/Customer    | getCustomerDriversAsync(identityId, productTypeId, transactionGroupId, driverStatusIds, showDriversWithOrders, customerId, token)   | If productTypeId is 3 then transactionGroupId should be set to a truthy value., otherwise set it to ***null*** <br /> This returns a Promise object with a list of drivers.    |
 | carpal/dist/data/customer/Search    | searchAsync(keywords, scope, fuzzy, token)   | This returns a Promise object with search results within given scope. <br /><br />**keywords**: (aaa,bbb)&#124;ccc will be translated to ***(aaa AND bbb) OR ccc*** <br />**scope**: ***job,driver*** which specifies the search results are within job and driver domains<br />**fuzzy**: to indicate if is a fuzzy or accurate search     |
+
+#Messaging
+| Module                             | Method                                            | Description                                                          |
+| ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
+| carpal/dist/data/messaging/PubSub    | subscribe(channelName, eventName, callback);<br />pubSub.publish(channelName, eventName, messageObj)                          | Example:<br />```javascript const pubSub = new PubSub(API_KEY);```<br />```javascript pubSub.subscribe(channelName, eventName, callback);```<br />```javascript pubSub.publish(channelName, eventName, messageObj);```        |
 
 
 # Public

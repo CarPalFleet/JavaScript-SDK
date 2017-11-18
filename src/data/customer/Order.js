@@ -8,7 +8,6 @@ export const getOrdersWithFilterAsync = async (filterObject = {}, token)=>{
         const response = await axios({method: 'get',
                                       url: endpoints.ORDERS_WITH_FILTERS.replace('{0}', paramString).replace('{1}', paramString),
                                       headers: {'Authorization': token}})
-
         return camelize(response.data.data);
     }catch(e){
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
