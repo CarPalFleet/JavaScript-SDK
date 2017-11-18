@@ -34,7 +34,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 # Messaging
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
-| carpal/dist/data/messaging/PubSub | subscribe(channelName, eventName, callback)<br />pubSub.publish(channelName, eventName, messageObj) | Example:<br />```javascript const pubSub = new PubSub(API_KEY);```<br />```javascript pubSub.subscribe(channelName, eventName, callback);```<br />```javascript pubSub.publish(channelName, eventName, messageObj);```        |
+| carpal/dist/data/messaging/PubSub | **subscribe**(channelName, eventName, callback)<br /><br />**publish**(channelName, eventName, messageObj) | Example:<br /><br />```javascript const pubSub = new PubSub(API_KEY);```<br /><br />```javascript pubSub.subscribe(channelName, eventName, callback);```<br /><br />```javascript pubSub.publish(channelName, eventName, messageObj);```        |
 
 
 # Public
