@@ -92,7 +92,7 @@ export default Class Registration extends Component{
 ```
 
 # Utilizing Realtime dashboard
-We implemented Pub/Sub messaging architecture in the SDK so that your application can fully utilize the advantage of Realtime dashboard features.
+We implemented Pub/Sub messaging architecture in the SDK so that your application can fully take the advantage of Realtime dashboard features.
 
 You need to use Pub/Sub module in **carpal/dist/data/messaging/PubSub**
 
