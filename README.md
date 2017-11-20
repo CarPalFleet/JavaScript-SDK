@@ -91,5 +91,34 @@ export default Class Registration extends Component{
 
 ```
 
+# Utilizing Realtime dashboard
+We implemented Pub/Sub messaging architecture in the SDK so that your application can fully utilize the advantage of Realtime dashboard features.
+
+You need to use Pub/Sub module in **carpal/dist/data/messaging/PubSub**
+
+Let's take ReactJS as example here:
+
+```javascript
+import React ...;
+import PubSub from 'carpal/dist/data/messaging/PubSub';
+
+
+export default class Dashboard extends Component{
+  constructor(props){
+    super(pros);
+    ...
+
+    //You will get an APP_KEY after registered with Carpal
+    this.pubSub = new PubSub('APP_PUBSUB_KEY');
+
+    //subscribe to a channel here.
+    //handle your logics in callback function and pass it as an argument.
+    this.pubSub.subscribe('channel_name', 'event_name', function (message) {
+        //process the message object
+    });
+  }
+}
+```
+
 
 License: MIT https://opensource.org/licenses/MIT
