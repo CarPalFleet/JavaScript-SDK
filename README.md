@@ -45,7 +45,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/public/Language   | getLanguagesAsync()                               | This returns a Promise object with a list of languages supported by carpal system            |
 | carpal/dist/data/public/Setting    | getCustomerPublicProfileSettingsAsync(domain)                             | This returns a Promise object with Logo and Background Image URL        |
 
-# Tutorial
+# Tutorials
 This is a simple tutorial to show you how to use CarPal JavaScript SDK to quickly build a web based fleet management application.
 
 First, you need to request for your **client ID** and **secret**.
@@ -89,6 +89,35 @@ export default Class Registration extends Component{
   }
 }
 
+```
+
+# Utilizing Realtime dashboard
+We implemented Pub/Sub messaging architecture in the SDK so that your application can take the advantage of Realtime dashboard features.
+
+You need to use Pub/Sub module in **carpal/dist/data/messaging/PubSub**
+
+Let's take ReactJS as example here:
+
+```javascript
+import React ...;
+import PubSub from 'carpal/dist/data/messaging/PubSub';
+
+
+export default class Dashboard extends Component{
+  constructor(props){
+    super(pros);
+    ...
+
+    //You will get an APP_KEY after registered with Carpal
+    const pubSub = new PubSub('APP_PUBSUB_KEY');
+
+    //subscribe to a channel here.
+    //handle your logics in callback function and pass it as an argument.
+    pubSub.subscribe('channel_name', 'event_name', function (message) {
+      //process the message object
+    });
+  }
+}
 ```
 
 
