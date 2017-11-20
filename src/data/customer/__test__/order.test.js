@@ -5,7 +5,7 @@ import CONFIG from './Config';
 const ORDER_FILTERS = {
   withoutMandentoryFields: [
     { description: 'missing identityId', filters: {identityId: CONFIG.identityId}},
-    { description: 'missing pickupDate', filters: {ipickupDate: CONFIG.pickupDate}}
+    { description: 'missing pickupDate', filters: {pickupDate: CONFIG.pickupDate}}
   ],
   withMandentoryFields: [
     { description: 'with mandentory fields', filters: {identityId: CONFIG.identityId, pickupDate: CONFIG.pickupDate}},
