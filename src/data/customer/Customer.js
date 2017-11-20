@@ -1,6 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import MOCK_DATA from './mockData';
 
 export const createNewCustomerAsync = async ({email, password, firstName, lastName, phone,
                                          birthday, identityId, coName, coPhone, coVatNo})=>{
@@ -26,9 +27,9 @@ export const createNewCustomerAsync = async ({email, password, firstName, lastNa
     }
 }
 
-export const createNewDriverAsync = async ({identityId, productTypeId, transactionGroupId=null, 
-                                            firstName, lastName, email, password, birthday, phone, 
-                                            existingUserEmail=null, sendConfirmationSms=false, 
+export const createNewDriverAsync = async ({identityId, productTypeId, transactionGroupId=null,
+                                            firstName, lastName, email, password, birthday, phone,
+                                            existingUserEmail=null, sendConfirmationSms=false,
                                             isNewUser=true}, customerId, token) =>{
     try{
         const payload = {
@@ -55,7 +56,7 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
     }
 }
 
-export const getCustomerDriversAsync = async (identityId, productTypeId, transactionGroupId, 
+export const getCustomerDriversAsync = async (identityId, productTypeId, transactionGroupId,
                                               driverStatusIds, showDriversWithOrders, customerId, token) =>{
     try{
 
@@ -63,7 +64,9 @@ export const getCustomerDriversAsync = async (identityId, productTypeId, transac
                                       url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId)}?identityId=${identityId}&productTypeId=${productTypeId}&transactionGroupId=${transactionGroupId || null}&driverStatusIds=${driverStatusIds}&showDriversWithOrders=${showDriversWithOrders}`,
                                       headers: {'Authorization': token}})
 
-        return camelize(response.data.data);
+        /* Return Mock Data. After API is ready, remove this mock data and return actual result */
+        return camelize(MOCK_DATA.drivers);
+        // return camelize(response.data.data);
     }catch(e){
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
