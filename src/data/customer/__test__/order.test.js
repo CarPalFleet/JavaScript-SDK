@@ -14,6 +14,7 @@ const ORDER_FILTERS = {
 }
 
 describe('Test for customer orders with filters', () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     ORDER_FILTERS.withoutMandentoryFields.forEach((value) => {
         it(value.description, async () => {
            const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
