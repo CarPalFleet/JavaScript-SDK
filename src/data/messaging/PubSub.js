@@ -22,8 +22,8 @@ import * as Ably from 'ably';
 //     }
 // }
 
-export const pubsub = (key, channel)=>{
-    var client = new Ably.Realtime(key);
+export const pubsub = (key, channel, realtime=true)=>{
+    var client = realtime?new Ably.Realtime(key):new Ably.Rest(key);
     var chan = client.channels.get(channel);
     return {
         publish: (event, message)=>{        
