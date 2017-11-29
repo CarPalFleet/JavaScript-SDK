@@ -37,7 +37,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 # Messaging
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
-| carpal/dist/data/messaging/PubSub | **subscribe**(eventName, callback)<br /><br />**publish**(eventName, messageObj) | Example:<br /><br />```const ps = pubsub(API_KEY, CHANNEL_ID);```<br /><br />```pubSub.subscribe(eventName, callback);```<br /><br />``` pubSub.publish(eventName, messageObj);```        |
+| carpal/dist/data/messaging/PubSub  | Initialize connection **pubsub**('APP_PUBSUB_KEY', 'CHANNEL_ID')<br /><br />**subscribe**(eventName, callback)<br /><br />**subscribe**(eventName, callback)<br /><br />**publish**(eventName, messageObj) | Example:<br /><br />```const ps = pubsub(API_KEY, CHANNEL_ID);```<br /><br />```pubSub.subscribe(eventName, callback);```<br /><br />``` pubSub.publish(eventName, messageObj);```        |
 
 
 # Public
@@ -112,7 +112,7 @@ export default class Dashboard extends Component{
     ...
 
     //You will get an APP_KEY after registered with Carpal
-    const ps = new pubsub('APP_PUBSUB_KEY', 'CHANNEL_ID');
+    const ps = pubsub('APP_PUBSUB_KEY', 'CHANNEL_ID');
 
     //subscribe to a channel here.
     //handle your logics in callback function and pass it as an argument.
