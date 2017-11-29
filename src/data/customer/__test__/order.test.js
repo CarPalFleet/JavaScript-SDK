@@ -3,19 +3,19 @@ import { getTokenAsync } from '../../account/Auth';
 import CONFIG from './Config';
 
 const ORDER_FILTERS = {
-  withoutMandentoryFields: [
+  withoutMandatoryFields: [
     { description: 'missing identityId', filters: {identityId: CONFIG.identityId}},
     { description: 'missing pickupDate', filters: {pickupDate: CONFIG.pickupDate}}
   ],
-  withMandentoryFields: [
-    { description: 'with mandentory fields', filters: {identityId: CONFIG.identityId, pickupDate: CONFIG.pickupDate}},
+  withMandatoryFields: [
+    { description: 'with mandatory fields', filters: {identityId: CONFIG.identityId, pickupDate: CONFIG.pickupDate}},
     { description: 'with startPickupDate and endPickupDate', filters: {identityId: CONFIG.identityId, startPickupDate: CONFIG.startPickupDate, endPickupDate: CONFIG.endPickupDate}}
   ]
 }
 
 describe('Test for customer orders with filters', () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    ORDER_FILTERS.withoutMandentoryFields.forEach((value) => {
+    ORDER_FILTERS.withoutMandatoryFields.forEach((value) => {
         it(value.description, async () => {
            const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
            const token = await result;
@@ -24,7 +24,7 @@ describe('Test for customer orders with filters', () => {
         })
     });
 
-    ORDER_FILTERS.withMandentoryFields.forEach((value) => {
+    ORDER_FILTERS.withMandatoryFields.forEach((value) => {
         it(value.description, async () => {
            const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
            const token = await result;
