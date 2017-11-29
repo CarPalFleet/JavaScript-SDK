@@ -18,6 +18,7 @@ const endpoints = {
     CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
     SEARCH: `${urlPrefix}/search`,
     NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
+    SCHEMAS: `${urlPrefix}/schemas/{0}/{1}`,
 }
 
 export default endpoints;
