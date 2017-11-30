@@ -1,7 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import MOCK_DATA from './mockData';
+import getMockData from './mockData';
 
 export const getOrdersWithFilterAsync = async (filterObject = {}, token)=>{
     let paramString = Object.entries(filterObject).reduce((str, [key, value]) => (str += `&${key}=${value}`), '');
@@ -11,9 +11,13 @@ export const getOrdersWithFilterAsync = async (filterObject = {}, token)=>{
                                       headers: {'Authorization': token}})
 
         /* Return Mock Data. After API is ready, remove this mock data and return actual result */
-        return camelize(MOCK_DATA.orders);
+        let a = getMockData(filterObject.statusIds, 'ordersStatusIds');
+        console.log("TEST", a);
+
+        return a;
         // return camelize(response.data.data);
     }catch(e){
+        console.log("ERROR HERE", e);
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
