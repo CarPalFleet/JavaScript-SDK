@@ -28,7 +28,7 @@ describe('Test for customer orders with filters', () => {
            const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
            const token = await result;
            const response = await getOrdersWithFilterAsync(value.filters, token.accessToken);
-           expect(response instanceof Array).toBe(true);
+           expect(response instanceof Object).toBe(true);
         })
     });
 });
