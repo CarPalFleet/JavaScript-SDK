@@ -41,6 +41,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 
 # Data validation
 **This is a special set of functions to verify the inbound data from Pub/Sub against the schemas predefined by CarPal. You can choose not to use these functions at your own risk**
+
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
 | carpal/dist/data/validation/Schema | getSchemaAsync(service, schema_name)              | This returns a Promise object with the a schema. This function should be called before calling the **validate** function |
