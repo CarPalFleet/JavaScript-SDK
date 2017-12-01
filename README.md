@@ -5,7 +5,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is **0.0.51**
+The current version of this SDK is **0.0.52**
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -39,6 +39,12 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
 | carpal/dist/data/messaging/PubSub  | Initializing connection: **pubsub**('APP_PUBSUB_KEY', 'CHANNEL_ID', realtime?) ***By default, realtime is set to true to establish a socket connection. For transactional mode, you should set it to false***<br /><br />**subscribe**(eventName, callback)<br /><br />**publish**(eventName, messageObj) | Example:<br /><br />```const ps = pubsub(API_KEY, CHANNEL_ID);```<br /><br />```pubSub.subscribe(eventName, callback);```<br /><br />``` pubSub.publish(eventName, messageObj);```        |
 
+# Data validation
+**This is a special set of functions to verify the inbound data from Pub/Sub against the schemas predefined by CarPal. You can choose not to use these functions at your own risk**
+| Module                             | Method                                            | Description                                                          |
+| ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
+| carpal/dist/data/validation/Schema | getSchemaAsync(service, schema_name)              | This returns a Promise object with the a schema. This function should be called before calling the **validate** function |
+| carpal/dist/data/validation/Schema | validate = (schema, payload)              | This returns true if all fields in **schema** are covered by **payload** object, otherwise it returns false. This function currently only checks field names, we will implement the data type check soon |
 
 # Public
 | Module                             | Method                                            | Description                                                          |
