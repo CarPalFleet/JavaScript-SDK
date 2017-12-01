@@ -10,3 +10,10 @@ export const getSchemaAsync = async (service, schema_name)=>{
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
+
+export const validate = (schema, payload)=>{
+    const payloadKeys = Object.keys(payload);
+    //To further enhance this function, we need to validate the data type
+    //of the value according to schema
+    return !Object.keys(schema).some((val)=>payloadKeys.indexOf(val) === -1);    
+}
