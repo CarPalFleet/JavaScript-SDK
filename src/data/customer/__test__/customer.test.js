@@ -22,6 +22,7 @@ test('Creating new customer account', () => {
 })
 
 test('Creating new driver account by a customer account', async () =>{
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const result = getTokenAsync('transaction@carpal.me', 'transactioncustomer', CONFIG.clientId, CONFIG.token);
     //const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
     const token = await result;
@@ -45,17 +46,11 @@ test('Creating new driver account by a customer account', async () =>{
 })
 
 // test('Test for retrieving drivers by a customer account', async () =>{
+//     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 //     const result = getTokenAsync('transaction@carpal.me', 'transactioncustomer', CONFIG.clientId, CONFIG.token);
 //     const token = await result;
 //
-//     const response = await getCustomerDriversAsync({
-//                             identityId: 1,
-//                             productTypeId: 3,
-//                             transactionGroupId: 1,
-//                             driverStatusIds: '1,2,3',
-//                             showDriversWithOrders: false,
-//                             customerId: 1
-//                           }, token.accessToken);
+//     const response = await getCustomerDriversAsync(1, 3, 1, '1,2,3', false, 1, token.accessToken);
 //
 //     expect(response instanceof Array).toBe(true);
 // })
