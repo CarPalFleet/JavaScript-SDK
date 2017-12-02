@@ -7,7 +7,7 @@ export const getOrdersWithFilterAsync = async (filterObject = {}, token)=>{
     let paramString = Object.entries(filterObject).reduce((str, [key, value]) => (str += `&${key}=${value}`), '');
 
     /* Return Mock Data. After API is ready, remove this mock data and return actual result */
-    return Promise.resolve(camelize(getMockData(ordersStatusIds, MOCK_DATA.orders, filterObject.ordersStatusIds)));
+    return Promise.resolve(camelize(getMockData(ordersStatusIds, 'orders', filterObject.ordersStatusIds || [])));
     // try{
     //     const response = await axios({method: 'get',
     //                                   url: endpoints.ORDERS_WITH_FILTERS.replace('{0}', paramString).replace('{1}', paramString),
@@ -66,7 +66,7 @@ export const getDeliveryWindows = async (customerId, identityId, productTypeId, 
             url: `${endpoints.DELIVERY_WINDOW.replace('{0}', customerId)}?identityId=${identityId}`,
             headers: {'Authorization': token}});
 
-        return camelize(response.data.data);        
+        return camelize(response.data.data);
     }catch(e){
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
