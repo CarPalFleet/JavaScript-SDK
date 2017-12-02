@@ -50,10 +50,23 @@ export const createNewDeliveryWindow = async ({customerId,
             data.transactionGroupId = transactionGroupId;
         }
         const response = await axios({method: 'post',
-                                      url: endpoints.NEW_DELIVERY_WINDOW.replace('{0}', customerId),
+                                      url: endpoints.DELIVERY_WINDOW.replace('{0}', customerId),
                                       headers: {'Authorization': token},
                                       data})
         return camelize(response.data.data);
+    }catch(e){
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    }
+}
+
+export const getDeliveryWindows = async (customerId, identityId, productTypeId, transactionGroupIds)=>{
+    try{
+        const response = await axios({
+            method: 'get',
+            url: `${endpoints.DELIVERY_WINDOW.replace('{0}', customerId)}?identityId=${identityId}`,
+            headers: {'Authorization': token}});
+
+        return camelize(response.data.data);        
     }catch(e){
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }

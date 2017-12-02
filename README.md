@@ -1,9 +1,11 @@
 # JavaScript-SDK
 The JavaScript SDK for developers(including third party developers/vendors) to create custom modules by using Carpal Fleet core services.
 
+![Alt text](https://user-images.githubusercontent.com/26168452/33137078-e387aa18-cfe1-11e7-96e0-b489079ae4a3.jpg "Optional title")
+
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is **0.0.50**
+The current version of this SDK is **0.0.52**
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -35,8 +37,15 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 # Messaging
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
-| carpal/dist/data/messaging/PubSub | **subscribe**(channelName, eventName, callback)<br /><br />**publish**(channelName, eventName, messageObj) | Example:<br /><br />```const pubSub = new PubSub(API_KEY);```<br /><br />```pubSub.subscribe(channelName, eventName, callback);```<br /><br />``` pubSub.publish(channelName, eventName, messageObj);```        |
+| carpal/dist/data/messaging/PubSub  | Initializing connection: **pubsub**('APP_PUBSUB_KEY', 'CHANNEL_ID', realtime?) ***By default, realtime is set to true to establish a socket connection. For transactional mode, you should set it to false***<br /><br />**subscribe**(eventName, callback)<br /><br />**publish**(eventName, messageObj) | Example:<br /><br />```const ps = pubsub(API_KEY, CHANNEL_ID);```<br /><br />```pubSub.subscribe(eventName, callback);```<br /><br />``` pubSub.publish(eventName, messageObj);```        |
 
+# Data validation
+**This is a special set of functions to verify the inbound data from Pub/Sub against the schemas predefined by CarPal. You can choose not to use these functions at your own risk**
+
+| Module                             | Method                                            | Description                                                          |
+| ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
+| carpal/dist/data/validation/Schema | getSchemaAsync(service, schema_name)              | This returns a Promise object with the a schema. This function should be called before calling the **validate** function |
+| carpal/dist/data/validation/Schema | validate = (schema, payload)              | This returns true if all fields in **schema** are covered by **payload** object, otherwise it returns false. This function currently only checks field names, we will implement the data type check soon |
 
 # Public
 | Module                             | Method                                            | Description                                                          |
@@ -44,7 +53,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/public/Country    | getCountriesAsync()                               | This returns a Promise object with a list of countries available for carpal services         |
 | carpal/dist/data/public/Identity   | getIdentitiesAsync()                              | This returns a Promise object with a list of identities(cities) available for carpal services|
 | carpal/dist/data/public/Language   | getLanguagesAsync()                               | This returns a Promise object with a list of languages supported by carpal system            |
-| carpal/dist/data/public/Setting    | getCustomerPublicProfileSettingsAsync(domain)                             | This returns a Promise object with Logo and Background Image URL        |
+| carpal/dist/data/public/Setting    | getCustomerPublicProfileSettingsAsync(domain)     | This returns a Promise object with Logo and Background Image URL        |
 
 # Tutorials
 This is a simple tutorial to show you how to use CarPal JavaScript SDK to quickly build a web based fleet management application.
@@ -101,7 +110,7 @@ Let's take ReactJS as example here:
 
 ```javascript
 import React ...;
-import PubSub from 'carpal/dist/data/messaging/PubSub';
+import { pubsub } from 'carpal/dist/data/messaging/PubSub';
 
 
 export default class Dashboard extends Component{
@@ -110,11 +119,11 @@ export default class Dashboard extends Component{
     ...
 
     //You will get an APP_KEY after registered with Carpal
-    const pubSub = new PubSub('APP_PUBSUB_KEY');
+    const ps = pubsub('APP_PUBSUB_KEY', 'CHANNEL_ID');
 
     //subscribe to a channel here.
     //handle your logics in callback function and pass it as an argument.
-    pubSub.subscribe('channel_name', 'event_name', function (message) {
+    ps.subscribe('event_name', function (message) {
       //process the message object
     });
   }

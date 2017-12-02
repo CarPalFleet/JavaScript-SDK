@@ -57,7 +57,6 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
 }
 
 export const getCustomerDriversAsync = async (filterObject = {}, token) =>{
-
   /* Return Mock Data. After API is ready, remove this mock data and return actual result */
   return Promise.resolve(camelize(getMockData(driverStatusIds, MOCK_DATA.drivers, filterObject.driverStatusIds, filterObject.resourceIds)));
     // try{
@@ -71,3 +70,4 @@ export const getCustomerDriversAsync = async (filterObject = {}, token) =>{
     //     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     // }
 }
+
