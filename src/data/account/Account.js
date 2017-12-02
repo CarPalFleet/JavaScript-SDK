@@ -34,6 +34,21 @@ export const resetPasswordAsync = async (token, email, password, confirmPassword
     }
 }
 
+export const validateResetPasswordTokenAsync = async token =>{
+    try{
+        const response = await axios({method: 'post',
+                                      url: endpoints.PASSWORD_RESET_TOKEN,
+                                      headers: {'Content-Type': 'application/json'},
+                                      data: {
+                                        token
+                                      }})
+
+        return toCamelCase(response.data.data);
+    }catch(e){
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    }
+}
+
 export const getDriverJobsAsync = async (id, token, date)=>{
     try{
         const response = await axios({method: 'get',
