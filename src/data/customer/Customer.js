@@ -57,16 +57,17 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
 }
 
 export const getCustomerDriversAsync = async (filterObject = {}, token) =>{
-    try{
 
-        const response = await axios({method: 'get',
-                                      url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId)}?identityId=${filterObject.identityId}&productTypeId=${filterObject.productTypeId}&transactionGroupId=${filterObject.transactionGroupId || null}&driverStatusIds=${filterObject.driverStatusIds}&showDriversWithOrders=${filterObject.showDriversWithOrders}`,
-                                      headers: {'Authorization': token}})
-
-        /* Return Mock Data. After API is ready, remove this mock data and return actual result */
-        return getMockData(filterObject.driverStatusIds, 'driverStatusIds');
-        // return camelize(response.data.data);
-    }catch(e){
-        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
-    }
+  /* Return Mock Data. After API is ready, remove this mock data and return actual result */
+  return Promise.resolve(camelize(getMockData(driverStatusIds, MOCK_DATA.drivers, filterObject.driverStatusIds, filterObject.resourceIds)));
+    // try{
+    //
+    //     const response = await axios({method: 'get',
+    //                                   url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', filterObject.customerId)}?identityId=${filterObject.identityId}&productTypeId=${filterObject.productTypeId}&transactionGroupId=${filterObject.transactionGroupId || null}&driverStatusIds=${filterObject.driverStatusIds}&showDriversWithOrders=${filterObject.showDriversWithOrders}`,
+    //                                   headers: {'Authorization': token}})
+    //
+    //     return camelize(response.data.data);
+    // }catch(e){
+    //     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    // }
 }

@@ -1,13 +1,10 @@
-import camelize from 'camelize';
-import _ from 'lodash';
-
-export const mockData = {
+let MOCK_DATA = {
   orders: {
     activeStatusCounts: {
-      "Dispatching jobs": 3,
-      "Jobs en-route": 4,
-      "Requiring attention": 5,
-      "Delayed Jobs": 6
+      "Dispatching jobs": 5,
+      "Jobs en-route": 6,
+      "Requiring attention": 4,
+      "Delayed Jobs": 2
     },
     data: {
       'Dispatching jobs': [
@@ -327,721 +324,735 @@ export const mockData = {
     }
   },
   drivers: {
-      stats: {
-        'In-house': '7',
-        'Public': '13',
-        'Service Providers': '8',
-        'Total': '150'
+    stats: {
+      'In-house': '10',
+      'Public': '11',
+      'Service Providers': '12',
+      'Total': '33'
+    },
+    activeStatusCounts: {
+      "In-house": {
+        'Active drivers': 3,
+        'With route': 2,
+        'Idle drivers': 2,
+        'Inactive drivers': 3
       },
-      activeStatusCounts: {
-        'Active drivers': 7,
-        'With route': 4,
-        'Idle drivers': 5,
-        'Inactive drivers': 9
+      "Public": {
+        'Active drivers': 6,
+        'With route': 2,
+        'Idle drivers': 2,
+        'Inactive drivers': 1
       },
-      data: {
-        "In-house": {
-          'Active drivers': [
-            {
-              "id": 987601,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 2,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.3711001991132212,
-                "longitude": 103.897705078125
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
+      "Service Providers": {
+        'Active drivers': 6,
+        'With route': 3,
+        'Idle drivers': 2,
+        'Inactive drivers': 1
+      }
+    },
+    data: {
+      "In-house": {
+        'Active drivers': [
+          {
+            "id": 987601,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 2,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.3711001991132212,
+              "longitude": 103.897705078125
             },
-            {
-              "id": 987602,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 2,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.3360910507988213,
-                "longitude": 103.68896484375
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          },
+          {
+            "id": 987602,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 2,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.3360910507988213,
+              "longitude": 103.68896484375
             },
-            {
-              "id": 987603,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 2,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.341239486566936,
-                "longitude": 103.93821716308594
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
-            }
-          ],
-          'With route': [
-            {
-              "id": 987604,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 4,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.3134378057934368,
-                "longitude": 103.91590118408203
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          },
+          {
+            "id": 987603,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 2,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.341239486566936,
+              "longitude": 103.93821716308594
             },
-            {
-              "id": 987605,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 4,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.3154972002419345,
-                "longitude": 103.81256103515625
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
-            }
-          ],
-          'Idle drivers': [
-            {
-              "id": 987606,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 5,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.316870128930104,
-                "longitude": 103.9031982421875
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          }
+        ],
+        'With route': [
+          {
+            "id": 987604,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 4,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.3134378057934368,
+              "longitude": 103.91590118408203
             },
-            {
-              "id": 987607,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 5,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.2935302390231982,
-                "longitude": 103.82354736328125
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
-            }
-          ],
-          'Inactive drivers': [
-            {
-              "id": 987608,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 3,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.3539389150639312,
-                "longitude": 103.75625610351562
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          },
+          {
+            "id": 987605,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 4,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.3154972002419345,
+              "longitude": 103.81256103515625
             },
-            {
-              "id": 987609,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 3,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.3058866783157645,
-                "longitude": 103.809814453125
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          }
+        ],
+        'Idle drivers': [
+          {
+            "id": 987606,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 5,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.316870128930104,
+              "longitude": 103.9031982421875
             },
-            {
-              "id": 9876010,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 3,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.4424898029308453,
-                "longitude": 103.79539489746094
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
-            }
-          ]
-        },
-        "Public": {
-          'Active drivers': [
-            {
-              "id": 9876011,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 2,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.3141242707983072,
-                "longitude": 103.8156509399414
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          },
+          {
+            "id": 987607,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 5,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.2935302390231982,
+              "longitude": 103.82354736328125
             },
-            {
-              "id": 9876012,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 2,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.41743504716723,
-                "longitude": 103.7493896484375
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          }
+        ],
+        'Inactive drivers': [
+          {
+            "id": 987608,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 3,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.3539389150639312,
+              "longitude": 103.75625610351562
             },
-            {
-              "id": 9876013,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 2,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.33883688455388,
-                "longitude": 103.68759155273438
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          },
+          {
+            "id": 987609,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 3,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.3058866783157645,
+              "longitude": 103.809814453125
             },
-            ,
-            {
-              "id": 9876014,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 2,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.3556550489612673,
-                "longitude": 103.80500793457031
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          },
+          {
+            "id": 9876010,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 3,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.4424898029308453,
+              "longitude": 103.79539489746094
             },
-            {
-              "id": 9876015,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 2,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.3182430568620136,
-                "longitude": 103.77960205078125
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
-            }
-          ],
-          "With route": [
-            {
-              "id": 9876015,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 4,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.37521888903652,
-                "longitude": 103.86199951171875
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          }
+        ]
+      },
+      "Public": {
+        'Active drivers': [
+          {
+            "id": 9876011,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 2,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.3141242707983072,
+              "longitude": 103.8156509399414
             },
-            {
-              "id": 9876016,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 4,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.38174013353709,
-                "longitude": 103.7552261352539
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
-            }
-          ],
-          'Idle drivers': [
-            {
-              "id": 9876016,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 5,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.3913503559342686,
-                "longitude": 103.81685256958008
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          },
+          {
+            "id": 9876012,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 2,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.41743504716723,
+              "longitude": 103.7493896484375
             },
-            {
-              "id": 9876017,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 5,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.3704137501031441,
-                "longitude": 103.76827239990234
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
-            }
-          ],
-          'Inactive drivers': [
-            {
-              "id": 9876018,
-              "resourcesStatusName": "In House",
-              "Drivers_status_Id": 3,
-              "Drivers_products_types_Id": null,
-              "status_name": "active",
-              "product_name": null,
-              "Vehicle_type_Id": null,
-              "vehicle_model": null,
-              "vehicle_brand": null,
-              "vehicle_license_plate": null,
-              "vehicle_model_year": null,
-              "vehicle_type": null,
-              "first_name": "Dede",
-              "last_name": "Driver",
-              "email": "driver@carpal.me",
-              "phone": "+6587495944",
-              "location": {
-                "latitude": 1.394096126582873,
-                "longitude": 103.76810073852539
-              },
-              "product_types": [
-                {
-                  "id": 3,
-                  "name": "CarPal Fleet"
-                }
-              ],
-              "transaction_groups": [
-                {
-                  "id": 123,
-                  "name": "Dede Fleet Customer"
-                }
-              ]
-            }
-          ]
-        },
-        "Service Providers": {
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          },
+          {
+            "id": 9876013,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 2,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.33883688455388,
+              "longitude": 103.68759155273438
+            },
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          },
+          ,
+          {
+            "id": 9876014,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 2,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.3556550489612673,
+              "longitude": 103.80500793457031
+            },
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          },
+          {
+            "id": 9876015,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 2,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.3182430568620136,
+              "longitude": 103.77960205078125
+            },
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          }
+        ],
+        "With route": [
+          {
+            "id": 9876015,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 4,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.37521888903652,
+              "longitude": 103.86199951171875
+            },
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          },
+          {
+            "id": 9876016,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 4,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.38174013353709,
+              "longitude": 103.7552261352539
+            },
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          }
+        ],
+        'Idle drivers': [
+          {
+            "id": 9876016,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 5,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.3913503559342686,
+              "longitude": 103.81685256958008
+            },
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          },
+          {
+            "id": 9876017,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 5,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.3704137501031441,
+              "longitude": 103.76827239990234
+            },
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          }
+        ],
+        'Inactive drivers': [
+          {
+            "id": 9876018,
+            "resourcesStatusName": "In House",
+            "Drivers_status_Id": 3,
+            "Drivers_products_types_Id": null,
+            "status_name": "active",
+            "product_name": null,
+            "Vehicle_type_Id": null,
+            "vehicle_model": null,
+            "vehicle_brand": null,
+            "vehicle_license_plate": null,
+            "vehicle_model_year": null,
+            "vehicle_type": null,
+            "first_name": "Dede",
+            "last_name": "Driver",
+            "email": "driver@carpal.me",
+            "phone": "+6587495944",
+            "location": {
+              "latitude": 1.394096126582873,
+              "longitude": 103.76810073852539
+            },
+            "product_types": [
+              {
+                "id": 3,
+                "name": "CarPal Fleet"
+              }
+            ],
+            "transaction_groups": [
+              {
+                "id": 123,
+                "name": "Dede Fleet Customer"
+              }
+            ]
+          }
+        ]
+      },
+      "Service Providers": {
         'Active drivers': [
           {
             "id": 9876019,
@@ -1423,70 +1434,81 @@ export const mockData = {
           }
         ],
         'Inactive drivers': [
-          {
-            "id": 9876030,
-            "resourcesStatusName": "In House",
-            "Drivers_status_Id": 9,
-            "Drivers_products_types_Id": null,
-            "status_name": "active",
-            "product_name": null,
-            "Vehicle_type_Id": null,
-            "vehicle_model": null,
-            "vehicle_brand": null,
-            "vehicle_license_plate": null,
-            "vehicle_model_year": null,
-            "vehicle_type": null,
-            "first_name": "Dede",
-            "last_name": "Driver",
-            "email": "driver@carpal.me",
-            "phone": "+6587495944",
-            "location": {
-              "latitude": 1.3594305392513826,
-              "longitude": 103.75007629394531
-            },
-            "product_types": [
-              {
-                "id": 3,
-                "name": "CarPal Fleet"
-              }
-            ],
-            "transaction_groups": [
-              {
-                "id": 123,
-                "name": "Dede Fleet Customer"
-              }
-            ]
-          }
-        ]
+        {
+          "id": 9876030,
+          "resourcesStatusName": "In House",
+          "Drivers_status_Id": 9,
+          "Drivers_products_types_Id": null,
+          "status_name": "active",
+          "product_name": null,
+          "Vehicle_type_Id": null,
+          "vehicle_model": null,
+          "vehicle_brand": null,
+          "vehicle_license_plate": null,
+          "vehicle_model_year": null,
+          "vehicle_type": null,
+          "first_name": "Dede",
+          "last_name": "Driver",
+          "email": "driver@carpal.me",
+          "phone": "+6587495944",
+          "location": {
+            "latitude": 1.3594305392513826,
+            "longitude": 103.75007629394531
+          },
+          "product_types": [
+            {
+              "id": 3,
+              "name": "CarPal Fleet"
+            }
+          ],
+          "transaction_groups": [
+            {
+              "id": 123,
+              "name": "Dede Fleet Customer"
+            }
+          ]
+        }
+      ]
       }
     }
   }
 }
 
-export const driverStatusIds = [
-  {id: 2, statusName: 'active'},
-  {id: 4, statusName: 'withRoute'},
-  {id: 5, statusName: 'idle'},
-  {id: 3, statusName: 'inactive'}
+let ordersStatusIds = [
+  {value: 2, label: 'Dispatching jobs'},
+  {value: 5, label: 'Jobs en-route'},
+  {value: 8, label: 'Requiring attention'},
+  {value: 9, label: 'Delayed Jobs'}
 ]
 
-export const ordersStatusIds = [
-  {id: 2, statusName: 'dispatching'},
-  {id: 5, statusName: 'enRout'},
-  {id: 8, statusName: 'requiringAttention'},
-  {id: 9, statusName: 'delayed'}
+let driverStatusIds = [
+  {value: 2, label: 'Active drivers'},
+  {value: 4, label: 'With route'},
+  {value: 5, label: 'Idle drivers'},
+  {value: 3, label: 'Inactive drivers'}
 ]
 
-/* Driver Status Ids (2, 5, 8, 9)
-  dispatching: 2, enRout: 5, requiringAttention: 8, delayed: 9
-*/
-export default (statusIds = [], type) => {
-  console.log("Status Ids", statusIds, type);
-  if (_.isArray(statusIds)) {
-    return type.reduce((obj, value) => {
-      obj = obj || {};
-      if (statusIds.includes(value.id)) obj[value.statusName] = mockData.orders[statusName];
-      return camelize(obj);
-    }, {});
-  } else return {};
+let driverResources = [
+  {value: 1, label: 'In-house'},
+  {value: 2, label: 'Public'},
+  {value: 3, label: 'Service Providers'}
+]
+
+let getStatus = (ids, types) => ( types.filter((data) => ( ids.includes(data.value)? data.label: false )));
+
+let filterMockData = (types, mock, ids, resource) => {
+  let mockData = {
+    activeStatusCounts: mock.activeStatusCounts,
+    data: getStatus(ids, types).reduce((result, status) => {
+       result = result || {};
+       result[status.label] = resource? mock.data[resource][status.label]: mock.data[status.label];
+       return result;
+     }, {})
+   }
+   if (resource) {
+     mockData.stats = mock.stats;
+   }
+   return mockData;
 }
+// filterMockData(ordersStatusIds, MOCK_DATA.orders, [2]);
+// filterMockData(driverStatusIds, MOCK_DATA.drivers, [3], 'In-house');
