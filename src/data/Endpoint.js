@@ -7,6 +7,7 @@ const endpoints = {
     ACCOUNTS: `${urlPrefix}/drivers`,
     OAUTH: `${urlPrefix}/authentication`,
     PASSWORD_RESET: `${urlPrefix}/users/password/reset`,
+    PASSWORD_RESET_TOKEN: `${urlPrefix}/users/password/token`,
     MY_JOBS: `${urlPrefix}/drivers/{0}/jobs?date={1}`,
     MY_LEGS: `${urlPrefix}/drivers/{0}/legs?date={1}`,
     NEW_CUSTOMER:  `${urlPrefix}/customers`,
