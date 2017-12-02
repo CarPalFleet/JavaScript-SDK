@@ -1496,12 +1496,12 @@ let driverResources = [
 
 let getStatus = (ids, types) => ( types.filter((data) => ( ids.includes(data.value)? data.label: false )));
 
-let filterMockData = (types, mock, ids, resource) => {
+let filterMockData = (types, MOCK_DATA[type], ids, resource) => {
   let mockData = {
-    activeStatusCounts: mock.activeStatusCounts,
+    activeStatusCounts: MOCK_DATA[type].activeStatusCounts,
     data: getStatus(ids, types).reduce((result, status) => {
        result = result || {};
-       result[status.label] = resource? mock.data[resource][status.label]: mock.data[status.label];
+       result[status.label] = resource? MOCK_DATA[type].data[resource][status.label]: MOCK_DATA[type].data[status.label];
        return result;
      }, {})
    }
