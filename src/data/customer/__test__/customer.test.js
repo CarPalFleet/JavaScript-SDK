@@ -21,44 +21,44 @@ test('Creating new customer account', () => {
     expect(true).toBe(true);
 })
 
-// test('Creating new driver account by a customer account', async () =>{
-//     const result = getTokenAsync('transaction@carpal.me', 'transactioncustomer', CONFIG.clientId, CONFIG.token);
-//     //const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
-//     const token = await result;
-//
-//     const driver = {
-//         identityId: 1,
-//         productTypeId: 3,
-//         transactionGroupId: 1,
-//         isNewUser: true,
-//         firstName: 'User',
-//         lastName: makeid(10),
-//         email: `${makeid(10)}@example.com`,
-//         password: '123456',
-//         birthday: '1980-01-01',
-//         phone: '+6592341092'
-//     }
-//
-//     const response = await createNewDriverAsync(driver, 1, token.accessToken);
-//
-//     expect('driver' in response).toBe(true);
-// })
-
-test('Test for retrieving drivers by a customer account', async () =>{
+test('Creating new driver account by a customer account', async () =>{
     const result = getTokenAsync('transaction@carpal.me', 'transactioncustomer', CONFIG.clientId, CONFIG.token);
+    //const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
     const token = await result;
 
-    const response = await getCustomerDriversAsync({
-                            identityId: 1,
-                            productTypeId: 3,
-                            transactionGroupId: 1,
-                            driverStatusIds: '1,2,3',
-                            showDriversWithOrders: false,
-                            customerId: 1
-                          }, token.accessToken);
+    const driver = {
+        identityId: 1,
+        productTypeId: 3,
+        transactionGroupId: 1,
+        isNewUser: true,
+        firstName: 'User',
+        lastName: makeid(10),
+        email: `${makeid(10)}@example.com`,
+        password: '123456',
+        birthday: '1980-01-01',
+        phone: '+6592341092'
+    }
 
-    expect(response instanceof Array).toBe(true);
+    const response = await createNewDriverAsync(driver, 1, token.accessToken);
+
+    expect('driver' in response).toBe(true);
 })
+
+// test('Test for retrieving drivers by a customer account', async () =>{
+//     const result = getTokenAsync('transaction@carpal.me', 'transactioncustomer', CONFIG.clientId, CONFIG.token);
+//     const token = await result;
+//
+//     const response = await getCustomerDriversAsync({
+//                             identityId: 1,
+//                             productTypeId: 3,
+//                             transactionGroupId: 1,
+//                             driverStatusIds: '1,2,3',
+//                             showDriversWithOrders: false,
+//                             customerId: 1
+//                           }, token.accessToken);
+//
+//     expect(response instanceof Array).toBe(true);
+// })
 
 function makeid(size) {
     var text = "";
