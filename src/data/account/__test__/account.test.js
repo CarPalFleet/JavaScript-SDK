@@ -2,7 +2,8 @@ import { resetPasswordRequestAsync,
          resetPasswordAsync, 
          getDriverJobsAsync, 
          getDriverLegsAsync,
-         getNotificationsAsync } from '../Account';
+         getNotificationsAsync,
+         validateResetPasswordTokenAsync } from '../Account';
 import { getTokenAsync } from '../Auth';
 import CONFIG from './Config';
 
@@ -18,7 +19,13 @@ import CONFIG from './Config';
 //      expect(result).toBe(true);
 // })
 
+test('Test for reset password token validation', async ()=>{
+    const result = validateResetPasswordTokenAsync(makeid(32));
+    await expect(result).rejects.toHaveProperty('statusCode', 404);
+})
+
 test('Test for getting my jobs.', async ()=>{
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
     const token = await result;
     const response = getDriverJobsAsync(1, token.accessToken, CONFIG.date);
@@ -27,6 +34,7 @@ test('Test for getting my jobs.', async ()=>{
 })
 
 test('Test for getting my legs.', async ()=>{
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
     const token = await result;
     const response = getDriverLegsAsync(1, token.accessToken, CONFIG.date);
@@ -42,3 +50,13 @@ test('Test for account notifications.', async ()=>{
 
     expect('notifications' in notifications).toBe(true);
 })
+
+function makeid(size) {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  
+    for (var i = 0; i < size; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  
+    return text;
+}

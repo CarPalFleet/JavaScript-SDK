@@ -7,16 +7,18 @@ const endpoints = {
     ACCOUNTS: `${urlPrefix}/drivers`,
     OAUTH: `${urlPrefix}/authentication`,
     PASSWORD_RESET: `${urlPrefix}/users/password/reset`,
+    PASSWORD_RESET_TOKEN: `${urlPrefix}/users/password/token`,
     MY_JOBS: `${urlPrefix}/drivers/{0}/jobs?date={1}`,
     MY_LEGS: `${urlPrefix}/drivers/{0}/legs?date={1}`,
     NEW_CUSTOMER:  `${urlPrefix}/customers`,
     TRANSACTION_GROUP_SETTING:  `${urlPrefix}/transaction-groups/{1}`,
     ORDERS_WITH_FILTERS: `${urlPrefix}/customers/{0}/orders?{1}`,
     ORDER_DETAIL: `${urlPrefix}/customers/{0}/orders/{1}`,
-    NEW_DELIVERY_WINDOW: `${urlPrefix}/customers/{0}/delivery-windows`,
+    DELIVERY_WINDOW: `${urlPrefix}/customers/{0}/delivery-windows`,
     CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
     SEARCH: `${urlPrefix}/search`,
     NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
+    SCHEMAS: `${urlPrefix}/schemas/{0}/{1}`,
 }
 
 export default endpoints;

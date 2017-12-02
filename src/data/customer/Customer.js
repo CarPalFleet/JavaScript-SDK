@@ -1,6 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import { getMockData, ordersStatusIds } from './mockData';
 
 export const createNewCustomerAsync = async ({email, password, firstName, lastName, phone,
                                          birthday, identityId, coName, coPhone, coVatNo})=>{
@@ -26,9 +27,9 @@ export const createNewCustomerAsync = async ({email, password, firstName, lastNa
     }
 }
 
-export const createNewDriverAsync = async ({identityId, productTypeId, transactionGroupId=null, 
-                                            firstName, lastName, email, password, birthday, phone, 
-                                            existingUserEmail=null, sendConfirmationSms=false, 
+export const createNewDriverAsync = async ({identityId, productTypeId, transactionGroupId=null,
+                                            firstName, lastName, email, password, birthday, phone,
+                                            existingUserEmail=null, sendConfirmationSms=false,
                                             isNewUser=true}, customerId, token) =>{
     try{
         const payload = {
@@ -55,16 +56,18 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
     }
 }
 
-export const getCustomerDriversAsync = async (identityId, productTypeId, transactionGroupId, 
-                                              driverStatusIds, showDriversWithOrders, customerId, token) =>{
-    try{
-
-        const response = await axios({method: 'get',
-                                      url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId)}?identityId=${identityId}&productTypeId=${productTypeId}&transactionGroupId=${transactionGroupId || null}&driverStatusIds=${driverStatusIds}&showDriversWithOrders=${showDriversWithOrders}`,
-                                      headers: {'Authorization': token}})
-
-        return camelize(response.data.data);
-    }catch(e){
-        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
-    }
+export const getCustomerDriversAsync = async (filterObject = {}, token) =>{
+  /* Return Mock Data. After API is ready, remove this mock data and return actual result */
+  return Promise.resolve(camelize(getMockData(driverStatusIds, MOCK_DATA.drivers, filterObject.driverStatusIds, filterObject.resourceIds)));
+    // try{
+    //
+    //     const response = await axios({method: 'get',
+    //                                   url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', filterObject.customerId)}?identityId=${filterObject.identityId}&productTypeId=${filterObject.productTypeId}&transactionGroupId=${filterObject.transactionGroupId || null}&driverStatusIds=${filterObject.driverStatusIds}&showDriversWithOrders=${filterObject.showDriversWithOrders}`,
+    //                                   headers: {'Authorization': token}})
+    //
+    //     return camelize(response.data.data);
+    // }catch(e){
+    //     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    // }
 }
+

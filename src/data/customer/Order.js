@@ -1,17 +1,22 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import getMockData from './mockData';
 
 export const getOrdersWithFilterAsync = async (filterObject = {}, token)=>{
     let paramString = Object.entries(filterObject).reduce((str, [key, value]) => (str += `&${key}=${value}`), '');
-    try{
-        const response = await axios({method: 'get',
-                                      url: endpoints.ORDERS_WITH_FILTERS.replace('{0}', paramString).replace('{1}', paramString),
-                                      headers: {'Authorization': token}})
-        return camelize(response.data.data);
-    }catch(e){
-        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
-    }
+
+    /* Return Mock Data. After API is ready, remove this mock data and return actual result */
+    return Promise.resolve(camelize(getMockData(ordersStatusIds, MOCK_DATA.orders, filterObject.ordersStatusIds)));
+    // try{
+    //     const response = await axios({method: 'get',
+    //                                   url: endpoints.ORDERS_WITH_FILTERS.replace('{0}', paramString).replace('{1}', paramString),
+    //                                   headers: {'Authorization': token}})
+    //     return camelize(response.data.data);
+    // }catch(e){
+    //     console.log("ERROR HERE", e);
+    //     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    // }
 }
 
 export const getOrderDetailAsync = async (customerId, orderId, token)=>{
@@ -45,10 +50,23 @@ export const createNewDeliveryWindow = async ({customerId,
             data.transactionGroupId = transactionGroupId;
         }
         const response = await axios({method: 'post',
-                                      url: endpoints.NEW_DELIVERY_WINDOW.replace('{0}', customerId),
+                                      url: endpoints.DELIVERY_WINDOW.replace('{0}', customerId),
                                       headers: {'Authorization': token},
                                       data})
         return camelize(response.data.data);
+    }catch(e){
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    }
+}
+
+export const getDeliveryWindows = async (customerId, identityId, productTypeId, transactionGroupIds)=>{
+    try{
+        const response = await axios({
+            method: 'get',
+            url: `${endpoints.DELIVERY_WINDOW.replace('{0}', customerId)}?identityId=${identityId}`,
+            headers: {'Authorization': token}});
+
+        return camelize(response.data.data);        
     }catch(e){
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
