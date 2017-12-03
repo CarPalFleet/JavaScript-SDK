@@ -1,21 +1,24 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import MOCK_DATA from './mockData';
+import filterMockData from './mockData';
 
 export const getOrdersWithFilterAsync = async (filterObject = {}, token)=>{
     let paramString = Object.entries(filterObject).reduce((str, [key, value]) => (str += `&${key}=${value}`), '');
-    try{
-        const response = await axios({method: 'get',
-                                      url: endpoints.ORDERS_WITH_FILTERS.replace('{0}', paramString).replace('{1}', paramString),
-                                      headers: {'Authorization': token}})
 
-        /* Return Mock Data. After API is ready, remove this mock data and return actual result */
-        return camelize(MOCK_DATA.orders);
-        // return camelize(response.data.data);
-    }catch(e){
-        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
-    }
+    /* Return Mock Data. After API is ready, remove this mock data and return actual result */
+
+    return filterMockData('ordersStatusIds', 'orders', filterObject.statusIds || [])
+    // return Promise.resolve(camelize(getMockData('ordersStatusIds', 'orders', filterObject.statusIds || [])));
+    // try{
+    //     const response = await axios({method: 'get',
+    //                                   url: endpoints.ORDERS_WITH_FILTERS.replace('{0}', paramString).replace('{1}', paramString),
+    //                                   headers: {'Authorization': token}})
+    //     return camelize(response.data.data);
+    // }catch(e){
+    //     console.log("ERROR HERE", e);
+    //     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    // }
 }
 
 export const getOrderDetailAsync = async (customerId, orderId, token)=>{
@@ -65,7 +68,7 @@ export const getDeliveryWindows = async (customerId, identityId, productTypeId, 
             url: `${endpoints.DELIVERY_WINDOW.replace('{0}', customerId)}?identityId=${identityId}`,
             headers: {'Authorization': token}});
 
-        return camelize(response.data.data);        
+        return camelize(response.data.data);
     }catch(e){
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
