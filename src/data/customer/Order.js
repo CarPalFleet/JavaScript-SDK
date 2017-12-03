@@ -1,7 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import getMockData from './mockData';
+import filterMockData from './mockData';
 
 export const getOrdersWithFilterAsync = async (filterObject = {}, token)=>{
     let paramString = Object.entries(filterObject).reduce((str, [key, value]) => (str += `&${key}=${value}`), '');
