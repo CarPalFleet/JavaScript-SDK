@@ -1471,44 +1471,48 @@ let MOCK_DATA = {
       ]
       }
     }
-  }
+  },
+  ordersStatusIds: [
+    {value: 2, label: 'Dispatching jobs'},
+    {value: 5, label: 'Jobs en-route'},
+    {value: 8, label: 'Requiring attention'},
+    {value: 9, label: 'Delayed Jobs'}
+  ],
+  driverStatusIds: [
+    {value: 2, label: 'Active drivers'},
+    {value: 4, label: 'With route'},
+    {value: 5, label: 'Idle drivers'},
+    {value: 3, label: 'Inactive drivers'}
+  ],
+  driverResources: [
+    {value: 1, label: 'In-house'},
+    {value: 2, label: 'Public'},
+    {value: 3, label: 'Service Providers'}
+  ]
 }
-
-let ordersStatusIds = [
-  {value: 2, label: 'Dispatching jobs'},
-  {value: 5, label: 'Jobs en-route'},
-  {value: 8, label: 'Requiring attention'},
-  {value: 9, label: 'Delayed Jobs'}
-]
-
-let driverStatusIds = [
-  {value: 2, label: 'Active drivers'},
-  {value: 4, label: 'With route'},
-  {value: 5, label: 'Idle drivers'},
-  {value: 3, label: 'Inactive drivers'}
-]
-
-let driverResources = [
-  {value: 1, label: 'In-house'},
-  {value: 2, label: 'Public'},
-  {value: 3, label: 'Service Providers'}
-]
 
 let getStatus = (ids, types) => ( types.filter((data) => ( ids.includes(data.value)? data.label: false )));
 
-let filterMockData = (types, type, ids, resource) => {
+let filterMockData = (status, type, ids, resource) => {
   let mockData = {
     activeStatusCounts: MOCK_DATA[type].activeStatusCounts,
-    data: getStatus(ids, types).reduce((result, status) => {
+    data: getStatus(ids, MOCK_DATA[status]).reduce((result, status) => {
        result = result || {};
-       result[status.label] = resource? MOCK_DATA[type].data[resource][status.label]: MOCK_DATA[type].data[status.label];
+       if (resource) {
+         result[resource] = MOCK_DATA[type].data[resource];
+       } else {
+         result[status.label] = MOCK_DATA[type].data[status.label];
+       }
        return result;
      }, {})
    }
    if (resource) {
-     mockData.stats = mock.stats;
+     mockData.stats = MOCK_DATA[type].stats;
+     mockData.activeStatusCounts =MOCK_DATA[type].activeStatusCounts[resource];
    }
    return mockData;
 }
+
+export default filterMockData;
 // filterMockData(ordersStatusIds, MOCK_DATA.orders, [2]);
 // filterMockData(driverStatusIds, MOCK_DATA.drivers, [3], 'In-house');
