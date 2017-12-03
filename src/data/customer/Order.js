@@ -7,7 +7,9 @@ export const getOrdersWithFilterAsync = async (filterObject = {}, token)=>{
     let paramString = Object.entries(filterObject).reduce((str, [key, value]) => (str += `&${key}=${value}`), '');
 
     /* Return Mock Data. After API is ready, remove this mock data and return actual result */
-    return Promise.resolve(camelize(getMockData('ordersStatusIds', 'orders', filterObject.statusIds || [])));
+
+    return filterMockData('ordersStatusIds', 'orders', filterObject.statusIds || [])
+    // return Promise.resolve(camelize(getMockData('ordersStatusIds', 'orders', filterObject.statusIds || [])));
     // try{
     //     const response = await axios({method: 'get',
     //                                   url: endpoints.ORDERS_WITH_FILTERS.replace('{0}', paramString).replace('{1}', paramString),

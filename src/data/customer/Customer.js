@@ -1,7 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import { getMockData, ordersStatusIds } from './mockData';
+import getMockData from './mockData';
 
 export const createNewCustomerAsync = async ({email, password, firstName, lastName, phone,
                                          birthday, identityId, coName, coPhone, coVatNo})=>{
@@ -58,7 +58,9 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
 
 export const getCustomerDriversAsync = async (filterObject = {}, token) =>{
   /* Return Mock Data. After API is ready, remove this mock data and return actual result */
-  return Promise.resolve(camelize(getMockData('driverStatusIds', 'drivers', filterObject.driverStatusIds|| [], filterObject.resourceIds[filterObject.resourceIds-1] || 'In-house')));
+  return camelize(filterMockData('driverStatusIds', 'drivers', filterObject.driverStatusIds|| [], filterObj.resourceIds[filterObj.resourceIds-1] || 'In-house'));
+
+  // return Promise.resolve(camelize(getMockData('driverStatusIds', 'drivers', filterObject.driverStatusIds|| [], filterObject.resourceIds[filterObject.resourceIds-1] || 'In-house')));
     // try{
     //
     //     const response = await axios({method: 'get',
