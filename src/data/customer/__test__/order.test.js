@@ -2,37 +2,36 @@ import { getOrdersWithFilterAsync, getOrderDetailAsync, createNewDeliveryWindow 
 import { getTokenAsync } from '../../account/Auth';
 import CONFIG from './Config';
 
-const ORDER_FILTERS = {
-  withoutMandatoryFields: [
-    { description: 'missing identityId', filters: {identityId: CONFIG.identityId}},
-    { description: 'missing pickupDate', filters: {pickupDate: CONFIG.pickupDate}}
-  ],
-  withMandatoryFields: [
-    { description: 'with mandatory fields', filters: {identityId: CONFIG.identityId, pickupDate: CONFIG.pickupDate}},
-    { description: 'with startPickupDate and endPickupDate', filters: {identityId: CONFIG.identityId, startPickupDate: CONFIG.startPickupDate, endPickupDate: CONFIG.endPickupDate}}
-  ]
-}
-
-describe('Test for customer orders with filters', () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    ORDER_FILTERS.withoutMandatoryFields.forEach((value) => {
-        it(value.description, async () => {
-           const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
-           const token = await result;
-           const response = getOrdersWithFilterAsync(value.filters, token.accessToken);
-           await expect(response).rejects.toHaveProperty('statusCode', 400)
-        })
-    });
-
-    ORDER_FILTERS.withMandatoryFields.forEach((value) => {
-        it(value.description, async () => {
-           const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
-           const token = await result;
-           const response = await getOrdersWithFilterAsync(value.filters, token.accessToken);
-           expect(response instanceof Array).toBe(true);
-        })
-    });
-});
+// const ORDER_FILTERS = {
+//   withoutMandentoryFields: [
+//     { description: 'missing identityId', filters: {identityId: CONFIG.identityId}},
+//     { description: 'missing pickupDate', filters: {pickupDate: CONFIG.pickupDate}}
+//   ],
+//   withMandentoryFields: [
+//     { description: 'with mandentory fields', filters: {identityId: CONFIG.identityId, pickupDate: CONFIG.pickupDate}},
+//     { description: 'with startPickupDate and endPickupDate', filters: {identityId: CONFIG.identityId, startPickupDate: CONFIG.startPickupDate, endPickupDate: CONFIG.endPickupDate}}
+//   ]
+// }
+//
+// describe('Test for customer orders with filters', () => {
+//     ORDER_FILTERS.withoutMandentoryFields.forEach((value) => {
+//         it(value.description, async () => {
+//            const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+//            const token = await result;
+//            const response = getOrdersWithFilterAsync(value.filters, token.accessToken);
+//            await expect(response).rejects.toHaveProperty('statusCode', 400)
+//         })
+//     });
+//
+//     ORDER_FILTERS.withMandentoryFields.forEach((value) => {
+//         it(value.description, async () => {
+//            const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+//            const token = await result;
+//            const response = await getOrdersWithFilterAsync(value.filters, token.accessToken);
+//            expect(response instanceof Object).toBe(true);
+//         })
+//     });
+// });
 
 test('Test for customer order detail', async () => {
     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);

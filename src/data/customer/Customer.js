@@ -1,7 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import MOCK_DATA from './mockData';
+import filterMockData from './mockData';
 
 export const createNewCustomerAsync = async ({email, password, firstName, lastName, phone,
                                          birthday, identityId, coName, coPhone, coVatNo})=>{
@@ -56,18 +56,19 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
     }
 }
 
-export const getCustomerDriversAsync = async (identityId, productTypeId, transactionGroupId,
-                                              driverStatusIds, showDriversWithOrders, customerId, token) =>{
-    try{
+export const getCustomerDriversAsync = async (filterObject = {}, token) =>{
+  /* Return Mock Data. After API is ready, remove this mock data and return actual result */
+  return camelize(filterMockData('driverStatusIds', 'drivers', filterObject.driverStatusIds|| [], filterObj.resourceIds[filterObj.resourceIds-1] || 'In-house'));
 
-        const response = await axios({method: 'get',
-                                      url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId)}?identityId=${identityId}&productTypeId=${productTypeId}&transactionGroupId=${transactionGroupId || null}&driverStatusIds=${driverStatusIds}&showDriversWithOrders=${showDriversWithOrders}`,
-                                      headers: {'Authorization': token}})
-
-        /* Return Mock Data. After API is ready, remove this mock data and return actual result */
-        return camelize(MOCK_DATA.drivers);
-        // return camelize(response.data.data);
-    }catch(e){
-        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
-    }
+  // return Promise.resolve(camelize(getMockData('driverStatusIds', 'drivers', filterObject.driverStatusIds|| [], filterObject.resourceIds[filterObject.resourceIds-1] || 'In-house')));
+    // try{
+    //
+    //     const response = await axios({method: 'get',
+    //                                   url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', filterObject.customerId)}?identityId=${filterObject.identityId}&productTypeId=${filterObject.productTypeId}&transactionGroupId=${filterObject.transactionGroupId || null}&driverStatusIds=${filterObject.driverStatusIds}&showDriversWithOrders=${filterObject.showDriversWithOrders}`,
+    //                                   headers: {'Authorization': token}})
+    //
+    //     return camelize(response.data.data);
+    // }catch(e){
+    //     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    // }
 }
