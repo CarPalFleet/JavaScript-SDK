@@ -44,7 +44,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
-| carpal/dist/data/validation/Schema | getSchemaAsync(service, schema_name)              | This returns a Promise object with the a schema. This function should be called before calling the **validate** function |
+| carpal/dist/data/validation/Schema | getSchemaAsync(service, schemaName)              | This returns a Promise object with the a schema. This function should be called before calling the **validate** function |
 | carpal/dist/data/validation/Schema | validate = (schema, payload)              | This returns true if all fields in **schema** are covered by **payload** object, otherwise it returns false. This function currently only checks field names, we will implement the data type check soon |
 
 # Public
