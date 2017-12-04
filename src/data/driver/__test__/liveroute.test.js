@@ -23,5 +23,5 @@ test('Test for new live route', async () =>{
 
     const response = await sendLiveRouteDataAsync(liveRoute, token.accessToken);
 
-    expect(response.length > 0).toBeTruthy();
+    expect(response).toBeTruthy();
 })
