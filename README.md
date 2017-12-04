@@ -34,6 +34,12 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/customer/Customer    | getCustomerDriversAsync(identityId, productTypeId, transactionGroupId, driverStatusIds, showDriversWithOrders, customerId, token)   | If productTypeId is 3 then transactionGroupId should be set to a truthy value., otherwise set it to ***null*** <br /> This returns a Promise object with a list of drivers.    |
 | carpal/dist/data/customer/Search    | searchAsync(keywords, scope, fuzzy, token)   | This returns a Promise object with search results within given scope. <br /><br />**keywords**: (aaa,bbb)&#124;ccc will be translated to ***(aaa AND bbb) OR ccc*** <br />**scope**: ***job,driver*** which specifies the search results are within job and driver domains<br />**fuzzy**: to indicate if is a fuzzy or accurate search     |
 
+# Driver
+| Module                             | Method                                            | Description                                                          |
+| ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
+| carpal/dist/data/driver/LiveRoute      | sendLiveRouteDataAsync(liveRouteObj)  | This returns a Promise object with sns message. The liveRouteObj consists of {orderId, addressId, customerId, driverId, driverFirstName, driverLastName, driverTypes, latitude, longitude, orderRouteType}  |
+
+
 # Messaging
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
