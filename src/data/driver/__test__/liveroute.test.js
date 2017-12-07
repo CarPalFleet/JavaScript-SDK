@@ -25,3 +25,9 @@ test('Test for new live route', async () =>{
 
     expect(response).toBeTruthy();
 })
+
+test('Test for merging driver location and live route data', async()=>{
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    const result = getTokenAsync('transaction@carpal.me', 'transactioncustomer', CONFIG.clientId, CONFIG.token);
+    const token = await result;
+})

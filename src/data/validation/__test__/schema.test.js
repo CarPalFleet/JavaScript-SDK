@@ -2,9 +2,11 @@ import { getSchemaAsync, validate } from '../Schema';
 
 test('Test for retrieving schema by service and schema name', async () =>{
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const response = await getSchemaAsync('pubsub', 'orders');
+    const response = await getSchemaAsync('customer', 'dashboard-order');
 
-    expect(response.fields).toBeTruthy();
+    expect(response.domain).toBe('customer');
+    expect(response.segment).toBe('dashboard-order');
+    expect(response.properties).toBeTruthy();
 })
 
 test('Test for comparison of schema and payload', async () =>{
