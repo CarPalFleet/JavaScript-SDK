@@ -5,7 +5,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is **0.0.56**
+The current version of this SDK is **0.0.57**
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -45,7 +45,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
 | carpal/dist/data/validation/Schema | getSchemaAsync(service, schemaName)              | This returns a Promise object with the a schema. This function should be called before calling the **validate** function |
-| carpal/dist/data/validation/Schema | validate = (schema, payload)              | This returns true if all fields in **schema** are covered by **payload** object, otherwise it returns false. This function currently only checks field names, we will implement the data type check soon |
+| carpal/dist/data/validation/Schema | validate = (schema, payload)              | This returns true if all fields in **schema** are covered by **payload** object, otherwise it returns false. This function checks both field names and data types|
 
 # Public
 | Module                             | Method                                            | Description                                                          |
