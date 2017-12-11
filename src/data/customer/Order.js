@@ -3,22 +3,17 @@ import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import filterMockData from './mockData';
 
-export const getOrdersWithFilterAsync = async (filterObject = {}, token)=>{
-    let paramString = Object.entries(filterObject).reduce((str, [key, value]) => (str += `&${key}=${value}`), '');
-
-    /* Return Mock Data. After API is ready, remove this mock data and return actual result */
-
-    return filterMockData('ordersStatusIds', 'orders', filterObject.statusIds || [])
-    // return Promise.resolve(camelize(getMockData('ordersStatusIds', 'orders', filterObject.statusIds || [])));
-    // try{
-    //     const response = await axios({method: 'get',
-    //                                   url: endpoints.ORDERS_WITH_FILTERS.replace('{0}', paramString).replace('{1}', paramString),
-    //                                   headers: {'Authorization': token}})
-    //     return camelize(response.data.data);
-    // }catch(e){
-    //     console.log("ERROR HERE", e);
-    //     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
-    // }
+export const getOrdersWithFilterAsync = async (filterObject = {}, customerId, token)=>{
+    let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
+    try{
+         const response = await axios({method: 'get',
+                                       url: endpoints.ORDERS_WITH_FILTERS.replace('{0}', customerId).replace('{1}', paramString),
+                                       headers: {'Authorization': token}})
+         return camelize(sortData(response.data));
+    }catch(e){
+         console.log("ERROR HERE", e);
+         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    }    
 }
 
 export const getOrderDetailAsync = async (customerId, orderId, token)=>{
@@ -72,4 +67,53 @@ export const getDeliveryWindows = async (customerId, identityId, productTypeId, 
     }catch(e){
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
+}
+
+function sortData(filteredOrders) {
+    let index;
+    let delayed = [];
+    let delayedCount;
+    let dispatching = [];
+    let dispatchingCount;
+    let panic = [];
+    let panicCount;
+    let pickedUp = [];
+    let pickedUpCount;
+
+    var counts = {};
+    var concateDataObject = {};
+    var combinedOrdersAndCounts = {};
+    
+    for(index = 0; index < filteredOrders["data"].length; index++) {
+        let filteredOrder = filteredOrders["data"][index];
+        switch (filteredOrder["status_name"]) {
+            case "Delayed": delayed.push(filteredOrder);
+            break;
+            case "Dispatching": dispatching.push(filteredOrder);
+            break;
+            case "Panic": panic.push(filteredOrder);
+            break;
+            case "Picked-up": pickedUp.push(filteredOrder);
+        }
+    }
+
+    dispatchingCount = dispatching.length;
+    panicCount = panic.length;
+    pickedUpCount = pickedUp.length;
+    delayedCount = delayed.length;
+    counts["Dispatching jobs"] = dispatchingCount;
+    counts["Jobs en-route"] = pickedUpCount;
+    counts["Requiring attention"] = panicCount;
+    counts["Delayed Jobs"] = delayedCount;
+
+    combinedOrdersAndCounts["activeStatusCounts"] = counts;
+    
+    concateDataObject["Dispatching jobs"] = dispatching;
+    concateDataObject["Requiring attention"] = panic;
+    concateDataObject["Jobs en-route"] = pickedUp;
+    concateDataObject["Delayed Jobs"] = delayed;  
+
+    combinedOrdersAndCounts["data"] = concateDataObject;
+
+    return combinedOrdersAndCounts;
 }
