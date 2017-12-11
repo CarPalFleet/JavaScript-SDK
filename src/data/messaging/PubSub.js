@@ -26,7 +26,7 @@ export const pubsub = (key, channel, realtime=true)=>{
     var client = realtime?new Ably.Realtime(key):new Ably.Rest(key);
     var chan = client.channels.get(channel);
     return {
-        publish: (event, message)=>{        
+        publish: (event, message)=>{
             chan.publish(event, message);
         },
 
@@ -34,9 +34,12 @@ export const pubsub = (key, channel, realtime=true)=>{
             chan.subscribe(event, callback);
         },
 
+        unsubscribe: (event, listener) => {
+            chan.unsubscribe(event, listener);
+        },
+
         history: (callback) => {
             chan.history(callback);
         }
     }
 }
-

@@ -25,3 +25,7 @@ export const sendLiveRouteDataAsync = async ({orderId, addressId, customerId, dr
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
+
+export const mergeLiveRouteWithDriverLocation = (driverLoc, liveRoute)=>{
+    return {...liveRoute, driverLoc}
+}
