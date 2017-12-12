@@ -13,7 +13,7 @@ export const getOrdersWithFilterAsync = async (filterObject = {}, customerId, to
     }catch(e){
          console.log("ERROR HERE", e);
          return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
-    }    
+    }
 }
 
 export const getOrderDetailAsync = async (customerId, orderId, token)=>{
@@ -88,7 +88,7 @@ function sortData(filteredOrders) {
     var counts = {};
     var concateDataObject = {};
     var combinedOrdersAndCounts = {};
-    
+
     filteredOrders["data"].forEach( (value, key) =>{
         switch (value["order_status_id"]) {
             case delayedID: delayed.push(value);
@@ -111,13 +111,14 @@ function sortData(filteredOrders) {
     counts[delayedID] = delayedCount;
 
     combinedOrdersAndCounts["activeStatusCounts"] = counts;
-    
+    combinedOrdersAndCounts["totalStatusCounts"] = 12; //It will be updated after api wrapper calculated the total counts
+
     concateDataObject[dispatchingID] = dispatching;
     concateDataObject[panicID] = panic;
     concateDataObject[pickedUpID] = pickedUp;
-    concateDataObject[delayedID] = delayed;  
+    concateDataObject[delayedID] = delayed;
 
     combinedOrdersAndCounts["data"] = concateDataObject;
-   
+
     return combinedOrdersAndCounts;
 }
