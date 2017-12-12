@@ -16,7 +16,7 @@ const endpoints = {
     ORDER_DETAIL: `${urlPrefix}/customers/{0}/orders/{1}`,
     DELIVERY_WINDOW: `${urlPrefix}/customers/{0}/delivery-windows`,
     CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
-    SEARCH: `${urlPrefix}/search`,
+    SEARCH: `${urlPrefix}/dashboard/search`,
     NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
     SCHEMAS: `${urlPrefix}/schemas/{0}/{1}`,
     DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
