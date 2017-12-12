@@ -33,6 +33,22 @@ import CONFIG from './Config';
 //     });
 // });
 
+test('test for get order with filter', async ()=>{
+    const filterObj = {
+        identityId: 1,
+        startPickupDate: 2017-10-30,
+        endPickupDate: 2107-12-30,
+        statusIds: [1,2,3],
+        productTypeId: null
+    }
+    
+    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+    const token = await result; 
+    const response = await getOrdersWithFilterAsync(filterObj, 1, token.accessToken);
+    
+    expect(response instanceof Object).toBeTruthy();
+})
+
 test('Test for customer order detail', async () => {
     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
     const token = await result;
