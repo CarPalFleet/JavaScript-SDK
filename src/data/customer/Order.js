@@ -70,6 +70,11 @@ export const getDeliveryWindows = async (customerId, identityId, productTypeId, 
 }
 
 function sortData(filteredOrders) {
+    const delayedID = 9;
+    const dispatchingID = 2;
+    const pickedUpID = 5;
+    const panicID = 7;
+
     let index;
     let delayed = [];
     let delayedCount;
@@ -84,36 +89,35 @@ function sortData(filteredOrders) {
     var concateDataObject = {};
     var combinedOrdersAndCounts = {};
     
-    for(index = 0; index < filteredOrders["data"].length; index++) {
-        let filteredOrder = filteredOrders["data"][index];
-        switch (filteredOrder["status_name"]) {
-            case "Delayed": delayed.push(filteredOrder);
+    filteredOrders["data"].forEach( (value, key) =>{
+        switch (value["order_status_id"]) {
+            case delayedID: delayed.push(value);
             break;
-            case "Dispatching": dispatching.push(filteredOrder);
+            case dispatchingID: dispatching.push(value);
             break;
-            case "Panic": panic.push(filteredOrder);
+            case panicID: panic.push(value);
             break;
-            case "Picked-up": pickedUp.push(filteredOrder);
+            case pickedUpID: pickedUp.push(value);
         }
-    }
+    })
 
     dispatchingCount = dispatching.length;
     panicCount = panic.length;
     pickedUpCount = pickedUp.length;
     delayedCount = delayed.length;
-    counts["Dispatching jobs"] = dispatchingCount;
-    counts["Jobs en-route"] = pickedUpCount;
-    counts["Requiring attention"] = panicCount;
-    counts["Delayed Jobs"] = delayedCount;
+    counts[dispatchingID] = dispatchingCount;
+    counts[pickedUpID] = pickedUpCount;
+    counts[panicID] = panicCount;
+    counts[delayedID] = delayedCount;
 
     combinedOrdersAndCounts["activeStatusCounts"] = counts;
     
-    concateDataObject["Dispatching jobs"] = dispatching;
-    concateDataObject["Requiring attention"] = panic;
-    concateDataObject["Jobs en-route"] = pickedUp;
-    concateDataObject["Delayed Jobs"] = delayed;  
+    concateDataObject[dispatchingID] = dispatching;
+    concateDataObject[panicID] = panic;
+    concateDataObject[pickedUpID] = pickedUp;
+    concateDataObject[delayedID] = delayed;  
 
     combinedOrdersAndCounts["data"] = concateDataObject;
-
+   
     return combinedOrdersAndCounts;
 }

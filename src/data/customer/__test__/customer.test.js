@@ -45,15 +45,20 @@ test('Creating new driver account by a customer account', async () =>{
     expect('driver' in response).toBe(true);
 })
 
-// test('Test for retrieving drivers by a customer account', async () =>{
-//     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-//     const result = getTokenAsync('transaction@carpal.me', 'transactioncustomer', CONFIG.clientId, CONFIG.token);
-//     const token = await result;
-//
-//     const response = await getCustomerDriversAsync(1, 3, 1, '1,2,3', false, 1, token.accessToken);
-//
-//     expect(response instanceof Array).toBe(true);
-// })
+test('Test for retrieving drivers by a customer account', async () =>{
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    const filterObj = {
+        driverTypes: [1,2],
+        driverStatuses: [1,2,3],
+        pickupDate: 2017-10-30
+    }
+    const result = getTokenAsync('transaction@carpal.me', 'transactioncustomer', CONFIG.clientId, CONFIG.token);
+    const token = await result;
+
+    const response = await getCustomerDriversAsync(filterObj, 1, token.accessToken);
+
+    expect(response instanceof Array).toBe(true);
+})
 
 function makeid(size) {
     var text = "";
