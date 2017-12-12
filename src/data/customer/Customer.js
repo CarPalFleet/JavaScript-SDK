@@ -56,19 +56,32 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
     }
 }
 
-export const getCustomerDriversAsync = async (filterObject = {}, token) =>{
-  /* Return Mock Data. After API is ready, remove this mock data and return actual result */
-  return camelize(filterMockData('driverStatusIds', 'drivers', filterObject.driverStatusIds|| [], filterObj.resourceIds[filterObj.resourceIds-1] || 'In-house'));
+export const getCustomerDriversAsync = async (filterObject = {}, customerId, token) =>{
+    //let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
+    console.log(endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId).append('?driverTypes=1,2&driverStatuses=1'))
+    try{
+         const response = await axios({method: 'get',
+                                       url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId).append('?driverTypes=1,2&driverStatuses=1'),
+                                       headers: {'Authorization': token}})
+                                       console.log(response.data)
+         return camelize(response.data);
+    }catch(e){
+         console.log("ERROR HERE", e);
+         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    }
 
-  // return Promise.resolve(camelize(getMockData('driverStatusIds', 'drivers', filterObject.driverStatusIds|| [], filterObject.resourceIds[filterObject.resourceIds-1] || 'In-house')));
-    // try{
-    //
-    //     const response = await axios({method: 'get',
-    //                                   url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', filterObject.customerId)}?identityId=${filterObject.identityId}&productTypeId=${filterObject.productTypeId}&transactionGroupId=${filterObject.transactionGroupId || null}&driverStatusIds=${filterObject.driverStatusIds}&showDriversWithOrders=${filterObject.showDriversWithOrders}`,
-    //                                   headers: {'Authorization': token}})
-    //
-    //     return camelize(response.data.data);
-    // }catch(e){
-    //     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
-    // }
+    //   /* Return Mock Data. After API is ready, remove this mock data and return actual result */
+//   return camelize(filterMockData('driverStatusIds', 'drivers', filterObject.driverStatusIds|| [], filterObj.resourceIds[filterObj.resourceIds-1] || 'In-house'));
+
+//   return Promise.resolve(camelize(getMockData('driverStatusIds', 'drivers', filterObject.driverStatusIds|| [], filterObject.resourceIds[filterObject.resourceIds-1] || 'In-house')));
+//     try{
+    
+//         const response = await axios({method: 'get',
+//                                       url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', filterObject.customerId)}?identityId=${filterObject.identityId}&productTypeId=${filterObject.productTypeId}&transactionGroupId=${filterObject.transactionGroupId || null}&driverStatusIds=${filterObject.driverStatusIds}&showDriversWithOrders=${filterObject.showDriversWithOrders}`,
+//                                       headers: {'Authorization': token}})
+    
+//         return camelize(response.data.data);
+//     }catch(e){
+//         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+//     }
 }

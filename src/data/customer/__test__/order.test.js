@@ -33,6 +33,57 @@ import CONFIG from './Config';
 //     });
 // });
 
+// const ORDER_FILTERS = {
+//   withoutMandentoryFields: [
+//     //{ description: 'missing identityId', filters: {identityId: CONFIG.identityId}},
+//     { description: 'missing pickupDate', filters: {pickupDate: CONFIG.pickupDate}}
+//   ],
+//   withMandentoryFields: [
+//     { description: 'with mandentory fields', filters: {pickupDate: CONFIG.pickupDate, orderStatusIds: CONFIG.statusIds}},
+//     { description: 'with startPickupDate and endPickupDate', filters: {pickupDate: CONFIG.pickupDate, orderStatusIds: CONFIG.statusIds}}
+//   ]
+// }
+
+// describe('Test for customer orders with filters', () => {
+//     beforeAll(function() {
+//         jasmine.DEFAULT_TIMEOUT_INTERVAL = 999999;
+//     });
+
+//     ORDER_FILTERS.withoutMandentoryFields.forEach((value) => {
+//         it(value.description, async () => {
+//            const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+//            const token = await result;
+//            const response = await getOrdersWithFilterAsync(value.filters, 1, token.accessToken);
+    
+//             //expect(response instanceof Object).fail("Lack of mandentory fields");
+//             expect(response instanceof Object).to.be.a('function');
+//         })
+//     });
+
+//     ORDER_FILTERS.withMandentoryFields.forEach((value) => {
+//         it(value.description, async () => {
+//            const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+//            const token = await result;
+//            const response = await getOrdersWithFilterAsync(value.filters, 1, token.accessToken);
+    
+//              expect(response instanceof Array).toBeTruthy();
+//         })
+//     });
+// });
+
+test('test for get order with filter', async ()=>{
+    const filterObj = {
+        pickupDate: 2017-10-30,
+        orderStatusIds: [1,2,3]
+    }
+
+    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+    const token = await result; 
+    const response = await getOrdersWithFilterAsync(filterObj, 1, token.accessToken);
+    
+    expect(response instanceof Object).toBeTruthy();
+})
+
 test('Test for customer order detail', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
