@@ -1,8 +1,10 @@
 const CONFIG = {
-  email: 'demo@carpal.me',
-  password: 'carpaldemo',
+  email: 'supportsg@carpal.me',
+  password: 'Hoofdletter50!',
+  temail: 'nina+fleet@carpal.me',
+  tpassword: 'xs4nin',
   clientId: '2',
-  token: 'jWu9Qz4L3ha4SRgM5J6oBzAljg6f9zDzs2hIIIUh',
+  token: '8iQwaS8mJLvrW5KrGUrjDZ90bTrwk7frv4ygk7qt',
   date: '2017-11-01',
   emptyString: ''
 }
