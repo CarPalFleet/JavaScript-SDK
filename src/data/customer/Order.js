@@ -105,18 +105,19 @@ function sortData(filteredOrders) {
     panicCount = panic.length;
     pickedUpCount = pickedUp.length;
     delayedCount = delayed.length;
-    counts["dispatching"] = dispatchingCount;
-    counts["pickedUp"] = pickedUpCount;
-    counts["panic"] = panicCount;
-    counts["delayed"] = delayedCount;
+    counts[dispatchingID] = dispatchingCount;
+    counts[pickedUpID] = pickedUpCount;
+    counts[panicID] = panicCount;
+    counts[delayedID] = delayedCount;
 
     combinedOrdersAndCounts["activeStatusCounts"] = counts;
     
-    concateDataObject["dispatching"] = dispatching;
-    concateDataObject["panic"] = panic;
-    concateDataObject["pickedUp"] = pickedUp;
-    concateDataObject["delayed"] = delayed;  
+    concateDataObject[dispatchingID] = dispatching;
+    concateDataObject[panicID] = panic;
+    concateDataObject[pickedUpID] = pickedUp;
+    concateDataObject[delayedID] = delayed;  
 
     combinedOrdersAndCounts["data"] = concateDataObject;
+   
     return combinedOrdersAndCounts;
 }
