@@ -48,9 +48,9 @@ test('Creating new driver account by a customer account', async () =>{
 test('Test for retrieving drivers by a customer account', async () =>{
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const filterObj = {
-        driverStatusIds: 2,
-        orderRouteTypeIds: 1,
-        driverTypeIds: 1
+        driverStatusIds: [2],
+        orderRouteTypeIds: [1,2],
+        driverTypeIds: [1,2,3]
     }
     const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.token);
     const token = await result;
