@@ -56,32 +56,83 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
     }
 }
 
-export const getCustomerDriversAsync = async (filterObject = {}, customerId, token) =>{
-    //let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
-    console.log(endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId).append('?driverTypes=1,2&driverStatuses=1'))
+export const getCustomerDriversAsync = async (filterObject = {}, customerId, token, validationStatus = false) =>{
+    let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
     try{
          const response = await axios({method: 'get',
-                                       url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId).append('?driverTypes=1,2&driverStatuses=1'),
-                                       headers: {'Authorization': token}})
-                                       console.log(response.data)
-         return camelize(response.data);
+                                       url: endpoint.CUSTOMER_DRIVERS.replace('{0}', customerId) + "?" + paramString,
+                                       headers: {'Authorization': token}}) 
+        return camelize(sortData(response));
     }catch(e){
          console.log("ERROR HERE", e);
          return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
+}
 
-    //   /* Return Mock Data. After API is ready, remove this mock data and return actual result */
-//   return camelize(filterMockData('driverStatusIds', 'drivers', filterObject.driverStatusIds|| [], filterObj.resourceIds[filterObj.resourceIds-1] || 'In-house'));
+function sortData(filteredOrders) {
+    const driverTypeInHouse = 1;
+    const driverTypePublic = 2;
+    const driverTypeServiceProvider = 3;
+    
+    const driverStatusActive = 1;
+    const driverStatusWithRoute = 2;
+    const driverStatusIdle = 3;
+    const driverStatusInactive = 4;
+    
+    var driverStatusActiveObj = [];
+    var driverStatusWithRouteObj = [];
+    var driverStatusIdleObj = [];
+    var driverStatusInactiveObj = [];
+    var driverTypeInHouseObj = [];
+    var driverTypePublicObj = [];
+    var driverTypeServiceProviderObj = [];
 
-//   return Promise.resolve(camelize(getMockData('driverStatusIds', 'drivers', filterObject.driverStatusIds|| [], filterObject.resourceIds[filterObject.resourceIds-1] || 'In-house')));
-//     try{
+    var driverStatusCounts = {};
+    var driverTypeCounts = {};
+    var concateDataObject = {};
+    var combinedDriversAndCounts = {};
     
-//         const response = await axios({method: 'get',
-//                                       url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', filterObject.customerId)}?identityId=${filterObject.identityId}&productTypeId=${filterObject.productTypeId}&transactionGroupId=${filterObject.transactionGroupId || null}&driverStatusIds=${filterObject.driverStatusIds}&showDriversWithOrders=${filterObject.showDriversWithOrders}`,
-//                                       headers: {'Authorization': token}})
+    filteredOrders["data"].forEach( (value, key) =>{
+        switch (value["driver_status_id"]) {
+            case driverStatusActive: driverStatusActiveObj.push(value);
+            break;
+            case driverStatusWithRoute: driverStatusWithRouteObj.push(value);
+            break;
+            case driverStatusIdle: driverStatusIdleObj.push(value);
+            break;
+            case driverStatusInactive: driverStatusInactiveObj.push(value);
+        }
+    })
+
+    filteredOrders["data"].forEach( (value, key) =>{
+        switch (value["driver_type_id"]) {
+            case driverTypeInHouse: driverTypeInHouseObj.push(value);
+            break;
+            case driverTypePublic: driverTypePublicObj.push(value);
+            break;
+            case driverTypeServiceProvider: driverTypeServiceProviderObj.push(value);
+        }
+    })
+
+    driverStatusCounts[driverStatusActive] = driverStatusActiveObj.length;
+    driverStatusCounts[driverStatusWithRoute] = driverStatusWithRouteObj.length;
+    driverStatusCounts[driverStatusIdle] = driverStatusIdleObj.length;
+    driverStatusCounts[driverStatusInactive] = driverStatusInactiveObj.length;
+
+    combinedDriversAndCounts["driverStatusCounts"] = driverStatusCounts;
+
+    driverTypeCounts[driverTypeInHouse] = driverTypeInHouseObj.length;
+    driverTypeCounts[driverTypePublic] = driverTypePublicObj.length;
+    driverTypeCounts[driverTypeServiceProvider] = driverTypeServiceProviderObj.length;
+
+    combinedDriversAndCounts["driverTypeCounts"] = driverTypeCounts;
     
-//         return camelize(response.data.data);
-//     }catch(e){
-//         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
-//     }
+    concateDataObject[driverStatusActive] = driverStatusActiveObj;
+    concateDataObject[driverStatusWithRoute] = driverStatusWithRouteObj;
+    concateDataObject[driverStatusIdle] = driverStatusIdleObj;
+    concateDataObject[driverStatusInactive] = driverStatusInactiveObj;  
+
+    combinedDriversAndCounts["data"] = concateDataObject;
+    
+    return combinedDriversAndCounts;
 }
