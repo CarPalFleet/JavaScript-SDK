@@ -2,7 +2,8 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 
-export const searchAsync = async (keywords, fuzzy=true, fuzziness, token)=>{
+<<<<<<< HEAD
+export const searchAsync = async (keywords, fuzzy=true, fuzziness=1, token)=>{
     try{
         const response = await axios({method: 'get',
                                       url: `${endpoints.ELASTICSEARCH}?keyword=${keywords}&fuzzy=${fuzzy}&fuzziness=${fuzziness}`,
