@@ -78,6 +78,8 @@ function sortData(filteredOrders) {
     const driverStatusWithRoute = 2;
     const driverStatusIdle = 3;
     const driverStatusInactive = 4;
+
+    var statusCount;
     
     var driverStatusActiveObj = [];
     var driverStatusWithRouteObj = [];
@@ -105,13 +107,15 @@ function sortData(filteredOrders) {
     })
 
     filteredOrders["data"].forEach( (value, key) =>{
-        switch (value["driver_type_id"]) {
-            case driverTypeInHouse: driverTypeInHouseObj.push(value);
-            break;
-            case driverTypePublic: driverTypePublicObj.push(value);
-            break;
-            case driverTypeServiceProvider: driverTypeServiceProviderObj.push(value);
-        }
+         value["driver_type_ids"].forEach((value, key) =>{
+            switch(value){
+                case driverTypeInHouse: driverTypeInHouseObj.push(value);
+                break;
+                case driverTypePublic: driverTypePublicObj.push(value);
+                break;
+                case driverTypeServiceProvider: driverTypeServiceProviderObj.push(value);
+             }
+         }) 
     })
 
     driverStatusCounts[driverStatusActive] = driverStatusActiveObj.length;
@@ -126,7 +130,11 @@ function sortData(filteredOrders) {
     driverTypeCounts[driverTypeServiceProvider] = driverTypeServiceProviderObj.length;
 
     combinedDriversAndCounts["driverTypeCounts"] = driverTypeCounts;
-    
+
+    statusCount = driverStatusActiveObj.length + driverStatusWithRouteObj.length + driverStatusIdleObj.length + driverStatusInactiveObj.length;
+
+    combinedDriversAndCounts["totalStatusCounts"] = statusCount;    
+
     concateDataObject[driverStatusActive] = driverStatusActiveObj;
     concateDataObject[driverStatusWithRoute] = driverStatusWithRouteObj;
     concateDataObject[driverStatusIdle] = driverStatusIdleObj;
