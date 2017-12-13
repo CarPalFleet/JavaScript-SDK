@@ -2,7 +2,6 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 
-<<<<<<< HEAD
 export const searchAsync = async (keywords, fuzzy=true, fuzziness=1, token)=>{
     try{
         const response = await axios({method: 'get',
