@@ -56,15 +56,32 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
     }
 }
 
-export const getCustomerDriversWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false) =>{
+// export const getCustomerDriversWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false) =>{
+//     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
+//     try{
+//          const response = await axios({method: 'get',
+//                                        url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId) + `?${paramString}`,
+//                                        headers: {'Authorization': token}})
+//         return camelize(categoriesCustomerDrivers(response));
+//     }catch(e){
+//          return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+//     }
+// }
+
+export const getCustomerDriversWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
     try{
          const response = await axios({method: 'get',
                                        url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId) + `?${paramString}`,
                                        headers: {'Authorization': token}})
-        return camelize(categoriesCustomerDrivers(response));
+         return camelize(categoriesCustomerDrivers(response.data));
     }catch(e){
-         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+      if (e.response) {
+        console.log("REJECT", e)
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+      } else {
+        console.log("ERROR", e)
+      }
     }
 }
 
