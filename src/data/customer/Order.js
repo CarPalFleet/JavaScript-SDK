@@ -15,7 +15,7 @@ export const getCustomerOrdersWithFiltersAsync = async (filterObject = {}, custo
     }
 }
 
-export const getCustomerOrderCountsAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{
+export const getCustomerOrderCountsAsync = async (customerId, token)=>{
     try{
          const response = await axios({method: 'get',
                                        url: endpoints.CUSTOMER_ORDERS.replace('{0}', customerId),
