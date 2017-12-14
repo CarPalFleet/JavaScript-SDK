@@ -61,7 +61,7 @@ export const getCustomerDriversAsync = async (filterObject = {}, customerId, tok
     try{
          const response = await axios({method: 'get',
                                        url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId) + "?" + paramString,
-                                       headers: {'Authorization': token}}) 
+                                       headers: {'Authorization': token}})
         return camelize(sortData(response));
     }catch(e){
          console.log("ERROR HERE", e);
@@ -73,14 +73,14 @@ function sortData(filteredOrders) {
     const driverTypeInHouse = 1;
     const driverTypePublic = 2;
     const driverTypeServiceProvider = 3;
-    
+
     const driverStatusActive = 1;
     const driverStatusWithRoute = 2;
     const driverStatusIdle = 3;
     const driverStatusInactive = 4;
 
-    var statusCount = 1; //Hardcoded: currently the "counts" is not updated in DynamoDB
-    
+    var statusCount = filteredOrders["counts"];
+
     var driverStatusActiveObj = [];
     var driverStatusWithRouteObj = [];
     var driverStatusIdleObj = [];
@@ -93,7 +93,7 @@ function sortData(filteredOrders) {
     var driverTypeCounts = {};
     var concateDataObject = {};
     var combinedDriversAndCounts = {};
-    
+
     filteredOrders["data"].forEach( (value, key) =>{
         switch (value["driver_status_id"]) {
             case driverStatusActive: driverStatusActiveObj.push(value);
@@ -115,7 +115,7 @@ function sortData(filteredOrders) {
                 break;
                 case driverTypeServiceProvider: driverTypeServiceProviderObj.push(value);
              }
-         }) 
+         })
     })
 
     driverStatusCounts[driverStatusActive] = driverStatusActiveObj.length;
@@ -131,14 +131,14 @@ function sortData(filteredOrders) {
 
     combinedDriversAndCounts["driverTypeCounts"] = driverTypeCounts;
 
-    combinedDriversAndCounts["totalStatusCounts"] = statusCount;    
+    combinedDriversAndCounts["totalStatusCounts"] = statusCount;
 
     concateDataObject[driverStatusActive] = driverStatusActiveObj;
     concateDataObject[driverStatusWithRoute] = driverStatusWithRouteObj;
     concateDataObject[driverStatusIdle] = driverStatusIdleObj;
-    concateDataObject[driverStatusInactive] = driverStatusInactiveObj;  
+    concateDataObject[driverStatusInactive] = driverStatusInactiveObj;
 
     combinedDriversAndCounts["data"] = concateDataObject;
-    
+
     return combinedDriversAndCounts;
 }
