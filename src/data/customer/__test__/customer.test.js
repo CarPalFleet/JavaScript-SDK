@@ -52,7 +52,7 @@ test('Test for retrieving drivers by a customer account', async () =>{
         orderRouteTypeIds: [1,2],
         driverTypeIds: [1,2,3]
     }
-    const result = getTokenAsync('transaction@carpal.me', 'transactioncustomer', CONFIG.clientId, CONFIG.token);
+    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.token);
     const token = await result;
 
     const response = await getCustomerDriversAsync(filterObj, 1, token.accessToken);
