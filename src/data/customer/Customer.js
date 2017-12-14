@@ -79,7 +79,7 @@ function sortData(filteredOrders) {
     const driverStatusIdle = 3;
     const driverStatusInactive = 4;
 
-    var statusCount;
+    var statusCount = 1; //Hardcoded: currently the "counts" is not updated in DynamoDB
     
     var driverStatusActiveObj = [];
     var driverStatusWithRouteObj = [];
@@ -130,8 +130,6 @@ function sortData(filteredOrders) {
     driverTypeCounts[driverTypeServiceProvider] = driverTypeServiceProviderObj.length;
 
     combinedDriversAndCounts["driverTypeCounts"] = driverTypeCounts;
-
-    statusCount = driverStatusActiveObj.length + driverStatusWithRouteObj.length + driverStatusIdleObj.length + driverStatusInactiveObj.length;
 
     combinedDriversAndCounts["totalStatusCounts"] = statusCount;    
 
