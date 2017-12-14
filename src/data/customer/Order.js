@@ -3,7 +3,7 @@ import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import filterMockData from './mockData';
 
-export const getCustomerDriversWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{
+export const getCustomerOrdersWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
     try{
          const response = await axios({method: 'get',
