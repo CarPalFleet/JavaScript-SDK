@@ -3,15 +3,25 @@ import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import filterMockData from './mockData';
 
-export const getOrdersWithFilterAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{
+export const getCustomerOrdersWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
     try{
          const response = await axios({method: 'get',
-                                       url: endpoints.ORDERS_WITH_FILTERS.replace('{0}', customerId).replace('{1}', paramString),
+                                       url: endpoints.CUSTOMER_ORDERS.replace('{0}', customerId) + `?${paramString}`,
                                        headers: {'Authorization': token}})
-         return camelize(sortData(response.data));
+         return camelize(categoriesCustomerOrders(response.data));
     }catch(e){
-         console.log("ERROR HERE", e);
+         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    }
+}
+
+export const getCustomerOrderCountsAsync = async (customerId, token)=>{
+    try{
+         const response = await axios({method: 'get',
+                                       url: endpoints.CUSTOMER_ORDERS.replace('{0}', customerId),
+                                       headers: {'Authorization': token}})
+         return calculateCustomerOrderCounts(response.data);
+    }catch(e){
          return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
@@ -69,7 +79,20 @@ export const getDeliveryWindows = async (customerId, identityId, productTypeId, 
     }
 }
 
-function sortData(filteredOrders) {
+function calculateCustomerOrderCounts(data) {
+  // Calcuate Counts
+  return {
+    totalStatusCounts: 14,
+    activeStatusCounts: {
+      2: 5,
+      5: 4,
+      7: 2,
+      9: 3
+    }
+  }
+}
+
+function categoriesCustomerOrders(filteredOrders) {
     const delayedID = 9;
     const dispatchingID = 2;
     const pickedUpID = 5;
@@ -77,17 +100,10 @@ function sortData(filteredOrders) {
 
     let index;
     let delayed = [];
-    let delayedCount;
     let dispatching = [];
-    let dispatchingCount;
     let panic = [];
-    let panicCount;
     let pickedUp = [];
-    let pickedUpCount;
-
-    var counts = {};
     var concateDataObject = {};
-    var combinedOrdersAndCounts = {};
 
     filteredOrders["data"].forEach( (value, key) =>{
         switch (value["order_status_id"]) {
@@ -101,24 +117,9 @@ function sortData(filteredOrders) {
         }
     })
 
-    dispatchingCount = dispatching.length;
-    panicCount = panic.length;
-    pickedUpCount = pickedUp.length;
-    delayedCount = delayed.length;
-    counts[dispatchingID] = dispatchingCount;
-    counts[pickedUpID] = pickedUpCount;
-    counts[panicID] = panicCount;
-    counts[delayedID] = delayedCount;
-
-    combinedOrdersAndCounts["activeStatusCounts"] = counts;
-    combinedOrdersAndCounts["totalStatusCounts"] = 12; //It will be updated after api wrapper calculated the total counts
-
     concateDataObject[dispatchingID] = dispatching;
     concateDataObject[panicID] = panic;
     concateDataObject[pickedUpID] = pickedUp;
     concateDataObject[delayedID] = delayed;
-
-    combinedOrdersAndCounts["data"] = concateDataObject;
-
-    return combinedOrdersAndCounts;
+    return {data: concateDataObject};
 }
