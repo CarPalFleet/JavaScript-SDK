@@ -12,7 +12,7 @@ export const getOrdersWithFilterAsync = async (filterObject = {}, customerId, to
          return camelize(sortData(response.data));
     }catch(e){
          console.log("ERROR HERE", e);
-         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+         return Promise.reject({statusCode: e.response && e.response.status, statusText: e.response.statusText});
     }
 }
 
