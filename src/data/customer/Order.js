@@ -84,10 +84,10 @@ function calculateCustomerOrderCounts(data) {
   return {
     totalStatusCounts: 14,
     activeStatusCounts: {
-      1: 5,
-      2: 4,
-      3: 2,
-      4: 3
+      2: 5,
+      5: 4,
+      7: 2,
+      9: 3
     }
   }
 }
