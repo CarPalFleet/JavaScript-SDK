@@ -111,7 +111,7 @@ function sortData(filteredOrders) {
     counts[delayedID] = delayedCount;
 
     combinedOrdersAndCounts["activeStatusCounts"] = counts;
-    combinedOrdersAndCounts["totalStatusCounts"] = 12; //It will be updated after api wrapper calculated the total counts
+    combinedOrdersAndCounts["totalStatusCounts"] = filteredOrders["counts"];
 
     concateDataObject[dispatchingID] = dispatching;
     concateDataObject[panicID] = panic;
