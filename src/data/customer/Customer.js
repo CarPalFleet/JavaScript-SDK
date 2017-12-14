@@ -60,7 +60,7 @@ export const getCustomerDriversAsync = async (filterObject = {}, customerId, tok
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
     try{
          const response = await axios({method: 'get',
-                                       url: endpoint.CUSTOMER_DRIVERS.replace('{0}', customerId) + "?" + paramString,
+                                       url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId) + "?" + paramString,
                                        headers: {'Authorization': token}}) 
         return camelize(sortData(response));
     }catch(e){
