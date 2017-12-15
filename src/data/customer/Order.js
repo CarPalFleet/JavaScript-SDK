@@ -15,10 +15,11 @@ export const getCustomerOrdersWithFiltersAsync = async (filterObject = {}, custo
     }
 }
 
-export const getCustomerOrderCountsAsync = async (customerId, token)=>{
+export const getCustomerOrderCountsAsync = async (pickupDate, customerId, token)=>{
+    let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
     try{
          const response = await axios({method: 'get',
-                                       url: endpoints.CUSTOMER_ORDERS.replace('{0}', customerId),
+                                       url: endpoints.CUSTOMER_ORDERS.replace('{0}', customerId) + `?${paramString}`,
                                        headers: {'Authorization': token}})
          return calculateCustomerOrderCounts(response.data);
     }catch(e){
@@ -81,22 +82,20 @@ export const getDeliveryWindows = async (customerId, identityId, productTypeId, 
 
 function calculateCustomerOrderCounts(data) {
   let orders = categoriesCustomerOrders(data);
+  let countData = {totalStatusCounts: 0, activeStatusCounts: {}};
   return Object.keys(orders.data).reduce(function(counts, value){
   	counts.activeStatusCounts[value]= orders.data[value].length;
   	counts.totalStatusCounts += orders.data[value].length;
   	return counts;
-  },
-    {totalStatusCounts: 0, activeStatusCounts: {}}
-  );
+  }, countData);
 }
 
-function categoriesCustomerOrders(drivers) {
+function categoriesCustomerOrders(drivers, format) {
+  let responseData = {2: [], 5: [], 7: [], 9: []};
   return {data: drivers['data'].reduce((data, value) => {
     if (data[value.order_status_id]) {
       data[value.order_status_id].push(value);
     }
     return data;
-  },
-    {2: [], 5: [], 7: [], 9: []}
-  )}
+  }, responseData)}
 }
