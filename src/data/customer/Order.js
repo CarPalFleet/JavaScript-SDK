@@ -15,7 +15,7 @@ export const getCustomerOrdersWithFiltersAsync = async (filterObject = {}, custo
     }
 }
 
-export const getCustomerOrderCountsAsync = async (pickupDate, customerId, token)=>{
+export const getCustomerOrderCountsAsync = async (filterObject, customerId, token)=>{
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
     try{
          const response = await axios({method: 'get',
@@ -90,7 +90,7 @@ function calculateCustomerOrderCounts(data) {
   }, countData);
 }
 
-function categoriesCustomerOrders(drivers, format) {
+function categoriesCustomerOrders(drivers) {
   let responseData = {2: [], 5: [], 7: [], 9: []};
   return {data: drivers['data'].reduce((data, value) => {
     if (data[value.order_status_id]) {
