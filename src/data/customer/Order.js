@@ -80,46 +80,23 @@ export const getDeliveryWindows = async (customerId, identityId, productTypeId, 
 }
 
 function calculateCustomerOrderCounts(data) {
-  // Calcuate Counts
-  return {
-    totalStatusCounts: 14,
-    activeStatusCounts: {
-      2: 5,
-      5: 4,
-      7: 2,
-      9: 3
-    }
-  }
+  let orders = categoriesCustomerOrders(data);
+  return Object.keys(orders.data).reduce(function(counts, value){
+  	counts.activeStatusCounts[value]= orders.data[value].length;
+  	counts.totalStatusCounts += orders.data[value].length;
+  	return counts;
+  },
+    {totalStatusCounts: 0, activeStatusCounts: {}}
+  );
 }
 
-function categoriesCustomerOrders(filteredOrders) {
-    const delayedID = 9;
-    const dispatchingID = 2;
-    const pickedUpID = 5;
-    const panicID = 7;
-
-    let index;
-    let delayed = [];
-    let dispatching = [];
-    let panic = [];
-    let pickedUp = [];
-    var concateDataObject = {};
-
-    filteredOrders["data"].forEach( (value, key) =>{
-        switch (value["order_status_id"]) {
-            case delayedID: delayed.push(value);
-            break;
-            case dispatchingID: dispatching.push(value);
-            break;
-            case panicID: panic.push(value);
-            break;
-            case pickedUpID: pickedUp.push(value);
-        }
-    })
-
-    concateDataObject[dispatchingID] = dispatching;
-    concateDataObject[panicID] = panic;
-    concateDataObject[pickedUpID] = pickedUp;
-    concateDataObject[delayedID] = delayed;
-    return {data: concateDataObject};
+function categoriesCustomerOrders(drivers) {
+  return {data: drivers['data'].reduce((data, value) => {
+    if (data[value.order_status_id]) {
+      data[value.order_status_id].push(value);
+    }
+    return data;
+  },
+    {2: [], 5: [], 7: [], 9: []}
+  )}
 }
