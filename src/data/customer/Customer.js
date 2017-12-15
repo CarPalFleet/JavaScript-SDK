@@ -76,7 +76,7 @@ export const getCustomerDriverCountsAsync = async (filterObject = {}, customerId
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
     try{
          const response = await axios({method: 'get',
-                                       url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId) + `?${paramString}`,
+                                       url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),
                                        headers: {'Authorization': token}})
         return calculateCustomerDriverCounts(response.data, filterObject.driverTypeIds);
     }catch(e){
@@ -84,7 +84,7 @@ export const getCustomerDriverCountsAsync = async (filterObject = {}, customerId
     }
 }
 
-function calculateCustomerDriverCounts(data, driverTypeIds = [2]) {
+function calculateCustomerDriverCounts(data, driverTypeIds) {
   let countData = {totalStatusCounts: 0, activeStatusCounts: {1:0, 2:0, 3:0, 4:0}, driverTypeCounts: {1:0, 2:0, 3:0}};
   let drivers = categoriesCustomerDriversForCount(data, countData, driverTypeIds);
   return Object.keys(drivers.data).reduce(function(counts, value){
@@ -93,9 +93,9 @@ function calculateCustomerDriverCounts(data, driverTypeIds = [2]) {
       driverTypeIds.forEach(function(driverTypeId) {
         if (driverTypeId == value) {
           counts.activeStatusCounts[key] += count;
+          counts.totalStatusCounts += count;
         }
       })
-  		counts.totalStatusCounts += count;
 		  counts.driverTypeCounts[value] += count;
 	})
   	return counts;

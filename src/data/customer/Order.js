@@ -90,9 +90,9 @@ function calculateCustomerOrderCounts(data) {
   }, countData);
 }
 
-function categoriesCustomerOrders(drivers) {
+function categoriesCustomerOrders(orders) {
   let responseData = {2: [], 5: [], 7: [], 9: []};
-  return {data: drivers['data'].reduce((data, value) => {
+  return {data: orders['data'].reduce((data, value) => {
     if (data[value.order_status_id]) {
       data[value.order_status_id].push(value);
     }
