@@ -123,7 +123,7 @@ function categoriesCustomerDrivers(drivers) {
     }
     return data;
   },
-    {1: {1: [], 2: [], 3: [], 4: []}
+    {1: {1: [], 2: [], 3: [], 4: []}}
   )}
 }
 
