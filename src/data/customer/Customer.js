@@ -56,79 +56,70 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
     }
 }
 
-export const getCustomerDriversWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false) =>{
+export const getCustomerDriversWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
     try{
          const response = await axios({method: 'get',
                                        url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId) + `?${paramString}`,
                                        headers: {'Authorization': token}})
-        return camelize(categoriesCustomerDrivers(response));
+         return camelize(categoriesCustomerDrivers(response.data));
     }catch(e){
-<<<<<<< HEAD
-         console.log("ERROR HERE", e);
-         return Promise.reject({statusCode: e.response && e.response.status, statusText: e.response.statusText});
-=======
-         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
->>>>>>> 747820263845b153cd60ebb5042502a71bc6416d
+      if (e.response) {
+        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+      } else {
+        console.error(e)
+      }
     }
 }
 
-export const getCustomerDriverCountsAsync = async (customerId, token) =>{
+export const getCustomerDriverCountsAsync = async (filterObject = {}, customerId, token) =>{
+    let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
     try{
          const response = await axios({method: 'get',
                                        url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),
                                        headers: {'Authorization': token}})
-        return calculateCustomerDriverCounts(response);
+        return calculateCustomerDriverCounts(response.data, filterObject.driverTypeIds);
     }catch(e){
          return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
 
-function calculateCustomerDriverCounts(data) {
-  // Calcuate Counts
-  return {
-    totalStatusCounts: 12,
-    activeStatusCounts: {
-      1: 4,
-      2: 2,
-      3: 3,
-      4: 3
-    },
-    driverTypeCounts: {
-      1: 12,
-      2: 10,
-      3: 13
-    }
-  }
+function calculateCustomerDriverCounts(data, driverTypeIds) {
+  let countData = {totalStatusCounts: 0, activeStatusCounts: {1:0, 2:0, 3:0, 4:0}, driverTypeCounts: {1:0, 2:0, 3:0}};
+  let drivers = categoriesCustomerDriversForCount(data, countData, driverTypeIds);
+  return Object.keys(drivers.data).reduce(function(counts, value){
+  	Object.keys(drivers.data[value]).forEach(function(key){
+      let count = drivers.data[value][key].length;
+      driverTypeIds.forEach(function(driverTypeId) {
+        if (driverTypeId == value) {
+          counts.activeStatusCounts[key] += count;
+          counts.totalStatusCounts += count;
+        }
+      })
+		  counts.driverTypeCounts[value] += count;
+	})
+  	return counts;
+  }, countData);
 }
 
-function categoriesCustomerDrivers(filteredOrders) {
-    const driverStatusActive = 1;
-    const driverStatusWithRoute = 2;
-    const driverStatusIdle = 3;
-    const driverStatusInactive = 4;
-
-    var driverStatusActiveObj = [];
-    var driverStatusWithRouteObj = [];
-    var driverStatusIdleObj = [];
-    var driverStatusInactiveObj = [];
-    var concateDataObject = {};
-
-    filteredOrders["data"].forEach( (value, key) =>{
-        switch (value["driver_status_id"]) {
-            case driverStatusActive: driverStatusActiveObj.push(value);
-            break;
-            case driverStatusWithRoute: driverStatusWithRouteObj.push(value);
-            break;
-            case driverStatusIdle: driverStatusIdleObj.push(value);
-            break;
-            case driverStatusInactive: driverStatusInactiveObj.push(value);
+function categoriesCustomerDriversForCount(drivers) {
+  let responseData = { 1: {1: [], 2: [], 3: [], 4: []}, 2: {1: [], 2: [], 3: [], 4: []}, 3: {1: [], 2: [], 3: [], 4: []}}
+  return {data: drivers['data'].reduce((data, value) => {
+      value.driver_type_ids.forEach((v, k) => {
+        if (data[v][value.driver_status_id]) {
+          data[v][value.driver_status_id].push(value);
         }
-    });
+      });
+    return data;
+  }, responseData)}
+}
 
-    concateDataObject[driverStatusActive] = driverStatusActiveObj;
-    concateDataObject[driverStatusWithRoute] = driverStatusWithRouteObj;
-    concateDataObject[driverStatusIdle] = driverStatusIdleObj;
-    concateDataObject[driverStatusInactive] = driverStatusInactiveObj;
-    return {data: concateDataObject}
+function categoriesCustomerDrivers(drivers) {
+  let responseData = {1: [], 2: [], 3: [], 4: []};
+  return {data: drivers['data'].reduce((data, value) => {
+    if (data[value.driver_status_id]) {
+      data[value.driver_status_id].push(value);
+    }
+    return data;
+  }, responseData)}
 }
