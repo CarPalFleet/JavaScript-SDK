@@ -98,7 +98,6 @@ export const updateJobLiveData = (originalJobDatum, pubSubPayload, pickupDate) =
     }
 
     let jobStatusKeys = Object.keys(originalJobDatum['data']);
-    let newJobs = {};
     let matchedPayload = jobStatusKeys.reduce((matchedPayload, statusId) => {
       let index = originalJobDatum['data'][statusId].findIndex((order) => {
         return pubSubPayload.orderId == order.orderId; //orderId might be string/integer;
@@ -108,17 +107,13 @@ export const updateJobLiveData = (originalJobDatum, pubSubPayload, pickupDate) =
         matchedPayload.statusId = statusId;
         matchedPayload.index = index;
         matchedPayload.data = originalJobDatum['data'][statusId][index];
-        matchedPayload.changeStatusId = originalJobDatum['data'][statusId][index]['orderStatusId'] !== pubSubPayload.orderStatusId;
       }
       return matchedPayload;
     }, {isDataExist: false, statusId: 0, index: -1, data: {}});
 
     if (matchedPayload.isDataExist) {
-        if (matchedPayload.changeStatusId) {
-            // update activeStatusCounts
-            originalJobDatum['activeStatusCounts'][matchedPayload.data.orderStatusId] -= 1;
-            originalJobDatum['activeStatusCounts'][pubSubPayload.orderStatusId] += 1;
-        }
+        // update activeStatusCounts
+        originalJobDatum['activeStatusCounts'][pubSubPayload.orderStatusId] += 1;
         delete originalJobDatum['data'][matchedPayload.statusId].splice(matchedPayload.index, 1);
     } else originalJobDatum['totalStatusCounts'] += 1;
     //update data Object
