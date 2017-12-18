@@ -81,7 +81,7 @@ export const getDeliveryWindows = async (customerId, identityId, productTypeId, 
     }
 }
 
-export const updateJobLiveData = (existingJobs, pubSubPayload, pickupDate) => {
+export const updateJobLiveData = (originalJobDatum, pubSubPayload, pickupDate) => {
   try{
     pubSubPayload = camelize(pubSubPayload.payload);
     // If orderStatusId is 1, change into 2. #laraval side will handle it later.
@@ -91,24 +91,24 @@ export const updateJobLiveData = (existingJobs, pubSubPayload, pickupDate) => {
     // If it's includes in const orderStatusIds Array (OR)
     // the pickupDate isn't today, return originData to frontEnd
     if (
-      orderStatusIds.includes(pubSubPayload.orderStatusId) ||
+      !orderStatusIds.includes(pubSubPayload.orderStatusId) ||
       moment().format('YYYY-MM-DD') !== pickupDate
     ) {
-      return existingJobs;
+      return originalJobDatum;
     }
 
-    let jobStatusKeys = Object.keys(existingJobs['data']);
+    let jobStatusKeys = Object.keys(originalJobDatum['data']);
     let newJobs = {};
     let matchedPayload = jobStatusKeys.reduce((matchedPayload, statusId) => {
-      let index = existingJobs['data'][statusId].findIndex((order) => {
+      let index = originalJobDatum['data'][statusId].findIndex((order) => {
         return pubSubPayload.orderId == order.orderId; //orderId might be string/integer;
       })
       if (index >= 0) {
         matchedPayload.isDataExist = true;
         matchedPayload.statusId = statusId;
         matchedPayload.index = index;
-        matchedPayload.data = existingJobs['data'][statusId][index];
-        matchedPayload.changeStatusId = existingJobs['data'][statusId][index]['orderStatusId'] !== pubSubPayload.orderStatusId;
+        matchedPayload.data = originalJobDatum['data'][statusId][index];
+        matchedPayload.changeStatusId = originalJobDatum['data'][statusId][index]['orderStatusId'] !== pubSubPayload.orderStatusId;
       }
       return matchedPayload;
     }, {isDataExist: false, statusId: 0, index: -1, data: {}});
@@ -116,14 +116,14 @@ export const updateJobLiveData = (existingJobs, pubSubPayload, pickupDate) => {
     if (matchedPayload.isDataExist) {
         if (matchedPayload.changeStatusId) {
             // update activeStatusCounts
-            existingJobs['activeStatusCounts'][matchedPayload.data.orderStatusId] -= 1;
-            existingJobs['activeStatusCounts'][pubSubPayload.orderStatusId] += 1;
+            originalJobDatum['activeStatusCounts'][matchedPayload.data.orderStatusId] -= 1;
+            originalJobDatum['activeStatusCounts'][pubSubPayload.orderStatusId] += 1;
         }
-        delete existingJobs['data'][matchedPayload.statusId].splice(matchedPayload.index, 1);
-    } else existingJobs['totalStatusCounts'] += 1;
+        delete originalJobDatum['data'][matchedPayload.statusId].splice(matchedPayload.index, 1);
+    } else originalJobDatum['totalStatusCounts'] += 1;
     //update data Object
-    existingJobs['data'][pubSubPayload.orderStatusId].push(pubSubPayload);
-    return existingJobs;
+    originalJobDatum['data'][pubSubPayload.orderStatusId].push(pubSubPayload);
+    return originalJobDatum;
   }catch(e){
     return {statusCode: '500', statusText: 'Error in updating job live data'};
   }
