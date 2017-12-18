@@ -15,14 +15,15 @@ export const getCustomerOrdersWithFiltersAsync = async (filterObject = {}, custo
     }
 }
 
-export const getCustomerOrderCountsAsync = async (customerId, token)=>{
+export const getCustomerOrderCountsAsync = async (filterObject, customerId, token)=>{
+    let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
     try{
          const response = await axios({method: 'get',
-                                       url: endpoints.CUSTOMER_ORDERS.replace('{0}', customerId),
+                                       url: endpoints.CUSTOMER_ORDERS.replace('{0}', customerId) + `?${paramString}`,
                                        headers: {'Authorization': token}})
          return calculateCustomerOrderCounts(response.data);
     }catch(e){
-         return Promise.reject({statusCode: e.response && e.response.status, statusText: e.response.statusText});
+         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
 
@@ -79,47 +80,57 @@ export const getDeliveryWindows = async (customerId, identityId, productTypeId, 
     }
 }
 
-function calculateCustomerOrderCounts(data) {
-  // Calcuate Counts
-  return {
-    totalStatusCounts: 14,
-    activeStatusCounts: {
-      2: 5,
-      5: 4,
-      7: 2,
-      9: 3
+export const updateJobLiveData = (existingJobs, pubSubPayload) => {
+    try{
+      pubSubPayload = camelize(pubSubPayload.payload);
+      let jobStatusKeys = Object.keys(existingJobs['data']);
+      let newJobs = {};
+      let matchedPayload = jobStatusKeys.reduce((matchedPayload, statusId) => {
+        let index = existingJobs['data'][statusId].findIndex((order) => {
+          return pubSubPayload.orderId == order.orderId; //orderId might be string/integer;
+        })
+        if (index >= 0) {
+          matchedPayload.isDataExist = true;
+          matchedPayload.statusId = statusId;
+          matchedPayload.index = index;
+          matchedPayload.data = existingJobs['data'][statusId][index];
+          matchedPayload.changeStatusId = existingJobs['data'][statusId][index]['orderStatusId'] !== pubSubPayload.orderStatusId;
+        }
+        return matchedPayload;
+      }, {isDataExist: false, statusId: 0, index: -1, data: {}});
+
+      if (matchedPayload.isDataExist) {
+          if (matchedPayload.changeStatusId) {
+              // update activeStatusCounts
+              existingJobs['activeStatusCounts'][matchedPayload.data.orderStatusId] -= 1;
+              existingJobs['activeStatusCounts'][pubSubPayload.orderStatusId] += 1;
+          }
+          delete existingJobs['data'][matchedPayload.statusId].splice(matchedPayload.index, 1);
+      } else existingJobs['totalStatusCounts'] += 1;
+      //update data Object
+      existingJobs['data'][pubSubPayload.orderStatusId].push(pubSubPayload);
+      return existingJobs;
+    }catch(e){
+        return {statusCode: '500', statusText: 'Error in PubSub'};
     }
-  }
 }
 
-function categoriesCustomerOrders(filteredOrders) {
-    const delayedID = 9;
-    const dispatchingID = 2;
-    const pickedUpID = 5;
-    const panicID = 7;
+function calculateCustomerOrderCounts(data) {
+  let orders = categoriesCustomerOrders(data);
+  let countData = {totalStatusCounts: 0, activeStatusCounts: {}};
+  return Object.keys(orders.data).reduce(function(counts, value){
+  	counts.activeStatusCounts[value]= orders.data[value].length;
+  	counts.totalStatusCounts += orders.data[value].length;
+  	return counts;
+  }, countData);
+}
 
-    let index;
-    let delayed = [];
-    let dispatching = [];
-    let panic = [];
-    let pickedUp = [];
-    var concateDataObject = {};
-
-    filteredOrders["data"].forEach( (value, key) =>{
-        switch (value["order_status_id"]) {
-            case delayedID: delayed.push(value);
-            break;
-            case dispatchingID: dispatching.push(value);
-            break;
-            case panicID: panic.push(value);
-            break;
-            case pickedUpID: pickedUp.push(value);
-        }
-    })
-
-    concateDataObject[dispatchingID] = dispatching;
-    concateDataObject[panicID] = panic;
-    concateDataObject[pickedUpID] = pickedUp;
-    concateDataObject[delayedID] = delayed;
-    return {data: concateDataObject};
+function categoriesCustomerOrders(orders) {
+  let responseData = {2: [], 5: [], 7: [], 9: []};
+  return {data: orders['data'].reduce((data, value) => {
+    if (data[value.order_status_id]) {
+      data[value.order_status_id].push(value);
+    }
+    return data;
+  }, responseData)}
 }
