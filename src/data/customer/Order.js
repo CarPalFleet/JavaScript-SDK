@@ -80,6 +80,41 @@ export const getDeliveryWindows = async (customerId, identityId, productTypeId, 
     }
 }
 
+export const updateJobLiveData = (existingJobs, pubSubPayload) => {
+    try{
+      pubSubPayload = camelize(pubSubPayload.payload);
+      let jobStatusKeys = Object.keys(existingJobs['data']);
+      let newJobs = {};
+      let matchedPayload = jobStatusKeys.reduce((matchedPayload, statusId) => {
+        let index = existingJobs['data'][statusId].findIndex((order) => {
+          return pubSubPayload.orderId == order.orderId; //orderId might be string/integer;
+        })
+        if (index >= 0) {
+          matchedPayload.isDataExist = true;
+          matchedPayload.statusId = statusId;
+          matchedPayload.index = index;
+          matchedPayload.data = existingJobs['data'][statusId][index];
+          matchedPayload.changeStatusId = existingJobs['data'][statusId][index]['orderStatusId'] !== pubSubPayload.orderStatusId;
+        }
+        return matchedPayload;
+      }, {isDataExist: false, statusId: 0, index: -1, data: {}});
+
+      if (matchedPayload.isDataExist) {
+          if (matchedPayload.changeStatusId) {
+              // update activeStatusCounts
+              existingJobs['activeStatusCounts'][matchedPayload.data.orderStatusId] -= 1;
+              existingJobs['activeStatusCounts'][pubSubPayload.orderStatusId] += 1;
+          }
+          delete existingJobs['data'][matchedPayload.statusId].splice(matchedPayload.index, 1);
+      } else existingJobs['totalStatusCounts'] += 1;
+      //update data Object
+      existingJobs['data'][pubSubPayload.orderStatusId].push(pubSubPayload);
+      return existingJobs;
+    }catch(e){
+        return {statusCode: '500', statusText: 'Error in PubSub'};
+    }
+}
+
 function calculateCustomerOrderCounts(data) {
   let orders = categoriesCustomerOrders(data);
   let countData = {totalStatusCounts: 0, activeStatusCounts: {}};
