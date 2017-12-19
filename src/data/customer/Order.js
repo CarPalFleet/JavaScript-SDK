@@ -81,18 +81,21 @@ export const getDeliveryWindows = async (customerId, identityId, productTypeId, 
     }
 }
 
-export const updateJobLiveData = (originalJobDatum, pubSubPayload, pickupDate) => {
+export const updateJobLiveData = (originalJobDatum, pubSubPayload, filterObject) => {
   try{
     pubSubPayload = camelize(pubSubPayload.payload);
     // If orderStatusId is 1, change into 2. #laraval side will handle it later.
     const orderStatusIds = [2, 5, 7, 9];
     if (pubSubPayload.orderStatusId == 1) pubSubPayload.orderStatusId = 2;
-    // Check orderStatusId of payload,
-    // If it's includes in const orderStatusIds Array (OR)
-    // the pickupDate isn't today, return originData to frontEnd
+
+    /* palyload orderStatusId must be includes in 2,5,7,9
+      payload date should be the same with today date
+      payload orderStatusId orderStatusIds must be one of orderStatusIds of filterObject
+      Else send return orginal Job Data */
     if (
       !orderStatusIds.includes(pubSubPayload.orderStatusId) ||
-      moment().format('YYYY-MM-DD') !== pickupDate
+      !(moment().format('YYYY-MM-DD') === filterObject.pickupDate) ||
+      !filterObject.orderStatusIds.includes(pubSubPayload.orderStatusId)
     ) {
       return originalJobDatum;
     }
@@ -107,6 +110,7 @@ export const updateJobLiveData = (originalJobDatum, pubSubPayload, pickupDate) =
         matchedPayload.statusId = statusId;
         matchedPayload.index = index;
         matchedPayload.data = originalJobDatum['data'][statusId][index];
+        matchedPayload.isDataExist = originalJobDatum['data'][statusId][index];
       }
       return matchedPayload;
     }, {isDataExist: false, statusId: 0, index: -1, data: {}});
@@ -114,8 +118,13 @@ export const updateJobLiveData = (originalJobDatum, pubSubPayload, pickupDate) =
     if (matchedPayload.isDataExist) {
         // update activeStatusCounts
         originalJobDatum['activeStatusCounts'][pubSubPayload.orderStatusId] += 1;
+        let currentStatusCounts = originalJobDatum['activeStatusCounts'][matchedPayload.statusId];
+        originalJobDatum['activeStatusCounts'][matchedPayload.statusId] -= currentStatusCounts? 1: 0;
         delete originalJobDatum['data'][matchedPayload.statusId].splice(matchedPayload.index, 1);
-    } else originalJobDatum['totalStatusCounts'] += 1;
+    } else {
+      originalJobDatum['totalStatusCounts'] += 1;
+      originalJobDatum['activeStatusCounts'][pubSubPayload.orderStatusId] += 1;
+    }
     //update data Object
     originalJobDatum['data'][pubSubPayload.orderStatusId].push(pubSubPayload);
     return originalJobDatum;
