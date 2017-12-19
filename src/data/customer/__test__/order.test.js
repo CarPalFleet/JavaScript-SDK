@@ -54,7 +54,7 @@ import CONFIG from './Config';
 //            const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
 //            const token = await result;
 //            const response = await getOrdersWithFilterAsync(value.filters, 1, token.accessToken);
-    
+
 //             //expect(response instanceof Object).fail("Lack of mandentory fields");
 //             expect(response instanceof Object).to.be.a('function');
 //         })
@@ -65,7 +65,7 @@ import CONFIG from './Config';
 //            const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
 //            const token = await result;
 //            const response = await getOrdersWithFilterAsync(value.filters, 1, token.accessToken);
-    
+
 //              expect(response instanceof Array).toBeTruthy();
 //         })
 //     });
@@ -78,9 +78,9 @@ test('test for get order with filter', async ()=>{
     }
 
     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
-    const token = await result; 
+    const token = await result;
     const response = await getOrdersWithFilterAsync(filterObj, 1, token.accessToken);
-    
+
     expect(response instanceof Object).toBeTruthy();
 })
 
@@ -117,6 +117,51 @@ test('Test for creating new delivery window with product type 3 and transaction 
                                                     startTime: '9:30',
                                                     endTime: '11:30'}, token.accessToken);
     expect('id' in response).toBe(true);
+})
+
+
+test('Test for pubsub live data for driver', async () =>{
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    const originalJobDatum = {
+      "activeStatusCounts":{"2":0,"5":0,"7":0,"9":0},
+      "data":{
+         "2":[]
+         "5":[]
+         "7":[{
+             "id":"ed6d5ca5f2169bd18dda5fb58e1201a1",
+             "orderId":62304,
+             "orderStatusId":7,
+             "statusName":"Pending",
+             "pickupDate":"2017-12-25",
+             "latitude":"1.3572022",
+             "longitude":"103.8329746",
+             "driverId":0,
+             "customerId":2318
+         }],
+         "9":[]
+      }, "totalStatusCounts":0
+    }
+
+    const pubSubPayload = {
+       "id":"ed6d5ca5f2169bd18dda5fb58e1201a1",
+       "orderId":62304,
+       "orderStatusId":2,
+       "statusName":"Pending",
+       "pickupDate":"2017-12-19",
+       "latitude":"1.3572022",
+       "longitude":"103.8329746",
+       "driverId":0,
+       "customerId":2318
+    }
+
+    const filterObject = {
+        orderStatusId: [2],
+        pickupDate: '2017-12-19'
+    }
+    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.token);
+    const token = await result;
+    const response = updateJobLiveData(originalJobDatum, pubSubPayload, filterObject);
+    expect(response instanceof Object).toBe(true);
 })
 
 function makeid() {
