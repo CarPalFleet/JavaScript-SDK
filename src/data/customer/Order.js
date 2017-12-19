@@ -92,12 +92,12 @@ export const updateJobLiveData = (originalJobDatum, pubSubPayload, filterObject)
       payload date should be the same with today date
       payload orderStatusId orderStatusIds must be one of orderStatusIds of filterObject
       Else send return orginal Job Data */
-    if (
-      !orderStatusIds.includes(pubSubPayload.orderStatusId) ||
-      !(moment().format('YYYY-MM-DD') === filterObject.pickupDate) ||
-      !filterObject.orderStatusIds.includes(pubSubPayload.orderStatusId)
-    ) {
-      return originalJobDatum;
+    const isValidStatus = orderStatusIds.includes(pubSubPayload.orderStatusId);
+    const isSameDate = moment().format('YYYY-MM-DD') === filterObject.pickupDate;
+    const isInclude = filterObject.orderStatusIds && filterObject.orderStatusIds.includes(pubSubPayload.orderStatusId);
+
+    if(!(isValidStatus && isSameDate && isInclude)) {
+        return originalJobDatum;
     }
 
     let jobStatusKeys = Object.keys(originalJobDatum['data']);
