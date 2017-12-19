@@ -125,8 +125,8 @@ test('Test for pubsub live data for driver', async () =>{
     const originalJobDatum = {
       "activeStatusCounts":{"2":0,"5":0,"7":0,"9":0},
       "data":{
-         "2":[]
-         "5":[]
+         "2":[],
+         "5":[],
          "7":[{
              "id":"ed6d5ca5f2169bd18dda5fb58e1201a1",
              "orderId":62304,
