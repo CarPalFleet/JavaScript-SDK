@@ -93,7 +93,7 @@ export const updateJobLiveData = (originalJobDatum, pubSubPayload, filterObject)
       Else send return orginal Job Data */
     const isValidStatus = orderStatusIds.includes(pubSubPayload.orderStatusId);
     const isSameDate = pubSubPayload.pickupDate === filterObject.pickupDate;
-    const isInclude = filterObject.orderStatusIds && filterObject.orderStatusIds.includes(pubSubPayload.orderStatusId);
+    const isInclude = filterObject.orderStatusIds ? filterObject.orderStatusIds.includes(pubSubPayload.orderStatusId) : true;
 
     if(!(isValidStatus && isSameDate && isInclude))
     {
