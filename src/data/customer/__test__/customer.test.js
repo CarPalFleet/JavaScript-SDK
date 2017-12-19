@@ -60,6 +60,50 @@ test('Test for retrieving drivers by a customer account', async () =>{
     expect(response instanceof Array).toBe(true);
 })
 
+test('Test for pubsub live data for job', async () =>{
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    const originalJobDatum = {
+      "activeStatusCounts":{"2":0,"5":0,"7":0,"9":0},
+      "data":{
+         "2":[],
+         "5":[],
+         "7":[{
+             "id":"ed6d5ca5f2169bd18dda5fb58e1201a1",
+             "orderId":62304,
+             "orderStatusId":7,
+             "statusName":"Pending",
+             "pickupDate":"2017-12-25",
+             "latitude":"1.3572022",
+             "longitude":"103.8329746",
+             "driverId":0,
+             "customerId":2318
+         }],
+         "9":[]
+      }, "totalStatusCounts":0
+    }
+    const pubSubPayload = {
+       "id":"ed6d5ca5f2169bd18dda5fb58e1201a1",
+       "orderId":62304,
+       "orderStatusId":2,
+       "statusName":"Pending",
+       "pickupDate":"2017-12-19",
+       "latitude":"1.3572022",
+       "longitude":"103.8329746",
+       "driverId":0,
+       "customerId":2318
+    }
+
+    const filterObject = {
+        driverStatusIds: [2],
+        orderRouteTypeIds: 1,
+        driverTypeIds: [1,2,3]
+    }
+    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.token);
+    const token = await result;
+    const response = updateDriverLiveData(originalJobDatum, pubSubPayload, filterObject);
+    expect(response instanceof Object).toBe(true);
+})
+
 function makeid(size) {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
