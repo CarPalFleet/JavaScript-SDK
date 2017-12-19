@@ -2,7 +2,6 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import filterMockData from './mockData';
-import moment from 'moment';
 
 export const getCustomerOrdersWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
@@ -93,12 +92,14 @@ export const updateJobLiveData = (originalJobDatum, pubSubPayload, filterObject)
       payload orderStatusId orderStatusIds must be one of orderStatusIds of filterObject
       Else send return orginal Job Data */
     const isValidStatus = orderStatusIds.includes(pubSubPayload.orderStatusId);
-    const isSameDate = moment().format('YYYY-MM-DD') === filterObject.pickupDate;
+    const isSameDate = pubSubPayload.pickupDate === filterObject.pickupDate;
     const isInclude = filterObject.orderStatusIds && filterObject.orderStatusIds.includes(pubSubPayload.orderStatusId);
 
-    if(!(isValidStatus && isSameDate && isInclude)) {
+    if(!(isValidStatus && isSameDate && isInclude))
+    {
         return originalJobDatum;
     }
+
 
     let jobStatusKeys = Object.keys(originalJobDatum['data']);
     let matchedPayload = jobStatusKeys.reduce((matchedPayload, statusId) => {
