@@ -3,7 +3,7 @@ import { getTokenAsync } from '../../account/Auth';
 import CONFIG from './Config';
 
 test('Test for new live route', async () =>{
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    // jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.token);
     //const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
     const token = await result;
@@ -18,7 +18,7 @@ test('Test for new live route', async () =>{
     }
 
     const response = await sendLiveRouteDataAsync(liveRoute, token.accessToken);
-
+    console.log("response", response);
     expect(response).toBeTruthy();
 })
 
