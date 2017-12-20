@@ -9,16 +9,12 @@ test('Test for new live route', async () =>{
     const token = await result;
 
     const liveRoute = {
-        orderId: 1,
-        addressId: 1,
-        customerId: 1,
-        driverId: 1,
-        driverFirstName: "Darth",
-        driverLastName: "Vader",
-        driverTypes: "private",
-        latitude: "103.2348909",
-        longitude: "1.234810928",
-        orderRouteType: "route"
+      "orderId": 0,
+      "addressId": 0,
+      "driverId": 123456,
+      "latitude": "1.33",
+      "longitude": "103.45",
+      "orderRouteType": 1
     }
 
     const response = await sendLiveRouteDataAsync(liveRoute, token.accessToken);
