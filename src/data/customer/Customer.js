@@ -99,21 +99,21 @@ export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterO
   try{
     pubSubPayload = camelize(pubSubPayload);
     const newPubSubPayload = {
-      lastDriverStatusId: pubSubPayload.last_driver_status_id,
+      lastDriverStatusId: pubSubPayload.payload.last_driver_status_id,
       payload: {
-          updatedAt: pubSubPayload.updatedAt,
-          driverStatusId: pubSubPayload.orderId > 0 ? 2 : 1,
+          updatedAt: pubSubPayload.payload.updatedAt,
+          driverStatusId: pubSubPayload.payload.orderId > 0 ? 2 : 1,
           addressId: 0,
-          longitude: pubSubPayload.actualLocationLong,
-          driverId: pubSubPayload.driverId,
-          customerId: pubSubPayload.customerId,
-          orderId: pubSubPayload.orderId,
-          id: pubSubPayload.id,
-          latitude: pubSubPayload.actualLocationLat,
+          longitude: pubSubPayload.payload.actualLocationLong,
+          driverId: pubSubPayload.payload.driverId,
+          customerId: pubSubPayload.payload.customerId,
+          orderId: pubSubPayload.payload.orderId,
+          id: pubSubPayload.payload.id,
+          latitude: pubSubPayload.payload.actualLocationLat,
           driverTypeIds: [
              2 // Messaging Dispatcher will update it later
           ],
-          orderRouteTypeId: pubSubPayload.orderRouteType
+          orderRouteTypeId: pubSubPayload.payload.orderRouteType
       }
     }
     payload = newPubSubPayload.payload;
