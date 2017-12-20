@@ -111,7 +111,7 @@ export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterO
           id: pubSubPayload.payload.id,
           latitude: pubSubPayload.payload.actualLocationLat,
           driverTypeIds: [
-             2 // Messaging Dispatcher will update it later
+             1 // Messaging Dispatcher will update it later
           ],
           orderRouteTypeId: pubSubPayload.payload.orderRouteType
       }
