@@ -116,7 +116,7 @@ export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterO
           orderRouteTypeId: pubSubPayload.payload.orderRouteType
       }
     }
-    payload = newPubSubPayload.payload;
+    let payload = newPubSubPayload.payload;
     const driverStatusIds = [1, 2, 3, 4];
     const driverTypeIds = [1, 2, 3];
     const isValidStatus = driverStatusIds.includes(payload.driverStatusId);
