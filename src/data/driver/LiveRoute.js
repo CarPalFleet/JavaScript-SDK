@@ -7,7 +7,7 @@ export const sendLiveRouteDataAsync = async (driverInfo, token)=>{
         const response = await axios({method: 'post',
                                       url: endpoints.DRIVER_LIVE_ROUTES.replace('{0}', driverInfo.driverId),
                                       headers: {
-                                        'Content-Type': 'application/json'
+                                        'Content-Type': 'application/json',
                                         'Authorization': token
                                       },
                                       data: driverInfo});
