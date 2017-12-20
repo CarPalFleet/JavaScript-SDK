@@ -1,4 +1,9 @@
-import { createNewCustomerAsync, createNewDriverAsync, getCustomerDriversAsync } from '../Customer';
+import {
+  createNewCustomerAsync,
+  createNewDriverAsync,
+  getCustomerDriverDetailAsync,
+  getCustomerDriversAsync,
+} from '../Customer';
 import { getTokenAsync } from '../../account/Auth';
 import CONFIG from './Config';
 
@@ -23,7 +28,7 @@ test('Creating new customer account', () => {
 
 test('Creating new driver account by a customer account', async () =>{
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.token);
+    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
     //const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
     const token = await result;
 
@@ -45,6 +50,13 @@ test('Creating new driver account by a customer account', async () =>{
     expect('driver' in response).toBe(true);
 })
 
+test(`Test for retrieving detail of customer's driver`, async () => {
+    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+    const token = await result;
+    const response = await getCustomerDriverDetailAsync(1, 2, token.accessToken);
+    expect(response instanceof Object).toBe(true);
+})
+
 test('Test for retrieving drivers by a customer account', async () =>{
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const filterObj = {
@@ -52,7 +64,7 @@ test('Test for retrieving drivers by a customer account', async () =>{
         orderRouteTypeIds: [1,2],
         driverTypeIds: [1,2,3]
     }
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.token);
+    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
     const token = await result;
 
     const response = await getCustomerDriversAsync(filterObj, 1, token.accessToken);
@@ -62,35 +74,47 @@ test('Test for retrieving drivers by a customer account', async () =>{
 
 test('Test for pubsub live data for job', async () =>{
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const originalJobDatum = {
+    const originalDriverDatum = {
       "activeStatusCounts":{"2":0,"5":0,"7":0,"9":0},
+      "driverTypeCounts":{"1": 1,"2": 3,"3": 4},
       "data":{
          "2":[],
          "5":[],
          "7":[{
-             "id":"ed6d5ca5f2169bd18dda5fb58e1201a1",
-             "orderId":62304,
-             "orderStatusId":7,
-             "statusName":"Pending",
-             "pickupDate":"2017-12-25",
-             "latitude":"1.3572022",
-             "longitude":"103.8329746",
-             "driverId":0,
-             "customerId":2318
+           "updatedAt":"2017-12-15 05:02:21",
+           "driverStatusId":1,
+           "addressId":2,
+           "longitude":"103.7600326538086",
+           "driverId":8,
+           "customerId":2318,
+           "orderId":23,
+           "id":"8",
+           "latitude":"1.3513647119405165",
+           "driverTypeIds":[
+              1
+           ],
+           "orderRouteTypeId":1
          }],
          "9":[]
       }, "totalStatusCounts":0
     }
     const pubSubPayload = {
-       "id":"ed6d5ca5f2169bd18dda5fb58e1201a1",
-       "orderId":62304,
-       "orderStatusId":2,
-       "statusName":"Pending",
-       "pickupDate":"2017-12-19",
-       "latitude":"1.3572022",
-       "longitude":"103.8329746",
-       "driverId":0,
-       "customerId":2318
+        data: {
+           "updatedAt":"2017-12-15 05:02:21",
+           "driverStatusId": 4,
+           "addressId":2,
+           "longitude":"103.1",
+           "driverId":12,
+           "customerId":2318,
+           "orderId":233,
+           "id":"12",
+           "latitude":"1.3",
+           "driverTypeIds":[
+              1
+           ],
+           "orderRouteTypeId":1
+        },
+        lastDriverStatusId: 1
     }
 
     const filterObject = {
@@ -98,9 +122,9 @@ test('Test for pubsub live data for job', async () =>{
         orderRouteTypeIds: 1,
         driverTypeIds: [1,2,3]
     }
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.token);
+    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
     const token = await result;
-    const response = updateDriverLiveData(originalJobDatum, pubSubPayload, filterObject);
+    const response = updateDriverLiveData(originalDriverDatum, pubSubPayload, filterObject);
     expect(response instanceof Object).toBe(true);
 })
 
