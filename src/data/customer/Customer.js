@@ -95,10 +95,43 @@ export const getCustomerDriverCountsAsync = async (filterObject = {}, customerId
     }
 }
 
+{
+  "last_driver_status_id": 2,
+  "payload": {
+    "orderId": 59336,
+    "address_id": 0,
+    "driver_id": 10158,
+    "actual_location_lat": "1.2789634",
+    "actual_location_long": "103.8484057",
+    "order_route_type": 1,
+    "updated_at": "2017-12-20 09:09:23",
+    "id": 8,
+    "customer_id": 2318
+  }
+}
+
 export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterObject) => {
   try{
-    pubSubPayload = camelize(pubSubPayload);
-    payload = pubSubPayload.data;
+    const newPubSubPayload = {
+      lastDriverStatusId: pubSubPayload.last_driver_status_id,
+      pubSubPayload = camelize(pubSubPayload);
+      payload: {
+        updatedAt: pubSubPayload.updatedAt,
+        driverStatusId: pubSubPayload.orderId > 0 ? 2 : 1,
+        addressId: 0,
+        longitude: pubSubPayload.actualLocationLong,
+        driverId: pubSubPayload.driverId,
+        customerId: pubSubPayload.customerId,
+        orderId: pubSubPayload.orderId,
+        id: pubSubPayload.id,
+        latitude: pubSubPayload.actualLocationLat,
+        driverTypeIds: [
+           2 // Messaging Dispatcher will update it later
+        ],
+        orderRouteTypeId: pubSubPayload.orderRouteType
+      }
+    }
+    payload = newPubSubPayload.payload;
     const driverStatusIds = [1, 2, 3, 4];
     const driverTypeIds = [1, 2, 3];
     const isValidStatus = driverStatusIds.includes(payload.driverStatusId);
@@ -122,7 +155,7 @@ export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterO
       })
       if (index >= 0) {
         matchedPayload.isDataExist = true;
-        matchedPayload.statusId = pubSubPayload.lastDriverStatusId;
+        matchedPayload.statusId = newPubSubPayload.lastDriverStatusId;
         matchedPayload.index = index;
         matchedPayload.data = originalDriverDatum['data'][statusId][index];
         matchedPayload.isDataExist = originalDriverDatum['data'][statusId][index];
