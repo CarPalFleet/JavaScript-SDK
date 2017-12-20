@@ -5,7 +5,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is **0.0.78**
+The current version of this SDK is **0.0.79**
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -34,7 +34,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/customer/Order    | updateJobLiveData(originalJobDatum, pubSubPayload, filterObject) | This returns update Jobs with both activeStatusCounts and totalStatusCounts counts. Can add orderStatusId and pickupDate fields inside of filterObject. This function will response new data for the today pickupDate, otherwise it will response the existing data. <br /><br />|
 | carpal/dist/data/customer/Customer    | createNewDriverAsync(driverObj, customerId, token) | This returns a Promise object with new driver detail. <br /><br />The **driverObj** payload example {identityId: 1, productTypeId: 3, transactionGroupId: 1, isNewUser: true, firstName: 'xxx', lastName: 'xxx', email: 'xxx@example.com',password: 'xxxxxx', birthday: 'yyyy-mm-dd', phone: '+65xxxxxxxx'}       |
 | carpal/dist/data/customer/Customer    | getCustomerDriversWithFiltersAsync(filterObj, customerId, token, validateSchema)   | To use getCustomerDriversWithFiltersAsync, validateSchema has to be set to `true`, else by default it is set to `false`. Currently, validateSchema is not handled yet. This is an example of filterObj to be passed to getCustomerDriversAsync: const filterObj = {driverStatusIds: [2], orderRouteTypeIds: [1,2], driverTypeIds: [1,2,3]}|
-| carpal/dist/data/customer/Order    | updateJobLiveData(originalDriverDatum, pubSubPayload, filterObject) | This returns update Drivers with both activeStatusCounts and totalStatusCounts counts. Can add driverStatusIds and driverTypeIds fields inside of filterObject. <br /><br />|
+| carpal/dist/data/customer/Order    | updateDriverLiveData(originalDriverDatum, pubSubPayload, filterObject) | This returns update Drivers with both activeStatusCounts and totalStatusCounts counts. Can add driverStatusIds and driverTypeIds fields inside of filterObject. <br /><br />|
 | carpal/dist/data/customer/Order    | getCustomerDriverCountsAsync(filterObject, customerId, token) | This returns a Promise object with all customer's driver counts. <br /><br />To utilize the function, filterObject(driverTypeIds: [1,2]), customerId and token must be provided.** |
 | carpal/dist/data/customer/Search    | searchAsync(keywords, fuzzy=true, fuzziness=1, token)   | This returns a Promise object with search results. (for scope argument, please leave it as empty string for now)|
 
