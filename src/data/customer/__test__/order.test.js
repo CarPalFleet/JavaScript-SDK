@@ -76,26 +76,26 @@ import CONFIG from './Config';
 //     });
 // });
 
-test('test for get order with filter', async ()=>{
-    const filterObj = {
-        pickupDate: 2017-10-30,
-        orderStatusIds: [1,2,3]
-    }
+// test('test for get order with filter', async ()=>{
+//     const filterObj = {
+//         pickupDate: 2017-10-30,
+//         orderStatusIds: [1,2,3]
+//     }
+//
+//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+//     const token = await result;
+//     const response = await getOrdersWithFilterAsync(filterObj, 1, token.accessToken);
+//
+//     expect(response instanceof Object).toBeTruthy();
+// })
 
-    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
-    const token = await result;
-    const response = await getOrdersWithFilterAsync(filterObj, 1, token.accessToken);
-
-    expect(response instanceof Object).toBeTruthy();
-})
-
-test('Test for customer order detail', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
-    const token = await result;
-    const response = await getOrderDetailAsync(1, 1, token.accessToken);
-    expect('id' in response).toBe(true);
-})
+// test('Test for customer order detail', async () => {
+//     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+//     const token = await result;
+//     const response = await getOrderDetailAsync(1, 1, token.accessToken);
+//     expect('id' in response).toBe(true);
+// })
 
 test('Test for creating new delivery window with product type 1', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
@@ -111,18 +111,18 @@ test('Test for creating new delivery window with product type 1', async () => {
 })
 
 
-test('Test for creating new delivery window with product type 3 and transaction user account', async () => {
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.token);
-    const token = await result;
-    const response = await createNewDeliveryWindow({customerId: 1,
-                                                    identityId: 1,
-                                                    productTypeId: 3,
-                                                    transactionGroupId:1,
-                                                    displayName: makeid(),
-                                                    startTime: '9:30',
-                                                    endTime: '11:30'}, token.accessToken);
-    expect('id' in response).toBe(true);
-})
+// test('Test for creating new delivery window with product type 3 and transaction user account', async () => {
+//     const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.token);
+//     const token = await result;
+//     const response = await createNewDeliveryWindow({customerId: 1,
+//                                                     identityId: 1,
+//                                                     productTypeId: 3,
+//                                                     transactionGroupId:1,
+//                                                     displayName: makeid(),
+//                                                     startTime: '9:30',
+//                                                     endTime: '11:30'}, token.accessToken);
+//     expect('id' in response).toBe(true);
+// })
 
 
 test('Test for pubsub live data for driver', async () =>{
