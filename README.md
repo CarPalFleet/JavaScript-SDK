@@ -41,13 +41,13 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 # Driver
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
-| carpal/dist/data/driver/LiveRoute      | sendLiveRouteDataAsync(liveRouteObj)  | This returns a Promise object with sns message. The liveRouteObj consists of {orderId, addressId, customerId, driverId, driverFirstName, driverLastName, driverTypes, latitude, longitude, orderRouteType}  |
+| carpal/dist/data/driver/LiveRoute      | sendLiveRouteDataAsync(liveRouteObj, token)  | This returns a Promise object with sns message. The liveRouteObj consists of {orderId, addressId, driverId, latitude, longitude, orderRouteTypeId}  |
 
 
 # Messaging
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
-| carpal/dist/data/messaging/PubSub  | Initializing connection: **pubsub**('APP_PUBSUB_KEY', 'CHANNEL_ID', realtime?) ***By default, realtime is set to true to establish a socket connection. For transactional mode, you should set it to false***<br /><br />**subscribe**(eventName, callback)<br /><br />**publish**(eventName, messageObj)<br /><br /> **unsubscribe**unsubscribe(eventName, listener) <br /><br />**listener** is the callback listener function that was previously subscribed| Example:<br /><br />```const ps = pubsub(API_KEY, CHANNEL_ID);```<br /><br />```pubSub.subscribe(eventName, callback);```<br /><br />```pubSub.unsubscribe(eventName, listener)```<br /><br />``` pubSub.publish(eventName, listener)```      |
+| carpal/dist/data/messaging/PubSub  | Initializing connection: **pubsub**('APP_PUBSUB_KEY', 'CHANNEL_ID', realtime?) ***By default, realtime is set to true to establish a socket connection. For transactional mode, you should set it to false***<br /><br />**subscribe**(eventName, callback)<br /><br />**publish**(eventName, messageObj)<br /><br /> **unsubscribe**(eventName, listener) **listener** is the callback listener function that was previously subscribed.<br /><br />| Example:<br /><br />```const ps = pubsub(API_KEY, CHANNEL_ID);```<br /><br />```pubSub.subscribe(eventName, callback);```<br /><br />```pubSub.unsubscribe(eventName, listener)```<br /><br />``` pubSub.publish(eventName, listener)```      |
 
 # Data validation
 **This is a special set of functions to verify the inbound data from Pub/Sub against the schemas predefined by CarPal. You can choose not to use these functions at your own risk**

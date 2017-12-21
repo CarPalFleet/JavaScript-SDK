@@ -67,6 +67,7 @@ export const createNewDeliveryWindow = async ({customerId,
     }
 }
 
+/* Not Updated yet in README */
 export const getDeliveryWindows = async (customerId, identityId, productTypeId, transactionGroupIds)=>{
     try{
         const response = await axios({
