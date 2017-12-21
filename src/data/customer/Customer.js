@@ -3,7 +3,7 @@ import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import filterMockData from './mockData';
 
-export const createNewCustomerWithAsync = async ({email, password, firstName, lastName, phone,
+export const createNewCustomerAsync = async ({email, password, firstName, lastName, phone,
                                          birthday, identityId, coName, coPhone, coVatNo})=>{
     try{
         const response = await axios({method: 'post',
