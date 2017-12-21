@@ -11,7 +11,7 @@ export const resetPasswordRequestAsync = async (email)=>{
                                         email
                                       }})
 
-        return toCamelCase(response.data.data); 
+        return toCamelCase(response.data.data);
     }catch(e){
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
@@ -49,6 +49,7 @@ export const validateResetPasswordTokenAsync = async token =>{
     }
 }
 
+/* Not Updated yet in README */
 export const getDriverJobsAsync = async (id, token, date)=>{
     try{
         const response = await axios({method: 'get',
@@ -60,6 +61,7 @@ export const getDriverJobsAsync = async (id, token, date)=>{
     }
 }
 
+/* Not Updated yet in README */
 export const getDriverLegsAsync = async(id, token, date)=>{
     try{
         const response = await axios({method: 'get',
