@@ -98,25 +98,8 @@ export const getCustomerDriverCountsAsync = async (filterObject = {}, customerId
 export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterObject) => {
   try{
     pubSubPayload = camelize(pubSubPayload);
-    const newPubSubPayload = {
-      lastDriverStatusId: pubSubPayload.payload.last_driver_status_id,
-      payload: {
-          updatedAt: pubSubPayload.payload.updatedAt,
-          driverStatusId: pubSubPayload.payload.orderId > 0 ? 2 : 1,
-          addressId: 0,
-          longitude: pubSubPayload.payload.actualLocationLong,
-          driverId: pubSubPayload.payload.driverId,
-          customerId: pubSubPayload.payload.customerId,
-          orderId: pubSubPayload.payload.orderId,
-          id: pubSubPayload.payload.id,
-          latitude: pubSubPayload.payload.actualLocationLat,
-          driverTypeIds: [
-             1 // Messaging Dispatcher will update it later
-          ],
-          orderRouteTypeId: pubSubPayload.payload.orderRouteType
-      }
-    }
-    let payload = newPubSubPayload.payload;
+    pubSubPayload.payload.driverStatusId = pubSubPayload.payload.orderId > 0 ? 2 : 1;
+    let payload = pubSubPayload.payload;
     const driverStatusIds = [1, 2, 3, 4];
     const driverTypeIds = [1, 2, 3];
     const isValidStatus = driverStatusIds.includes(payload.driverStatusId);
@@ -140,7 +123,7 @@ export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterO
       })
       if (index >= 0) {
         matchedPayload.isDataExist = true;
-        matchedPayload.statusId = newPubSubPayload.lastDriverStatusId;
+        matchedPayload.statusId = pubSubPayload.lastDriverStatusId;
         matchedPayload.index = index;
         matchedPayload.data = originalDriverDatum['data'][statusId][index];
         matchedPayload.isDataExist = originalDriverDatum['data'][statusId][index];
