@@ -5,15 +5,15 @@ import camelize from 'camelize';
 export const sendLiveRouteDataAsync = async (liveRouteObj, token)=>{
     try{
         const response = await axios({method: 'post',
-                                      url: 'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging/drivers/1/live-routes',
+                                      url: endpoints.DRIVER_LIVE_ROUTES.replace('{0}', liveRouteObj.driverId),
                                       headers: {
                                         "Content-Type": 'application/json',
-                                        "Authorization": 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIzNTEyLCJpc3MiOiJodHRwczovL2FwaS10ZXN0LmNhcnBhbC5tZS8vdjIvYXV0aGVudGljYXRlIiwiaWF0IjoxNTEzNzQyNzI5LCJleHAiOjE1MTM3NDYzMjksIm5iZiI6MTUxMzc0MjcyOSwianRpIjoiMXd0bzRIM2hiaHZQRXNHMCJ9.op3Ey7AUuDAxu2RxzsH0CV4ysfXKBnINisLgfVceScg'
+                                        "Authorization": token
                                       },
                                       data: liveRouteObj})
         return camelize(response.data);
     }catch(e){
-        console.log("RRR", e.response.status, e.response.statusText);
+        console.log(e);
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
