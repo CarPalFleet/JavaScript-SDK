@@ -13,7 +13,6 @@ export const sendLiveRouteDataAsync = async (liveRouteObj, token)=>{
                                       data: liveRouteObj})
         return camelize(response.data);
     }catch(e){
-        console.log(e);
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
