@@ -89,13 +89,13 @@ import CONFIG from './Config';
 //     expect(response instanceof Object).toBeTruthy();
 // })
 
-// test('Test for customer order detail', async () => {
-//     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
-//     const token = await result;
-//     const response = await getOrderDetailAsync(1, 1, token.accessToken);
-//     expect('id' in response).toBe(true);
-// })
+test('Test for customer order detail', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
+    const token = await result;
+    const response = await getOrderDetailAsync(1, 1, token.accessToken);
+    expect('data' in response).toBe(true);
+})
 
 test('Test for creating new delivery window with product type 1', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
