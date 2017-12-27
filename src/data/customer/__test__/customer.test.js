@@ -29,8 +29,8 @@ test('Creating new customer account', () => {
 
 // test('Creating new driver account by a customer account', async () =>{
 //     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
-//     //const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
+//     //const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
 //     const token = await result;
 //
 //     const driver = {
@@ -51,12 +51,12 @@ test('Creating new customer account', () => {
 //     expect('driver' in response).toBe(true);
 // })
 //
-// test(`Test for retrieving detail of customer's driver`, async () => {
-//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
-//     const token = await result;
-//     const response = await getCustomerDriverDetailAsync(1, 2, token.accessToken);
-//     expect(response instanceof Object).toBe(true);
-// })
+test(`Test for retrieving detail of customer's driver`, async () => {
+    const result = getTokenAsync(CONFIG.transactionCustomerEmail, CONFIG.transactionCustomerpassword, CONFIG.clientId, CONFIG.clientSecret);
+    const token = await result;
+    const response = await getCustomerDriverDetailAsync(1, 5, 9869, token.accessToken);
+    expect(response instanceof Object).toBe(true);
+})
 
 // test('Test for retrieving drivers by a customer account', async () =>{
 //     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
@@ -65,7 +65,7 @@ test('Creating new customer account', () => {
 //         orderRouteTypeIds: [1,2],
 //         driverTypeIds: [1,2,3]
 //     }
-//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
 //     const token = await result;
 //
 //     const response = await getCustomerDriversAsync(filterObj, 1, token.accessToken);
@@ -123,7 +123,7 @@ test('Test for pubsub live data for job', async () =>{
         orderRouteTypeIds: 1,
         driverTypeIds: [1,2,3]
     }
-    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
     const token = await result;
     const response = updateDriverLiveData(originalDriverDatum, pubSubPayload, filterObject);
     expect(response instanceof Object).toBe(true);
