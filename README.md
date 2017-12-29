@@ -5,7 +5,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is **0.0.87**
+The current version of this SDK is **0.0.88**
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -17,6 +17,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
 | carpal/dist/data/account/Auth      | getTokenAsync(email, password, clientId, secret)  | This returns a Promise object with both access token and refresh token.  |
+| carpal/dist/data/account/Auth      | refreshTokenAsync(refreshToken, clientId, secret)  | This returns a Promise object with both new access token and refresh token by using existing refresh token.  |
 | carpal/dist/data/account/Account   | resetPasswordRequestAsync(email)                  | This will call the email service to send out a link and return a Promise object with true/false   
 | carpal/dist/data/account/Account   | resetPasswordAsync(token, email, password, confirmPassword) | This will actually update a user's password and return a Promise object with true/false  |
 | carpal/dist/data/account/Account   | getNotificationsAsync(id, token)                  | This returns a Promise object with a list of notification items for a given user ID |
