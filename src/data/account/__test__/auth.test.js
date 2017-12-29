@@ -1,4 +1,4 @@
-import { getTokenAsync } from '../Auth';
+import { getTokenAsync, refreshTokenAsync } from '../Auth';
 import CONFIG from './Config';
 
 test('test for account demo@carpal.me', async ()=>{
@@ -14,3 +14,12 @@ test('test for account demo@carpal.me with wrong password', async()=>{
     await expect(result).rejects.toHaveProperty('statusCode', 401);
 })
 
+test('test for refresh token', async()=>{
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    let result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+    let token = await result;
+
+    result = refreshTokenAsync(token.refreshToken, CONFIG.clientId, CONFIG.token);
+    token = await result;
+    expect(token).toBeTruthy();
+})
