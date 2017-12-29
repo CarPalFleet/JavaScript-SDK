@@ -21,7 +21,7 @@ const endpoints = {
     NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
     SCHEMAS: `${urlPrefix}/schemas/{0}/{1}`,
     DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
-    CUSTOMER_DRIVER_DETAIL: `${urlPrefix}/customers/{0}/drivers/{1}`,
+    CUSTOMER_DRIVER_DETAIL: `${urlPrefix}/customers/{0}/identities/{1}/drivers/{2}`,
 }
 
 export default endpoints;
