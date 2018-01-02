@@ -21,4 +21,4 @@ function loggingDecorator(wrapped) {
   }
 }
 
-const wrapped = loggingDecorator(doSomething);
+const logging = loggingDecorator(doSomething);
