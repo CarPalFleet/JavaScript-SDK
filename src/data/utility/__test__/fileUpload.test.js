@@ -7,7 +7,8 @@ test('Test for customer order detail', async () => {
     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
     const token = await result;
 
-    let file = new File();
-    const response = await getOrderDetailAsync({file, 1, true}, token.accessToken);
+    var formData = new FormData();
+    formData.append('file', file)
+    const response = await getOrderDetailAsync({formData, customerId: 1, showProgress: true}, token.accessToken);
     expect('true' in response.data).toBe(true);
 })
