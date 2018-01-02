@@ -67,6 +67,11 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/public/Language   | getLanguagesAsync()                               | This returns a Promise object with a list of languages supported by carpal system            |
 | carpal/dist/data/public/Setting    | getCustomerPublicProfileSettingsAsync(domain)     | This returns a Promise object with Logo and Background Image URL        |
 
+# Utility
+| Module                             | Method                                            | Description                                                          |
+| ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
+| carpal/dist/data/utility/FileUpload    | fileUploadAsync({fileObject, customerId, showProgress}, token)          | This returns a Promise object with a list of countries available for carpal services. set showProgress = true if need to diplay axios uploading progressEvent |
+
 # Tutorials
 This is a simple tutorial to show you how to use CarPal JavaScript SDK to quickly build a web based fleet management application.
 
