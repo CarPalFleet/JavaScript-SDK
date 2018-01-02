@@ -1,4 +1,6 @@
 const urlPrefix = 'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
+const laravalUrlPrefix = 'https://api-test.carpal.me';
+const version = '/v3';
 
 const endpoints = {
     LANGUAGES: `${urlPrefix}/languages`,
@@ -22,6 +24,7 @@ const endpoints = {
     SCHEMAS: `${urlPrefix}/schemas/{0}/{1}`,
     DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
     CUSTOMER_DRIVER_DETAIL: `${urlPrefix}/customers/{0}/identities/{1}/drivers/{2}`,
+    FILE_UPLOAD: `${laravalUrlPrefix}/${version}/customers/{0}/upload`,
 }
 
 export default endpoints;
