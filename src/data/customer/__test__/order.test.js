@@ -152,11 +152,9 @@ test('Test for fetching batch locations error', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
     const token = await result;
-    const response = await fetchBatchLocationsErrorAsync(1, '2018-01-13', token.accessToken);
+    const response = await fetchBatchLocationsErrorAsync(1, '2018-01-03', token.accessToken);
 
-    // Remove below codes after API wrapper is ready to use.
-    expect(mockUpResponse.error === 1).toBe(true);
-    // expect(response.error === 1).toBe(true);
+    expect(response.data instanceof Array).toBe(true);
 })
 
 test('Test for pubsub live data for driver', async () =>{

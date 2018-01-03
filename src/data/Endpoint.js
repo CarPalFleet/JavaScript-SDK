@@ -26,8 +26,8 @@ const endpoints = {
     CUSTOMER_DRIVER_DETAIL: `${urlPrefix}/customers/{0}/identities/{1}/drivers/{2}`,
     FILE_UPLOAD: `${laravalUrlPrefix}/${version}/customers/{0}/upload`,
     CREAT_ORDER_UPLOAD_PROGRESS: `${laravalUrlPrefix}/${version}/customers/{0}/orders`,
-    CREATED_BATCH_ORDERS: `${laravalUrlPrefix}/${version}/customers/{0}/error`,
-    BATCH_ORDER_CREATE_ERRORS: `${laravalUrlPrefix}/${version}/customers/{0}/error`,
+    BATCH_LOCATIONS: `${laravalUrlPrefix}/${version}/customers/{0}`,
+    BATCH_LOCATION_ERRORS: `${laravalUrlPrefix}/${version}/customers/{0}/location/errors`,
     NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
 }
 
