@@ -28,6 +28,7 @@ const endpoints = {
     CREAT_ORDER_UPLOAD_PROGRESS: `${laravalUrlPrefix}/${version}/customers/{0}/orders`,
     CREATED_BATCH_ORDERS: `${laravalUrlPrefix}/${version}/customers/{0}/error`,
     BATCH_ORDER_CREATE_ERRORS: `${laravalUrlPrefix}/${version}/customers/{0}/error`,
+    NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
 }
 
 export default endpoints;

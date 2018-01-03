@@ -53,6 +53,12 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
 | carpal/dist/data/messaging/PubSub  | Initializing connection: **pubsub**('APP_PUBSUB_KEY', 'CHANNEL_ID', realtime?) ***By default, realtime is set to true to establish a socket connection. For transactional mode, you should set it to false***<br /><br />**subscribe**(eventName, callback)<br /><br />**publish**(eventName, messageObj)<br /><br /> **unsubscribe**(eventName, listener) **listener** is the callback listener function that was previously subscribed.<br /><br />| Example:<br /><br />```const ps = pubsub(API_KEY, CHANNEL_ID);```<br /><br />```pubSub.subscribe(eventName, callback);```<br /><br />```pubSub.unsubscribe(eventName, listener)```<br /><br />``` pubSub.publish(eventName, listener)```      |
 
+# Notification
+| Module                             | Method                                            | Description                                                          |
+| ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
+| carpal/dist/data/notification/Notification  | getNotificationsAsync(all = true/false, userId, token)              | This returns a Promise object with notifications. Param **all=true/false** to indicate if show only unread or all notification messages |
+| carpal/dist/data/notification/Notification | deleteNotificationAsync(notificationId, userId, token)              | This returns true if requested notificationId is deleted. |
+
 # Data validation
 **This is a special set of functions to verify the inbound data from Pub/Sub against the schemas predefined by CarPal. You can choose not to use these functions at your own risk**
 
