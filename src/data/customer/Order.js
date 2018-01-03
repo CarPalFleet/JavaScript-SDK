@@ -1,6 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import locaitonsMockUp from './LocationMockUpData';
 
 export const getCustomerOrdersWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
@@ -93,26 +94,28 @@ export const getBatchOrderProgressAsync = async (customerId, pickupDate, token) 
 
 getBatchOrderProgressAsync().catch(handleAsyncError);
 
-export const getGroupOrdersByLocationAsync = async (customerId, pickupDate, token) => {
+export const getGroupOrdersByLocationAsync = async (filterObject, customerId, token) => {
+  // customerId, pickupDate, limit= 20, skip= 0
   let [locations, errors] = await Promise.all([
-    getBatchLocationsAsync(customerId, pickupDate, token),
+    getBatchLocationsAsync(filterObject, customerId, token)
     fetchBatchLocationsErrorAsync(customerId, pickupDate, token)
   ]);
 
-  return groupOrdersByLocation(locations, errors);
-  // return groupOrdersByLocation(camelize(response.data));
+  return groupLocationByPickUpAddress(locations.data, errors.data);
+  // return groupLocationByPickUpAddress(locations.data, errors.data);
 }
 
 getGroupOrdersByLocationAsync().catch(handleAsyncError);
 
-export const getBatchLocationsAsync = async (customerId, pickupDate, token) => {
+export const getBatchLocationsAsync = async (filterObject, customerId, token) => {
+  let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
   let response = axios({
     method: 'POST',
-    url: `${endpoints.CREATED_BATCH_ORDERS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
+    url: `${endpoints.BATCH_LOCATIONS.replace('{0}', customerId)}?${paramString}`,
     header: {'Authorization': token}
   });
 
-  return camelize(mockupGroupedData());
+  return camelize(locaitonsMockUp);
   // return camelize(response.data);
 }
 
@@ -121,12 +124,11 @@ getBatchLocationsAsync().catch(handleAsyncError);
 export const fetchBatchLocationsErrorAsync = async (customerId, pickupDate, token) => {
   let response = await axios({
     method: 'GET',
-    url: `${endpoints.BATCH_ORDER_CREATE_ERRORS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
+    url: `${endpoints.BATCH_LOCATION_ERRORS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
     header: {'Authorization': token}
   });
 
-  return fetchBatchOrderCreateErrorMockUp();
-  // return camelize(response.data);
+  return camelize(response.data);
 }
 
 fetchBatchLocationsErrorAsync().catch(handleAsyncError);
@@ -204,127 +206,38 @@ function categoriesCustomerOrders(orders) {
   }, responseData)}
 }
 
-function groupOrdersByLocation(e) {
-  //camelize
-
-  fetchBatchLocationsErrorAsync(customerId, pickupDate, token)
-  const result = {
-    totalPages: 10,
-    currentPage: 1,
-    errors: [{
-      id: '1',
-      'message': tetx
-    }],
-    data: [
-      {
-        id: null,
-        address: null,
-        jobs: [
-          {
-            "id": 123456012,
-            "priority": 1,
-            "recipient": "test recipient",
-            "driver": "test1 driver",
-            "pickup": "9:00 - 12Dec",
-            "delivery": "10:00 - 12Dec",
-            "address": "32 New Market Road",
-            "isError": false
-          },
-          {
-            "id": 123456013,
-            "priority": 2,
-            "recipient": "test recipient",
-            "driver": "test1 driver",
-            "pickup": "9:00 - 12Dec",
-            "delivery": "10:00 - 12Dec",
-            "address": "32 New Market Road",
-            "isError": false
-          },
-          {
-            "id": 123456014,
-            "priority": 3,
-            "recipient": "test recipient",
-            "driver": "test1 driver",
-            "pickup": "9:00 - 12Dec",
-            "delivery": "10:00 - 12Dec",
-            "address": "32 New Market Road",
-            "isError": false
-          }
-        ]
-      },
-      {
-      id: 1,
-      address: '143 cecil street',
-      jobs: [
-        {
-          "id": 12345601,
-          "priority": 1,
-          "recipient": "test1 recipient",
-          "driver": "test1 driver",
-          "pickup": "9:00 - 12Dec",
-          "delivery": "10:00 - 12Dec",
-          "address": "32 New Market Road",
-          "isError": false
-        },
-        {
-          "id": 12345602,
-          "priority": 2,
-          "recipient": "test1 recipient",
-          "driver": "test2 driver",
-          "pickup": "9:00 - 12 Dec",
-          "delivery": "10:00 - 12Dec",
-          "address": "32 New Market Road",
-          "isError": false
-        },
-        {
-          "id": 12345603,
-          "priority": 3,
-          "recipient": "test1 recipient",
-          "driver": "test3 driver",
-          "pickup": "9:00 - 12 Dec",
-          "delivery": "10:00 - 12Dec",
-          "address": "32 New Market Road",
-          "isError": false
-        },
-      ]
-    },
-    {
-      id: 2,
-      address: '32 new Market road abcd nsnsns ndndnd nd ndndnd ndndnd',
-      jobs: [
-        {
-          "id": 12345608,
-          "priority": 1,
-          "recipient": "test2 recipient",
-          "driver": "test1 driver",
-          "pickup": "9:00 - 12Dec",
-          "delivery": "10:00 - 12Dec",
-          "address": "32 New Market Road",
-          "isError": true
-        },
-        {
-          "id": 12345606,
-          "priority": 2,
-          "recipient": "test2 recipient",
-          "driver": "test1 driver",
-          "pickup": "9:00 - 12Dec",
-          "delivery": "10:00 - 12Dec",
-          "address": "32 New Market Road",
-          "isError": false
-        },
-        {
-          "id": 12345607,
-          "priority": 3,
-          "recipient": "test2 recipient",
-          "driver": "test1 driver",
-          "pickup": "9:00 - 12Dec",
-          "delivery": "10:00 - 12Dec",
-          "address": "32 New Market Road",
-          "isError": false
-        }
-      ]
+function groupLocations(groups, location) {
+  let groupId = location.pickupLocationAddressId;
+  let index = groups[addressIds].indexOf(groupId);
+  if (index > -1) {
+    index = groupId? groupId.length : 0;
+    groups[locations][index] = {
+        id: groupId,
+        address: location.pickupLocationAddress,
+        jobs: []
     }
-    ]
+  }
+  groups[locations][index]['jobs'] = location;
+
+  return groups[locations];
+}
+
+function groupLocationByPickUpAddress(locations, errors) {
+  let data = locations['data'].reduce((groupAddressObject, location, index) => {
+    return groupLocations(groupAddressObject, location);
+  }, {groups: [0], addressIds: [0]});
+
+  if ((typeof data[0] === 'number')) {
+    delete data[0];
+  }
+
+  const result = {
+    totalRecords: locations.totalRecords,
+    data: data
+  }
+
+  if (errors.errors) {
+    result.error = errors.errorContent;
   }
 
   return result;
@@ -337,45 +250,6 @@ function exampleProgression() {
     "chunkProgression": 5,
     "totalChunkProgression": 10
   }
-}
-
-function mockupGroupedData() {
-  const data = {
-
-  }
-  return data;
-}
-
-function fetchBatchOrderCreateErrorMockUp(e) {
-  const withoutErrors ={
-    'errors': 0,
-   	'chunkProgression': 1,
-    'totalChunkProgression': 3
-  }
-
-  const withErrors = {
-    'errors': 1,
-    'chunkProgression': 1,
-    'totalChunkProgression': 3,
-    'errorContent' : [
-   	 {
-   		 'groupingLocationId': 1,
-   		 'errorMessages': {
-   			 'priority': [],
-   			 'deliveryNotes': ['blah'],
-   		 }
-   	 },
-   	 {
-   		 'groupingLocationId': 2,
-   		 'errorMessages': {
-   			 'priority': ['blah', 'blah'],
-   			 'deliveryNotes': ['blah'],
-   		 }
-   	 }
-    ]
-  }
-
-  return withErrors;
 }
 
 function handleAsyncError(e) {
