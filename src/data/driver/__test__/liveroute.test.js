@@ -11,7 +11,7 @@ test('Test for new live route', async () =>{
     const liveRoute = {
       "orderId": 0,
       "addressId": 0,
-      "driverId": 1,
+      "id": 1,
       "latitude": "1.33",
       "longitude": "103.45",
       "orderRouteType": 1
