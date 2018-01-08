@@ -20,7 +20,6 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/account/Auth      | refreshTokenAsync(refreshToken, clientId, secret)  | This returns a Promise object with both new access token and refresh token by using existing refresh token.  |
 | carpal/dist/data/account/Account   | resetPasswordRequestAsync(email)                  | This will call the email service to send out a link and return a Promise object with true/false   
 | carpal/dist/data/account/Account   | resetPasswordAsync(token, email, password, confirmPassword) | This will actually update a user's password and return a Promise object with true/false  |
-| carpal/dist/data/account/Account   | getNotificationsAsync(id, token)                  | This returns a Promise object with a list of notification items for a given user ID |
 | carpal/dist/data/account/Account   | validateResetPasswordTokenAsync(token)            | This returns a Promise object, if return true the token is valid, otherwise an error occurs. |
 
 # Customer
@@ -38,6 +37,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/customer/Customer    | getCustomerDriversWithFiltersAsync(filterObj, customerId, token, validateSchema)   | To use getCustomerDriversWithFiltersAsync, validateSchema has to be set to `true`, else by default it is set to `false`. Currently, validateSchema is not handled yet. This is an example of filterObj to be passed to getCustomerDriversAsync: const filterObj = {driverStatusIds: [2], orderRouteTypeIds: [1,2], driverTypeIds: [1,2,3]}|
 | carpal/dist/data/customer/Order    | updateDriverLiveData(originalDriverDatum, pubSubPayload, filterObject) | This returns update Drivers with both activeStatusCounts and totalStatusCounts counts. Can add driverStatusIds and driverTypeIds fields inside of filterObject. <br /><br />|
 | carpal/dist/data/customer/Order    | getBatchOrderProgressAsync(customerId, pickupDate, token) | This returns a Promise object with batch order progress. <br /><br /> pickupDate format should be 'yyyy-mm-dd'** |
+| carpal/dist/data/customer/Order    | getGroupOrdersByLocationAsync({pickupDate, limit, skip}, customerId, token) | This returns a Promise object with all locations grouped by pickupLocationAddressId. <br /><br /> pickupDate format should be 'yyyy-mm-dd'** |
 | carpal/dist/data/customer/Order    | fetchBatchLocationsErrorAsync(customerId, pickupDate, token) | This returns a Promise object with order progress data. <br /><br /> pickupDate format should be 'yyyy-mm-dd'** |
 | carpal/dist/data/customer/Order    | getCustomerDriverCountsAsync(filterObject, customerId, token) | This returns a Promise object with all customer's driver counts. <br /><br />To utilize the function, filterObject(driverTypeIds: [1,2]), customerId and token must be provided.** |
 | carpal/dist/data/customer/Search    | searchAsync(keywords, scope, fuzzy=true, fuzziness=1, token)   | The available options for scope:drivers, orders<br /><br />This returns a Promise object with search results. (for scope argument, please leave it as empty string for now)|
