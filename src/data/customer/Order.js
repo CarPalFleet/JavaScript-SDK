@@ -89,7 +89,6 @@ export const getBatchOrderProgressAsync = async (customerId, pickupDate, token) 
   });
 
   return camelize(exampleProgression());
-  // return camelize(response.data);
 }
 
 getBatchOrderProgressAsync().catch(handleAsyncError);
@@ -159,7 +158,6 @@ export const updateJobLiveData = (originalJobDatum, pubSubPayload, filterObject)
         return pubSubPayload.orderId == order.orderId; //orderId might be string/integer;
       })
       if (index >= 0) {
-        matchedPayload.isDataExist = true;
         matchedPayload.statusId = statusId;
         matchedPayload.index = index;
         matchedPayload.data = originalJobDatum['data'][statusId][index];
@@ -206,34 +204,18 @@ function categoriesCustomerOrders(orders) {
   }, responseData)}
 }
 
-function groupLocations(groups, location) {
-  let groupId = location.pickupLocationAddressId;
-  let index = groups[addressIds].indexOf(groupId);
-  if (index > -1) {
-    index = groupId? groupId.length : 0;
-    groups[locations][index] = {
-        id: groupId,
-        address: location.pickupLocationAddress,
-        jobs: []
-    }
-  }
-  groups[locations][index]['jobs'] = location;
-
-  return groups[locations];
-}
-
 function groupLocationByPickUpAddress(locations, errors) {
-  let data = locations['data'].reduce((groupAddressObject, location, index) => {
+  let locationsGroups = locations['data'].reduce((groupAddressObject, location, index) => {
     return groupLocations(groupAddressObject, location);
-  }, {groups: [0], addressIds: [0]});
+  }, {data: [0], addressIds: [0]});
 
-  if ((typeof data[0] === 'number')) {
-    delete data[0];
+  if ((typeof locationsGroups[0] === 'number')) {
+    delete locationsGroups[0];
   }
 
   const result = {
-    totalRecords: locations.totalRecords,
-    data: data
+    totalRecords: locationsGroups.totalRecords,
+    data: locationsGroups.data
   }
 
   if (errors.errors) {
@@ -241,6 +223,27 @@ function groupLocationByPickUpAddress(locations, errors) {
   }
 
   return result;
+}
+
+
+function groupLocations(groups, location) {
+  let groupId = location.pickupLocationAddressId;
+  let index = groups['addressIds'].indexOf(groupId);
+  if (index === -1) {
+    index = groupId? groups['addressIds'].length : 0;
+    if (index) groups['addressIds'].push(groupId);
+  }
+
+  if (!(groups['data'][index] instanceof Object)) {
+    groups['data'][index] = {
+      id: groupId,
+      address: location.pickupLocationAddress,
+      jobs: []
+    }
+  }
+  groups['data'][index]['jobs'].push(location);
+
+  return groups;
 }
 
 function exampleProgression() {
