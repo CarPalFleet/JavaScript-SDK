@@ -2,12 +2,12 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 
-export const fileUploadAsync = async ({file, customerId, showProgress}, token) => {
+export const fileUploadAsync = async (fileObject, customerId, showProgress, token) => {
   let axiosData = {
     method: 'POST',
     url: endpoints.FILE_UPLOAD.replace('{0}', customerId),
     header: {'Authorization': `Bearer ${token}`, 'X-Requested-With': 'XMLHttpRequest'},
-    data: file
+    data: fileObject
   }
 
   if (showProgress) {

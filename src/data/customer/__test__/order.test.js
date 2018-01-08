@@ -138,24 +138,24 @@ test('Test for uploading batch order progression', async () => {
     // expect('batchStatusId' in response).toBe(true);
 })
 
-test('Test for Batch Order Data', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
-    const token = await result;
-    const response = await getBatchLocationsAsync(1, '2018-01-13', token.accessToken);
+// test('Test for Batch Order Data', async () => {
+//     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
+//     const token = await result;
+//     const response = await getBatchLocationsAsync(1, '2018-01-13', token.accessToken);
+//
+//     expect(response.data instanceof Object).toBe(true);
+//     // expect('batchStatusId' in response).toBe(true);
+// })
 
-    expect(response.data instanceof Object).toBe(true);
-    // expect('batchStatusId' in response).toBe(true);
-})
-
-test('Test for fetching batch locations error', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
-    const token = await result;
-    const response = await fetchBatchLocationsErrorAsync(1, '2018-01-03', token.accessToken);
-
-    expect(response.data instanceof Array).toBe(true);
-})
+// test('Test for fetching batch locations error', async () => {
+//     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
+//     const token = await result;
+//     const response = await fetchBatchLocationsErrorAsync(1, '2018-01-03', token.accessToken);
+//
+//     expect(response.data instanceof Array).toBe(true);
+// })
 
 test('Test for pubsub live data for driver', async () =>{
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;

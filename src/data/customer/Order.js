@@ -96,7 +96,7 @@ getBatchOrderProgressAsync().catch(handleAsyncError);
 export const getGroupOrdersByLocationAsync = async (filterObject, customerId, token) => {
   // customerId, pickupDate, limit= 20, skip= 0
   let [locations, errors] = await Promise.all([
-    getBatchLocationsAsync(filterObject, customerId, token)
+    getBatchLocationsAsync(filterObject, customerId, token),
     fetchBatchLocationsErrorAsync(customerId, pickupDate, token)
   ]);
 
