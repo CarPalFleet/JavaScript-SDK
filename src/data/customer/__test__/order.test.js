@@ -128,15 +128,15 @@ test('Test for creating new delivery window with product type 1', async () => {
 //     expect('id' in response).toBe(true);
 // })
 
-test('Test for uploading batch order progression', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
-    const token = await result;
-    const response = await getBatchOrderProgressAsync(1, '2018-01-13', token.accessToken);
-
-    expect('batchStatusId' in response).toBe(true);
-    // expect('batchStatusId' in response).toBe(true);
-})
+// test('Test for uploading batch order progression', async () => {
+//     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
+//     const token = await result;
+//     const response = await getBatchOrderProgressAsync(1, '2018-01-13', token.accessToken);
+//
+//     expect('batchStatusId' in response).toBe(true);
+//     // expect('batchStatusId' in response).toBe(true);
+// })
 
 // test('Test for Batch Order Data', async () => {
 //     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;

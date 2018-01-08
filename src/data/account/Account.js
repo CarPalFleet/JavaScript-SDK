@@ -72,14 +72,3 @@ export const getDriverLegsAsync = async(id, token, date)=>{
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
-
-export const getNotificationsAsync = async(id, token)=>{
-    try{
-        const response = await axios({method: 'get',
-                                      url: endpoints.NOTIFICATIONS.replace('{0}', id),
-                                      headers: {'Authorization': token}});
-        return camelize(response.data.data);
-    }catch(e){
-        return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
-    }
-}

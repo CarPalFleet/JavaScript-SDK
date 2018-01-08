@@ -94,10 +94,9 @@ export const getBatchOrderProgressAsync = async (customerId, pickupDate, token) 
 getBatchOrderProgressAsync().catch(handleAsyncError);
 
 export const getGroupOrdersByLocationAsync = async (filterObject, customerId, token) => {
-  // customerId, pickupDate, limit= 20, skip= 0
   let [locations, errors] = await Promise.all([
     getBatchLocationsAsync(filterObject, customerId, token),
-    fetchBatchLocationsErrorAsync(customerId, pickupDate, token)
+    fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token)
   ]);
 
   return groupLocationByPickUpAddress(locations.data, errors.data);
@@ -107,6 +106,7 @@ export const getGroupOrdersByLocationAsync = async (filterObject, customerId, to
 getGroupOrdersByLocationAsync().catch(handleAsyncError);
 
 export const getBatchLocationsAsync = async (filterObject, customerId, token) => {
+  // filterObject = { pickupDate, limit= 20, skip= 0 }
   let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
   let response = axios({
     method: 'POST',
@@ -120,7 +120,7 @@ export const getBatchLocationsAsync = async (filterObject, customerId, token) =>
 
 getBatchLocationsAsync().catch(handleAsyncError);
 
-export const fetchBatchLocationsErrorAsync = async (customerId, pickupDate, token) => {
+export const fetchBatchLocationsErrorAsync = async (pickupDate, customerId, token) => {
   let response = await axios({
     method: 'GET',
     url: `${endpoints.BATCH_LOCATION_ERRORS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
