@@ -97,8 +97,8 @@ export const getCustomerDriverCountsAsync = async (filterObject = {}, customerId
 export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterObject) => {
   try{
     pubSubPayload = camelize(pubSubPayload);
-    pubSubPayload.payload.driverStatusId = pubSubPayload.payload.orderId > 0 ? 2 : 1;
-    let payload = pubSubPayload.payload;
+    pubSubPayload.data.driverStatusId = pubSubPayload.data.orderId > 0 ? 2 : 1;
+    let payload = pubSubPayload.data;
     const driverStatusIds = [1, 2, 3, 4];
     const driverTypeIds = [1, 2, 3];
     const isValidStatus = driverStatusIds.includes(payload.driverStatusId);
@@ -122,10 +122,9 @@ export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterO
       })
       if (index >= 0) {
         matchedPayload.isDataExist = true;
-        matchedPayload.statusId = pubSubPayload.lastDriverStatusId;
+        matchedPayload.statusId = statusId;
         matchedPayload.index = index;
         matchedPayload.data = originalDriverDatum['data'][statusId][index];
-        matchedPayload.isDataExist = originalDriverDatum['data'][statusId][index];
       }
       return matchedPayload;
     }, {isDataExist: false, statusId: 0, index: -1, data: {}});
@@ -147,7 +146,7 @@ export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterO
     originalDriverDatum['data'][payload.driverStatusId].push(payload);
     return originalDriverDatum;
   }catch(e){
-    return {statusCode: '500', statusText: 'Error in updating job live data'};
+    return {statusCode: '500', statusText: 'Error in updating job live data', e};
   }
 }
 
