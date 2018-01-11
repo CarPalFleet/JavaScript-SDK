@@ -118,7 +118,7 @@ export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterO
     let driverStatusKeys = Object.keys(originalDriverDatum['data']);
     let matchedPayload = driverStatusKeys.reduce((matchedPayload, statusId) => {
       let index = originalDriverDatum['data'][statusId].findIndex((order) => {
-        return payload.orderId == order.orderId; //orderId might be string/integer;
+        return payload.driverId == order.driverId; //orderId might be string/integer;
       })
       if (index >= 0) {
         matchedPayload.isDataExist = true;
@@ -146,7 +146,7 @@ export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterO
     originalDriverDatum['data'][payload.driverStatusId].push(payload);
     return originalDriverDatum;
   }catch(e){
-    return {statusCode: '500', statusText: 'Error in updating job live data', e};
+    return {statusCode: '500', statusText: 'Error in updating job live data'};
   }
 }
 
