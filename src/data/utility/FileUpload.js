@@ -1,24 +1,25 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import { snakeCaseDecorator } from '../decorator/CoreDecorators';
 
-export const fileUploadAsync = async (fileObject, customerId, showProgress, token) => {
-  let axiosData = {
-    method: 'POST',
-    url: endpoints.FILE_UPLOAD.replace('{0}', customerId),
-    header: {'Authorization': `Bearer ${token}`, 'X-Requested-With': 'XMLHttpRequest'},
-    data: fileObject
+export const fileUploadAsync = async (fileObject, token) => {
+  try {
+    fileObject = snakeCaseDecorator(fileObject);
+    let axiosData = {
+      method: 'POST',
+      url: endpoints.BATCH_FILE_UPLOAD,
+      header: {'Authorization': `Bearer ${token}`, 'X-Requested-With': 'XMLHttpRequest'},
+      data: fileObject
+    }
+
+    let response = await axios(axiosData);
+    return camelize(response);
+  } catch (e) {
+    handleFileUploadError(e);
   }
-
-  if (showProgress) {
-    axiosData.config = { onUploadProgress: progressEvent => console.log(progressEvent.loaded) }
-  }
-
-  let response = await axios(axiosData);
-  return camelize(response);
 }
 
-fileUploadAsync().catch(handleFileUploadError);
 
 function handleFileUploadError(e) {
   return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});

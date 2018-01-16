@@ -2,6 +2,7 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import locaitonsMockUp from './LocationMockUpData';
+import { snakeCaseDecorator } from '../decorator/CoreDecorators';
 
 export const getCustomerOrdersWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
@@ -82,55 +83,144 @@ export const getDeliveryWindows = async (customerId, identityId, productTypeId, 
 }
 
 export const getBatchOrderProgressAsync = async (customerId, pickupDate, token) => {
-  let response = await axios({
-    method: 'GET',
-    url: `${endpoints.CREAT_ORDER_UPLOAD_PROGRESS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
-    header: {'Authorization': `Bearer ${token}`}
-  });
+  try {
+    let response = await axios({
+      method: 'GET',
+      url: `${endpoints.CREAT_ORDER_UPLOAD_PROGRESS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
+      header: {'Authorization': `Bearer ${token}`}
+    });
 
-  return camelize(exampleProgression());
+    return camelize(exampleProgression());
+  } catch (e) {
+    handleAsyncError(e);
+  }
 }
 
-getBatchOrderProgressAsync().catch(handleAsyncError);
+export const getGroupingLocationsAsync = async (filterObject, customerId, token) => {
+  try {
+    let statusId = filterObject.statusId || 1;
+    let filters = snakeCaseDecorator(filterObject);
+    let paramString = Object.keys(filters).reduce((str, key) => (str += `&${key}=${filters[key]}`), '');
+    let response = axios({
+      method: 'POST',
+      url: `${endpoints.GROUPING_LOCATIONS}${paramString.replace('&', '?')}`,
+      header: {'Authorization': token}
+    });
 
-export const getGroupOrdersByLocationAsync = async (filterObject, customerId, token) => {
-  let [locations, errors] = await Promise.all([
-    getBatchLocationsAsync(filterObject, customerId, token),
-    fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token)
-  ]);
+    let locations = camelize(response.data);
+    if (filterObject.statusId === 1) {
+      return groupLocationByPickUpAddress(locations);
+    }
 
-  return groupLocationByPickUpAddress(locations.data, errors.data);
-  // return groupLocationByPickUpAddress(locations.data, errors.data);
+    return groupLocationByPickUpAddressWithErrors(locations, filterObject, customerId, token);
+  } catch (e) {
+    handleAsyncError(e);
+  }
 }
-
-getGroupOrdersByLocationAsync().catch(handleAsyncError);
-
-export const getBatchLocationsAsync = async (filterObject, customerId, token) => {
-  // filterObject = { pickupDate, limit= 20, skip= 0 }
-  let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
-  let response = axios({
-    method: 'POST',
-    url: `${endpoints.BATCH_LOCATIONS.replace('{0}', customerId)}?${paramString}`,
-    header: {'Authorization': token}
-  });
-
-  return camelize(locaitonsMockUp);
-  // return camelize(response.data);
-}
-
-getBatchLocationsAsync().catch(handleAsyncError);
 
 export const fetchBatchLocationsErrorAsync = async (pickupDate, customerId, token) => {
-  let response = await axios({
-    method: 'GET',
-    url: `${endpoints.BATCH_LOCATION_ERRORS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
-    header: {'Authorization': token}
-  });
+  try {
+    let response = await axios({
+      method: 'GET',
+      url: `${endpoints.GROUPING_LOCATIONS_ERRORS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
+      header: {'Authorization': token}
+    });
 
-  return camelize(response.data);
+    return camelize(response.data);
+  } catch (e) {
+    handleAsyncError(e);
+  }
 }
 
-fetchBatchLocationsErrorAsync().catch(handleAsyncError);
+export const fetchOrderColumNames = async (pickupDate, customerId, token) => {
+  try {
+    let response = await axios({
+      method: 'GET',
+      url: `${endpoints.ORDER_COLUMNS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
+      header: {'Authorization': token}
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    handleAsyncError(e);
+  }
+}
+
+export const getUniqueGroupingLocationsAsync = async (pickupDate, customerId, token) => {
+  try {
+    let response = await axios({
+      method: 'GET',
+      url: `${endpoints.GROUPING_LOCATIONS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
+      header: {'Authorization': token}
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    handleAsyncError(e);
+  }
+}
+
+export const createGroupingLocationsAsync = async (locationObject, token) => {
+  try {
+    locationObject = snakeCaseDecorator(locationObject);
+    let response = await axios({
+      method: 'POST',
+      url: endpoints.GROUPING_LOCATIONS,
+      header: {'Authorization': token},
+      data: locationObject
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    handleAsyncError(e);
+  }
+}
+
+export const editGroupingLocationAsync = async (groupingLocationId, editedLocationObject, token) => {
+  try {
+    editedLocationObject = snakeCaseDecorator(editedLocationObject);
+    let response = await axios({
+      method: 'PUT',
+      url: `${endpoints.GROUPING_LOCATIONS}/${groupingLocationId}`,
+      header: {'Authorization': token},
+      data: editedLocationObject
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    handleAsyncError(e);
+  }
+}
+
+export const editGroupingBatchLocationsAsync = async (locations, token) => {
+  try {
+    locations = snakeCaseDecorator(locations);
+    let response = await axios({
+      method: 'PUT',
+      url: endpoints.GROUPING_LOCATIONS,
+      header: {'Authorization': token},
+      data: locations
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    handleAsyncError(e);
+  }
+}
+
+export const deleteGroupingLocationsAsync = async (groupingLocationId, token) => {
+  try {
+    let response = await axios({
+      method: 'DELETE',
+      url: `${endpoints.GROUPING_LOCATIONS}/${groupingLocationId}`,
+      header: {'Authorization': token}
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    handleAsyncError(e);
+  }
+}
 
 export const updateJobLiveData = (originalJobDatum, pubSubPayload, filterObject) => {
   try{
@@ -204,7 +294,7 @@ function categoriesCustomerOrders(orders) {
   }, responseData)}
 }
 
-function groupLocationByPickUpAddress(locations, errors) {
+function groupLocationByPickUpAddress(locations) {
   let locationsGroups = locations['data'].reduce((groupAddressObject, location, index) => {
     return groupLocations(groupAddressObject, location);
   }, {data: [0], addressIds: [0]});
@@ -218,10 +308,26 @@ function groupLocationByPickUpAddress(locations, errors) {
     data: locationsGroups.data
   }
 
-  if (errors.errors) {
-    result.error = errors.errorContent;
+  return result;
+}
+
+function groupLocationByPickUpAddressWithErrors(locations, filterObject, customerId, token) {
+  let errorContent = fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
+  let locationsGroups = locations['data'].reduce((groupAddressObject, location, index) => {
+    return groupLocations(groupAddressObject, location);
+  }, {data: [0], addressIds: [0]});
+
+  if ((typeof locationsGroups[0] === 'number')) {
+    delete locationsGroups[0];
   }
 
+  const result = {
+    totalRecords: locationsGroups.totalRecords,
+    data: locationsGroups.data
+  }
+
+  //Update data with Errors
+  result.error = errors.errorContent;
   return result;
 }
 
