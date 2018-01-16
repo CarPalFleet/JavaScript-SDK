@@ -6,7 +6,8 @@ import {
   getBatchOrderProgressAsync,
   getBatchLocationsAsync,
   fetchBatchLocationsErrorAsync,
-  fetchBatchOrderCreateErrorMockUp
+  fetchBatchOrderCreateErrorMockUp,
+  getGroupingLocationsAsync
 } from '../Order';
 import { getTokenAsync } from '../../account/Auth';
 import CONFIG from './Config';
@@ -113,7 +114,6 @@ test('Test for creating new delivery window with product type 1', async () => {
                                                     endTime: '11:30'}, token.accessToken);
     expect('id' in response).toBe(true);
 })
-
 
 // test('Test for creating new delivery window with product type 3 and transaction user account', async () => {
 //     const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);

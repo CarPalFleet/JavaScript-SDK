@@ -1,24 +1,3 @@
-import snakeCase from 'snakeCase';
+import snakeCase from 'snakecase-keys';
 
-function snakeCaseDecorator(data) {
-  return function () {
-    return snakeCase(data);
-  }
-}
-
-const wrapped = snakeCaseDecorator(doSomething);
-
-function doSomething(name) {
-  console.log('Hello, ' + name);
-}
-
-function loggingDecorator(wrapped) {
-  return function() {
-    console.log('Starting');
-    const result = wrapped.apply(this, arguments);
-    console.log('Finished');
-    return result;
-  }
-}
-
-const logging = loggingDecorator(doSomething);
+export const snakeCaseDecorator = (params) => snakeCase(params);
