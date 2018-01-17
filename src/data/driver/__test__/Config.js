@@ -3,6 +3,8 @@ const CONFIG = {
   password: 'Hoofdletter50!',
   temail: 'nina+fleet@carpal.me',
   tpassword: 'xs4nin',
+  driverEmail: 'nina+fleetdriver@carpal.me',
+  driverPassword: 'xs4nin',
   clientId: '2',
   token: '8iQwaS8mJLvrW5KrGUrjDZ90bTrwk7frv4ygk7qt',
   domain: 'ezbuy.sg',

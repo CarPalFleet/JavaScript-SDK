@@ -132,11 +132,11 @@ export const fetchBatchLocationsErrorAsync = async (pickupDate, customerId, toke
   }
 }
 
-export const fetchOrderColumNames = async (pickupDate, customerId, token) => {
+export const fetchMyOrderColumNames = async (type, customerId, token) => {
   try {
     let response = await axios({
       method: 'GET',
-      url: `${endpoints.ORDER_COLUMNS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
+      url: `${endpoints.ORDER_COLUMNS.replace('{0}', customerId)}?type=${type}`,
       header: {'Authorization': token}
     });
 
@@ -146,11 +146,11 @@ export const fetchOrderColumNames = async (pickupDate, customerId, token) => {
   }
 }
 
-export const getUniqueGroupingLocationsAsync = async (pickupDate, customerId, token) => {
+export const getUniqueGroupingLocationsAsync = async (token) => {
   try {
     let response = await axios({
       method: 'GET',
-      url: `${endpoints.GROUPING_LOCATIONS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
+      url: endpoints.GROUPING_LOCATIONS,
       header: {'Authorization': token}
     });
 
