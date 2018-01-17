@@ -118,11 +118,10 @@ export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterO
     let driverStatusKeys = Object.keys(originalDriverDatum['data']);
     let matchedPayload = driverStatusKeys.reduce((matchedPayload, statusId) => {
       let index = originalDriverDatum['data'][statusId].findIndex((order) => {
-        return payload.orderId == order.orderId; //orderId might be string/integer;
+        return payload.driverId == order.driverId; //orderId might be string/integer;
       })
       if (index >= 0) {
         matchedPayload.isDataExist = true;
-        console.log("MATCH STATUS ID", statusId);
         matchedPayload.statusId = statusId;
         matchedPayload.index = index;
         matchedPayload.data = originalDriverDatum['data'][statusId][index];

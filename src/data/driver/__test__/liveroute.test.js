@@ -4,19 +4,17 @@ import CONFIG from './Config';
 
 test('Test for new live route', async () =>{
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.token);
-    //const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+    const result = getTokenAsync(CONFIG.driverEmail, CONFIG.driverPassword, CONFIG.clientId, CONFIG.token);
     const token = await result;
 
     const liveRoute = {
-      "orderId": 0,
-      "addressId": 0,
-      "driverId": 1,
-      "latitude": "1.33",
-      "longitude": "103.45",
-      "orderRouteType": 1
+        "orderId": 62399,
+        "addressId": 0,
+        "driverId": 9168,
+        "latitude": "14.572824",
+        "longitude": "121.0963087",
+        "orderRouteType": 1
     }
-
     const response = await sendLiveRouteDataAsync(liveRoute, token.accessToken);
 
     expect(response).toBeTruthy();
