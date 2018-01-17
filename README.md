@@ -5,7 +5,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is **0.0.93**
+The current version of this SDK is 0.0.94
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -20,7 +20,6 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/account/Auth      | refreshTokenAsync(refreshToken, clientId, secret)  | This returns a Promise object with both new access token and refresh token by using existing refresh token.  |
 | carpal/dist/data/account/Account   | resetPasswordRequestAsync(email)                  | This will call the email service to send out a link and return a Promise object with true/false   
 | carpal/dist/data/account/Account   | resetPasswordAsync(token, email, password, confirmPassword) | This will actually update a user's password and return a Promise object with true/false  |
-| carpal/dist/data/account/Account   | getNotificationsAsync(id, token)                  | This returns a Promise object with a list of notification items for a given user ID |
 | carpal/dist/data/account/Account   | validateResetPasswordTokenAsync(token)            | This returns a Promise object, if return true the token is valid, otherwise an error occurs. |
 
 # Customer
@@ -37,6 +36,17 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/customer/Customer    | createNewDriverAsync(driverObj, customerId, token) | This returns a Promise object with new driver detail. <br /><br />The **driverObj** payload example {identityId: 1, productTypeId: 3, transactionGroupId: 1, isNewUser: true, firstName: 'xxx', lastName: 'xxx', email: 'xxx@example.com',password: 'xxxxxx', birthday: 'yyyy-mm-dd', phone: '+65xxxxxxxx'}       |
 | carpal/dist/data/customer/Customer    | getCustomerDriversWithFiltersAsync(filterObj, customerId, token, validateSchema)   | To use getCustomerDriversWithFiltersAsync, validateSchema has to be set to `true`, else by default it is set to `false`. Currently, validateSchema is not handled yet. This is an example of filterObj to be passed to getCustomerDriversAsync: const filterObj = {driverStatusIds: [2], orderRouteTypeIds: [1,2], driverTypeIds: [1,2,3]}|
 | carpal/dist/data/customer/Order    | updateDriverLiveData(originalDriverDatum, pubSubPayload, filterObject) | This returns update Drivers with both activeStatusCounts and totalStatusCounts counts. Can add driverStatusIds and driverTypeIds fields inside of filterObject. <br /><br />|
+| carpal/dist/data/customer/Order    | getBatchOrderProgressAsync(customerId, pickupDate, token) | This returns a Promise object with batch order progress. <br /><br /> pickupDate format should be 'yyyy-mm-dd'** |
+| carpal/dist/data/customer/Order    | getGroupingLocationsAsync({statusId, pickupDate, limit, skip}, customerId, token) | This returns a Promise object with all locations grouped by pickupLocationAddressId. <br /><br /> statusId should be 1 and 2. statusId 1 means MyOrders, 2 means Locations with Errors. pickupDate format should be 'yyyy-mm-dd'** |
+| carpal/dist/data/customer/Order    | createGroupingLocationsAsync( locationObject, token) | Example of locationObject = {grouping_batch_id: 1, location_data: {}}|
+| carpal/dist/data/customer/Order    | editGroupingLocationAsync(groupingLocationId, {locationData: {}}, token) | pass edited fields into the locationData Object|
+| carpal/dist/data/customer/Order    | editGroupingBatchLocationsAsync( locations, token) | locations params must be array. Can pass multiple edited locations with groupingLocationId into this array. <br /><br />
+Example. [grouping_location_id: 1, locationData: {pickup_unit_number: 'xxxx'}]|
+| carpal/dist/data/customer/Order    | deleteGroupingLocationsAsync( groupingLocationId, token) | This function will be deleted specific groupingLocationId|
+| carpal/dist/data/customer/Order    | getUniqueGroupingLocationsAsync(token) | This returns a Promise object with all unique locations names <br /><br />|
+| carpal/dist/data/customer/Order    | fetchBatchLocationsErrorAsync(pickupDate, customerId, token) | This returns a Promise object with error and its message from Dynamodb. <br /><br /> pickupDate format should be 'yyyy-mm-dd'** |
+| carpal/dist/data/customer/Order    | fetchBatchLocationsErrorAsync( pickupDate, customerId, token) | This returns a Promise object with order progress data. <br /><br /> pickupDate format should be 'yyyy-mm-dd'** |
+| carpal/dist/data/customer/Order    | fetchMyOrderColumNames(type, customerId, token) | This returns a Promise object with my order table column headers filtered by customerId and type<br /><br /> type = my-order** |
 | carpal/dist/data/customer/Order    | getCustomerDriverCountsAsync(filterObject, customerId, token) | This returns a Promise object with all customer's driver counts. <br /><br />To utilize the function, filterObject(driverTypeIds: [1,2]), customerId and token must be provided.** |
 | carpal/dist/data/customer/Search    | searchAsync(keywords, scope, fuzzy=true, fuzziness=1, token)   | The available options for scope:drivers, orders<br /><br />This returns a Promise object with search results. (for scope argument, please leave it as empty string for now)|
 
@@ -50,6 +60,12 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
 | carpal/dist/data/messaging/PubSub  | Initializing connection: **pubsub**('APP_PUBSUB_KEY', 'CHANNEL_ID', realtime?) ***By default, realtime is set to true to establish a socket connection. For transactional mode, you should set it to false***<br /><br />**subscribe**(eventName, callback)<br /><br />**publish**(eventName, messageObj)<br /><br /> **unsubscribe**(eventName, listener) **listener** is the callback listener function that was previously subscribed.<br /><br />| Example:<br /><br />```const ps = pubsub(API_KEY, CHANNEL_ID);```<br /><br />```pubSub.subscribe(eventName, callback);```<br /><br />```pubSub.unsubscribe(eventName, listener)```<br /><br />``` pubSub.publish(eventName, listener)```      |
+
+# Notification
+| Module                             | Method                                            | Description                                                          |
+| ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
+| carpal/dist/data/notification/Notification  | getNotificationsAsync(all = true/false, userId, token)              | This returns a Promise object with notifications. Param **all=true/false** to indicate if show only unread or all notification messages |
+| carpal/dist/data/notification/Notification | deleteNotificationAsync(notificationId, userId, token)              | This returns true if requested notificationId is deleted. |
 
 # Data validation
 **This is a special set of functions to verify the inbound data from Pub/Sub against the schemas predefined by CarPal. You can choose not to use these functions at your own risk**
@@ -66,6 +82,11 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/public/Identity   | getIdentitiesAsync()                              | This returns a Promise object with a list of identities(cities) available for carpal services|
 | carpal/dist/data/public/Language   | getLanguagesAsync()                               | This returns a Promise object with a list of languages supported by carpal system            |
 | carpal/dist/data/public/Setting    | getCustomerPublicProfileSettingsAsync(domain)     | This returns a Promise object with Logo and Background Image URL        |
+
+# Utility
+| Module                             | Method                                            | Description                                                          |
+| ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
+| carpal/dist/data/utility/FileUpload    | fileUploadAsync({fileObject}, token)          | This returns a Promise object with groupingBatchId |
 
 # Tutorials
 This is a simple tutorial to show you how to use CarPal JavaScript SDK to quickly build a web based fleet management application.

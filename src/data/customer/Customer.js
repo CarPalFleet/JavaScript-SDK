@@ -97,8 +97,8 @@ export const getCustomerDriverCountsAsync = async (filterObject = {}, customerId
 export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterObject) => {
   try{
     pubSubPayload = camelize(pubSubPayload);
-    pubSubPayload.payload.driverStatusId = pubSubPayload.payload.orderId > 0 ? 2 : 1;
-    let payload = pubSubPayload.payload;
+    pubSubPayload.data.driverStatusId = pubSubPayload.data.orderId > 0 ? 2 : 1;
+    let payload = pubSubPayload.data;
     const driverStatusIds = [1, 2, 3, 4];
     const driverTypeIds = [1, 2, 3];
     const isValidStatus = driverStatusIds.includes(payload.driverStatusId);
@@ -131,11 +131,13 @@ export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterO
 
     if (matchedPayload.isDataExist) {
         // update activeStatusCounts
+        console.log("Exist");
         originalDriverDatum['activeStatusCounts'][payload.driverStatusId] += 1;
         let currentStatusCounts = originalDriverDatum['activeStatusCounts'][matchedPayload.statusId];
         originalDriverDatum['activeStatusCounts'][matchedPayload.statusId] -= currentStatusCounts? 1: 0;
         delete originalDriverDatum['data'][matchedPayload.statusId].splice(matchedPayload.index, 1);
     } else {
+      console.log("NOT");
       originalDriverDatum['totalStatusCounts'] += 1;
       filterObject.driverTypeIds.forEach((driverTypeId) => {
         originalDriverDatum['driverTypeCounts'][driverTypeId] += 1;
@@ -146,7 +148,7 @@ export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterO
     originalDriverDatum['data'][payload.driverStatusId].push(payload);
     return originalDriverDatum;
   }catch(e){
-    return {statusCode: '500', statusText: 'Error in updating job live data'};
+    return {statusCode: '500', statusText: 'Error in updating job live data', e};
   }
 }
 

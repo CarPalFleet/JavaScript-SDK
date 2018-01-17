@@ -20,3 +20,15 @@ export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
         return Promise.reject(rejectObj);
     }
 }
+
+export const getTableColumnNamesAsync = async (domain, token) => {
+  const response = await axios({method: 'get',
+                                url: endpoints.MY_ORDER_COLUMN_NAMES.replace('{1}', domain),
+                                headers: {'Authorization': token}});
+}
+
+getTableColumnNamesAsync().catch(handleAsyncError);
+
+function handleAsyncError(e) {
+  return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+}

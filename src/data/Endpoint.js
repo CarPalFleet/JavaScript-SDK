@@ -1,4 +1,6 @@
 const urlPrefix = 'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
+const laravalUrlPrefix = 'https://sandy-api-test.carpal.me';
+const version = '/v3';
 
 const endpoints = {
     LANGUAGES: `${urlPrefix}/languages`,
@@ -22,6 +24,13 @@ const endpoints = {
     SCHEMAS: `${urlPrefix}/schemas/{0}/{1}`,
     DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
     CUSTOMER_DRIVER_DETAIL: `${urlPrefix}/customers/{0}/identities/{1}/drivers/{2}`,
+    BATCH_FILE_UPLOAD: `${laravalUrlPrefix}/${version}/customer/grouping-batch`,
+    CREAT_ORDER_UPLOAD_PROGRESS: `${laravalUrlPrefix}/${version}/customers/{0}/orders`,
+    NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
+    MY_ORDER_COLUMN_NAMES: `${urlPrefix}/user/{0}/setting/{1}`,
+    GROUPING_LOCATIONS: `${urlPrefix}/${version}/customer/grouping-location`,
+    GROUPING_LOCATIONS_ERRORS: `${laravalUrlPrefix}/${version}/customers/{0}/location/errors`,
+    STATUSES: `${urlPrefix}/dashboard/types`,
 }
 
 export default endpoints;

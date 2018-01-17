@@ -1,8 +1,7 @@
-import { resetPasswordRequestAsync, 
-         resetPasswordAsync, 
-         getDriverJobsAsync, 
+import { resetPasswordRequestAsync,
+         resetPasswordAsync,
+         getDriverJobsAsync,
          getDriverLegsAsync,
-         getNotificationsAsync,
          validateResetPasswordTokenAsync } from '../Account';
 import { getTokenAsync } from '../Auth';
 import CONFIG from './Config';
@@ -42,21 +41,12 @@ test('Test for getting my legs.', async ()=>{
     expect(myLegs instanceof Array).toBe(true);
 })
 
-test('Test for account notifications.', async ()=>{
-    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
-    const token = await result;
-    const response = getNotificationsAsync(1, token.accessToken);
-    const notifications = await response;
-
-    expect('notifications' in notifications).toBe(true);
-})
-
 function makeid(size) {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  
+
     for (var i = 0; i < size; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
-  
+
     return text;
 }
