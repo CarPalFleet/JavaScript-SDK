@@ -90,7 +90,7 @@ export const getBatchOrderProgressAsync = async (customerId, pickupDate, token) 
       header: {'Authorization': `Bearer ${token}`}
     });
 
-    return camelize(exampleProgression());
+    return camelize(response.data);
   } catch (e) {
     handleAsyncError(e);
   }
@@ -98,7 +98,21 @@ export const getBatchOrderProgressAsync = async (customerId, pickupDate, token) 
 
 export const getGroupingLocationsAsync = async (filterObject, customerId, token) => {
   try {
-    let statusId = filterObject.statusId || 1;
+    // StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+    let statusId = filterObject.statusIds || 2;
+    let locations = fetchAllGroupingLocationsAsync(filterObject, customerId, token);
+    let errorContents;
+    if (statusId === 4) {
+      errorContents = fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
+    }
+    return groupLocations(locations, errorContents? errorContents: null);
+  } catch (e) {
+    handleAsyncError(e);
+  }
+}
+
+export const fetchAllGroupingLocationsAsync = async (filterObject, customerId, token) => {
+  try {
     let filters = snakeCaseDecorator(filterObject);
     let paramString = Object.keys(filters).reduce((str, key) => (str += `&${key}=${filters[key]}`), '');
     let response = axios({
@@ -107,12 +121,7 @@ export const getGroupingLocationsAsync = async (filterObject, customerId, token)
       header: {'Authorization': token}
     });
 
-    let locations = camelize(response.data);
-    if (filterObject.statusId === 1) {
-      return groupLocationByPickUpAddress(locations);
-    }
-
-    return groupLocationByPickUpAddressWithErrors(locations, filterObject, customerId, token);
+    return camelize(response.data);
   } catch (e) {
     handleAsyncError(e);
   }
@@ -146,7 +155,7 @@ export const fetchMyOrderColumNames = async (type, customerId, token) => {
   }
 }
 
-export const getUniqueGroupingLocationsAsync = async (token) => {
+export const getUniquePickupAddressesAsync = async (token) => {
   try {
     let response = await axios({
       method: 'GET',
@@ -294,46 +303,26 @@ function categoriesCustomerOrders(orders) {
   }, responseData)}
 }
 
-function groupLocationByPickUpAddress(locations) {
+function groupLocations(locations, errorContents = null) {
   let locationsGroups = locations['data'].reduce((groupAddressObject, location, index) => {
-    return groupLocations(groupAddressObject, location);
+    return groupLocationByPickUpAddress(groupAddressObject, location, errorContents);
   }, {data: [0], addressIds: [0]});
 
-  if ((typeof locationsGroups[0] === 'number')) {
-    delete locationsGroups[0];
+  if ((typeof locationsGroups['data'][0] === 'number')) {
+    locationsGroups['data'].splice(0, 1);
   }
 
   const result = {
-    totalRecords: locationsGroups.totalRecords,
+    successLocationCount: locations.successLocationCount,
+    failedLocationCount: locations.failedLocationCount,
     data: locationsGroups.data
   }
 
   return result;
 }
 
-function groupLocationByPickUpAddressWithErrors(locations, filterObject, customerId, token) {
-  let errorContent = fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
-  let locationsGroups = locations['data'].reduce((groupAddressObject, location, index) => {
-    return groupLocations(groupAddressObject, location);
-  }, {data: [0], addressIds: [0]});
-
-  if ((typeof locationsGroups[0] === 'number')) {
-    delete locationsGroups[0];
-  }
-
-  const result = {
-    totalRecords: locationsGroups.totalRecords,
-    data: locationsGroups.data
-  }
-
-  //Update data with Errors
-  result.error = errors.errorContent;
-  return result;
-}
-
-
-function groupLocations(groups, location) {
-  let groupId = location.pickupLocationAddressId;
+function groupLocationByPickUpAddress(groups, location, errorContents) { //errorContents
+  let groupId = location.pickupAddressId;
   let index = groups['addressIds'].indexOf(groupId);
   if (index === -1) {
     index = groupId? groups['addressIds'].length : 0;
@@ -343,22 +332,32 @@ function groupLocations(groups, location) {
   if (!(groups['data'][index] instanceof Object)) {
     groups['data'][index] = {
       id: groupId,
-      address: location.pickupLocationAddress,
+      address: location.pickupAddress,
       jobs: []
     }
   }
+
+  if (errorContents) {
+    location.error = retrieveErrors(errorContents, location);
+  }
+
   groups['data'][index]['jobs'].push(location);
 
   return groups;
 }
 
-function exampleProgression() {
-  // Remove progress after API finished.
-  return {
-    "batchStatusId": 123,
-    "chunkProgression": 5,
-    "totalChunkProgression": 10
-  }
+function retrieveErrors(errorContents, location) {
+  let error = errorContents.find((errorContent) => (errorContent.groupingLocationId === location.id));
+  return Object.keys(error['errorMessages']).reduce((errorList, key) => {
+    if (error['errorMessages'][key].length) {
+      errorList.push({
+        key: key,
+        suggestion: error['errorMessages'][key + 'Suggestion'] || '',
+        errorMessage: error['errorMessages'][key]
+      });
+    }
+    return errorList;
+  }, []);
 }
 
 function handleAsyncError(e) {

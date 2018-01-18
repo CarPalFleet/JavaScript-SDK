@@ -20,6 +20,7 @@ const endpoints = {
     CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
     SEARCH: `${urlPrefix}/search`,
     ELASTICSEARCH: `${urlPrefix}/dashboard/search`,
+    MY_ORDER_ELASTICSEARCH: `${urlPrefix}/dashboard/search`,
     NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
     SCHEMAS: `${urlPrefix}/schemas/{0}/{1}`,
     DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
