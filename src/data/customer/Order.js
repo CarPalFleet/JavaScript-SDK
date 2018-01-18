@@ -341,6 +341,8 @@ function groupLocationByPickUpAddress(groups, location, errorContents) { //error
     location.error = retrieveErrors(errorContents, location);
   }
 
+  location.latitude = location.latitude || '';
+  location.longitude = location.longitude || '';
   groups['data'][index]['jobs'].push(location);
 
   return groups;
@@ -350,8 +352,10 @@ function retrieveErrors(errorContents, location) {
   let error = errorContents.find((errorContent) => (errorContent.groupingLocationId === location.id));
   return Object.keys(error['errorMessages']).reduce((errorList, key) => {
     if (error['errorMessages'][key].length) {
+      let includeSuggestionKey = (error['errorMessages'][key] === ('pickupLocationAddress' || 'deliveryAddress'));
       errorList.push({
         key: key,
+        suggestionKey: includeSuggestionKey? ['latitude', 'longitude']: [],
         suggestion: error['errorMessages'][key + 'Suggestion'] || '',
         errorMessage: error['errorMessages'][key]
       });
