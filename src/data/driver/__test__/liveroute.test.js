@@ -1,21 +1,14 @@
 import { sendLiveRouteDataAsync } from '../LiveRoute';
-import { getTokenAsync } from '../../account/Auth';
-import CONFIG from './Config';
+import { getDriverTokenAsync } from './Auth';
+import { getTokenAsync } from '../account/Auth';
+import CONFIG from './config';
+import axios from 'axios';
 
 test('Test for new live route', async () =>{
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(CONFIG.driverEmail, CONFIG.driverPassword, CONFIG.clientId, CONFIG.token);
-    const token = await result;
-
-    const liveRoute = {
-        "orderId": 62399,
-        "addressId": 0,
-        "driverId": 9168,
-        "latitude": "14.572824",
-        "longitude": "121.0963087",
-        "orderRouteType": 1
-    }
-    const response = await sendLiveRouteDataAsync(liveRoute, token.accessToken);
+    const result = getDriverTokenAsync(CONFIG.driverEmail, CONFIG.driverPassword);
+    const data = await result;
+    const response = await sendLiveRouteDataAsync(CONFIG.liveRoute, data.token);
 
     expect(response).toBeTruthy();
 })
