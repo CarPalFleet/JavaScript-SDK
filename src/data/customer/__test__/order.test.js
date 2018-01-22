@@ -7,7 +7,9 @@ import {
   getBatchLocationsAsync,
   fetchBatchLocationsErrorAsync,
   fetchBatchOrderCreateErrorMockUp,
-  getGroupingLocationsAsync
+  getGroupingLocationsAsync,
+  groupLocations,
+  mergeLocationDataWithErrors
 } from '../Order';
 import { getTokenAsync } from '../../account/Auth';
 import CONFIG from './Config';
@@ -94,6 +96,22 @@ import CONFIG from './Config';
 //     expect(response instanceof Object).toBeTruthy();
 // })
 
+// test('Test for get grouping locations', async () => {
+//     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
+//     const token = await result;
+//     const filterObject = {
+//       statusIds: 2, // 2 = validated records, 4 = errors
+//       pickupDate: '2018-01-22',
+//       limit: 30,
+//       offset: 0
+//     }
+//
+//     const response = await getGroupingLocationsAsync(filterObject, 1, token.accessToken);
+//     console.log("RES", response);
+//     expect('data' in response).toBe(true);
+// })
+
 test('Test for customer order detail', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
@@ -157,49 +175,53 @@ test('Test for creating new delivery window with product type 1', async () => {
 //     expect(response.data instanceof Array).toBe(true);
 // })
 
-test('Test for pubsub live data for driver', async () =>{
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const originalJobDatum = {
-      "activeStatusCounts":{"2":0,"5":0,"7":0,"9":0},
-      "data":{
-         "2":[],
-         "5":[],
-         "7":[{
-             "id":"ed6d5ca5f2169bd18dda5fb58e1201a1",
-             "orderId":62304,
-             "orderStatusId":7,
-             "statusName":"Pending",
-             "pickupDate":"2017-12-25",
-             "latitude":"1.3572022",
-             "longitude":"103.8329746",
-             "driverId":0,
-             "customerId":2318
-         }],
-         "9":[]
-      }, "totalStatusCounts":0
-    }
+// test('Test for fetching batch locations error', async () => {
+//     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
+//     const token = await result;
+//     const response = await fetchBatchLocationsErrorAsync(1, '2018-01-03', token.accessToken);
+//
+//     expect(response.data instanceof Array).toBe(true);
+// })
 
-    const pubSubPayload = {
-       "id":"ed6d5ca5f2169bd18dda5fb58e1201a1",
-       "orderId":62304,
-       "orderStatusId":2,
-       "statusName":"Pending",
-       "pickupDate":"2017-12-19",
-       "latitude":"1.3572022",
-       "longitude":"103.8329746",
-       "driverId":0,
-       "customerId":2318
-    }
+// test('Test for fetching customer\'s driver list', async () => {
+//     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
+//     const token = await result;
+//     const response = await getCustomerDriverListAsync(1, '2018-01-03', token.accessToken);
+//
+//     expect(response.data instanceof Array).toBe(true);
+// })
 
-    const filterObject = {
-        orderStatusId: [2],
-        pickupDate: '2017-12-19'
-    }
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-    const token = await result;
-    const response = updateJobLiveData(originalJobDatum, pubSubPayload, filterObject);
-    expect(response instanceof Object).toBe(true);
-})
+// test('Test for canceling the batch file upload process', async () => {
+//     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
+//     const token = await result;
+//     const response = await cancelBatchFileProcessAsync(CONFIG.batchId, token.accessToken);
+//
+//     expect(response.data instanceof Array).toBe(true);
+// })
+
+// test('Test for Group Locations', () => {
+//     const groupingLocationData = CONFIG.groupingLocationData;
+//     const response = groupLocations(groupingLocationData, null);
+//     expect(response instanceof Object).toBe(true);
+// })
+//
+// test('Test for Group Locations With Errors', () => {
+//     const groupingLocationData = CONFIG.groupingLocationData;
+//     const errorContents = CONFIG.errorContents;
+//     const response = groupLocations(groupingLocationData, errorContents);
+//     expect(response instanceof Object).toBe(true);
+// })
+//
+// test('Test for merging location with errors', () => {
+//     const groupingLocationData = CONFIG.groupingLocationData;
+//     const errorContents = CONFIG.errorContents;
+//     const response = mergeLocationDataWithErrors(errorContents, groupingLocationData);
+//     console.log("mergeLocationDataWithErrors", response);
+//     expect(response instanceof Array).toBe(true);
+// })
 
 function makeid() {
     var text = "";

@@ -71,6 +71,17 @@ export const getCustomerDriversWithFiltersAsync = async (filterObject = {}, cust
     }
 }
 
+export const getCustomerDriverListAsync = async (customerId, token) =>{
+    try{
+         const response = await axios({method: 'get',
+                                       url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),
+                                       headers: {'Authorization': token}})
+        return camelize(response.data);
+    }catch(e){
+         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    }
+}
+
 export const getCustomerDriverDetailAsync = async (customerId, identityId, driverId, token) =>{
     try{
          const response = await axios({method: 'get',

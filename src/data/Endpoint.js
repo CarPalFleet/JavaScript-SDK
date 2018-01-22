@@ -1,5 +1,5 @@
 const urlPrefix = 'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
-const laravalUrlPrefix = 'https://sandy-api-test.carpal.me';
+const laravalUrlPrefix = 'https://api-test.carpal.me';
 const version = '/v3';
 
 const endpoints = {
@@ -20,6 +20,8 @@ const endpoints = {
     CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
     SEARCH: `${urlPrefix}/search`,
     ELASTICSEARCH: `${urlPrefix}/dashboard/search`,
+    MY_ORDER_ELASTICSEARCH: `${urlPrefix}/dashboard/search`, //url will be updated after backend is finished
+    DRIVER_LIST_ELASTICSEARCH: `${urlPrefix}/dashboard/search`, //url will be updated after backend is finished
     NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
     SCHEMAS: `${urlPrefix}/schemas/{0}/{1}`,
     DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
