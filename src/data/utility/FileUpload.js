@@ -22,5 +22,5 @@ export const fileUploadAsync = async (fileObject, token) => {
 
 
 function handleFileUploadError(e) {
-  return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+  return Promise.reject({statusCode: e.response.http_code, statusText: e.response.message});
 }
