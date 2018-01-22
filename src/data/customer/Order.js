@@ -99,10 +99,10 @@ export const getGroupingLocationsAsync = async (filterObject, customerId, token)
   try {
     // StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
     let statusId = filterObject.statusIds || 2;
-    let locations = fetchAllGroupingLocationsAsync(filterObject, customerId, token);
+    let locations = await fetchAllGroupingLocationsAsync(filterObject, customerId, token);
     let errorContents;
     if (statusId === 4) {
-      errorContents = fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
+      errorContents = await fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
     }
     return groupLocations(locations, errorContents? errorContents: null);
   } catch (e) {
@@ -326,8 +326,9 @@ export const groupLocations = (locations, errorContents = null) => {
   }
 
   const result = {
-    successLocationCount: locations.successLocationCount,
-    failedLocationCount: locations.failedLocationCount,
+    totalLocationCount: locations['meta'].totalLocationCount, //total_location_count
+    successLocationCount: locations['meta'].validatedLocationCount, //validated_location_count
+    failedLocationCount: locations['meta'].failedLocationCount, //failed_location_count
     data: locationsGroups.data
   }
 
