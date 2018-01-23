@@ -1,4 +1,4 @@
-export const MOCKDATA = {
+const MOCKDATA = {
   totalLocationCount: 110,
   successLocationCount: 55,
   failedLocationCount: 55,
@@ -8,7 +8,7 @@ export const MOCKDATA = {
       id: null,
       jobs: [
         {
-          "id": 12345679,
+          "id": 1,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -66,7 +66,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 2,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -124,7 +124,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 3,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -182,7 +182,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 4,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -240,7 +240,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 5,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -304,7 +304,7 @@ export const MOCKDATA = {
       id: 345690,
       jobs: [
         {
-          "id": 12345679,
+          "id": 6,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -362,7 +362,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 7,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -420,7 +420,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 8,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -478,7 +478,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 9,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -536,7 +536,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 10,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -600,7 +600,7 @@ export const MOCKDATA = {
       id: 3456912,
       jobs: [
         {
-          "id": 12345679,
+          "id": 11,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -658,7 +658,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 12,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -716,7 +716,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 13,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -774,7 +774,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 14,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -832,7 +832,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 15,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -890,7 +890,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 16,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -954,7 +954,7 @@ export const MOCKDATA = {
       id: 574178,
       jobs: [
         {
-          "id": 12345679,
+          "id": 17,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1012,7 +1012,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 18,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1070,7 +1070,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 19,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1128,7 +1128,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 20,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1186,7 +1186,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 21,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1244,7 +1244,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 22,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1302,7 +1302,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 23,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1360,7 +1360,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 24,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1424,7 +1424,7 @@ export const MOCKDATA = {
       id: 577029,
       jobs: [
         {
-          "id": 12345679,
+          "id": 25,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1482,7 +1482,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 26,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1540,7 +1540,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 27,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1598,7 +1598,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 28,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1656,7 +1656,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 29,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1714,7 +1714,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 30,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1778,7 +1778,7 @@ export const MOCKDATA = {
       id: 269438,
       jobs: [
         {
-          "id": 12345679,
+          "id": 31,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1836,7 +1836,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 32,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1894,7 +1894,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 33,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -1952,7 +1952,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 34,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2010,7 +2010,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 35,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2074,7 +2074,7 @@ export const MOCKDATA = {
       id: 34569012345,
       jobs: [
         {
-          "id": 12345679,
+          "id": 36,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2132,7 +2132,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 37,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2190,7 +2190,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 38,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2248,7 +2248,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 39,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2312,7 +2312,7 @@ export const MOCKDATA = {
       id: 22831,
       jobs: [
         {
-          "id": 12345679,
+          "id": 40,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2370,7 +2370,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 41,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2428,7 +2428,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 42,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2486,7 +2486,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 43,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2544,7 +2544,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 44,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2608,7 +2608,7 @@ export const MOCKDATA = {
       id: 648175,
       jobs: [
         {
-          "id": 12345679,
+          "id": 45,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2666,7 +2666,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 46,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2724,7 +2724,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 47,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2782,7 +2782,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 48,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2840,7 +2840,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 49,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2898,7 +2898,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 50,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -2956,7 +2956,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 51,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -3014,7 +3014,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 52,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -3072,7 +3072,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 53,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -3130,7 +3130,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 54,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -3188,7 +3188,7 @@ export const MOCKDATA = {
           ]
         },
         {
-          "id": 12345679,
+          "id": 55,
           "priority": 2,
           "orderId": 123456,
           "pickupBuildingName": "Block 43",
@@ -3249,3 +3249,5 @@ export const MOCKDATA = {
     }
   ]
 }
+
+export default MOCKDATA;
