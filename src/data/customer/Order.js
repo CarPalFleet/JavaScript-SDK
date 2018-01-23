@@ -2,6 +2,7 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import { snakeCaseDecorator } from '../decorator/CoreDecorators';
+import MOCKDATA from './MockUpData';
 
 export const getCustomerOrdersWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
@@ -99,12 +100,13 @@ export const getGroupingLocationsAsync = async (filterObject, customerId, token)
   try {
     // StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
     let statusId = filterObject.statusIds || 2;
-    let locations = await fetchAllGroupingLocationsAsync(filterObject, customerId, token);
-    let errorContents;
-    if (statusId === 4) {
-      errorContents = await fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
-    }
-    return groupLocations(locations, errorContents? errorContents: null);
+    return camelize(MOCKDATA);
+    // let locations = await fetchAllGroupingLocationsAsync(filterObject, customerId, token);
+    // let errorContents;
+    // if (statusId === 4) {
+    //   errorContents = await fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
+    // }
+    // return groupLocations(locations, errorContents? errorContents: null);
   } catch (e) {
     handleAsyncError(e);
   }
@@ -131,20 +133,6 @@ export const fetchBatchLocationsErrorAsync = async (pickupDate, customerId, toke
     let response = await axios({
       method: 'GET',
       url: `${endpoints.GROUPING_LOCATIONS_ERRORS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
-      header: {'Authorization': token}
-    });
-
-    return camelize(response.data);
-  } catch (e) {
-    handleAsyncError(e);
-  }
-}
-
-export const fetchMyOrderColumNames = async (type, customerId, token) => {
-  try {
-    let response = await axios({
-      method: 'GET',
-      url: `${endpoints.ORDER_COLUMNS.replace('{0}', customerId)}?type=${type}`,
       header: {'Authorization': token}
     });
 

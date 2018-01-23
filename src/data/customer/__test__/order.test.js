@@ -120,6 +120,15 @@ test('Test for customer order detail', async () => {
     expect('data' in response).toBe(true);
 })
 
+// test('Test for get all grouping location mockup', async () => {
+    // jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    // const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
+    // const token = await result;
+    // const response = await getGroupingLocationsAsync(1, 1, 2);
+    // console.log("RES", response);
+    // expect(response instanceof Object).toBe(true);
+// })
+
 test('Test for creating new delivery window with product type 1', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
