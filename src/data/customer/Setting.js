@@ -21,13 +21,19 @@ export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
     }
 }
 
-export const getTableColumnNamesAsync = async (domain, token) => {
-  const response = await axios({method: 'get',
-                                url: endpoints.MY_ORDER_COLUMN_NAMES.replace('{1}', domain),
-                                headers: {'Authorization': token}});
+export const fetchMyOrderColumNames = async (type, customerId, token) => {
+  try {
+    const response = await axios({
+      method: 'get',
+      url: `${endpoints.MY_ORDER_COLUMN_NAMES.replace('{0}', customerId)}?type=${type}`,
+      headers: {'Authorization': token}
+    });
+    
+    return camelize(response.data);
+  } catch (e) {
+    handleAsyncError(e);
+  }
 }
-
-getTableColumnNamesAsync().catch(handleAsyncError);
 
 function handleAsyncError(e) {
   return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
