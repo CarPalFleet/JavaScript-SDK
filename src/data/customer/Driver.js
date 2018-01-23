@@ -50,6 +50,31 @@ export const getCustomerDriverListAsync = async (customerId, token) =>{
   }
 }
 
+export const exportDriverListFileAsync = async (fileType, customerId, token) =>{
+  try{
+    return { downloadUrl: 'http://gahp.net/wp-content/uploads/2017/09/sample.pdf' };
+    // const response = await axios({method: 'get',
+                                     // url: `${endpoints.EXPORT_CUSTOMER_DRIVERS.replace('{0}', customerId)}fileType=${format}`,
+                                     // headers: {'Authorization': token}})
+    // return camelize(response.data);
+  } catch(e) {
+    handleAsyncError(e);
+  }
+}
+
+export const deleteCustomerDriversAsync = async (driverIds, customerId, token) =>{
+  try{
+    return { data: true };
+    // const response = await axios({method: 'delete',
+                                     // url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId)}`,
+                                     // data: driverIds,
+                                     // headers: {'Authorization': token}})
+    // return camelize(response.data);
+  } catch(e) {
+    handleAsyncError(e);
+  }
+}
+
 export const getCustomerDriversWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{
   let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
   try{
