@@ -1,6 +1,6 @@
 {
   "name": "carpal",
-  "version": "0.0.99",
+  "version": "0.1.0",
   "description": "The SDK for CarPal fleet solution development.",
   "main": "dist/build.js",
   "scripts": {
@@ -35,8 +35,7 @@
     "axios": "^0.17.0",
     "babel-plugin-transform-builtin-classes": "^0.4.0",
     "camelize": "^1.0.0",
-    "lodash": "^4.17.4",
-    "snakecase-keys": "^1.1.0"
+    "lodash": "^4.17.4"
   },
   "jest": {
     "testEnvironment": "node"

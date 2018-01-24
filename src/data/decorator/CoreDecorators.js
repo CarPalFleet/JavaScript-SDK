@@ -1,3 +1,3 @@
-import snakeCase from 'snakecase-keys';
+import { camelToSnake } from '../utility/ChangeCase';
 
-export const snakeCaseDecorator = (params) => snakeCase(params);
+export const snakeCaseDecorator = (params) => camelToSnake(params);
