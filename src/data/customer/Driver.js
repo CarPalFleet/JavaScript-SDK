@@ -1,7 +1,7 @@
 import axios from 'axios';
-import endpoints from './endpoints';
+import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import DRIVER_LIST_MOCKUP from './DriverListMockupData';
+import DRIVER_LIST_MOCKUP from './MockupDriverList';
 
 export const createNewDriverAsync = async ({identityId, productTypeId, transactionGroupId=null,
                                             firstName, lastName, email, password, birthday, phone,
