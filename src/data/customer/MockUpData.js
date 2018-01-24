@@ -10,7 +10,7 @@ const MOCKDATA = {
         {
           "id": 1,
           "priority": 2,
-          "orderId": 123456,
+          "orderId": null,
           "pickupBuildingName": "Block 43",
           "pickupUnitNumber": "02-345",
           "pickupAddressId": null,
@@ -34,7 +34,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {},
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -68,7 +68,7 @@ const MOCKDATA = {
         {
           "id": 2,
           "priority": 2,
-          "orderId": 123457,
+          "orderId": null,
           "pickupBuildingName": "Block 43",
           "pickupUnitNumber": "02-345",
           "pickupAddressId": null,
@@ -92,7 +92,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": null,
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -126,7 +126,7 @@ const MOCKDATA = {
         {
           "id": 3,
           "priority": 2,
-          "orderId": 123458,
+          "orderId": null,
           "pickupBuildingName": "Block 43",
           "pickupUnitNumber": "02-345",
           "pickupAddressId": null,
@@ -150,7 +150,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": null,
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -184,7 +184,7 @@ const MOCKDATA = {
         {
           "id": 4,
           "priority": 2,
-          "orderId": 123459,
+          "orderId": null,
           "pickupBuildingName": "Block 43",
           "pickupUnitNumber": "02-345",
           "pickupAddressId": null,
@@ -208,7 +208,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": null,
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -242,7 +242,7 @@ const MOCKDATA = {
         {
           "id": 5,
           "priority": 2,
-          "orderId": 1234510,
+          "orderId": null,
           "pickupBuildingName": "Block 43",
           "pickupUnitNumber": "02-345",
           "pickupAddressId": null,
@@ -266,7 +266,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {},
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -330,7 +330,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -388,7 +416,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -446,7 +502,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -504,7 +588,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -562,7 +674,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -626,7 +766,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {},
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -684,7 +824,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": null,
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -742,7 +882,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -800,7 +968,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": null,
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -858,7 +1026,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": null,
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -916,7 +1084,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": null,
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -980,7 +1148,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": null,
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1038,7 +1206,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": null,
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1096,7 +1264,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {},
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1154,7 +1322,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": null,
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1212,7 +1380,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": null,
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1270,7 +1438,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": null,
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1328,7 +1496,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": null,
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1386,7 +1554,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": null,
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1450,7 +1618,7 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": null,
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1508,7 +1676,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1566,7 +1762,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1624,7 +1848,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1682,7 +1934,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1740,7 +2020,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1804,7 +2112,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1862,7 +2198,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1920,7 +2284,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -1978,7 +2370,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2036,7 +2456,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2100,7 +2548,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2158,7 +2634,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2216,7 +2720,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2274,7 +2806,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2338,7 +2898,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2396,7 +2984,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2454,7 +3070,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2512,7 +3156,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2570,7 +3242,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2634,7 +3334,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2692,7 +3420,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2750,7 +3506,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2808,7 +3592,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2866,7 +3678,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2924,7 +3764,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -2982,7 +3850,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -3040,7 +3936,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -3098,7 +4022,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -3156,7 +4108,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",
@@ -3214,7 +4194,35 @@ const MOCKDATA = {
           "deliveryAddress": "6 Carpmael Rd, Singapore 429754",
           "deliveryPostalCode": "345678",
           "deliveryNotes": "XXXXX",
-          "driverEmailId": "test.driver@carpal.me",
+          "driver": {
+              "id": 1,
+              "driverDetailsId": 1,
+              "userId": 1,
+              "driverStatusId": 1,
+              "driverStatusName": "pending",
+              "avatarUrl": "",
+              "activatedAt": "0000-00-00 00:00:00",
+              "createdAt": "2018-01-22 09:10:27",
+              "updatedAt": "2018-01-22 09:10:27",
+              "user": {
+                  "id": 1,
+                  "firstName": "CarPal",
+                  "lastName": "Admin",
+                  "email": "demo@carpal.me",
+                  "phone": "+12345678",
+                  "createdAt": "2018-01-22 09:10:26",
+                  "updatedAt": "2018-01-22 09:10:26"
+              },
+              "vehicle": [
+                {
+                  "id": 1,
+                  "model": "Vios",
+                  "brand": "Toyota",
+                  "licensePlate": "SJN555Z",
+                  "vehicleType": "Regular car / 4 seats"
+                }
+              ]
+          },
           "itemQuantity": 3,
           "weightPerItem": 10,
           "itemDescription": "Cake",

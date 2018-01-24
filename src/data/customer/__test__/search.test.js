@@ -1,4 +1,4 @@
-import { createNewCustomerAsync, createNewDriverAsync } from '../Customer';
+import { createNewCustomerAsync, createNewDriverAsync } from '../Driver';
 import { searchAsync, myOrderSearchAsync, myOrderDriverListSearchAsync } from '../Search';
 import { getTokenAsync } from '../../account/Auth';
 import CONFIG from './Config';
