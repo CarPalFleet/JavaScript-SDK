@@ -3,6 +3,7 @@ import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import { snakeCaseDecorator } from '../decorator/CoreDecorators';
 import MOCKDATA from './MockUpData';
+import _ from 'lodash';
 
 export const getCustomerOrdersWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
@@ -97,6 +98,23 @@ export const getBatchOrderProgressAsync = async (customerId, pickupDate, token) 
 }
 
 export const getGroupingLocationsAsync = async (filterObject, customerId, token) => {
+  try {
+    // StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+    // let statusId = filterObject.statusIds || 2;
+    // let locations = await fetchAllGroupingLocationsAsync(filterObject, customerId, token);
+    // let errorContents;
+    // if (statusId === 4) {
+    //   errorContents = await fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
+    // }
+    // return groupLocations(locations, errorContents? errorContents: null);
+
+    return camelize(MOCKDATA);
+  } catch (e) {
+    handleAsyncError(e);
+  }
+}
+
+export const getGroupingLocationAsync = async (groupingLocationId, token) => {
   try {
     // StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
     // let statusId = filterObject.statusIds || 2;
@@ -308,7 +326,7 @@ function categoriesCustomerOrders(orders) {
 export const groupLocations = (locations, errorContents = null) => {
   let locationsGroups = locations['data'].reduce((groupAddressObject, location, index) => {
     return groupLocationByPickUpAddress(groupAddressObject, location, errorContents);
-  }, {data: [0], addressIds: [0]});
+  }, {data: [0], groupIds: [0]});
 
   if ((typeof locationsGroups['data'][0] === 'number')) {
     locationsGroups['data'].splice(0, 1);
@@ -325,20 +343,24 @@ export const groupLocations = (locations, errorContents = null) => {
 }
 
 function groupLocationByPickUpAddress(groups, location, errorContents) { //errorContents
-  let groupId = location.pickupAddressId;
-  let index = groups['addressIds'].indexOf(groupId);
+  let groupId = location.pickupGroupId;
+  let index = groups['groupIds'].indexOf(groupId);
   if (index === -1) {
-    index = groupId? groups['addressIds'].length : 0;
-    if (index) groups['addressIds'].push(groupId);
+    index = groupId? groups['groupIds'].length : 0;
+    if (index) groups['groupIds'].push(groupId);
   }
 
   if (!(groups['data'][index] instanceof Object)) {
     groups['data'][index] = {
       id: groupId,
-      address: location.pickupAddress,
+      address: location.pickupLocationAddress,
       jobs: []
     }
   }
+
+  // driver will be empty array if there's no driver info
+  // Add avatarUrl as a empty string, this field will be included in response.
+  _.isEmpty(location.driver)? location.driver = {} : location.driver['avatarUrl'] = '';
 
   if (errorContents) {
     location.error = mergeLocationDataWithErrors(errorContents, location);

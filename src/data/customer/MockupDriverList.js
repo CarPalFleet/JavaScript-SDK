@@ -1,5 +1,4 @@
 const MOCKUP_Driver_List = {
-  totalDriverCount: 50,
   drivers: [
     {
       id: 1234501,
@@ -11,7 +10,20 @@ const MOCKUP_Driver_List = {
       lastJob: "10 Dec - 3:00pm",
       driverType: "In house",
       schdule : "Pending",
-      geoFence: "Zone 01",
+      geoFence: [
+        {
+          id: 1234501,
+          name: "Zone 01"
+        },
+        {
+          id: 1234502,
+          name: "Zone 02"
+        },
+        {
+          id: 1234503,
+          name: "Zone 03"
+        }
+      ],
       vehicleBrannd: "Honda",
       vehicleModel: "Model1",
       vehicleModelYear: "2017",
@@ -29,7 +41,20 @@ const MOCKUP_Driver_List = {
       lastJob: "10 Dec - 3:00pm",
       driverType: "In house",
       schdule : "Pending",
-      geoFence: "Zone 01",
+      geoFence: [
+        {
+          id: 1234501,
+          name: "Zone 01"
+        },
+        {
+          id: 1234502,
+          name: "Zone 02"
+        },
+        {
+          id: 1234503,
+          name: "Zone 03"
+        }
+      ],
       vehicleBrannd: "Honda",
       vehicleModel: "Model1",
       vehicleModelYear: "2017",

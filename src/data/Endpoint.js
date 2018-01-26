@@ -1,6 +1,6 @@
 const urlPrefix = 'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
 const laravalUrlPrefix = 'https://api-test.carpal.me';
-const version = '/v3';
+const version = 'v3';
 
 const endpoints = {
     LANGUAGES: `${urlPrefix}/languages`,
@@ -32,7 +32,7 @@ const endpoints = {
     NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
     MY_ORDER_COLUMN_NAMES: `${urlPrefix}/user/{0}/setting/{1}`,
     GROUPING_LOCATIONS: `${urlPrefix}/${version}/customer/grouping-location`,
-    GROUPING_LOCATIONS_ERRORS: `${laravalUrlPrefix}/${version}/customers/{0}/location/errors`,
+    GROUPING_LOCATIONS_ERRORS: `${urlPrefix}/customers/{0}/location/errors`,
     STATUSES: `${urlPrefix}/dashboard/types`,
 }
 
