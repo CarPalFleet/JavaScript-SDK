@@ -15,9 +15,14 @@ test('Test for file uploading', async () => {
     //     expect(true).toBe(true);
     //   })
     //   .catch(error => console.log('Error: ', error));
-    const response = await fileUploadAsync({grouping_spreadsheet: "{'preview': 'blob:http://localhost:3000/f4c9e915-3dcf-4a57-9fce-c569f501e3f7'}"}, token.accessToken);
+    // const response = await fileUploadAsync({grouping_spreadsheet: "{'preview': 'blob:http://localhost:3000/f4c9e915-3dcf-4a57-9fce-c569f501e3f7'}"}, token.accessToken);
     // expect('groupingBatchId' in response.data).toBe(true);
-    console.log("FILE", response);
+
+
+
+    const response = await fileUploadAsync({grouping_spreadsheet: 12}, token.accessToken)
+    console.log("HERE", response);
+
     expect(true).toBe(true);
 })
 
