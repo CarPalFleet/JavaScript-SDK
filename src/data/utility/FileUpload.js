@@ -6,13 +6,15 @@ import { snakeCaseDecorator } from '../decorator/CoreDecorators';
 export const fileUploadAsync = async (fileObject, token) => {
   try {
     // fileObject = snakeCaseDecorator(fileObject);
+    console.log("SDK file obj", fileObject);
     let response = await axios(endpoints.BATCH_FILE_UPLOAD, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
-        'Content-Type': `multipart/form-data;charset=utf-8;boundary=${JSON.stringify(fileObject.groupingSpreadsheet)}`
+        // 'Content-Type': `multipart/form-data;charset=utf-8;boundary=${JSON.stringify(fileObject.groupingSpreadsheet)}`
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
-      data: {grouping_spreadsheet: fileObject.groupingSpreadsheet}
+      data: fileObject
     });
 
     return camelize(response.data);
