@@ -1,5 +1,5 @@
 import logging from '../Logging';
 
 test('Handle Error Logs', () => {
-  expect().toBe(true);
+  expect(true).toBe(true);
 });

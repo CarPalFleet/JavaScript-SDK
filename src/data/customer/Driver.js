@@ -136,13 +136,11 @@ export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterO
 
     if (matchedPayload.isDataExist) {
         // update activeStatusCounts
-        console.log("Exist");
         originalDriverDatum['activeStatusCounts'][payload.driverStatusId] += 1;
         let currentStatusCounts = originalDriverDatum['activeStatusCounts'][matchedPayload.statusId];
         originalDriverDatum['activeStatusCounts'][matchedPayload.statusId] -= currentStatusCounts? 1: 0;
         delete originalDriverDatum['data'][matchedPayload.statusId].splice(matchedPayload.index, 1);
     } else {
-      console.log("NOT");
       originalDriverDatum['totalStatusCounts'] += 1;
       filterObject.driverTypeIds.forEach((driverTypeId) => {
         originalDriverDatum['driverTypeCounts'][driverTypeId] += 1;

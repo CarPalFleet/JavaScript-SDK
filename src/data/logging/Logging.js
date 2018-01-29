@@ -1,8 +1,8 @@
-let worker = new Worker('./LoggingWorker.js');
 
-let errorCounts = 0;
 
 export const Logging = async (errorLimit, interval, token) => {
+  let worker = new Worker('./LoggingWorker.js');
+  let errorCounts = 0;
   //Handle Message from web worker
   worder.addEventListener('callBack', handleMessageFromWorker)
 

@@ -5,14 +5,14 @@ import { snakeCaseDecorator } from '../decorator/CoreDecorators';
 
 export const fileUploadAsync = async (fileObject, token) => {
   try {
-    fileObject = snakeCaseDecorator(fileObject);
+    // fileObject = snakeCaseDecorator(fileObject);
     let response = await axios(endpoints.BATCH_FILE_UPLOAD, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      data: fileObject
+      data: {grouping_preadsheet: JSON.stringify(fileObject.groupingSpreadsheet)}
     });
 
     return camelize(response.data);
