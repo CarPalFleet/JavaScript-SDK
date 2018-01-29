@@ -2,19 +2,22 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import { snakeCaseDecorator } from '../decorator/CoreDecorators';
+import FormData from 'form-data';
 
 export const fileUploadAsync = async (fileObject, token) => {
   try {
     // fileObject = snakeCaseDecorator(fileObject);
     console.log("SDK file obj", fileObject);
+    var form = new FormData();
+    form.append('grouping_spreadsheet', fileObject);
+
     let response = await axios(endpoints.BATCH_FILE_UPLOAD, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
-        // 'Content-Type': `multipart/form-data;charset=utf-8;boundary=${JSON.stringify(fileObject.groupingSpreadsheet)}`
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'multipart/form-data'
       },
-      data: fileObject
+      data: form
     });
 
     return camelize(response.data);
