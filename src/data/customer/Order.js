@@ -108,7 +108,6 @@ export const getGroupingLocationsAsync = async (filterObject, customerId, token)
     }
     return groupLocations(locations, errorContents? errorContents: null);
 
-    // return camelize(MOCKDATA);
   } catch (e) {
     handleAsyncError(e);
   }
@@ -116,16 +115,14 @@ export const getGroupingLocationsAsync = async (filterObject, customerId, token)
 
 export const getGroupingLocationAsync = async (groupingLocationId, token) => {
   try {
-    // StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
-    // let statusId = filterObject.statusIds || 2;
-    // let locations = await fetchAllGroupingLocationsAsync(filterObject, customerId, token);
-    // let errorContents;
-    // if (statusId === 4) {
-    //   errorContents = await fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
-    // }
-    // return groupLocations(locations, errorContents? errorContents: null);
+    let response = await axios({
+      method: 'POST',
+      url: `${endpoints.GROUPING_LOCATIONS}/${groupingLocationId}`,
+      headers: {'Authorization': `Bearer ${token}`},
+      data: fileObject
+    });
 
-    // return camelize(MOCKDATA);
+    return camelize(response.data);
   } catch (e) {
     handleAsyncError(e);
   }
@@ -138,7 +135,7 @@ export const fetchAllGroupingLocationsAsync = async (filterObject, customerId, t
     let response = axios({
       method: 'POST',
       url: `${endpoints.GROUPING_LOCATIONS}${paramString.replace('&', '?')}`,
-      header: {'Authorization': token}
+      headers: {'Authorization': `Bearer ${token}`},
     });
 
     return camelize(response.data);
@@ -152,7 +149,7 @@ export const fetchBatchLocationsErrorAsync = async (pickupDate, customerId, toke
     let response = await axios({
       method: 'GET',
       url: `${endpoints.GROUPING_LOCATIONS_ERRORS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
-      header: {'Authorization': token}
+      headers: {'Authorization': `Bearer ${token}`},
     });
 
     return camelize(response.data);
@@ -166,7 +163,7 @@ export const getUniquePickupAddressesAsync = async (token) => {
     let response = await axios({
       method: 'GET',
       url: endpoints.GROUPING_LOCATIONS,
-      header: {'Authorization': token}
+      headers: {'Authorization': `Bearer ${token}`},
     });
 
     return camelize(response.data);
@@ -181,7 +178,7 @@ export const createGroupingLocationsAsync = async (locationObject, token) => {
     let response = await axios({
       method: 'POST',
       url: endpoints.GROUPING_LOCATIONS,
-      header: {'Authorization': token},
+      headers: {'Authorization': `Bearer ${token}`},
       data: locationObject
     });
 
@@ -197,9 +194,9 @@ export const editGroupingLocationAsync = async (groupingLocationId, editedLocati
     let response = await axios({
       method: 'PUT',
       url: `${endpoints.GROUPING_LOCATIONS}/${groupingLocationId}`,
-      header: {'Authorization': token},
+      headers: {'Authorization': `Bearer ${token}`},
       data: editedLocationObject
-    });
+    });editedLocationObject
 
     return camelize(response.data);
   } catch (e) {
@@ -207,14 +204,14 @@ export const editGroupingLocationAsync = async (groupingLocationId, editedLocati
   }
 }
 
-export const editGroupingBatchLocationsAsync = async (locations, token) => {
+export const editGroupingBatchLocationsAsync = async (locationDataList = [], token) => {
   try {
     locations = snakeCaseDecorator(locations);
     let response = await axios({
       method: 'PUT',
       url: endpoints.GROUPING_LOCATIONS,
-      header: {'Authorization': token},
-      data: locations
+      headers: {'Authorization': `Bearer ${token}`},
+      data: locationDataList
     });
 
     return camelize(response.data);
@@ -223,15 +220,30 @@ export const editGroupingBatchLocationsAsync = async (locations, token) => {
   }
 }
 
-export const deleteGroupingLocationsAsync = async (groupingLocationId, token) => {
+export const deleteGroupingLocationAsync = async (groupingLocationId, token) => {
   try {
     let response = await axios({
       method: 'DELETE',
       url: `${endpoints.GROUPING_LOCATIONS}/${groupingLocationId}`,
-      header: {'Authorization': token}
+      headers: {'Authorization': `Bearer ${token}`},
     });
 
-    return camelize(response.data);
+    return {success: true};
+  } catch (e) {
+    handleAsyncError(e);
+  }
+}
+
+export const deleteGroupingLocationsAsync = async (groupingLocationIds = [], token) => {
+  try {
+    let paramString = groupingLocationIds.join();
+    let response = await axios({
+      method: 'DELETE',
+      url: `${endpoints.GROUPING_LOCATIONS}/${paramString}`,
+      headers: {'Authorization': `Bearer ${token}`},
+    });
+
+    return {success: true};
   } catch (e) {
     handleAsyncError(e);
   }
@@ -242,7 +254,7 @@ export const cancelBatchFileProcessAsync = async (batchId, token) => {
     let response = await axios({
       method: 'DELETE',
       url: `${endpoints.GROUPING_LOCATIONS}/${batchId}`,
-      header: {'Authorization': token}
+      headers: {'Authorization': `Bearer ${token}`},
     });
 
     return camelize(response.data);
@@ -392,5 +404,9 @@ export const mergeLocationDataWithErrors = (errorContents, location) => {
 }
 
 function handleAsyncError(e) {
-  return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+  if (e.response) {
+    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+  } else {
+    return {statusCode: 500, statusText: 'Error in Grouping Locations'}
+  }
 }
