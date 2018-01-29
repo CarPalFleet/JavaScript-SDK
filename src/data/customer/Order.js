@@ -100,15 +100,15 @@ export const getBatchOrderProgressAsync = async (customerId, pickupDate, token) 
 export const getGroupingLocationsAsync = async (filterObject, customerId, token) => {
   try {
     // StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
-    // let statusId = filterObject.statusIds || 2;
-    // let locations = await fetchAllGroupingLocationsAsync(filterObject, customerId, token);
-    // let errorContents;
-    // if (statusId === 4) {
-    //   errorContents = await fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
-    // }
-    // return groupLocations(locations, errorContents? errorContents: null);
+    let statusId = filterObject.statusIds || 2;
+    let locations = await fetchAllGroupingLocationsAsync(filterObject, customerId, token);
+    let errorContents;
+    if (statusId === 4) {
+      errorContents = await fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
+    }
+    return groupLocations(locations, errorContents? errorContents: null);
 
-    return camelize(MOCKDATA);
+    // return camelize(MOCKDATA);
   } catch (e) {
     handleAsyncError(e);
   }
@@ -125,7 +125,7 @@ export const getGroupingLocationAsync = async (groupingLocationId, token) => {
     // }
     // return groupLocations(locations, errorContents? errorContents: null);
 
-    return camelize(MOCKDATA);
+    // return camelize(MOCKDATA);
   } catch (e) {
     handleAsyncError(e);
   }
