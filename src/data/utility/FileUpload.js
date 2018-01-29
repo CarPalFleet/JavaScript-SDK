@@ -12,7 +12,7 @@ export const fileUploadAsync = async (fileObject, token) => {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      data: {grouping_preadsheet: JSON.stringify(fileObject.groupingSpreadsheet)}
+      data: {grouping_spreadsheet: fileObject.groupingSpreadsheet}
     });
 
     return camelize(response.data);
