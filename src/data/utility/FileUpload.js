@@ -10,7 +10,7 @@ export const fileUploadAsync = async (fileObject, token) => {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'multipart/form-data;charset=utf-8'
       },
       data: {grouping_spreadsheet: fileObject.groupingSpreadsheet}
     });
