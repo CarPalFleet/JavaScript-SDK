@@ -191,7 +191,6 @@ export const createGroupingLocationsAsync = async (locationObject, token) => {
 
 export const editGroupingLocationAsync = async (groupingLocationId, locationObject, token) => {
   try {
-    let updatedLocationDataObject = snakeCaseDecorator(locationObject);
     let updatedLocationDataObject = {
       location_data: snakeCaseDecorator(locationObject)
     }
@@ -213,8 +212,8 @@ export const editGroupingBatchLocationsAsync = async (locationDataList = [], tok
   try {
     let updatedLocationDataList = locationDataList.map((data) => {
       let tmpObject = {
-        grouping_location_id: data.grouping_location_id
-        location_data: snakeCaseDecorator(data.location_data);
+        grouping_location_id: data.grouping_location_id,
+        location_data: snakeCaseDecorator(data.location_data)
       }
 
       return tmpObject;
