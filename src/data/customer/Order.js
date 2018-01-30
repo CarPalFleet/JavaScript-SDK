@@ -193,7 +193,7 @@ export const editGroupingLocationAsync = async (groupingLocationId, locationObje
   try {
     let updatedLocationDataObject = snakeCaseDecorator(locationObject);
     let updatedLocationDataObject = {
-      location_data: snakeCaseDecorator(locationObject);
+      location_data: snakeCaseDecorator(locationObject)
     }
 
     let response = await axios({
