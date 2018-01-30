@@ -175,9 +175,6 @@ export const getUniquePickupAddressesAsync = async (token) => {
 export const createGroupingLocationsAsync = async (locationObject, token) => {
   try {
     locationObject = snakeCaseDecorator(locationObject);
-
-    locationObject.pickupDate = ;
-    locationObject.deliveryDate = ;
     let response = await axios({
       method: 'POST',
       url: endpoints.GROUPING_LOCATIONS,
