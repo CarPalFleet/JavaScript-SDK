@@ -132,6 +132,7 @@ export const fetchAllGroupingLocationsAsync = async (filterObject, customerId, t
   try {
     let filters = snakeCaseDecorator(filterObject);
     let paramString = Object.keys(filters).reduce((str, key) => (str += `&${key}=${filters[key]}`), '');
+    console.log("PARAM STRING", paramString, argument);
     let response = axios({
       method: 'POST',
       url: `${endpoints.GROUPING_LOCATIONS}${paramString.replace('&', '?')}`,
@@ -180,7 +181,6 @@ export const createGroupingLocationsAsync = async (locationObject, token) => {
       url: endpoints.GROUPING_LOCATIONS,
       headers: {'Authorization': `Bearer ${token}`},
       data: locationObject
-
     });
 
     return camelize(response.data);
