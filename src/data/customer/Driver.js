@@ -196,9 +196,13 @@ function categoriesCustomerDrivers(drivers) {
 }
 
 function handleAsyncError(e) {
+  let rejectObj = {};
   if (e.response) {
-    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    rejectObj = {statusCode: e.response.status, statusText: e.response.statusText};
   } else {
-    console.error(e);
+    /* Catch error of e.response
+    That will be undefined when status code is 403 Forbidden */
+    rejectObj = {statusCode: 403, statusText: 'Forbidden'}
   }
+  return Promise.reject(rejectObj);
 }

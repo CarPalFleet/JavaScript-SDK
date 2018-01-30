@@ -6,8 +6,6 @@ import FormData from 'form-data';
 
 export const fileUploadAsync = async (fileObject, token) => {
   try {
-    // fileObject = snakeCaseDecorator(fileObject);
-    console.log("SDK file obj", fileObject);
     var form = new FormData();
     form.append('grouping_spreadsheet', fileObject);
 
@@ -27,9 +25,13 @@ export const fileUploadAsync = async (fileObject, token) => {
 }
 
 function handleFileUploadError(e) {
+  let rejectObj = {};
   if (e.response) {
-    return Promise.reject({statusCode: e.response.http_code, statusText: e.response.message});
+    rejectObj = {statusCode: e.response.http_code, statusText: e.response.message}
   } else {
-    return {statusCode: 500, statusText: 'Error in file Upload'}
+    /* Catch error of e.response
+    That will be undefined when status code is 403 Forbidden */
+    rejectObj = {statusCode: 403, statusText: 'Forbidden'}
   }
+  return Promise.reject({statusCode: 500, statusText: 'Error in Grouping Locations'});
 }
