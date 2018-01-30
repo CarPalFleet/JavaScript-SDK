@@ -34,6 +34,7 @@ const endpoints = {
     GROUPING_LOCATIONS: `${urlPrefix}/${version}/customer/grouping-location`,
     GROUPING_LOCATIONS_ERRORS: `${urlPrefix}/customers/{0}/location/errors`,
     STATUSES: `${urlPrefix}/dashboard/types`,
+    ROUTE_OPTIMIZE_SETTINGS: `${urlPrefix}/customers/{0}/routes`,
 }
 
 export default endpoints;
