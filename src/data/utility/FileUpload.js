@@ -33,5 +33,5 @@ function handleFileUploadError(e) {
     That will be undefined when status code is 403 Forbidden */
     rejectObj = {statusCode: 403, statusText: 'Forbidden'}
   }
-  return Promise.reject({statusCode: 500, statusText: 'Error in Grouping Locations'});
+  return Promise.reject(rejectObj);
 }

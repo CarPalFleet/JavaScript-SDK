@@ -189,14 +189,18 @@ export const createGroupingLocationsAsync = async (locationObject, token) => {
   }
 }
 
-export const editGroupingLocationAsync = async (groupingLocationId, editedLocationObject, token) => {
+export const editGroupingLocationAsync = async (groupingLocationId, locationObject, token) => {
   try {
-    editedLocationObject = snakeCaseDecorator(editedLocationObject);
+    let updatedLocationDataObject = snakeCaseDecorator(locationObject);
+    let updatedLocationDataObject = {
+      location_data: snakeCaseDecorator(locationObject);
+    }
+
     let response = await axios({
       method: 'PUT',
       url: `${endpoints.GROUPING_LOCATIONS}/${groupingLocationId}`,
       headers: {'Authorization': `Bearer ${token}`},
-      data: editedLocationObject
+      data: updatedLocationDataObject
     });
 
     return camelize(response.data);
@@ -207,12 +211,21 @@ export const editGroupingLocationAsync = async (groupingLocationId, editedLocati
 
 export const editGroupingBatchLocationsAsync = async (locationDataList = [], token) => {
   try {
-    locations = snakeCaseDecorator(locations);
+    let updatedLocationDataList = locationDataList.map((data) => {
+      let tmpObject = {
+        grouping_location_id: data.grouping_location_id
+        location_data: snakeCaseDecorator(data.location_data);
+      }
+
+      return tmpObject;
+    })
+
+    console.log("locationData List", updatedLocationDataList);
     let response = await axios({
       method: 'PUT',
       url: endpoints.GROUPING_LOCATIONS,
       headers: {'Authorization': `Bearer ${token}`},
-      data: locationDataList
+      data: updatedLocationDataList
     });
 
     return camelize(response.data);
