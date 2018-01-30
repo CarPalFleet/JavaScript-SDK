@@ -183,6 +183,7 @@ export const createGroupingLocationsAsync = async (locationObject, token) => {
       url: endpoints.GROUPING_LOCATIONS,
       headers: {'Authorization': `Bearer ${token}`},
       data: locationObject
+
     });
 
     return camelize(response.data);
@@ -199,7 +200,7 @@ export const editGroupingLocationAsync = async (groupingLocationId, editedLocati
       url: `${endpoints.GROUPING_LOCATIONS}/${groupingLocationId}`,
       headers: {'Authorization': `Bearer ${token}`},
       data: editedLocationObject
-    });editedLocationObject
+    });
 
     return camelize(response.data);
   } catch (e) {
