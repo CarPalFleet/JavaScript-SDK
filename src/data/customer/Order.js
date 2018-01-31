@@ -107,7 +107,6 @@ export const getGroupingLocationsAsync = async (filterObject, customerId, token)
       errorContents = await fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
     }
     return groupLocations(locations, errorContents? errorContents: null);
-
   } catch (e) {
     handleAsyncError(e);
   }
@@ -141,7 +140,8 @@ export const fetchAllGroupingLocationsAsync = async (filterObject, customerId, t
 
     return camelize(response.data);
   } catch (e) {
-    handleAsyncError(e);
+    Promise.reject({status})
+    // handleAsyncError(e);
   }
 }
 
