@@ -180,12 +180,13 @@ export const createGroupingLocationsAsync = async (locationObject, token) => {
       method: 'POST',
       url: endpoints.GROUPING_LOCATIONS,
       headers: {'Authorization': `Bearer ${token}`},
-      data: locationObject
+      data: {location_data: snakeCaseDecorator(locationObject)}
     });
 
+    console.log("CREATE LOCATIONS", {location_data: snakeCaseDecorator(locationObject)});
     return camelize(response.data);
   } catch (e) {
-    handleAsyncError(e);
+    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
 
