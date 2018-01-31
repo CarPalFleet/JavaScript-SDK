@@ -28,7 +28,7 @@ const endpoints = {
     CUSTOMER_DRIVER_DETAIL: `${urlPrefix}/customers/{0}/identities/{1}/drivers/{2}`,
     DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
     BATCH_FILE_UPLOAD: `${laravalUrlPrefix}/${version}/customer/grouping-batch`,
-    CREAT_ORDER_UPLOAD_PROGRESS: `${laravalUrlPrefix}/${version}/customers/{0}/orders`,
+    GROUPING_BATCH_PROGRESSION: `${laravalUrlPrefix}/${version}/grouping-batch/show-recent-pending`,
     NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
     MY_ORDER_COLUMN_NAMES: `${urlPrefix}/user/{0}/setting/{1}`,
     GROUPING_LOCATIONS: `${urlPrefix}/${version}/customer/grouping-location`,

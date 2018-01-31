@@ -20,19 +20,6 @@ export const fileUploadAsync = async (fileObject, token) => {
 
     return camelize(response.data);
   } catch (e) {
-    // handleFileUploadError(e);
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
-}
-
-function handleFileUploadError(e) {
-  // let rejectObj = {};
-  // if (e.response) {
-  //   rejectObj = {statusCode: e.response.http_code, statusText: e.response.message}
-  // } else {
-  //   /* Catch error of e.response
-  //   That will be undefined when status code is 403 Forbidden */
-  //   rejectObj = {statusCode: e.stat, statusText: }
-  // }
-  // return Promise.reject(rejectObj);
 }

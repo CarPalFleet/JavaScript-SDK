@@ -109,9 +109,9 @@ test('Test for get grouping locations', async () => {
     //
     // const response = await getGroupingLocationsAsync(filterObject, 1, token.accessToken);
     // expect('data' in response).toBe(true);
-    const response = await getGroupingLocationsAsync(filterObject, 1, 1);
+    const response = await fetchBatchLocationsErrorAsync(filterObject, 1, 1);
     console.log("groupingLocationData", response);
-    expect(true).toBe(true);
+    expect(data in response).toBe(true);
 })
 
 test('Test for customer order detail', async () => {
