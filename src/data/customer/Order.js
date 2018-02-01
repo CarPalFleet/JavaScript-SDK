@@ -88,7 +88,7 @@ export const getBatchOrderProgressAsync = async (customerId, token) => {
     let response = await axios({
       method: 'GET',
       url: `${endpoints.GROUPING_BATCH_PROGRESSION}`,
-      header: {'Authorization': `Bearer ${token}`}
+      headers: {'Authorization': `Bearer ${token}`}
     });
 
     return camelize(response.data);
@@ -99,7 +99,7 @@ export const getBatchOrderProgressAsync = async (customerId, token) => {
 
 export const getGroupingLocationsAsync = async (filterObject, customerId, token) => {
   try {
-    return camelize(MOCKDATA);
+    return camelize()
     // StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
     let statusId = filterObject.statusIds || 2;
     let locations = await fetchAllGroupingLocationsAsync(filterObject, customerId, token);
