@@ -6,6 +6,7 @@ import {
   getBatchOrderProgressAsync,
   getBatchLocationsAsync,
   fetchBatchLocationsErrorAsync,
+  fetchAllGroupingLocationsAsync,
   fetchBatchOrderCreateErrorMockUp,
   getGroupingLocationsAsync,
   groupLocations,
@@ -102,16 +103,16 @@ test('Test for get grouping locations', async () => {
     // const token = await result;
     const filterObject = {
       statusIds: 2, // 2 = validated records, 4 = errors
-      pickupDate: '2018-01-22',
+      pickupDate: '2018-02-28',
       limit: 30,
       offset: 0
     }
     //
     // const response = await getGroupingLocationsAsync(filterObject, 1, token.accessToken);
     // expect('data' in response).toBe(true);
-    const response = await fetchBatchLocationsErrorAsync(filterObject, 1, 1);
+    const response = await fetchAllGroupingLocationsAsync(filterObject, 2318, `eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjQwNDFkNjRmMWVhODk0NDUxNjUyNzFmMjlkMjZhMDg1ZGE1NDE0NWYxNDg2YjI5YjdkZTdkZDg4MWYxZjhmNGQ4YjkwMmEwODYyNzM5OTY3In0.eyJhdWQiOiIyIiwianRpIjoiNDA0MWQ2NGYxZWE4OTQ0NTE2NTI3MWYyOWQyNmEwODVkYTU0MTQ1ZjE0ODZiMjliN2RlN2RkODgxZjFmOGY0ZDhiOTAyYTA4NjI3Mzk5NjciLCJpYXQiOjE1MTczODcwNDksIm5iZiI6MTUxNzM4NzA0OSwiZXhwIjoxNTE3MzkwNjQ5LCJzdWIiOiIyNDA3Iiwic2NvcGVzIjpbImZ1bGwtYWNjZXNzIl19.yyqsbJdGaW9e8JPqU1h38rY_5OE94WRY1-C1ql09KY-oWG3h9oq9a0OQYq2Vryf2gX5tgNZGJQPApOOVch-wKyC4B8FvyyTH13G-QYCUgW8qADo5udNBU7U8BY-b8J2EOXb_f_c0YRvnUYet18NjQezlwZnMDJEoo9JuD6YL7Qr9n28O7thtabh3ibHwc6TgPJsVoGoEn8_h9wGBEBLd1d8K4_UMAc_YfhEy18Iay6MIY0EnwxRp19qYqwgzvAok0aozXoSP9GiZvR0hh-59d3Q4AtL2tOE0asYiwhFOss_2rveboQwCMPM3fBzbBGZ3XWjwItvy8zBHn0i6YWE_Yylly9z_tvygx0Cd_znZIlRhNnUdmVk5w3C1JeNdQzAGemS7WYAma7Q4oiSdLR6ti2-d20_8d6YYp4MrGm6GWD8AijU4UMr0wPbuldQDbmvr0CNk3dEXGtTVq9XrBHb2804bIFaSl0QbyCey7VizFpA_jNIiHK0hEq52GntWCoD47-TB2yIpH16sSlXsKWsOzKVRXKISTbF1VaEO70dEwlW0D09Svt8bAjnU12_A3B8MhDC1FhpRHxs7aDfBqVXUyStCVSUraiBKLwVuh33u0FnBsyzn_KESe8a1ubbxnbWgJsTV2fQ25XHr4u9Ru9n5Ih_6zX94YiYYZhy4M3i5xNA`);
     console.log("groupingLocationData", response);
-    expect(data in response).toBe(true);
+    expect('data' in response).toBe(true);
 })
 
 test('Test for customer order detail', async () => {

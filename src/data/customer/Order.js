@@ -99,6 +99,7 @@ export const getBatchOrderProgressAsync = async (customerId, token) => {
 
 export const getGroupingLocationsAsync = async (filterObject, customerId, token) => {
   try {
+    return camelize(MOCKDATA);
     // StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
     let statusId = filterObject.statusIds || 2;
     let locations = await fetchAllGroupingLocationsAsync(filterObject, customerId, token);
@@ -121,7 +122,7 @@ export const getGroupingLocationAsync = async (groupingLocationId, token) => {
       data: fileObject
     });
 
-    return camelize(response.data);
+    return camelize(response);
   } catch (e) {
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
@@ -131,15 +132,17 @@ export const fetchAllGroupingLocationsAsync = async (filterObject, customerId, t
   try {
     let filters = snakeCaseDecorator(filterObject);
     let paramString = Object.keys(filters).reduce((str, key) => (str += `&${key}=${filters[key]}`), '');
-    console.log("PARAM STRING", paramString, argument);
-    let response = axios({
+    console.log("PARAM STRING", paramString);
+    let response = await axios({
       method: 'POST',
       url: `${endpoints.GROUPING_LOCATIONS}${paramString.replace('&', '?')}`,
       headers: {'Authorization': `Bearer ${token}`},
     });
 
-    return camelize(response.data);
+    console.log("GROUPING DATA", response.data);
+    return camelize(response);
   } catch (e) {
+    console.log("ERROR", e);
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
@@ -151,7 +154,7 @@ export const fetchBatchLocationsErrorAsync = async (pickupDate, customerId, toke
       url: `${endpoints.GROUPING_LOCATIONS_ERRORS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
       headers: {'Authorization': `Bearer ${token}`},
     });
-
+    console.log("FETCH", response);
     return camelize(response.data);
   } catch (e) {
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
