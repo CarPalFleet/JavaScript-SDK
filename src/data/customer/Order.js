@@ -116,10 +116,9 @@ export const getGroupingLocationsAsync = async (filterObject, customerId, token)
 export const getGroupingLocationAsync = async (groupingLocationId, token) => {
   try {
     let response = await axios({
-      method: 'POST',
+      method: 'GET',
       url: `${endpoints.GROUPING_LOCATIONS}/${groupingLocationId}`,
       headers: {'Authorization': `Bearer ${token}`},
-      data: fileObject
     });
 
     return camelize(response);
@@ -134,7 +133,7 @@ export const fetchAllGroupingLocationsAsync = async (filterObject, customerId, t
     let paramString = Object.keys(filters).reduce((str, key) => (str += `&${key}=${filters[key]}`), '');
     console.log("PARAM STRING", paramString);
     let response = await axios({
-      method: 'POST',
+      method: 'GET',
       url: `${endpoints.GROUPING_LOCATIONS}${paramString.replace('&', '?')}`,
       headers: {'Authorization': `Bearer ${token}`},
     });
@@ -181,7 +180,10 @@ export const createGroupingLocationsAsync = async (locationObject, token) => {
     let response = await axios({
       method: 'POST',
       url: endpoints.GROUPING_LOCATIONS,
-      headers: {'Authorization': `Bearer ${token}`},
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
       data: {location_data: snakeCaseDecorator(locationObject)}
     });
 
@@ -201,7 +203,10 @@ export const editGroupingLocationAsync = async (groupingLocationId, locationObje
     let response = await axios({
       method: 'PUT',
       url: `${endpoints.GROUPING_LOCATIONS}/${groupingLocationId}`,
-      headers: {'Authorization': `Bearer ${token}`},
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
       data: updatedLocationDataObject
     });
 
@@ -226,7 +231,10 @@ export const editGroupingBatchLocationsAsync = async (locationDataList = [], tok
     let response = await axios({
       method: 'PUT',
       url: endpoints.GROUPING_LOCATIONS,
-      headers: {'Authorization': `Bearer ${token}`},
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
       data: updatedLocationDataList
     });
 
