@@ -1,5 +1,5 @@
 const urlPrefix = 'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
-const laravalUrlPrefix = 'https://api-test.carpal.me';
+const laravelUrlPrefix = 'https://api-test.carpal.me';
 const version = 'v3';
 
 const endpoints = {
@@ -27,8 +27,8 @@ const endpoints = {
     EXPORT_CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
     CUSTOMER_DRIVER_DETAIL: `${urlPrefix}/customers/{0}/identities/{1}/drivers/{2}`,
     DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
-    BATCH_FILE_UPLOAD: `${laravalUrlPrefix}/${version}/customer/grouping-batch`,
-    GROUPING_BATCH_PROGRESSION: `${laravalUrlPrefix}/${version}/customer/grouping-batch/show-recent-pending`,
+    BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
+    GROUPING_BATCH_PROGRESSION: `${laravelUrlPrefix}/${version}/customer/grouping-batch/show-recent-pending`,
     NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
     MY_ORDER_COLUMN_NAMES: `${urlPrefix}/user/{0}/setting/{1}`,
     GROUPING_LOCATIONS: `${urlPrefix}/${version}/customer/grouping-location`,
