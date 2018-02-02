@@ -7,7 +7,7 @@ export const getNotificationsAsync = async (all = false, customerId, token) => {
     let response = await axios({
       method: 'GET',
       url: `${endpoints.NOTIFICATIONS.replace('{0}', customerId)}?all=${all}`,
-      header: {'Authorization': token}
+      headers: {'Authorization': token}
     });
 
     return camelize(response);
@@ -21,9 +21,9 @@ export const deleteNotificationAsync = async (notificationId, customerId, token)
     let response = await axios({
       method: 'DELETE',
       url: `${endpoints.NOTIFICATIONS.replace('{0}', customerId)}/${notificationId}`,
-      header: {'Authorization': token}
+      headers: {'Authorization': token}
     });
-    
+
     return camelize(response);
   } catch (e) {
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
