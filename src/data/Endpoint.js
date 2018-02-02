@@ -21,20 +21,21 @@ const endpoints = {
     ELASTICSEARCH: `${urlPrefix}/dashboard/search`,
     MY_ORDER_ELASTICSEARCH: `${urlPrefix}/locations/search`,
     DRIVER_LIST_ELASTICSEARCH: `${urlPrefix}/dashboard/search`, //url will be updated after backend is finished
-    NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
     SCHEMAS: `${urlPrefix}/schemas/{0}/{1}`,
     CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
     EXPORT_CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
     CUSTOMER_DRIVER_DETAIL: `${urlPrefix}/customers/{0}/identities/{1}/drivers/{2}`,
     DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
-    BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
-    GROUPING_BATCH_PROGRESSION: `${laravelUrlPrefix}/${version}/customer/grouping-batch/show-recent-pending`,
     NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
     MY_ORDER_COLUMN_NAMES: `${urlPrefix}/user/{0}/setting/{1}`,
-    GROUPING_LOCATIONS: `${urlPrefix}/${version}/customer/grouping-location`,
-    GROUPING_LOCATIONS_ERRORS: `${urlPrefix}/customers/{0}/location/errors`,
-    STATUSES: `${urlPrefix}/dashboard/types`,
     ROUTE_OPTIMIZE_SETTINGS: `${urlPrefix}/customers/{0}/routes`,
+    STATUSES: `${urlPrefix}/dashboard/types`,
+    GROUPING_LOCATIONS_ERRORS: `${urlPrefix}/customers/{0}/location/errors`,
+    API_V3: {
+      BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
+      GROUPING_LOCATIONS: `${laravelUrlPrefix}/${version}/customer/grouping-location`,
+      GROUPING_BATCH_PROGRESSION: `${laravelUrlPrefix}/${version}/customer/grouping-batch/show-recent-pending`,
+    }
 }
 
 export default endpoints;

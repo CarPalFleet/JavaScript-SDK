@@ -9,7 +9,7 @@ export const fileUploadAsync = async (fileObject, token) => {
     var form = new FormData();
     form.append('grouping_spreadsheet', fileObject);
 
-    let response = await axios(endpoints.BATCH_FILE_UPLOAD, {
+    let response = await axios(endpoints.API_V3.BATCH_FILE_UPLOAD, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,

@@ -8,6 +8,5 @@ const CONFIG = {
     date: '2017-11-01',
     emptyString: ''
   }
-  
+
   export default CONFIG;
-  

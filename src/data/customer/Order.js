@@ -87,7 +87,7 @@ export const getBatchOrderProgressAsync = async (customerId, token) => {
   try {
     let response = await axios({
       method: 'GET',
-      url: `${endpoints.GROUPING_BATCH_PROGRESSION}`,
+      url: `${endpoints.API_V3.GROUPING_BATCH_PROGRESSION}`,
       headers: {'Authorization': `Bearer ${token}`}
     });
 
@@ -99,16 +99,19 @@ export const getBatchOrderProgressAsync = async (customerId, token) => {
 
 export const getGroupingLocationsAsync = async (filterObject, customerId, token) => {
   try {
-    return camelize()
+    // return camelize()
     // StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
     let statusId = filterObject.statusIds || 2;
     let locations = await fetchAllGroupingLocationsAsync(filterObject, customerId, token);
-    let errorContents;
-    if (statusId === 4) {
-      errorContents = await fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
-    }
-    return groupLocations(locations, errorContents? errorContents: null);
+
+    return locations;
+    // let errorContents;
+    // if (statusId === 4) {
+    //   errorContents = await fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
+    // }
+    // return groupLocations(locations, errorContents? errorContents: null);
   } catch (e) {
+    console.log("trace error here", e);
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
@@ -117,12 +120,13 @@ export const getGroupingLocationAsync = async (groupingLocationId, token) => {
   try {
     let response = await axios({
       method: 'GET',
-      url: `${endpoints.GROUPING_LOCATIONS}/${groupingLocationId}`,
+      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${groupingLocationId}`,
       headers: {'Authorization': `Bearer ${token}`},
     });
 
     return camelize(response);
   } catch (e) {
+    console.log("trace error here", e);
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
@@ -131,17 +135,16 @@ export const fetchAllGroupingLocationsAsync = async (filterObject, customerId, t
   try {
     let filters = snakeCaseDecorator(filterObject);
     let paramString = Object.keys(filters).reduce((str, key) => (str += `&${key}=${filters[key]}`), '');
-    console.log("PARAM STRING", paramString);
     let response = await axios({
       method: 'GET',
-      url: `${endpoints.GROUPING_LOCATIONS}${paramString.replace('&', '?')}`,
+      url: `${endpoints.API_V3.GROUPING_LOCATIONS}${paramString.replace('&', '?')}`,
       headers: {'Authorization': `Bearer ${token}`},
     });
 
     console.log("GROUPING DATA", response.data);
-    return camelize(response);
+    return response;
+    // return camelize(response);
   } catch (e) {
-    console.log("ERROR", e);
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
@@ -164,7 +167,7 @@ export const getUniquePickupAddressesAsync = async (token) => {
   try {
     let response = await axios({
       method: 'GET',
-      url: endpoints.GROUPING_LOCATIONS,
+      url: endpoints.API_V3.GROUPING_LOCATIONS,
       headers: {'Authorization': `Bearer ${token}`},
     });
 
@@ -179,7 +182,7 @@ export const createGroupingLocationsAsync = async (locationObject, token) => {
     locationObject = snakeCaseDecorator(locationObject);
     let response = await axios({
       method: 'POST',
-      url: endpoints.GROUPING_LOCATIONS,
+      url: endpoints.API_V3.GROUPING_LOCATIONS,
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -202,7 +205,7 @@ export const editGroupingLocationAsync = async (groupingLocationId, locationObje
 
     let response = await axios({
       method: 'PUT',
-      url: `${endpoints.GROUPING_LOCATIONS}/${groupingLocationId}`,
+      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${groupingLocationId}`,
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -230,7 +233,7 @@ export const editGroupingBatchLocationsAsync = async (locationDataList = [], tok
     console.log("locationData List", updatedLocationDataList);
     let response = await axios({
       method: 'PUT',
-      url: endpoints.GROUPING_LOCATIONS,
+      url: endpoints.API_V3.GROUPING_LOCATIONS,
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -248,7 +251,7 @@ export const deleteGroupingLocationAsync = async (groupingLocationId, token) => 
   try {
     let response = await axios({
       method: 'DELETE',
-      url: `${endpoints.GROUPING_LOCATIONS}/${groupingLocationId}`,
+      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${groupingLocationId}`,
       headers: {'Authorization': `Bearer ${token}`},
     });
 
@@ -263,7 +266,7 @@ export const deleteGroupingLocationsAsync = async (groupingLocationIds = [], tok
     let paramString = groupingLocationIds.join();
     let response = await axios({
       method: 'DELETE',
-      url: `${endpoints.GROUPING_LOCATIONS}/${paramString}`,
+      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${paramString}`,
       headers: {'Authorization': `Bearer ${token}`},
     });
 
@@ -277,7 +280,7 @@ export const cancelBatchFileProcessAsync = async (batchId, token) => {
   try {
     let response = await axios({
       method: 'DELETE',
-      url: `${endpoints.GROUPING_LOCATIONS}/${batchId}`,
+      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${batchId}`,
       headers: {'Authorization': `Bearer ${token}`},
     });
 
