@@ -11,7 +11,7 @@ import {
   fetchBatchOrderCreateErrorMockUp,
   getGroupingLocationsAsync,
   getUniquePickupAddressesAsync,
-  createGroupingLocationsAsync,
+  createGroupingLocationAsync,
   editGroupingLocationAsync,
   editGroupingBatchLocationsAsync,
   deleteGroupingLocationAsync,
@@ -21,6 +21,11 @@ import {
 } from '../Order';
 import { getTokenAsync } from '../../account/Auth';
 import CONFIG from './Config';
+
+test('Retrieving single grouping location', async () => {
+    const response = await getGroupingLocationAsync(CONFIG.groupingLocationId, CONFIG.testToken);
+    expect('data' in response).toBe(true);
+})
 
 test('Retrieving validated grouping locations', async () => {
     const filterObject = {
@@ -58,11 +63,6 @@ test('Retrieving error grouping locations from DynamoDB', async () => {
   expect(response.data instanceof Array).toBe(true);
 })
 
-test('Retrieving single grouping location', async () => {
-    const response = await getGroupingLocationAsync(CONFIG.grouingBatchId, CONFIG.testToken);
-    expect('data' in response).toBe(true);
-})
-
 test('Retrieving pickup group', async () => {
     let pickupGroupFilters = {
       pickupDate: "2018-02-28",
@@ -74,12 +74,12 @@ test('Retrieving pickup group', async () => {
 })
 
 test('Create Grouping Location', async () => {
-    const response = await createGroupingLocationsAsync(CONFIG.locationObject, CONFIG.testToken);
+    const response = await createGroupingLocationAsync(CONFIG.locationObject, CONFIG.testToken);
     expect('data' in response).toBe(true);
 })
 
 test('Edit Grouping Location', async () => {
-    const response = await editGroupingLocationAsync(CONFIG.grouingBatchId, CONFIG.locationObject, CONFIG.testToken);
+    const response = await editGroupingLocationAsync(CONFIG.groupingLocationId, CONFIG.locationObject, CONFIG.testToken);
     expect('data' in response).toBe(true);
 })
 
@@ -94,12 +94,12 @@ test('Test for uploading batch order progression', async () => {
 })
 
 // test('Delete Grouping Location', async () => {
-//     const response = await deleteGroupingLocationAsync(CONFIG.grouingBatchId, CONFIG.testToken);
+//     const response = await deleteGroupingLocationAsync(CONFIG.groupingLocationId, CONFIG.testToken);
 //     expect(response.success).toBe(true);
 // })
 //
 // test('Delete Multiple Grouping Locations', async () => {
-//     const response = await deleteGroupingLocationsAsync(CONFIG.grouingBatchIds, CONFIG.testToken);
+//     const response = await deleteGroupingLocationsAsync(CONFIG.groupingLocationIds, CONFIG.testToken);
 //     expect(response.success).toBe(true);
 // })
 

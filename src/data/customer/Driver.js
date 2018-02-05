@@ -38,25 +38,31 @@ export const getCustomerDriverDetailAsync = async (customerId, identityId, drive
   }
 }
 
-export const getCustomerDriverListAsync = async (customerId, token) =>{
+export const getCustomerDriverListAsync = async (filterObject = {}, token) =>{
   try{
     return DRIVER_LIST_MOCKUP;
-    // const response = await axios({method: 'get',
-                                     // url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),
-                                     // headers: {'Authorization': token}})
-    // return camelize(response.data);
+
+    let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
+
+    const response = await axios({method: 'get',
+                                     url: `${endpoints.CUSTOMER_DRIVERS}/${paramString.replace('&', '?')}`,
+                                     headers: {'Authorization': `Bearer ${token}`}
+                                   })
+    return camelize(response.data);
   } catch(e) {
     handleAsyncError(e);
   }
 }
 
-export const exportDriverListFileAsync = async (fileType, customerId, token) =>{
+export const exportDriverListFileAsync = async (format, token) =>{
   try{
     return { downloadUrl: 'http://gahp.net/wp-content/uploads/2017/09/sample.pdf' };
-    // const response = await axios({method: 'get',
-                                     // url: `${endpoints.EXPORT_CUSTOMER_DRIVERS.replace('{0}', customerId)}fileType=${format}`,
-                                     // headers: {'Authorization': token}})
-    // return camelize(response.data);
+
+    const response = await axios({method: 'get',
+                                     url: `${endpoints.EXPORT_CUSTOMER_DRIVERS}?fileType=${format}`,
+                                     headers: {'Authorization': `Bearer ${token}`},
+                                   })
+    return camelize(response.data);
   } catch(e) {
     handleAsyncError(e);
   }
@@ -65,11 +71,13 @@ export const exportDriverListFileAsync = async (fileType, customerId, token) =>{
 export const deleteCustomerDriversAsync = async (driverIds, customerId, token) =>{
   try{
     return { data: true };
-    // const response = await axios({method: 'delete',
-                                     // url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId)}`,
-                                     // data: driverIds,
-                                     // headers: {'Authorization': token}})
-    // return camelize(response.data);
+
+    let paramString = driverIds.join();
+    const response = await axios({method: 'delete',
+                                     url: `${endpoints.CUSTOMER_DRIVERS}?driver_ids=${paramString}`,
+                                     headers: {'Authorization': `Bearer ${token}`},
+                                   })
+    return camelize(response.data);
   } catch(e) {
     handleAsyncError(e);
   }

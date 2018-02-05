@@ -97,6 +97,20 @@ export const getBatchOrderProgressAsync = async (customerId, token) => {
   }
 }
 
+export const getGroupingLocationAsync = async (groupingLocationId, token) => {
+  try {
+    let response = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${groupingLocationId}`,
+      headers: {'Authorization': `Bearer ${token}`},
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+  }
+}
+
 export const getGroupingLocationsAsync = async (filterObject, customerId, token) => {
   try {
     // StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
@@ -108,20 +122,6 @@ export const getGroupingLocationsAsync = async (filterObject, customerId, token)
     }
 
     return groupLocations(locations, errorContents? errorContents: null);
-  } catch (e) {
-    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
-  }
-}
-
-export const getGroupingLocationAsync = async (groupingLocationId, token) => {
-  try {
-    let response = await axios({
-      method: 'GET',
-      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${groupingLocationId}`,
-      headers: {'Authorization': `Bearer ${token}`},
-    });
-
-    return camelize(response.data);
   } catch (e) {
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
@@ -180,7 +180,7 @@ export const getUniquePickupAddressesAsync = async (filterObject, token) => {
   }
 }
 
-export const createGroupingLocationsAsync = async (locationObject, token) => {
+export const createGroupingLocationAsync = async (locationObject, token) => {
   try {
     locationObject = snakeCaseDecorator(locationObject);
     let response = await axios({
@@ -257,7 +257,7 @@ export const deleteGroupingLocationAsync = async (groupingLocationId, token) => 
       headers: {'Authorization': `Bearer ${token}`},
     });
 
-    return {success: true};
+    return { data: true};
   } catch (e) {
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
@@ -272,13 +272,13 @@ export const deleteGroupingLocationsAsync = async (groupingLocationIds = [], tok
       headers: {'Authorization': `Bearer ${token}`},
     });
 
-    return {success: true};
+    return { data: true};
   } catch (e) {
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
 
-export const cancelBatchFileProcessAsync = async (batchId, token) => {
+export const cancelBatchFileProcessAsync = async (groupingBatchId, token) => {
   try {
     let response = await axios({
       method: 'DELETE',

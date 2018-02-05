@@ -1,932 +1,3070 @@
-const MOCKUP_Driver_List = {
-  drivers: [
-    {
-      id: 1234501,
-      firstName: "Alasdair",
-      lastName: "Lorne",
-      email: "alasdair.lorne@carpal.me",
-      phone: "+6587495944",
-      status: "pending",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: [
-        {
-          id: 1234501,
-          name: "Zone 01"
-        },
-        {
-          id: 1234502,
-          name: "Zone 02"
-        },
-        {
-          id: 1234503,
-          name: "Zone 03"
+const MOCKUP_Driver_List = [
+  {
+    "id": 1,
+    "driverDetailsId": 2,
+    "userId": 4,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 4,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
         }
-      ],
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 1234502,
-      firstName: "Albert",
-      lastName: "Thomas",
-      email: "Albert.Thomas@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: [
-        {
-          id: 1234501,
-          name: "Zone 01"
-        },
-        {
-          id: 1234502,
-          name: "Zone 02"
-        },
-        {
-          id: 1234503,
-          name: "Zone 03"
-        }
-      ],
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 1234503,
-      firstName: "Algernon",
-      lastName: "Frederick",
-      email: "alasdair.lorne@carpal.me",
-      phone: "+6587495944",
-      status: "inactive",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 1234504,
-      firstName: "Augustus",
-      lastName: "George",
-      email: "Augustus.George@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 1234505,
-      firstName: "Barden",
-      lastName: "William",
-      email: "Barden.William@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 1234506,
-      firstName: "Ezra",
-      lastName: "Martin",
-      email: "Ezra.Martin@carpal.me",
-      phone: "+6587495944",
-      status: "pending",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 1234507,
-      firstName: "Hugo",
-      lastName: "Rupert",
-      email: "Hugo.Rupert@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 1234508,
-      firstName: "Ignatius",
-      lastName: "Mungo",
-      email: "Ignatius.Mungo@carpal.me",
-      phone: "+6587495944",
-      status: "inactive",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 1234509,
-      firstName: "John",
-      lastName: "Archie",
-      email: "John.Archie@carpal.me",
-      phone: "+6587495944",
-      status: "inactive",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345010,
-      firstName: "Leo",
-      lastName: "Michaelis",
-      email: "Leo.Michaelis@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345011,
-      firstName: "Brocas",
-      lastName: "Wood",
-      email: "Brocas.Wood@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345012,
-      firstName: "Rex",
-      lastName: "Patrick",
-      email: "Rex.Patrick@carpal.me",
-      phone: "+6587495944",
-      status: "pending",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345013,
-      firstName: "Rory",
-      lastName: "Sinclair",
-      email: "Rory.Sinclair@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345014,
-      firstName: "Rufus",
-      lastName: "Alexander",
-      email: "Rufus.Alexander@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345015,
-      firstName: "Rupert",
-      lastName: "Thor",
-      email: "Rupert.Thor@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Public",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345016,
-      firstName: "Willasey",
-      lastName: "Hastings",
-      email: "Willasey.Hastings@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Service Provider",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345018,
-      firstName: "George",
-      lastName: "Clementine",
-      email: "George.Clementine@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345019,
-      firstName: "William",
-      lastName: "Emily",
-      email: "William.Emily@carpal.me",
-      phone: "+6587495944",
-      status: "pending",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345010,
-      firstName: "Martin",
-      lastName: "Olga",
-      email: "Martin.Olga@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Public",
-      schdule : "inactive",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345020,
-      firstName: "Rupert",
-      lastName: "Eliza",
-      email: "Rupert.Eliza@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Service Provider",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345021,
-      firstName: "Mungo",
-      lastName: "Rosemary",
-      email: "Mungo.Rosemary@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345022,
-      firstName: "Archie",
-      lastName: "Ella",
-      email: "Archie.Ella@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Public",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345023,
-      firstName: "Michaelis",
-      lastName: "Freya",
-      email: "Michaelis.Freya@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Service Provider",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345024,
-      firstName: "Wood",
-      lastName: "Grais",
-      email: "Wood.Grais@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345025,
-      firstName: "Patrick",
-      lastName: "Harper",
-      email: "Patrick.Harper@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Public",
-      schdule : "pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345026,
-      firstName: "Sinclair",
-      lastName: "Bluebell",
-      email: "Sinclair.Bluebell@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Service Provider",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345027,
-      firstName: "Alexander",
-      lastName: "Henrietta",
-      email: "Alexander.Henrietta@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345028,
-      firstName: "Thor",
-      lastName: "Hermine",
-      email: "Thor.Hermine@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345029,
-      firstName: "Hastings",
-      lastName: "Margaret",
-      email: "Hastings.Margaret@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345030,
-      firstName: "Clementine",
-      lastName: "Annabel",
-      email: "Clementine.Annabel@carpal.me",
-      phone: "+6587495944",
-      status: "inactive",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345031,
-      firstName: "Emily",
-      lastName: "Daphne",
-      email: "Emily.Daphne@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345032,
-      firstName: "Olga",
-      lastName: "Amelie",
-      email: "Olga.Amelie@carpal.me",
-      phone: "+6587495944",
-      status: "inactive",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Public",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345033,
-      firstName: "Eliza",
-      lastName: "Miranda",
-      email: "Eliza.Miranda@carpal.me",
-      phone: "+6587495944",
-      status: "pending",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Service Provider",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345034,
-      firstName: "Rosemary",
-      lastName: "Barbara",
-      email: "Rosemary.Barbara@carpal.me",
-      phone: "+6587495944",
-      status: "pending",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345035,
-      firstName: "Ella",
-      lastName: "Persephone",
-      email: "Ella.Persephone@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Public",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345036,
-      firstName: "Freya",
-      lastName: "Audrey",
-      email: "Freya.Audrey@carpal.me",
-      phone: "+6587495944",
-      status: "inactive",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Service Provider",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345037,
-      firstName: "Grais",
-      lastName: "Bridget",
-      email: "Grais.Bridget@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345038,
-      firstName: "Harper",
-      lastName: "Rose",
-      email: "Harper.Rose@carpal.me",
-      phone: "+6587495944",
-      status: "inactive",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345039,
-      firstName: "Bluebell",
-      lastName: "Mabel",
-      email: "Bluebell.Mabel@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Public",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345040,
-      firstName: "Henrietta",
-      lastName: "Daphne",
-      email: "Henrietta.Daphne@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Service Provider",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345041,
-      firstName: "Hermine",
-      lastName: "Halcyon",
-      email: "Hermine.Halcyon@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345042,
-      firstName: "Margaret",
-      lastName: "Isabel",
-      email: "Margaret.Isabel@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345043,
-      firstName: "Isabella",
-      lastName: "Allegra",
-      email: "Isabella.Allegra@carpal.me",
-      phone: "+6587495944",
-      status: "pending",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Public",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345044,
-      firstName: "Alice",
-      lastName: "India",
-      email: "Alice.India@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "Service Provider",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345045,
-      firstName: "Loveday",
-      lastName: "Celestine",
-      email: "Loveday.Celestine@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345046,
-      firstName: "Primrose",
-      lastName: "Kennedy",
-      email: "Primrose.Kennedy@carpal.me",
-      phone: "+6587495944",
-      status: "pending",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345047,
-      firstName: "Luella",
-      lastName: "Helen",
-      email: "Luella.Helen@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345048,
-      firstName: "Marie",
-      lastName: "Verity",
-      email: "Marie.Verity@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345049,
-      firstName: "Alice",
-      lastName: "Willa",
-      email: "Alice.Willa@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
-    },
-    {
-      id: 12345050,
-      firstName: "Matilda",
-      lastName: "Margery",
-      email: "Matilda.Margery@carpal.me",
-      phone: "+6587495944",
-      status: "active",
-      lastJob: "10 Dec - 3:00pm",
-      driverType: "In house",
-      schdule : "Pending",
-      geoFence: "Zone 01",
-      vehicleBrannd: "Honda",
-      vehicleModel: "Model1",
-      vehicleModelYear: "2017",
-      vehicleType: "SUV",
-      avatarUrl: "",
-      vehicleLicensePlate: "SG1234768"
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
     }
-  ]
-}
+  },
+  {
+    "id": 2,
+    "driverDetailsId": 2,
+    "userId": 4,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 4,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 3,
+    "driverDetailsId": 2,
+    "userId": 4,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 4,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 4,
+    "driverDetailsId": 2,
+    "userId": 4,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 4,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 5,
+    "driverDetailsId": 2,
+    "userId": 5,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 5,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 6,
+    "driverDetailsId": 2,
+    "userId": 6,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 6,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 7,
+    "driverDetailsId": 2,
+    "userId": 7,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 7,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 8,
+    "driverDetailsId": 2,
+    "userId": 8,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 8,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 9,
+    "driverDetailsId": 2,
+    "userId": 9,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 9,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 10,
+    "driverDetailsId": 2,
+    "userId": 10,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 10,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 11,
+    "driverDetailsId": 2,
+    "userId": 11,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 11,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 11,
+    "driverDetailsId": 2,
+    "userId": 11,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 11,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 12,
+    "driverDetailsId": 2,
+    "userId": 12,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 12,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 13,
+    "driverDetailsId": 2,
+    "userId": 13,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 13,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 14,
+    "driverDetailsId": 2,
+    "userId": 14,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 14,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 15,
+    "driverDetailsId": 2,
+    "userId": 15,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 15,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 16,
+    "driverDetailsId": 2,
+    "userId": 16,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 16,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 17,
+    "driverDetailsId": 2,
+    "userId": 17,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 17,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 18,
+    "driverDetailsId": 2,
+    "userId": 18,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 18,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 19,
+    "driverDetailsId": 2,
+    "userId": 19,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 19,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 20,
+    "driverDetailsId": 2,
+    "userId": 20,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 20,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 21,
+    "driverDetailsId": 2,
+    "userId": 21,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 21,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 22,
+    "driverDetailsId": 2,
+    "userId": 22,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 22,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 23,
+    "driverDetailsId": 2,
+    "userId": 23,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 23,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 24,
+    "driverDetailsId": 2,
+    "userId": 24,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 24,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 25,
+    "driverDetailsId": 2,
+    "userId": 25,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 25,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 26,
+    "driverDetailsId": 2,
+    "userId": 26,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 26,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 27,
+    "driverDetailsId": 2,
+    "userId": 27,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 27,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 28,
+    "driverDetailsId": 2,
+    "userId": 28,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 28,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 29,
+    "driverDetailsId": 2,
+    "userId": 29,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 29,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 30,
+    "driverDetailsId": 2,
+    "userId": 30,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 30,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 31,
+    "driverDetailsId": 2,
+    "userId": 31,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 31,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 31,
+    "driverDetailsId": 2,
+    "userId": 31,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 31,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 32,
+    "driverDetailsId": 2,
+    "userId": 32,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 32,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 33,
+    "driverDetailsId": 2,
+    "userId": 33,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 33,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 34,
+    "driverDetailsId": 2,
+    "userId": 34,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 34,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 35,
+    "driverDetailsId": 2,
+    "userId": 35,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 35,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 36,
+    "driverDetailsId": 2,
+    "userId": 36,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 36,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 37,
+    "driverDetailsId": 2,
+    "userId": 37,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 37,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 38,
+    "driverDetailsId": 2,
+    "userId": 38,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 38,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 39,
+    "driverDetailsId": 2,
+    "userId": 39,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 39,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+  {
+    "id": 40,
+    "driverDetailsId": 2,
+    "userId": 40,
+    "driverStatusId": 2,
+    "driverStatusName": "active",
+    "activatedAt": "2018-02-05 05:15:12",
+    "createdAt": "2018-02-05 05:15:12",
+    "updatedAt": "2018-02-05 05:15:12",
+    "user": {
+      "id": 40,
+      "firstName": "Red",
+      "lastName": "Balloons",
+      "email": "red@balloons.me",
+      "phone": "+6582347669",
+      "createdAt": "2018-02-05 05:15:12",
+      "updatedAt": "2018-02-05 05:15:12"
+    },
+    "vehicle": {
+      "id": 1,
+      "model": "Altis",
+      "brand": "Toyota",
+      "license_plate": "SBS101",
+      "modelYear": 2010,
+      "vehicleType": "Regular car \/ 4 seats",
+      "createdAt": "2018-02-05 05:24:01",
+      "updatedAt": "2018-02-05 05:24:01"
+    },
+    "driverTypes": [
+      {
+        "id": 2,
+        "displayName": "In-House",
+        "createdAt": "2018-02-05 03:01:38",
+        "updatedAt": "2018-02-05 03:01:38"
+      }
+    ],
+    "driverGeofences": [
+      {
+        "id": 1,
+        "geofenceId": 1,
+        "driverId": 2,
+        "createdAt": "2018-02-05 05:17:19",
+        "updatedAt": "2018-02-05 05:17:19",
+        "geofence": {
+          "id": 1,
+          "displayName": "Auto-Pilot",
+          "identityId": 1,
+          "transactionGroupId": 1,
+          "createdAt": "2018-02-05 05:17:05",
+          "updatedAt": "2018-02-05 05:17:05"
+        }
+      }
+    ],
+    "driverSchedules": [
+      {
+        "id": 1,
+        "driverId": 2,
+        "identityId": 1,
+        "transactionGroupId": 1,
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "startAt": "2018-01-01",
+        "createdAt": "2018-02-05 05:22:52",
+        "updatedAt": "2018-02-05 05:22:52"
+      }
+    ],
+    "driverStatus": {
+      "id": 2,
+      "name": "active",
+      "createdAt": "2018-02-05 03:01:38",
+      "updatedAt": "2018-02-05 03:01:38"
+    }
+  },
+]
 
 export default MOCKUP_Driver_List;
