@@ -91,7 +91,16 @@ export const getBatchOrderProgressAsync = async (customerId, token) => {
       headers: {'Authorization': `Bearer ${token}`}
     });
 
-    return camelize(response.data);
+    let result = camelize(response.data);
+
+    let updatedProgressData = {
+      chunkProgression: result.chunkProgressionCount;
+      totalChunkProgression: result.totalLocationCount;
+      failedLocationCount: result.failedLocationCount;
+      groupingLocationIdsSuccess: [];
+    }
+
+    return updatedProgressData;
   } catch (e) {
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
