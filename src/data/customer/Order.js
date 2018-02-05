@@ -176,14 +176,15 @@ export const getUniquePickupAddressesAsync = async (filterObject, token) => {
       headers: {'Authorization': `Bearer ${token}`},
     });
 
-    let pickupAddressList = camelize(response.data).map((locationObject) => {
+    let result = response.data? camelize(response.data.data): [];
+    let pickupAddressList = result.map((locationObject) => {
       return {
-        pickupGroupId: locationObject.pickupGroupId,
-        pickupGroupId: locationObject.pickupAddressId,
-        pickup_location_address: locationObject.pickupLocationAddress
+        pickupLocationAddressId: locationObject.address.id,
+        pickupLocationAddress: locationObject.address.address
       }
-    })
-    return camelize(pickupAddressList);
+    });
+
+    return { data: pickupAddressList }
   } catch (e) {
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }

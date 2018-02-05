@@ -65,12 +65,13 @@ test('Retrieving error grouping locations from DynamoDB', async () => {
 
 test('Retrieving pickup group', async () => {
     let pickupGroupFilters = {
-      pickupDate: "2018-02-28",
+      pickupDate: "2018-02-05",
       withOrder: 1
     }
 
-    const response = await getUniquePickupAddressesAsync(CONFIG.pickupGroupFilters, CONFIG.testToken);
+    const response = await getUniquePickupAddressesAsync(pickupGroupFilters, CONFIG.testToken);
     expect('data' in response).toBe(true);
+    expect(response.data instanceof Array).toBe(true);
 })
 
 test('Create Grouping Location', async () => {

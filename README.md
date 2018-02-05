@@ -5,7 +5,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is 0.1.29
+The current version of this SDK is 0.1.30
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -47,7 +47,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/customer/Order    | editGroupingBatchLocationsAsync(locations, token) | locations params must be array. Can pass multiple edited locations with groupingLocationId into this array. <br /><br />Example. [groupingLocationId: 1, locationData: {pickupLocationAddress: 'xxxx'}]|
 | carpal/dist/data/customer/Order    | deleteGroupingLocationAsync(groupingLocationId, token) | This function will delete specific groupingLocationId from params. <br /><br />|
 | carpal/dist/data/customer/Order    | deleteGroupingLocationsAsync(groupingLocationIds = [], token) | This function will delete the list of groupingLocationIds <br /><br />|
-| carpal/dist/data/customer/Order    | getUniquePickupAddressesAsync(filterObject, token) | This returns a Promise object with all unique pickupLocationAddresses. **Example of fileterObject:: pickupDate = "2018-02-28", with_order=0 ** <br /><br />|
+| carpal/dist/data/customer/Order    | getUniquePickupAddressesAsync(filterObject, token) | This returns a Promise object with all unique pickupLocationAddresses. **Example of fileterObject:: pickupDate = "YYYY-MM-DD", with_order=0 ** <br /><br />|
 | carpal/dist/data/customer/Order    | cancelBatchFileProcessAsync(groupingBatchId, token) | This returns a Promise object with data true if the batch file is actually deleted.** |
 | carpal/dist/data/customer/Order    | fetchBatchLocationsErrorAsync(pickupDate, customerId, token) | This returns a Promise object with error and its message from Dynamodb. <br /><br /> pickupDate format should be 'yyyy-mm-dd'** |
 | carpal/dist/data/customer/Order    | fetchBatchLocationsErrorAsync( pickupDate, customerId, token) | This returns a Promise object with order progress data. <br /><br /> pickupDate format should be 'yyyy-mm-dd'** |
