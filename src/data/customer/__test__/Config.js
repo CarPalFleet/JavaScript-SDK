@@ -30,15 +30,36 @@ const CONFIG = {
   showCustomerOrderNumber: true,
   showOrderOptions: false,
   transactionGroupIds: [],
-  testToken:  `eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjBiZjU4YWU3M2ZkY2MzNGViZGQ0NTVlMTJhZGFjODM5MmVmNzFiOGFhY2RlMjNkMTI3YWVmMmFkOTVhZDYwYTAxNmRhYWNlNWJiMjZmNjYwIn0.eyJhdWQiOiIyIiwianRpIjoiMGJmNThhZTczZmRjYzM0ZWJkZDQ1NWUxMmFkYWM4MzkyZWY3MWI4YWFjZGUyM2QxMjdhZWYyYWQ5NWFkNjBhMDE2ZGFhY2U1YmIyNmY2NjAiLCJpYXQiOjE1MTc1NTMwMzAsIm5iZiI6MTUxNzU1MzAzMCwiZXhwIjoxNTE3NTU2NjMwLCJzdWIiOiIyNDA3Iiwic2NvcGVzIjpbImZ1bGwtYWNjZXNzIl19.B5neug6NZCTsVCHS5LGUwcTPQ3RQjitzWORGRKzk9bMovLzRMBpCw2ba_kV10BetSDK-6ABEbcVu3xASzTmYRip5PhkeVf2OQ24hU3fh26Azti8rmUoZZRwJcjnk7qtYILHLM4hqdcmcwv6o4R0QH_MuoVmdFPmBaBugV57pzs9hSp4jBE9Co9sPsuZ35xMtEVkbbACXLPYohHtPsWeVz7wb24zXc1ajwZTD0nZSdJxJMUvkG0WDUWXxGzI2jRyfbtmcDmW5zQmZPdiwvRI94o8bFjMGSI7AlY1BEa3Da8EUhOjzydfsEAT1n47XFjmJmopjpHqTvZKkRtbd8FJt4yNZtUmIJEbMcT39yLXCyGNBzmsI-fi_u4PuTvYli-03nYFHwDvONRKM8efgrQaBDF7FOIlp9bbJfnb3-THnwEKGZZSghaGROtPEXe79gNlozfv1vz26gNOAkfxNKjbuVvLf3U0xf2FzBGUMBw0-3BXYmLmBmjPp3IW4mtbhPbX-8FrfaRWrnORGZEaghBuioyrl594zyw0xgqBEE6QuQk0epjsvPMS_km74G-DkOdrgYF9celdD-Cv2613pdWievXwpPc7eWWZy7DNjIh7X5eYU41uE3q-PapWh2xzaq9RfB2vVjpTwotQ8nhrW62zoWVEsO5zcPj8BlxSi7bophMk`,
+  pickupDate: '2018-02-28',
+  grouingBatchId: 27054,
+  grouingBatchIds: [27044, 27045, 27046],
+  testToken:  `eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjEzYzliYzcxOTc5YzZjNzA3OGEwMGNjZDg2ZDdlMzc1MzMzMDcyM2ZmZTE2NWY4YTcxNTZiYWFiOTU2YmNiOThhNDUyMmJlMTQxOGNkZjU5In0.eyJhdWQiOiIyIiwianRpIjoiMTNjOWJjNzE5NzljNmM3MDc4YTAwY2NkODZkN2UzNzUzMzMwNzIzZmZlMTY1ZjhhNzE1NmJhYWI5NTZiY2I5OGE0NTIyYmUxNDE4Y2RmNTkiLCJpYXQiOjE1MTc3NTA3OTAsIm5iZiI6MTUxNzc1MDc5MCwiZXhwIjoxNTE3NzU0MzkwLCJzdWIiOiIyNDA3Iiwic2NvcGVzIjpbImZ1bGwtYWNjZXNzIl19.Sq3Aq_xU2-TBvzY8uAQ6e1DjdLRHFCe4SIYO7ioVQABf7gBAnkuL9cF3l2V9u_FiNCxKGjT2JBtIwEVCiRr3LJUZ0mijkJQuo9XGhaBV4QyLOQIwmAs7VYSld61-Z8f5ly5guJ5v7n0uq4AmroBCoQiyJOy0juZoAXxW4tt9qjmfK9wNLt5kJjnM7ynBoQnEsL3-0ZvPGX0FWNbsAMDJgMIvWSKawEQULolMoDVM-G9qLV1nwXqU-7dQ-BwlGuQktk2wqN_9_AK2qhLTZI8ASmzYoGgnYtOVQ-8Jpb3__TPYTUfdtOuJ0Z1AudtVcRaPjhUlT4XDbGg1R5lbF1mV0PazULArE8Le-mgSVZdaULcccUlA1yiiwW7UcfEVBA26fvH_IHFzXKbmpKIHUAdeMWy9OjQehVcd0ZGj70RxnVIlOl9Bpok0ZM3rw1LL__AYzWjxQbslUEzsqhNYPKzpP1phrFJnD0F9XGWTX0BJb4wy_csoU9SZz28reNWpWeUADU-elCHAzeqTsIAnEh9QBWf-yy-VsI4kInf09UGHl2J51yoC1-vBwBaQkn0TcztZ3W7RzxqhZapSZUelETk9LQ-ZFhSAuyeckSlRW_r0Tz1_HKOVLDjMSwFygpkdAiXn5SUdWoYoDiMzyoL1MnxbyEJlXRqzNcRxBh8LYkSSpDU`,
   batchId: 12,
+  customerId: 2318,
+  locationObject: {"pickupLocationAddress":"22 Gim moh road","deliveryAddress":"Holland Close","pickupDate":"28-02-2018","pickupTimeWindow":"14:35-16:00","deliveryDate":"28-02-2018","deliveryTimeWindow":"17:00-17:00","driverEmailId":null},
+  locationDataList: [
+    {
+      groupingLocationId: 27055,
+      locationData: {"pickupLocationAddress":"22 Gim moh road","deliveryAddress":"Holland Close","pickupDate":"28-02-2018","pickupTimeWindow":"14:35-16:00","deliveryDate":"28-02-2018","deliveryTimeWindow":"17:00-17:00","driverEmailId":null},
+    },
+    {
+      groupingLocationId: 27056,
+      locationData: {"pickupLocationAddress":"22 Gim moh road","deliveryAddress":"Holland Close","pickupDate":"28-02-2018","pickupTimeWindow":"14:35-16:00","deliveryDate":"28-02-2018","deliveryTimeWindow":"17:00-17:00","driverEmailId":null},
+    }
+  ],
   groupingLocationData: {
-    successLocationCount: 30,
-    failedLocationCount: 3,
+    meta: {
+      totalLocationCount: 48,
+      validatedLocationCount: 30,
+      failedLocationCount: 3,
+    },
     data: [
       {
         "id": 12345679,
         "priority": 2,
+        "driverId": 200,
+        "groupingBatchId": 1697,
+        "pickupGroupId": 12345,
         "orderId": 564257893,
         "pickupBuildingName": "Block 43",
         "pickupUnitNumber": "02-345",
@@ -72,11 +93,15 @@ const CONFIG = {
         "customWaybillNumber": "234567",
         "cashOnDeliveryAmount": 90,
         "team": "Team A",
-        "groupingLocationStatusId": 4 // 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+        "groupingLocationStatusId": 4, // 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+        "driver": []
       },
       {
         "id": 12345680,
         "priority": 2,
+        "driverId": 200,
+        "groupingBatchId": 1697,
+        "pickupGroupId": 12346,
         "orderId": 564257893,
         "pickupBuildingName": "Block 43",
         "pickupUnitNumber": "02-345",
@@ -110,12 +135,16 @@ const CONFIG = {
         "customWaybillNumber": "234567",
         "cashOnDeliveryAmount": 90,
         "team": "Team A",
-        "groupingLocationStatusId": 4 // 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+        "groupingLocationStatusId": 4, // 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+        "driver": []
       },
       {
         "id": 12345681,
         "priority": 2,
         "orderId": 564257893,
+        "driverId": 200,
+        "groupingBatchId": 1697,
+        "pickupGroupId": 12347,
         "pickupBuildingName": "Block 43",
         "pickupUnitNumber": "02-345",
         "pickupAddressId": 345678,
@@ -148,108 +177,111 @@ const CONFIG = {
         "customWaybillNumber": "234567",
         "cashOnDeliveryAmount": 90,
         "team": "Team A",
-        "groupingLocationStatusId": 4 // 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+        "groupingLocationStatusId": 4, // 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+        "driver": []
       }
     ]
   },
-  errorContents: [
-    {
-      "customerId": 2318,
-      "id": "08997f44-11c7-4e3b-997e-51976298d64c", //DynamoDB ID
-      "errorMessages": {
-        "priority": [],
-        "pickupLocationAddress": [],
-        "deliveryAddress": [],
-        "team": ['Team A error'],
-        "pickupDate": [],
-        "deliveryDate": [],
-        "pickupTimeWindow": [],
-        "deliveryTimeWindow": [],
-        "driverEmailId": [],
-        "itemQuantity": [],
-        "cashOnDeliveryAmount": [],
-        "pickupContactEmail": [],
-        "deliveryContactEmail": [],
-        "pickupContactPhone": [
-          "Phone must contain the Country Code"
-        ],
-        "deliveryContactPhone": [
-          "Phone must contain the Country Code"
-        ],
-        "deliveryNotes": [],
-        "pickupLocationAddressSuggestion": "", //Extra field
-        "deliveryAddressSuggestion": "", //Extra field
-        "totalWeight": "",
-        "weightPerItem": ""
+  errorContents: {
+    data: [
+      {
+        "customerId": 2318,
+        "id": "08997f44-11c7-4e3b-997e-51976298d64c", //DynamoDB ID
+        "errorMessages": {
+          "priority": [],
+          "pickupLocationAddress": [],
+          "deliveryAddress": [],
+          "team": ['Team A error'],
+          "pickupDate": [],
+          "deliveryDate": [],
+          "pickupTimeWindow": [],
+          "deliveryTimeWindow": [],
+          "driverEmailId": [],
+          "itemQuantity": [],
+          "cashOnDeliveryAmount": [],
+          "pickupContactEmail": [],
+          "deliveryContactEmail": [],
+          "pickupContactPhone": [
+            "Phone must contain the Country Code"
+          ],
+          "deliveryContactPhone": [
+            "Phone must contain the Country Code"
+          ],
+          "deliveryNotes": [],
+          "pickupLocationAddressSuggestion": "", //Extra field
+          "deliveryAddressSuggestion": "", //Extra field
+          "totalWeight": "",
+          "weightPerItem": ""
+        },
+        "pickupDate": "2018-12-17",
+        "groupingLocationId": 12345680 // id
       },
-      "pickupDate": "2018-12-17",
-      "groupingLocationId": 12345680 // id
-    },
-    {
-      "customerId": 2318,
-      "id": "08997f44-11c7-4e3b-997e-51976298d64c", //DynamoDB ID
-      "errorMessages": {
-        "priority": [],
-        "pickupLocationAddress": [],
-        "deliveryAddress": [],
-        "team": [],
-        "pickupDate": [],
-        "deliveryDate": [],
-        "pickupTimeWindow": [],
-        "deliveryTimeWindow": [],
-        "driverEmailId": ['Can\'t find driver\'s email or id in db'],
-        "itemQuantity": [],
-        "cashOnDeliveryAmount": [],
-        "pickupContactEmail": [],
-        "deliveryContactEmail": [],
-        "pickupContactPhone": [
-          "Phone must contain the Country Code"
-        ],
-        "deliveryContactPhone": [
-          "Phone must contain the Country Code"
-        ],
-        "deliveryNotes": [],
-        "pickupLocationAddressSuggestion": "", //Extra field
-        "deliveryAddressSuggestion": "", //Extra field
-        "totalWeight": "",
-        "weightPerItem": "Shoulbe number"
+      {
+        "customerId": 2318,
+        "id": "08997f44-11c7-4e3b-997e-51976298d64c", //DynamoDB ID
+        "errorMessages": {
+          "priority": [],
+          "pickupLocationAddress": [],
+          "deliveryAddress": [],
+          "team": [],
+          "pickupDate": [],
+          "deliveryDate": [],
+          "pickupTimeWindow": [],
+          "deliveryTimeWindow": [],
+          "driverEmailId": ['Can\'t find driver\'s email or id in db'],
+          "itemQuantity": [],
+          "cashOnDeliveryAmount": [],
+          "pickupContactEmail": [],
+          "deliveryContactEmail": [],
+          "pickupContactPhone": [
+            "Phone must contain the Country Code"
+          ],
+          "deliveryContactPhone": [
+            "Phone must contain the Country Code"
+          ],
+          "deliveryNotes": [],
+          "pickupLocationAddressSuggestion": "", //Extra field
+          "deliveryAddressSuggestion": "", //Extra field
+          "totalWeight": "",
+          "weightPerItem": "Shoulbe number"
+        },
+        "pickupDate": "2018-12-17",
+        "groupingLocationId": 12345679 // id
       },
-      "pickupDate": "2018-12-17",
-      "groupingLocationId": 12345679 // id
-    },
-    {
-      "customerId": 2318,
-      "id": "08997f44-11c7-4e3b-997e-51976298d64c", //DynamoDB ID
-      "errorMessages": {
-        "priority": [3],
-        "pickupLocationAddress": ["pickupLocationAddress shouldn't be empty"],
-        "deliveryAddress": ["deliveryAddress shouldn't be null"],
-        "team": ['Team A'],
-        "pickupDate": [],
-        "deliveryDate": ['Should be mm-dd-yyyy'],
-        "pickupTimeWindow": [],
-        "deliveryTimeWindow": [],
-        "driverEmailId": [],
-        "itemQuantity": [],
-        "cashOnDeliveryAmount": [],
-        "pickupContactEmail": [],
-        "deliveryContactEmail": [],
-        "pickupContactPhone": [
-          "Phone must contain the Country Code"
-        ],
-        "deliveryContactPhone": [
-          "Phone must contain the Country Code"
-        ],
-        "deliveryNotes": [],
-        "pickupLocationAddressSuggestion": "Bla Bla 3 Pickup", //Extra field
-        "deliveryAddressSuggestion": "Bla Bla 3 Delivery", //Extra field
-        "totalWeight": "",
-        "weightPerItem": ""
-      },
-      "pickupDate": "2018-12-17",
-      "groupingLocationId": 12345681 // id
-    }
-  ],
+      {
+        "customerId": 2318,
+        "id": "08997f44-11c7-4e3b-997e-51976298d64c", //DynamoDB ID
+        "errorMessages": {
+          "priority": [3],
+          "pickupLocationAddress": ["pickupLocationAddress shouldn't be empty"],
+          "deliveryAddress": ["deliveryAddress shouldn't be null"],
+          "team": ['Team A'],
+          "pickupDate": [],
+          "deliveryDate": ['Should be mm-dd-yyyy'],
+          "pickupTimeWindow": [],
+          "deliveryTimeWindow": [],
+          "driverEmailId": [],
+          "itemQuantity": [],
+          "cashOnDeliveryAmount": [],
+          "pickupContactEmail": [],
+          "deliveryContactEmail": [],
+          "pickupContactPhone": [
+            "Phone must contain the Country Code"
+          ],
+          "deliveryContactPhone": [
+            "Phone must contain the Country Code"
+          ],
+          "deliveryNotes": [],
+          "pickupLocationAddressSuggestion": "Bla Bla 3 Pickup", //Extra field
+          "deliveryAddressSuggestion": "Bla Bla 3 Delivery", //Extra field
+          "totalWeight": "",
+          "weightPerItem": ""
+        },
+        "pickupDate": "2018-12-17",
+        "groupingLocationId": 12345681 // id
+      }
+    ]
+  }
 }
 
 export default CONFIG;

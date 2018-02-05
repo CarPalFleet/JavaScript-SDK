@@ -99,19 +99,16 @@ export const getBatchOrderProgressAsync = async (customerId, token) => {
 
 export const getGroupingLocationsAsync = async (filterObject, customerId, token) => {
   try {
-    // return camelize()
     // StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
     let statusId = filterObject.statusIds || 2;
     let locations = await fetchAllGroupingLocationsAsync(filterObject, customerId, token);
+    let errorContents;
+    if (statusId === 4) {
+      errorContents = await fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
+    }
 
-    return locations;
-    // let errorContents;
-    // if (statusId === 4) {
-    //   errorContents = await fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
-    // }
-    // return groupLocations(locations, errorContents? errorContents: null);
+    return groupLocations(locations, errorContents? errorContents: null);
   } catch (e) {
-    console.log("trace error here", e);
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
@@ -124,9 +121,8 @@ export const getGroupingLocationAsync = async (groupingLocationId, token) => {
       headers: {'Authorization': `Bearer ${token}`},
     });
 
-    return camelize(response);
+    return camelize(response.data);
   } catch (e) {
-    console.log("trace error here", e);
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
@@ -141,9 +137,7 @@ export const fetchAllGroupingLocationsAsync = async (filterObject, customerId, t
       headers: {'Authorization': `Bearer ${token}`},
     });
 
-    console.log("GROUPING DATA", response.data);
-    return response;
-    // return camelize(response);
+    return camelize(response.data);
   } catch (e) {
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
@@ -154,24 +148,33 @@ export const fetchBatchLocationsErrorAsync = async (pickupDate, customerId, toke
     let response = await axios({
       method: 'GET',
       url: `${endpoints.GROUPING_LOCATIONS_ERRORS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
-      headers: {'Authorization': `Bearer ${token}`},
+      headers: {'Authorization': token},
     });
-    console.log("FETCH", response);
+
     return camelize(response.data);
   } catch (e) {
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
 
-export const getUniquePickupAddressesAsync = async (token) => {
+export const getUniquePickupAddressesAsync = async (filterObject, token) => {
   try {
+    let filters = snakeCaseDecorator(filterObject);
+    let paramString = Object.keys(filters).reduce((str, key) => (str += `&${key}=${filters[key]}`), '');
     let response = await axios({
       method: 'GET',
-      url: endpoints.API_V3.GROUPING_LOCATIONS,
+      url: `${endpoints.API_V3.PICKUP_GROUP}${paramString.replace('&', '?')}`,
       headers: {'Authorization': `Bearer ${token}`},
     });
 
-    return camelize(response.data);
+    let pickupAddressList = camelize(response.data).map((locationObject) => {
+      return {
+        pickupGroupId: locationObject.pickupGroupId,
+        pickupGroupId: locationObject.pickupAddressId,
+        pickup_location_address: locationObject.pickupLocationAddress
+      }
+    })
+    return camelize(pickupAddressList);
   } catch (e) {
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
@@ -187,10 +190,11 @@ export const createGroupingLocationsAsync = async (locationObject, token) => {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      data: {location_data: snakeCaseDecorator(locationObject)}
+      data: {
+        location_data: JSON.stringify(snakeCaseDecorator(locationObject))
+      }
     });
 
-    console.log("CREATE LOCATIONS", {location_data: snakeCaseDecorator(locationObject)});
     return camelize(response.data);
   } catch (e) {
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
@@ -200,7 +204,7 @@ export const createGroupingLocationsAsync = async (locationObject, token) => {
 export const editGroupingLocationAsync = async (groupingLocationId, locationObject, token) => {
   try {
     let updatedLocationDataObject = {
-      location_data: snakeCaseDecorator(locationObject)
+      location_data: JSON.stringify(snakeCaseDecorator(locationObject))
     }
 
     let response = await axios({
@@ -223,14 +227,12 @@ export const editGroupingBatchLocationsAsync = async (locationDataList = [], tok
   try {
     let updatedLocationDataList = locationDataList.map((data) => {
       let tmpObject = {
-        grouping_location_id: data.grouping_location_id,
-        location_data: snakeCaseDecorator(data.location_data)
+        grouping_location_id: data.groupingLocationId,
+        location_data: JSON.stringify(snakeCaseDecorator(data.locationData))
       }
-
       return tmpObject;
     })
 
-    console.log("locationData List", updatedLocationDataList);
     let response = await axios({
       method: 'PUT',
       url: endpoints.API_V3.GROUPING_LOCATIONS,
@@ -266,7 +268,7 @@ export const deleteGroupingLocationsAsync = async (groupingLocationIds = [], tok
     let paramString = groupingLocationIds.join();
     let response = await axios({
       method: 'DELETE',
-      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${paramString}`,
+      url: `${endpoints.API_V3.GROUPING_LOCATIONS}?grouping_location_ids=${paramString}`,
       headers: {'Authorization': `Bearer ${token}`},
     });
 
@@ -413,7 +415,7 @@ function groupLocationByPickUpAddress(groups, location, errorContents) { //error
 }
 
 export const mergeLocationDataWithErrors = (errorContents, location) => {
-  let error = errorContents.find((errorContent) => (errorContent.groupingLocationId === location.id));
+  let error = errorContents.data.find((errorContent) => (errorContent.groupingLocationId === location.id));
   if (error) {
     return Object.keys(error['errorMessages']).reduce((errorList, key) => {
       if (error['errorMessages'][key].length) {
