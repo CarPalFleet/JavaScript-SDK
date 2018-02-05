@@ -94,13 +94,13 @@ export const getBatchOrderProgressAsync = async (customerId, token) => {
     let result = camelize(response.data);
 
     let updatedProgressData = {
-      chunkProgression: result.chunkProgressionCount,
-      totalChunkProgression: result.totalLocationCount,
-      failedLocationCount: result.failedLocationCount,
+      chunkProgression: result.data.chunkProgressionCount,
+      totalChunkProgression: result.data.totalLocationCount,
+      failedLocationCount: result.data.failedLocationCount,
       groupingLocationIdsSuccess: []
     }
 
-    return updatedProgressData;
+    return { data: updatedProgressData };
   } catch (e) {
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
