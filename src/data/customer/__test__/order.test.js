@@ -66,7 +66,7 @@ test('Retrieving error grouping locations from DynamoDB', async () => {
 test('Retrieving pickup group', async () => {
     let pickupGroupFilters = {
       pickupDate: "2018-02-05",
-      withOrder: 1
+      withOrder: 0
     }
 
     const response = await getUniquePickupAddressesAsync(pickupGroupFilters, CONFIG.testToken);
@@ -99,10 +99,11 @@ test('Test for uploading batch order progression', async () => {
 //     expect(response.success).toBe(true);
 // })
 //
-// test('Delete Multiple Grouping Locations', async () => {
-//     const response = await deleteGroupingLocationsAsync(CONFIG.groupingLocationIds, CONFIG.testToken);
-//     expect(response.success).toBe(true);
-// })
+test('Delete Multiple Grouping Locations', async () => {
+    // const response = await deleteGroupingLocationsAsync(CONFIG.groupingLocationIds, CONFIG.testToken);
+    const response = await deleteGroupingLocationsAsync([27142,27146], CONFIG.testToken);
+    expect(response.success).toBe(true);
+})
 
 test('Test for creating new delivery window with product type 1', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;

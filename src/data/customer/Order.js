@@ -179,7 +179,7 @@ export const getUniquePickupAddressesAsync = async (filterObject, token) => {
     let result = response.data? camelize(response.data.data): [];
     let pickupAddressList = result.map((locationObject) => {
       return {
-        pickupLocationAddressId: locationObject.address.id,
+        pickupGroupId: locationObject.id,
         pickupLocationAddress: locationObject.address.address
       }
     });
@@ -276,14 +276,17 @@ export const deleteGroupingLocationAsync = async (groupingLocationId, token) => 
 export const deleteGroupingLocationsAsync = async (groupingLocationIds = [], token) => {
   try {
     let paramString = groupingLocationIds.join();
+    console.log("paramString", paramString);
     let response = await axios({
       method: 'DELETE',
       url: `${endpoints.API_V3.GROUPING_LOCATIONS}?grouping_location_ids=${paramString}`,
       headers: {'Authorization': `Bearer ${token}`},
     });
 
+    console.log("paramString", response);
     return { data: true};
   } catch (e) {
+    console.log("DELETEA", e, token);
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
