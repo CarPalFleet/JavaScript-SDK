@@ -276,18 +276,22 @@ export const deleteGroupingLocationAsync = async (groupingLocationId, token) => 
 export const deleteGroupingLocationsAsync = async (groupingLocationIds = [], token) => {
   try {
     let paramString = groupingLocationIds.join();
-    console.log("paramString", paramString);
     let response = await axios({
       method: 'DELETE',
       url: `${endpoints.API_V3.GROUPING_LOCATIONS}?grouping_location_ids=${paramString}`,
       headers: {'Authorization': `Bearer ${token}`},
     });
 
-    console.log("paramString", response);
     return { data: true};
   } catch (e) {
-    console.log("DELETEA", e, token);
-    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    let errorObject;
+    if (e.response.data instanceof Object) {
+      errorObject = {statusCode: e.response.data.error.http_code, statusText: e.response.data.error.message}
+    } else {
+      errorObject = {statusCode: e.response.status, statusText: e.response.statusText}
+    }
+
+    return Promise.reject(errorObject);
   }
 }
 

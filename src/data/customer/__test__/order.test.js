@@ -96,13 +96,12 @@ test('Test for uploading batch order progression', async () => {
 
 // test('Delete Grouping Location', async () => {
 //     const response = await deleteGroupingLocationAsync(CONFIG.groupingLocationId, CONFIG.testToken);
-//     expect(response.success).toBe(true);
+//     expect(response.data).toBe(true);
 // })
 //
 test('Delete Multiple Grouping Locations', async () => {
-    // const response = await deleteGroupingLocationsAsync(CONFIG.groupingLocationIds, CONFIG.testToken);
-    const response = await deleteGroupingLocationsAsync([27142,27146], CONFIG.testToken);
-    expect(response.success).toBe(true);
+    const response = await deleteGroupingLocationsAsync(CONFIG.groupingLocationIds, CONFIG.testToken);
+    expect(response.data).toBe(true);
 })
 
 test('Test for creating new delivery window with product type 1', async () => {
