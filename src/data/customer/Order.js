@@ -233,7 +233,7 @@ export const editGroupingLocationAsync = async (groupingLocationId, locationObje
   }
 }
 
-export const editGroupingBatchLocationsAsync = async (locationDataList = [], token) => {
+export const editGroupingLocationsAsync = async (locationDataList = [], token) => {
   try {
     let updatedLocationDataList = locationDataList.map((data) => {
       let tmpObject = {

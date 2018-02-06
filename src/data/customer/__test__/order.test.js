@@ -13,7 +13,7 @@ import {
   getUniquePickupAddressesAsync,
   createGroupingLocationAsync,
   editGroupingLocationAsync,
-  editGroupingBatchLocationsAsync,
+  editGroupingLocationsAsync,
   deleteGroupingLocationAsync,
   deleteGroupingLocationsAsync,
   groupLocations,
@@ -85,7 +85,7 @@ test('Edit Grouping Location', async () => {
 })
 
 test('Edit Multiple Grouping Locations', async () => {
-    const response = await editGroupingBatchLocationsAsync(CONFIG.locationDataList, CONFIG.testToken);
+    const response = await editGroupingLocationsAsync(CONFIG.locationDataList, CONFIG.testToken);
     expect('data' in response).toBe(true);
 })
 

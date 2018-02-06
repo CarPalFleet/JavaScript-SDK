@@ -5,7 +5,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is 0.1.32
+The current version of this SDK is 0.1.33
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -44,7 +44,7 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/customer/Order    | getGroupingLocationsAsync({statusIds, pickupDate, limit, offset}, customerId, token) | This returns a Promise object with all locations grouped by pickupGroupID. <br /><br /> **statusId 1 means MyOrders, 2 means Locations with Errors.** pickupDate format should be 'yyyy-mm-dd'** |
 | carpal/dist/data/customer/Order    | createGroupingLocationAsync(locationObject, token) | Example of locationObject = {"pickupLocationAddress":"22 Gim moh road","deliveryAddress":"Holland Close"}|
 | carpal/dist/data/customer/Order    | editGroupingLocationAsync(groupingLocationId, locationObject, token) | pass updated fields into the locationData Object. Example of locationObject = {"pickupLocationAddress":"22 Gim moh road","deliveryAddress":"Holland Close"}|
-| carpal/dist/data/customer/Order    | editGroupingBatchLocationsAsync(locations, token) | locations params must be array. Can pass multiple edited locations with groupingLocationId into this array. <br /><br />Example. [groupingLocationId: 1, locationData: {pickupLocationAddress: 'xxxx'}]|
+| carpal/dist/data/customer/Order    | editGroupingLocationsAsync(locations, token) | locations params must be array. Can pass multiple edited locations with groupingLocationId into this array. <br /><br />Example. [groupingLocationId: 1, locationData: {pickupLocationAddress: 'xxxx'}]|
 | carpal/dist/data/customer/Order    | deleteGroupingLocationAsync(groupingLocationId, token) | This function will delete specific groupingLocationId from params. <br /><br />|
 | carpal/dist/data/customer/Order    | deleteGroupingLocationsAsync(groupingLocationIds = [], token) | This function will delete the list of groupingLocationIds <br /><br />|
 | carpal/dist/data/customer/Order    | getUniquePickupAddressesAsync(filterObject, token) | This returns a Promise object with all unique pickupLocationAddresses. **Example of fileterObject:: pickupDate = "YYYY-MM-DD", with_order=0 ** <br /><br />|
