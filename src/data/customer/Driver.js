@@ -87,7 +87,7 @@ export const getCustomerDriversWithFiltersAsync = async (filterObject = {}, cust
   let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
   try{
      const response = await axios({method: 'get',
-                                     url: `endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId).replace('&', '?')${paramString}`,
+                                     url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId).replace('&', '?')}${paramString}`,
                                      headers: {'Authorization': token}})
      return camelize(categoriesCustomerDrivers(response.data));
   } catch(e) {
