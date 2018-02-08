@@ -435,7 +435,7 @@ export const mergeLocationDataWithErrors = (errorContents, location) => {
   let error = errorContents.data.find((errorContent) => (errorContent.groupingLocationId === location.id));
   if (error) {
     return Object.keys(error['errorMessages']).reduce((errorList, key) => {
-      if (error['errorMessages'][key].length) {
+      if (error['errorMessages'][key].length && key.search('Suggestion') === -1) {
         let includeSuggestionKey = (error['errorMessages'][key] === ('pickupLocationAddress' || 'deliveryAddress'));
         errorList.push({
           key: key,
