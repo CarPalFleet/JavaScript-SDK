@@ -15,7 +15,6 @@ export const getTokenAsync = async (email, password, clientId, secret)=>{
                                           clientSecret: secret,
                                           scope: "full-access"
                                       }})
-
         return camelize(response.data.data);
     }catch(e){
         return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});

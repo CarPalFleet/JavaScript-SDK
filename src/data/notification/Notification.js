@@ -10,7 +10,7 @@ export const getNotificationsAsync = async (all = false, customerId, token) => {
       headers: {'Authorization': token}
     });
 
-    return camelize(response);
+    return camelize(response.data);
   } catch (e) {
     return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }

@@ -23,7 +23,9 @@ import { getTokenAsync } from '../../account/Auth';
 import CONFIG from './Config';
 
 test('Retrieving single grouping location', async () => {
-    const response = await getGroupingLocationAsync(CONFIG.groupingLocationId, CONFIG.testToken);
+    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+    const token = await result;
+    const response = await getGroupingLocationAsync(CONFIG.groupingLocationId, token.accessToken);
     expect('data' in response).toBe(true);
 })
 
@@ -35,7 +37,9 @@ test('Retrieving validated grouping locations', async () => {
       offset: 0
     }
 
-    const response = await getGroupingLocationsAsync(filterObject, CONFIG.customerId, CONFIG.testToken);
+    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+    const token = await result;
+    const response = await getGroupingLocationsAsync(filterObject, CONFIG.customerId, token.accessToken);
     expect('data' in response).toBe(true);
     expect('totalLocationCount' in response).toBe(true);
     expect('successLocationCount' in response).toBe(true);
@@ -50,7 +54,9 @@ test('Retrieving error grouping locations', async () => {
       offset: 0
     }
 
-    const response = await getGroupingLocationsAsync(filterObject, CONFIG.customerId, CONFIG.testToken);
+    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+    const token = await result;
+    const response = await getGroupingLocationsAsync(filterObject, CONFIG.customerId, token.accessToken);
     expect('data' in response).toBe(true);
     expect('totalLocationCount' in response).toBe(true);
     expect('successLocationCount' in response).toBe(true);
@@ -59,7 +65,9 @@ test('Retrieving error grouping locations', async () => {
 
 test('Retrieving error grouping locations from DynamoDB', async () => {
   //Example of pickupdate format 2018-02-28
-  const response = await fetchBatchLocationsErrorAsync(CONFIG.pickupDate, CONFIG.customerId, CONFIG.testToken);
+  const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+  const token = await result;
+  const response = await fetchBatchLocationsErrorAsync(CONFIG.pickupDate, CONFIG.customerId, token.accessToken);
   expect(response.data instanceof Array).toBe(true);
 })
 
@@ -69,40 +77,54 @@ test('Retrieving pickup group', async () => {
       withOrder: 0
     }
 
-    const response = await getUniquePickupAddressesAsync(pickupGroupFilters, CONFIG.testToken);
+    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+    const token = await result;
+    const response = await getUniquePickupAddressesAsync(pickupGroupFilters, token.accessToken);
     expect('data' in response).toBe(true);
     expect(response.data instanceof Array).toBe(true);
 })
 
 test('Create Grouping Location', async () => {
-    const response = await createGroupingLocationAsync(CONFIG.locationObject, CONFIG.testToken);
+    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+    const token = await result;
+    const response = await createGroupingLocationAsync(CONFIG.locationObject, token.accessToken);
     expect('data' in response).toBe(true);
 })
 
 test('Edit Grouping Location', async () => {
-    const response = await editGroupingLocationAsync(CONFIG.groupingLocationId, CONFIG.locationObject, CONFIG.testToken);
+    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+    const token = await result;
+    const response = await editGroupingLocationAsync(CONFIG.groupingLocationId, CONFIG.locationObject, token.accessToken);
     expect('data' in response).toBe(true);
 })
 
 test('Edit Multiple Grouping Locations', async () => {
-    const response = await editGroupingLocationsAsync(CONFIG.locationDataList, CONFIG.testToken);
+    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+    const token = await result;
+    const response = await editGroupingLocationsAsync(CONFIG.locationDataList, token.accessToken);
     expect('data' in response).toBe(true);
 })
 
 test('Test for uploading batch order progression', async () => {
-    const response = await getBatchOrderProgressAsync(1, CONFIG.testToken);
+    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+    const token = await result;
+    const response = await getBatchOrderProgressAsync(1, token.accessToken);
     expect('data' in response).toBe(true);
 })
 
 // test('Delete Grouping Location', async () => {
-//     const response = await deleteGroupingLocationAsync(CONFIG.groupingLocationId, CONFIG.testToken);
+  // const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+  // const token = await result;
+//     const response = await deleteGroupingLocationAsync(CONFIG.groupingLocationId, token.accessToken);
 //     expect(response.data).toBe(true);
 // })
 //
-test('Delete Multiple Grouping Locations', async () => {
-    const response = await deleteGroupingLocationsAsync(CONFIG.groupingLocationIds, CONFIG.testToken);
-    expect(response.data).toBe(true);
-})
+// test('Delete Multiple Grouping Locations', async () => {
+//     const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+//     const token = await result;
+//     const response = await deleteGroupingLocationsAsync(CONFIG.groupingLocationIds, token.accessToken);
+//     expect(response.data).toBe(true);
+// })
 
 test('Test for creating new delivery window with product type 1', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;

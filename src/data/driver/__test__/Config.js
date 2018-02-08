@@ -1,9 +1,9 @@
 const CONFIG = {
   baseURL: 'https://api-test.carpal.me',
-  driverEmail: 'nina+fleetDriver@carpal.me',
-  driverPassword: 'xs4nin',
-  temail: 'nina+fleet@carpal.me',
-  tpassword: 'xs4nin',
+  driverEmail: 'alpha.test.driver1@carpal.me',
+  driverPassword: '123456',
+  temail: 'alpha.test@carpal.me',
+  tpassword: '123456',
   liveRoute: {
     orderId: 62399,
     addressId: 0,

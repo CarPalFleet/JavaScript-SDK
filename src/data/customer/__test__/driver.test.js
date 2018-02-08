@@ -10,13 +10,13 @@ import {
 
 test('Creating new driver account by a customer account', async () =>{
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(CONFIG.transactionCustomerEmail, CONFIG.transactionCustomerpassword, CONFIG.clientId, CONFIG.clientSecret);
+    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
     const token = await result;
 
     const driver = {
         identityId: 1,
         productTypeId: 3,
-        transactionGroupId: [101],
+        transactionGroupId: [180],
         isNewUser: true,
         firstName: 'User',
         lastName: makeid(10),
@@ -32,7 +32,7 @@ test('Creating new driver account by a customer account', async () =>{
 })
 
 test(`Test for retrieving detail of customer's driver`, async () => {
-    const result = getTokenAsync(CONFIG.transactionCustomerEmail, CONFIG.transactionCustomerpassword, CONFIG.clientId, CONFIG.clientSecret);
+    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
     const token = await result;
     const response = await getCustomerDriverDetailAsync(1, 5, 9869, token.accessToken);
     expect(response instanceof Object).toBe(true);
