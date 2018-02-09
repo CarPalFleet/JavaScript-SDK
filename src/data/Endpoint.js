@@ -36,6 +36,7 @@ const endpoints = {
       GROUPING_LOCATIONS: `${laravelUrlPrefix}/${version}/customer/grouping-location`,
       GROUPING_BATCH_PROGRESSION: `${laravelUrlPrefix}/${version}/customer/grouping-batch/show-recent-pending`,
       PICKUP_GROUP: `${laravelUrlPrefix}/${version}/customer/pickup-group`,
+      DRIVER_LISTING: `${laravelUrlPrefix}/${version}/customer/driver`,
     }
 }
 

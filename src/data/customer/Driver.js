@@ -40,14 +40,28 @@ export const getCustomerDriverDetailAsync = async (customerId, identityId, drive
 
 export const getCustomerDriverListAsync = async (filterObject = {}, token) =>{
   try{
+    let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
+
+    const response = await axios({method: 'get',
+                                  url: `${endpoints.CUSTOMER_DRIVERS}/${paramString.replace('&', '?')}`,
+                                  headers: {'Authorization': `Bearer ${token}`}
+                                })
+    return camelize(response.data);
+  } catch(e) {
+    handleAsyncError(e);
+  }
+}
+
+export const getDriverListAsync = async (filterObject = {}, token) =>{
+  try{
     return DRIVER_LIST_MOCKUP;
 
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
 
     const response = await axios({method: 'get',
-                                     url: `${endpoints.CUSTOMER_DRIVERS}/${paramString.replace('&', '?')}`,
-                                     headers: {'Authorization': `Bearer ${token}`}
-                                   })
+                                  url: `${endpoints.API_V3.DRIVER_LISTING}/${paramString.replace('&', '?')}`,
+                                  headers: {'Authorization': `Bearer ${token}`}
+                                  })
     return camelize(response.data);
   } catch(e) {
     handleAsyncError(e);
