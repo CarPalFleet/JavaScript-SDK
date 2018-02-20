@@ -25,7 +25,7 @@ test('Test for reset password token validation', async ()=>{
 
 test('Test for getting my jobs.', async ()=>{
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+    const result = getTokenAsync(CONFIG.demail, CONFIG.dpassword, CONFIG.clientId, CONFIG.token);
     const token = await result;
     const response = getDriverJobsAsync(1, token.accessToken, CONFIG.date);
     const myJobs = await response;
@@ -34,7 +34,7 @@ test('Test for getting my jobs.', async ()=>{
 
 test('Test for getting my legs.', async ()=>{
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.token);
+    const result = getTokenAsync(CONFIG.demail, CONFIG.dpassword, CONFIG.clientId, CONFIG.token);
     const token = await result;
     const response = getDriverLegsAsync(1, token.accessToken, CONFIG.date);
     const myLegs = await response;

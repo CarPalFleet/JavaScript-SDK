@@ -5,7 +5,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is 0.1.0
+The current version of this SDK is 0.1.38
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -33,19 +33,23 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/customer/Order    | getCustomerOrderCountsAsync(filterObject, customerId, token) | This returns a Promise object with all customer's order counts. <br /><br />To utilize the function, filterObject(pickupDate: '2017-12-31'), customerId and token must be provided.** |
 | carpal/dist/data/customer/Order    | updateJobLiveData(originalJobDatum, pubSubPayload, filterObject) | This returns update Jobs with both activeStatusCounts and totalStatusCounts counts. Can add orderStatusId and pickupDate fields inside of filterObject. This function will response new data for the today pickupDate, otherwise it will response the existing data. <br /><br />|
 | carpal/dist/data/customer/Driver    | getCustomerDriverDetailAsync(customerId, identityId, driverId, token) | This returns a Promise object with customer's driver detail. <br /><br />|
-| carpal/dist/data/customer/Driver    | getCustomerDriverListAsync(customerId, token) | This returns a Promise object with customer's driver list. <br /><br />|
-| carpal/dist/data/customer/Driver    | exportDriverListFileAsync(fileType, customerId, token) | This returns a Promise object with download link url. Example of fileType param - csv or pdf or excel<br /><br />|
-| carpal/dist/data/customer/Driver    | deleteCustomerDriversAsync(driverIds, customerId, token) | Exaple of driverIds param- [123, 456, 672] <br /><br />|
+| carpal/dist/data/customer/Driver    | getCustomerDriverListAsync(fileterObject, token) | This returns a Promise object with customer's driver list. (V2 Endpoint)<br /><br />|
+| carpal/dist/data/customer/Driver    | getDriverListAsync(fileterObject, token) | This returns a Promise object with customer's driver list. (V3 Endpoint)<br /><br /> fileterObject = { limit: 20, page: 1}|
+| carpal/dist/data/customer/Driver    | exportDriverListFileAsync(fileType, token) | This returns a Promise object with download link url. Example of fileType param - csv or pdf or excel<br /><br />|
+| carpal/dist/data/customer/Driver    | deleteCustomerDriversAsync(driverIds, token) | Example of driverIds param- [123, 456, 672] <br /><br />|
 | carpal/dist/data/customer/Driver    | createNewDriverAsync(driverObj, customerId, token) | This returns a Promise object with new driver detail. <br /><br />The **driverObj** payload example {identityId: 1, productTypeId: 3, transactionGroupId: 1, isNewUser: true, firstName: 'xxx', lastName: 'xxx', email: 'xxx@example.com',password: 'xxxxxx', birthday: 'yyyy-mm-dd', phone: '+65xxxxxxxx'}       |
 | carpal/dist/data/customer/Driver    | getCustomerDriversWithFiltersAsync(filterObj, customerId, token, validateSchema)   | To use getCustomerDriversWithFiltersAsync, validateSchema has to be set to `true`, else by default it is set to `false`. Currently, validateSchema is not handled yet. This is an example of filterObj to be passed to getCustomerDriversAsync: const filterObj = {driverStatusIds: [2], orderRouteTypeIds: [1,2], driverTypeIds: [1,2,3]}|
 | carpal/dist/data/customer/Order    | updateDriverLiveData(originalDriverDatum, pubSubPayload, filterObject) | This returns update Drivers with both activeStatusCounts and totalStatusCounts counts. Can add driverStatusIds and driverTypeIds fields inside of filterObject. <br /><br />|
-| carpal/dist/data/customer/Order    | getBatchOrderProgressAsync(customerId, pickupDate, token) | This returns a Promise object with batch order progress. <br /><br /> pickupDate format should be 'yyyy-mm-dd'** |
-| carpal/dist/data/customer/Order    | getGroupingLocationsAsync({statusId, pickupDate, limit, skip}, customerId, token) | This returns a Promise object with all locations grouped by pickupLocationAddressId. <br /><br /> statusId should be 1 and 2. statusId 1 means MyOrders, 2 means Locations with Errors. pickupDate format should be 'yyyy-mm-dd'** |
-| carpal/dist/data/customer/Order    | createGroupingLocationsAsync( locationObject, token) | Example of locationObject = {grouping_batch_id: 1, location_data: {}}|
-| carpal/dist/data/customer/Order    | editGroupingLocationAsync(groupingLocationId, {locationData: {}}, token) | pass edited fields into the locationData Object|
-| carpal/dist/data/customer/Order    | editGroupingBatchLocationsAsync( locations, token) | locations params must be array. Can pass multiple edited locations with groupingLocationId into this array. <br /><br />Example. [grouping_location_id: 1, locationData: {pickup_unit_number: 'xxxx'}]|
-| carpal/dist/data/customer/Order    | deleteGroupingLocationsAsync( groupingLocationId, token) | This function will be deleted specific groupingLocationId|
-| carpal/dist/data/customer/Order    | getUniquePickupAddressesAsync(token) | This returns a Promise object with all unique pickupLocationAddresses. <br /><br />|
+| carpal/dist/data/customer/Order    | getBatchOrderProgressAsync(customerId, token) | This returns a Promise object with batch order progress. <br /><br /> |
+| carpal/dist/data/customer/Order    | getGroupingLocationAsync(groupingLocationId, token) | This returns a Promise object with all locations grouped by pickupGroupID. <br /><br />|
+| carpal/dist/data/customer/Order    | getGroupingLocationsAsync({statusIds, pickupDate, limit, offset}, customerId, token) | This returns a Promise object with all locations grouped by pickupGroupID. <br /><br /> **statusId 1 means MyOrders, 2 means Locations with Errors.** pickupDate format should be 'yyyy-mm-dd'** |
+| carpal/dist/data/customer/Order    | createGroupingLocationAsync(locationObject, token) | Example of locationObject = {"pickupLocationAddress":"22 Gim moh road","deliveryAddress":"Holland Close"}|
+| carpal/dist/data/customer/Order    | editGroupingLocationAsync(groupingLocationId, locationObject, token) | pass updated fields into the locationData Object. Example of locationObject = {"pickupLocationAddress":"22 Gim moh road","deliveryAddress":"Holland Close"}|
+| carpal/dist/data/customer/Order    | editGroupingLocationsAsync(locations, token) | locations params must be array. Can pass multiple edited locations with groupingLocationId into this array. <br /><br />Example. [groupingLocationId: 1, locationData: {pickupLocationAddress: 'xxxx'}]|
+| carpal/dist/data/customer/Order    | deleteGroupingLocationAsync(groupingLocationId, token) | This function will delete specific groupingLocationId from params. <br /><br />|
+| carpal/dist/data/customer/Order    | deleteGroupingLocationsAsync(groupingLocationIds = [], token) | This function will delete the list of groupingLocationIds <br /><br />|
+| carpal/dist/data/customer/Order    | getUniquePickupAddressesAsync(filterObject, token) | This returns a Promise object with all unique pickupLocationAddresses. **Example of fileterObject:: pickupDate = "YYYY-MM-DD", with_order=0 ** <br /><br />|
+| carpal/dist/data/customer/Order    | cancelBatchFileProcessAsync(groupingBatchId, token) | This returns a Promise object with data true if the batch file is actually deleted.** |
 | carpal/dist/data/customer/Order    | fetchBatchLocationsErrorAsync(pickupDate, customerId, token) | This returns a Promise object with error and its message from Dynamodb. <br /><br /> pickupDate format should be 'yyyy-mm-dd'** |
 | carpal/dist/data/customer/Order    | fetchBatchLocationsErrorAsync( pickupDate, customerId, token) | This returns a Promise object with order progress data. <br /><br /> pickupDate format should be 'yyyy-mm-dd'** |
 | carpal/dist/data/customer/Order    | fetchMyOrderColumNames(type, customerId, token) | This returns a Promise object with my order table column headers filtered by customerId and type<br /><br /> type = my-order** |

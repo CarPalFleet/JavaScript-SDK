@@ -1,7 +1,6 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import DRIVER_LIST_MOCKUP from './MockupDriverList';
 
 export const createNewDriverAsync = async ({identityId, productTypeId, transactionGroupId=null,
                                             firstName, lastName, email, password, birthday, phone,
@@ -38,25 +37,43 @@ export const getCustomerDriverDetailAsync = async (customerId, identityId, drive
   }
 }
 
-export const getCustomerDriverListAsync = async (customerId, token) =>{
+export const getCustomerDriverListAsync = async (filterObject = {}, token) =>{
   try{
-    return DRIVER_LIST_MOCKUP;
-    // const response = await axios({method: 'get',
-                                     // url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),
-                                     // headers: {'Authorization': token}})
-    // return camelize(response.data);
+    let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
+
+    const response = await axios({method: 'get',
+                                  url: `${endpoints.CUSTOMER_DRIVERS}/${paramString.replace('&', '?')}`,
+                                  headers: {'Authorization': `Bearer ${token}`}
+                                })
+    return camelize(response.data);
   } catch(e) {
     handleAsyncError(e);
   }
 }
 
-export const exportDriverListFileAsync = async (fileType, customerId, token) =>{
+export const getDriverListAsync = async (filterObject = {}, token) =>{
+  try{
+    let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
+
+    const response = await axios({method: 'get',
+                                  url: `${endpoints.API_V3.DRIVER_LISTING}/${paramString.replace('&', '?')}`,
+                                  headers: {'Authorization': `Bearer ${token}`}
+                                  })
+    return camelize(response.data);
+  } catch(e) {
+    handleAsyncError(e);
+  }
+}
+
+export const exportDriverListFileAsync = async (format, token) =>{
   try{
     return { downloadUrl: 'http://gahp.net/wp-content/uploads/2017/09/sample.pdf' };
-    // const response = await axios({method: 'get',
-                                     // url: `${endpoints.EXPORT_CUSTOMER_DRIVERS.replace('{0}', customerId)}fileType=${format}`,
-                                     // headers: {'Authorization': token}})
-    // return camelize(response.data);
+
+    const response = await axios({method: 'get',
+                                     url: `${endpoints.EXPORT_CUSTOMER_DRIVERS}?fileType=${format}`,
+                                     headers: {'Authorization': `Bearer ${token}`},
+                                   })
+    return camelize(response.data);
   } catch(e) {
     handleAsyncError(e);
   }
@@ -65,11 +82,13 @@ export const exportDriverListFileAsync = async (fileType, customerId, token) =>{
 export const deleteCustomerDriversAsync = async (driverIds, customerId, token) =>{
   try{
     return { data: true };
-    // const response = await axios({method: 'delete',
-                                     // url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId)}`,
-                                     // data: driverIds,
-                                     // headers: {'Authorization': token}})
-    // return camelize(response.data);
+
+    let paramString = driverIds.join();
+    const response = await axios({method: 'delete',
+                                     url: `${endpoints.CUSTOMER_DRIVERS}?driver_ids=${paramString}`,
+                                     headers: {'Authorization': `Bearer ${token}`},
+                                   })
+    return camelize(response.data);
   } catch(e) {
     handleAsyncError(e);
   }
@@ -79,7 +98,7 @@ export const getCustomerDriversWithFiltersAsync = async (filterObject = {}, cust
   let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
   try{
      const response = await axios({method: 'get',
-                                     url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId) + `?${paramString}`,
+                                     url: `${endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId)}${paramString.replace('&', '?')}`,
                                      headers: {'Authorization': token}})
      return camelize(categoriesCustomerDrivers(response.data));
   } catch(e) {
@@ -136,13 +155,11 @@ export const updateDriverLiveData = (originalDriverDatum, pubSubPayload, filterO
 
     if (matchedPayload.isDataExist) {
         // update activeStatusCounts
-        console.log("Exist");
         originalDriverDatum['activeStatusCounts'][payload.driverStatusId] += 1;
         let currentStatusCounts = originalDriverDatum['activeStatusCounts'][matchedPayload.statusId];
         originalDriverDatum['activeStatusCounts'][matchedPayload.statusId] -= currentStatusCounts? 1: 0;
         delete originalDriverDatum['data'][matchedPayload.statusId].splice(matchedPayload.index, 1);
     } else {
-      console.log("NOT");
       originalDriverDatum['totalStatusCounts'] += 1;
       filterObject.driverTypeIds.forEach((driverTypeId) => {
         originalDriverDatum['driverTypeCounts'][driverTypeId] += 1;
@@ -198,9 +215,13 @@ function categoriesCustomerDrivers(drivers) {
 }
 
 function handleAsyncError(e) {
+  let rejectObj = {};
   if (e.response) {
-    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+    rejectObj = {statusCode: e.response.status, statusText: e.response.statusText};
   } else {
-    console.error(e);
+    /* Catch error of e.response
+    That will be undefined when status code is 403 Forbidden */
+    rejectObj = {statusCode: 403, statusText: 'Forbidden'}
   }
+  return Promise.reject(rejectObj);
 }

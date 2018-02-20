@@ -2,7 +2,7 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import { snakeCaseDecorator } from '../decorator/CoreDecorators';
-import MOCKDATA from './MockUpData';
+import _ from 'lodash';
 
 export const getCustomerOrdersWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
@@ -12,7 +12,7 @@ export const getCustomerOrdersWithFiltersAsync = async (filterObject = {}, custo
                                        headers: {'Authorization': token}})
          return camelize(categoriesCustomerOrders(response.data));
     } catch (e) {
-        handleAsyncError(e);
+      return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
 
@@ -24,7 +24,7 @@ export const getCustomerOrderCountsAsync = async (filterObject, customerId, toke
                                        headers: {'Authorization': token}})
          return calculateCustomerOrderCounts(response.data);
     } catch (e) {
-        handleAsyncError(e);
+      return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
 
@@ -35,7 +35,7 @@ export const getOrderDetailAsync = async (customerId, orderId, token)=>{
                                       headers: {'Authorization': token}})
         return camelize(response.data);
     } catch (e) {
-        handleAsyncError(e);
+      return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
 
@@ -64,7 +64,7 @@ export const createNewDeliveryWindow = async ({customerId,
                                       data})
         return camelize(response.data.data);
     } catch (e) {
-        handleAsyncError(e);
+      return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
 
@@ -78,38 +78,60 @@ export const getDeliveryWindows = async (customerId, identityId, productTypeId, 
 
         return camelize(response.data.data);
     } catch (e) {
-        handleAsyncError(e);
+      return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
     }
 }
 
-export const getBatchOrderProgressAsync = async (customerId, pickupDate, token) => {
+export const getBatchOrderProgressAsync = async (customerId, token) => {
   try {
     let response = await axios({
       method: 'GET',
-      url: `${endpoints.CREAT_ORDER_UPLOAD_PROGRESS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
-      header: {'Authorization': `Bearer ${token}`}
+      url: `${endpoints.API_V3.GROUPING_BATCH_PROGRESSION}`,
+      headers: {'Authorization': `Bearer ${token}`}
+    });
+
+    let result = camelize(response.data);
+
+    let updatedProgressData = {
+      chunkProgression: result.data.chunkProgressionCount,
+      totalChunkProgression: result.data.totalLocationCount,
+      failedLocationCount: result.data.failedLocationCount,
+      groupingLocationIdsSuccess: []
+    }
+
+    return { data: updatedProgressData };
+  } catch (e) {
+    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+  }
+}
+
+export const getGroupingLocationAsync = async (groupingLocationId, token) => {
+  try {
+    let response = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${groupingLocationId}`,
+      headers: {'Authorization': `Bearer ${token}`},
     });
 
     return camelize(response.data);
   } catch (e) {
-    handleAsyncError(e);
+    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
 
 export const getGroupingLocationsAsync = async (filterObject, customerId, token) => {
   try {
     // StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
-    // let statusId = filterObject.statusIds || 2;
-    // let locations = await fetchAllGroupingLocationsAsync(filterObject, customerId, token);
-    // let errorContents;
-    // if (statusId === 4) {
-    //   errorContents = await fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
-    // }
-    // return groupLocations(locations, errorContents? errorContents: null);
+    let statusId = filterObject.statusIds || 2;
+    let locations = await fetchAllGroupingLocationsAsync(filterObject, customerId, token);
+    let errorContents;
+    if (statusId === 4) {
+      errorContents = await fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
+    }
 
-    return camelize(MOCKDATA);
+    return groupLocations(locations, errorContents? errorContents: null);
   } catch (e) {
-    handleAsyncError(e);
+    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
 
@@ -117,15 +139,15 @@ export const fetchAllGroupingLocationsAsync = async (filterObject, customerId, t
   try {
     let filters = snakeCaseDecorator(filterObject);
     let paramString = Object.keys(filters).reduce((str, key) => (str += `&${key}=${filters[key]}`), '');
-    let response = axios({
-      method: 'POST',
-      url: `${endpoints.GROUPING_LOCATIONS}${paramString.replace('&', '?')}`,
-      header: {'Authorization': token}
+    let response = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.GROUPING_LOCATIONS}${paramString.replace('&', '?')}`,
+      headers: {'Authorization': `Bearer ${token}`},
     });
 
     return camelize(response.data);
   } catch (e) {
-    handleAsyncError(e);
+    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
 
@@ -134,102 +156,155 @@ export const fetchBatchLocationsErrorAsync = async (pickupDate, customerId, toke
     let response = await axios({
       method: 'GET',
       url: `${endpoints.GROUPING_LOCATIONS_ERRORS.replace('{0}', customerId)}?pickupDate=${pickupDate}`,
-      header: {'Authorization': token}
+      headers: {'Authorization': token},
     });
 
     return camelize(response.data);
   } catch (e) {
-    handleAsyncError(e);
+    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
 
-export const getUniquePickupAddressesAsync = async (token) => {
+export const getUniquePickupAddressesAsync = async (filterObject, token) => {
   try {
+    let filters = snakeCaseDecorator(filterObject);
+    let paramString = Object.keys(filters).reduce((str, key) => (str += `&${key}=${filters[key]}`), '');
     let response = await axios({
       method: 'GET',
-      url: endpoints.GROUPING_LOCATIONS,
-      header: {'Authorization': token}
+      url: `${endpoints.API_V3.PICKUP_GROUP}${paramString.replace('&', '?')}`,
+      headers: {'Authorization': `Bearer ${token}`},
     });
 
-    return camelize(response.data);
+    let result = response.data? camelize(response.data.data): [];
+    let pickupAddressList = result.map((locationObject) => {
+      return {
+        pickupGroupId: locationObject.id,
+        pickupLocationAddress: locationObject.address.address
+      }
+    });
+
+    return { data: pickupAddressList }
   } catch (e) {
-    handleAsyncError(e);
+    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
 
-export const createGroupingLocationsAsync = async (locationObject, token) => {
+export const createGroupingLocationAsync = async (locationObject, token) => {
   try {
     locationObject = snakeCaseDecorator(locationObject);
     let response = await axios({
       method: 'POST',
-      url: endpoints.GROUPING_LOCATIONS,
-      header: {'Authorization': token},
-      data: locationObject
+      url: endpoints.API_V3.GROUPING_LOCATIONS,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      data: {
+        location_data: JSON.stringify(snakeCaseDecorator(locationObject))
+      }
     });
 
     return camelize(response.data);
   } catch (e) {
-    handleAsyncError(e);
+    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
 
-export const editGroupingLocationAsync = async (groupingLocationId, editedLocationObject, token) => {
+export const editGroupingLocationAsync = async (groupingLocationId, locationObject, token) => {
   try {
-    editedLocationObject = snakeCaseDecorator(editedLocationObject);
+    let updatedLocationDataObject = {
+      location_data: JSON.stringify(snakeCaseDecorator(locationObject))
+    }
+
     let response = await axios({
       method: 'PUT',
-      url: `${endpoints.GROUPING_LOCATIONS}/${groupingLocationId}`,
-      header: {'Authorization': token},
-      data: editedLocationObject
+      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${groupingLocationId}`,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      data: updatedLocationDataObject
     });
 
     return camelize(response.data);
   } catch (e) {
-    handleAsyncError(e);
+    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
 
-export const editGroupingBatchLocationsAsync = async (locations, token) => {
+export const editGroupingLocationsAsync = async (locationDataList = [], token) => {
   try {
-    locations = snakeCaseDecorator(locations);
+    let updatedLocationDataList = locationDataList.map((data) => {
+      let tmpObject = {
+        grouping_location_id: data.groupingLocationId,
+        location_data: JSON.stringify(snakeCaseDecorator(data.locationData))
+      }
+      return tmpObject;
+    })
+
     let response = await axios({
       method: 'PUT',
-      url: endpoints.GROUPING_LOCATIONS,
-      header: {'Authorization': token},
-      data: locations
+      url: endpoints.API_V3.GROUPING_LOCATIONS,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      data: updatedLocationDataList
     });
 
     return camelize(response.data);
   } catch (e) {
-    handleAsyncError(e);
+    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
 
-export const deleteGroupingLocationsAsync = async (groupingLocationId, token) => {
+export const deleteGroupingLocationAsync = async (groupingLocationId, token) => {
   try {
     let response = await axios({
       method: 'DELETE',
-      url: `${endpoints.GROUPING_LOCATIONS}/${groupingLocationId}`,
-      header: {'Authorization': token}
+      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${groupingLocationId}`,
+      headers: {'Authorization': `Bearer ${token}`},
     });
 
-    return camelize(response.data);
+    return { data: true};
   } catch (e) {
-    handleAsyncError(e);
+    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
 
-export const cancelBatchFileProcessAsync = async (batchId, token) => {
+export const deleteGroupingLocationsAsync = async (groupingLocationIds = [], token) => {
+  try {
+    let paramString = groupingLocationIds.join();
+    let response = await axios({
+      method: 'DELETE',
+      url: `${endpoints.API_V3.GROUPING_LOCATIONS}?grouping_location_ids=${paramString}`,
+      headers: {'Authorization': `Bearer ${token}`},
+    });
+
+    return { data: true};
+  } catch (e) {
+    let errorObject;
+    if (e.response.data instanceof Object) {
+      errorObject = {statusCode: e.response.data.error.http_code, statusText: e.response.data.error.message}
+    } else {
+      errorObject = {statusCode: e.response.status, statusText: e.response.statusText}
+    }
+
+    return Promise.reject(errorObject);
+  }
+}
+
+export const cancelBatchFileProcessAsync = async (groupingBatchId, token) => {
   try {
     let response = await axios({
       method: 'DELETE',
-      url: `${endpoints.GROUPING_LOCATIONS}/${batchId}`,
-      header: {'Authorization': token}
+      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${batchId}`,
+      headers: {'Authorization': `Bearer ${token}`},
     });
 
     return camelize(response.data);
   } catch (e) {
-    handleAsyncError(e);
+    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
   }
 }
 
@@ -308,7 +383,7 @@ function categoriesCustomerOrders(orders) {
 export const groupLocations = (locations, errorContents = null) => {
   let locationsGroups = locations['data'].reduce((groupAddressObject, location, index) => {
     return groupLocationByPickUpAddress(groupAddressObject, location, errorContents);
-  }, {data: [0], addressIds: [0]});
+  }, {data: [0], groupIds: [0]});
 
   if ((typeof locationsGroups['data'][0] === 'number')) {
     locationsGroups['data'].splice(0, 1);
@@ -325,20 +400,24 @@ export const groupLocations = (locations, errorContents = null) => {
 }
 
 function groupLocationByPickUpAddress(groups, location, errorContents) { //errorContents
-  let groupId = location.pickupAddressId;
-  let index = groups['addressIds'].indexOf(groupId);
+  let groupId = location.pickupGroupId;
+  let index = groups['groupIds'].indexOf(groupId);
   if (index === -1) {
-    index = groupId? groups['addressIds'].length : 0;
-    if (index) groups['addressIds'].push(groupId);
+    index = groupId? groups['groupIds'].length : 0;
+    if (index) groups['groupIds'].push(groupId);
   }
 
   if (!(groups['data'][index] instanceof Object)) {
     groups['data'][index] = {
       id: groupId,
-      address: location.pickupAddress,
+      address: location.pickupLocationAddress,
       jobs: []
     }
   }
+
+  // driver will be empty array if there's no driver info
+  // Add avatarUrl as a empty string, this field will be included in response.
+  _.isEmpty(location.driver)? location.driver = {} : location.driver['avatarUrl'] = '';
 
   if (errorContents) {
     location.error = mergeLocationDataWithErrors(errorContents, location);
@@ -352,10 +431,10 @@ function groupLocationByPickUpAddress(groups, location, errorContents) { //error
 }
 
 export const mergeLocationDataWithErrors = (errorContents, location) => {
-  let error = errorContents.find((errorContent) => (errorContent.groupingLocationId === location.id));
+  let error = errorContents.data.find((errorContent) => (errorContent.groupingLocationId === location.id));
   if (error) {
     return Object.keys(error['errorMessages']).reduce((errorList, key) => {
-      if (error['errorMessages'][key].length) {
+      if (error['errorMessages'][key].length && key.search('Suggestion') === -1) {
         let includeSuggestionKey = (error['errorMessages'][key] === ('pickupLocationAddress' || 'deliveryAddress'));
         errorList.push({
           key: key,
@@ -370,5 +449,13 @@ export const mergeLocationDataWithErrors = (errorContents, location) => {
 }
 
 function handleAsyncError(e) {
-  return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+  let rejectObj = {};
+  if (e.response) {
+    rejectObj = {statusCode: e.response.status, statusText: e.response.statusText};
+  } else {
+    /* Catch error of e.response
+    That will be undefined when status code is 403 Forbidden */
+    rejectObj = {statusCode: 403, statusText: 'Forbidden'}
+  }
+  return Promise.reject(rejectObj);
 }

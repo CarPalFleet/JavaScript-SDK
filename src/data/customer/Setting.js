@@ -9,15 +9,7 @@ export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
                                       headers: {'Authorization': token}});
         return camelize(response.data.data);
     }catch(e){
-        let rejectObj = {};
-        if (e.response) {
-          rejectObj = {statusCode: e.response.status, statusText: e.response.statusText}
-        } else {
-          /* Catch error of e.response
-          That will be undefined when status code is 403 Forbidden */
-          rejectObj = {statusCode: 403, statusText: 'Forbidden'}
-        }
-        return Promise.reject(rejectObj);
+        handleAsyncError(e);
     }
 }
 
@@ -28,7 +20,7 @@ export const fetchMyOrderColumNames = async (type, customerId, token) => {
       url: `${endpoints.MY_ORDER_COLUMN_NAMES.replace('{0}', customerId)}?type=${type}`,
       headers: {'Authorization': token}
     });
-    
+
     return camelize(response.data);
   } catch (e) {
     handleAsyncError(e);
@@ -36,5 +28,13 @@ export const fetchMyOrderColumNames = async (type, customerId, token) => {
 }
 
 function handleAsyncError(e) {
-  return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+  let rejectObj = {};
+  if (e.response) {
+    rejectObj = {statusCode: e.response.status, statusText: e.response.statusText}
+  } else {
+    /* Catch error of e.response
+    That will be undefined when status code is 403 Forbidden */
+    rejectObj = {statusCode: 403, statusText: 'Forbidden'}
+  }
+  return Promise.reject(rejectObj);
 }

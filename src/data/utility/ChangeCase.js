@@ -6,7 +6,7 @@ import _ from 'lodash';
  * @return {Object|String} string or keys of object are named in form of camel case
  */
 exports.snakeToCamel = function(data, depth) {
-  if (_.isObject(data)) {
+  if (_.isObject(data) || _.isArray(data)) {
     if (typeof depth === 'undefined') {
       depth = 1;
     }
@@ -22,7 +22,7 @@ exports.snakeToCamel = function(data, depth) {
  * @return {Object|String} string or keys of object are named in form of snake
  */
 exports.camelToSnake = function(data, depth) {
-  if (_.isObject(data)) {
+  if (_.isObject(data) || _.isArray(data)) {
     if (typeof depth === 'undefined') {
       depth = 1;
     }
@@ -59,12 +59,20 @@ function _processKeys(obj, processer, depth) {
     return obj;
   }
 
-  let result = {};
-  let keys = Object.keys(obj);
-
-  for (let i = 0; i < keys.length; i++) {
-    result[processer(keys[i])] = _processKeys(obj[keys[i]], processer, depth - 1);
+  let result;
+  if (_.isObject(obj)) {
+    result = {};
+    let keys = Object.keys(obj);
+    for (let i = 0; i < keys.length; i++) {
+      result[processer(keys[i])] = _processKeys(obj[keys[i]], processer, depth - 1);
+    }
+  } else {
+    result = [];
+    for (let i = 0; i < obj.length; i++) {
+      result[processer(i)] = _processKeys(obj[i], processer, depth - 1);
+    }
   }
+
 
   return result;
 }
