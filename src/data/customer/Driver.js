@@ -1,7 +1,6 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import DRIVER_LIST_MOCKUP from './MockupDriverList';
 
 export const createNewDriverAsync = async ({identityId, productTypeId, transactionGroupId=null,
                                             firstName, lastName, email, password, birthday, phone,
@@ -54,8 +53,6 @@ export const getCustomerDriverListAsync = async (filterObject = {}, token) =>{
 
 export const getDriverListAsync = async (filterObject = {}, token) =>{
   try{
-    return DRIVER_LIST_MOCKUP;
-
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
 
     const response = await axios({method: 'get',

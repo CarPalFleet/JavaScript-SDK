@@ -5,6 +5,7 @@ import {
   getCustomerDriverDetailAsync,
   getCustomerDriverListAsync,
   getCustomerDriversAsync,
+  getDriverListAsync,
   updateDriverLiveData
 } from '../Driver';
 
@@ -36,6 +37,19 @@ test(`Test for retrieving detail of customer's driver`, async () => {
     const token = await result;
     const response = await getCustomerDriverDetailAsync(1, 5, 9869, token.accessToken);
     expect(response instanceof Object).toBe(true);
+})
+
+test(`Test for retrieving V3 driver list`, async () => {
+    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+    const token = await result;
+    const filters =  {
+      limit: 2,
+      page: 1
+    }
+
+    const response = await getDriverListAsync(filters, token.accessToken);
+    expect('data' in response).toBe(true);
+    expect(response.data instanceof Array).toBe(true);
 })
 
 test('Test for retrieving drivers by a customer account', async () =>{

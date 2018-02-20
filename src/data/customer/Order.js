@@ -2,7 +2,6 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import { snakeCaseDecorator } from '../decorator/CoreDecorators';
-import MOCKDATA from './MockUpData';
 import _ from 'lodash';
 
 export const getCustomerOrdersWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{

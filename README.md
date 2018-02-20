@@ -5,7 +5,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is 0.1.36
+The current version of this SDK is 0.1.38
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -33,7 +33,8 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | carpal/dist/data/customer/Order    | getCustomerOrderCountsAsync(filterObject, customerId, token) | This returns a Promise object with all customer's order counts. <br /><br />To utilize the function, filterObject(pickupDate: '2017-12-31'), customerId and token must be provided.** |
 | carpal/dist/data/customer/Order    | updateJobLiveData(originalJobDatum, pubSubPayload, filterObject) | This returns update Jobs with both activeStatusCounts and totalStatusCounts counts. Can add orderStatusId and pickupDate fields inside of filterObject. This function will response new data for the today pickupDate, otherwise it will response the existing data. <br /><br />|
 | carpal/dist/data/customer/Driver    | getCustomerDriverDetailAsync(customerId, identityId, driverId, token) | This returns a Promise object with customer's driver detail. <br /><br />|
-| carpal/dist/data/customer/Driver    | getCustomerDriverListAsync(fileterObject, token) | This returns a Promise object with customer's driver list. <br /><br />|
+| carpal/dist/data/customer/Driver    | getCustomerDriverListAsync(fileterObject, token) | This returns a Promise object with customer's driver list. (V2 Endpoint)<br /><br />|
+| carpal/dist/data/customer/Driver    | getDriverListAsync(fileterObject, token) | This returns a Promise object with customer's driver list. (V3 Endpoint)<br /><br /> fileterObject = { limit: 20, page: 1}|
 | carpal/dist/data/customer/Driver    | exportDriverListFileAsync(fileType, token) | This returns a Promise object with download link url. Example of fileType param - csv or pdf or excel<br /><br />|
 | carpal/dist/data/customer/Driver    | deleteCustomerDriversAsync(driverIds, token) | Example of driverIds param- [123, 456, 672] <br /><br />|
 | carpal/dist/data/customer/Driver    | createNewDriverAsync(driverObj, customerId, token) | This returns a Promise object with new driver detail. <br /><br />The **driverObj** payload example {identityId: 1, productTypeId: 3, transactionGroupId: 1, isNewUser: true, firstName: 'xxx', lastName: 'xxx', email: 'xxx@example.com',password: 'xxxxxx', birthday: 'yyyy-mm-dd', phone: '+65xxxxxxxx'}       |

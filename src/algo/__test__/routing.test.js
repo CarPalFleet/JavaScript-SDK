@@ -1,6 +1,5 @@
 import { getTokenAsync } from '../../data/account/Auth';
 import { routeOptimizeAsync } from '../Routing';
-import CONFIG from './Config';
 
 test('Test for sending routing optimization.', async ()=>{
     // jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
