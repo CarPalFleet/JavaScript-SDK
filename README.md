@@ -27,7 +27,8 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
 | carpal/dist/data/customer/Customer | createNewCustomerAsync(customerObj)               | This returns a Promise object with true/false for registration result. The **customerObj** payload example {email:'xxx@example.com', password: '123456', firstName:'John', lastName:'Lennon', phone:'+6512345678', birthday:'d-m-y', identityId:1, coName:'ABC Pte ltd', coPhone:'+6512345678', coVatNo:'xxxxxx'}            |
 | carpal/dist/data/customer/Setting  | getCustomerPreferenceSettingsAsync(domain, token) | This returns a Promise object with Logo and Background Image URL for Customer         |
-| carpal/dist/data/customer/Order    | getOrderDetailAsync(customerId, orderId, token)   | This returns a Promise object with Order Detail with given orderId        |
+| carpal/dist/data/customer/Job      | getJobDetailAsync(orderId, token)   | This returns a Promise object with Job Detail with given orderId        |
+| carpal/dist/data/customer/Job      | getJobSummaryAsync(orderId, token)   | This returns a Promise object with Job Detail with given orderId        |
 | carpal/dist/data/customer/Order    | createNewDeliveryWindow(deliveryWindowObj, token) | This returns a Promise object with delivery window Detail. <br /><br />The **deliveryWindowObj** payload example {customerId: 1, identityId: 1, productTypeId: 1,  transactionGroupId: 'optional',  displayName: 'xxx',  startTime: '12:00',  endTime: '16:00'}        |
 | carpal/dist/data/customer/Order    | getCustomerOrdersWithFiltersAsync(filterObject, customerId, token, validateSchema) | To use getCustomerOrdersWithFiltersAsync, validateSchema has to be set to `true`, else by default it is set to `false`. Currently, validateSchema is not handled yet. This returns a Promise object with all customer's orders. <br /><br />The **filterObject** payload example {pickupDate: '2017-11-06', orderStatusIds: [1, 2, 3]} <br /><br />**To utilize the function, customerId and token must be provided.** |
 | carpal/dist/data/customer/Order    | getCustomerOrderCountsAsync(filterObject, customerId, token) | This returns a Promise object with all customer's order counts. <br /><br />To utilize the function, filterObject(pickupDate: '2017-12-31'), customerId and token must be provided.** |
@@ -60,6 +61,11 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
 | carpal/dist/data/driver/LiveRoute      | sendLiveRouteDataAsync(liveRouteObj, token)  | This returns a Promise object with sns message. The liveRouteObj consists of {orderId, addressId, driverId, latitude, longitude, orderRouteTypeId}  |
+
+# Routing
+| Module                             | Method                                            | Description                                                          |
+| ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
+| carpal/dist/ui/routing/Routing      | getOrderListWithoutRoutes(filters, token)  | This returns a Promise object with sns message. The liveRouteObj consists of {orderId, addressId, driverId, latitude, longitude, orderRouteTypeId}  |
 
 
 # Messaging

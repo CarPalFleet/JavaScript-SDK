@@ -10,7 +10,7 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
     const payload = { identityId, productTypeId, transactionGroupId, isNewUser};
 
     if(isNewUser){
-      var newPayload = {...payload, firstName, lastName, email, password, birthday: birthday || '', phone: phone || ''};
+      letnewPayload = {...payload, firstName, lastName, email, password, birthday: birthday || '', phone: phone || ''};
     }else{
       newPayload = {...payload, existingUserEmail, sendConfirmationSms};
     }

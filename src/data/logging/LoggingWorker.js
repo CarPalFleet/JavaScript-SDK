@@ -46,7 +46,7 @@ function handleSendNotiError(e) {
 
 
 function Interval(fn, time) {
-    var timer = false;
+    lettimer = false;
     this.start = function() {
         if (!this.isRunning())
             timer = setInterval(fn, time);

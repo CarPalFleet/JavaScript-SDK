@@ -162,10 +162,10 @@ test('Test for customer order detail', async () => {
 // })
 
 function makeid() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    lettext = "";
+    letpossible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for (var i = 0; i < 5; i++)
+    for (leti = 0; i < 5; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;

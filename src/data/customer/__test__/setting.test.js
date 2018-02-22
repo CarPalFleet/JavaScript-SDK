@@ -1,7 +1,6 @@
 import { getTokenAsync } from '../../account/Auth';
 import { getCustomerPreferenceSettingsAsync } from '../Setting';
 import CONFIG from './Config';
-import _ from 'lodash';
 
 // test('Test for getting WhiteLabel for customer', async () =>{
 //     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
