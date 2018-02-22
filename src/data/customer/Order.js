@@ -113,7 +113,10 @@ export const getGroupingLocationAsync = async (groupingLocationId, token) => {
 /* Function name will be changed as getOrdersAsync */
 export const getGroupingLocationsAsync = async (filterObject, customerId, token) => {
   try {
-    // StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+    /*
+      StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+    */
+
     let statusId = filterObject.statusIds || 2;
     let locations = await fetchAllGroupingLocationsAsync(filterObject, token);
     let errorContents;
@@ -130,6 +133,15 @@ export const getGroupingLocationsAsync = async (filterObject, customerId, token)
 /* Function name will be changed as getOrdersAsync */
 export const fetchAllGroupingLocationsAsync = async (filterObject, token) => {
   try {
+    /*
+      Add following filter for remaining order
+      statusIds = 2; // Success Grouping Locations
+      withRoute = 0; // Grouping locations without routes
+      withOrder = 1; // Grouping Location should have included orderId
+      include = 'pickup_group,delivery_address'
+      limit = 20
+      offset = 0
+    */
     let filters = snakeCaseDecorator(filterObject);
     let paramString = Object.keys(filters).reduce((str, key) => (str += `&${key}=${filters[key]}`), '');
     let response = await axios({

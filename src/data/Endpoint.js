@@ -38,6 +38,7 @@ const endpoints = {
       DRIVER_LISTING: `${laravelUrlPrefix}/${version}/customer/driver`,
       // ORDER_DETAIL: `${urlPrefix}/customers/{0}/orders/{1}`,
       JOB: `${urlPrefix}/customers/job/{0}`,
+      ROUTE: `${urlPrefix}/customers/job/{0}`,
     }
 }
 

@@ -18,7 +18,7 @@ test('Creating new driver account by a customer account', async () =>{
         identityId: 1,
         productTypeId: 3,
         transactionGroupId: [180],
-        isNewUser: true,
+        isNewsUser: true,
         firstName: 'User',
         lastName: makeid(10),
         email: `${makeid(10)}@example.com`,
@@ -125,10 +125,10 @@ test('Test for pubsub live data for job', async () =>{
 })
 
 function makeid(size) {
-    lettext = "";
-    letpossible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let text = "";
+    let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for (leti = 0; i < size; i++)
+    for (let i = 0; i < size; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;

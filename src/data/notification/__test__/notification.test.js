@@ -13,7 +13,7 @@ test('Test for retrieving all notifications', async () => {
     expect('data' in response).toBe(true);
 })
 
-test('Test for deleting specific notification', async () => {
+test('Test for delet ing specific notification', async () => {
     // jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     // const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
     // const token = await result;

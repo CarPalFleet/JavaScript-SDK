@@ -42,10 +42,10 @@ test('Test for getting my legs.', async ()=>{
 })
 
 function makeid(size) {
-    lettext = "";
-    letpossible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let text = "";
+    let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for (leti = 0; i < size; i++)
+    for (let i = 0; i < size; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;

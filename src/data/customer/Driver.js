@@ -9,8 +9,10 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
   try{
     const payload = { identityId, productTypeId, transactionGroupId, isNewUser};
 
+    let newPayload;
+
     if(isNewUser){
-      letnewPayload = {...payload, firstName, lastName, email, password, birthday: birthday || '', phone: phone || ''};
+      newPayload = {...payload, firstName, lastName, email, password, birthday: birthday || '', phone: phone || ''};
     }else{
       newPayload = {...payload, existingUserEmail, sendConfirmationSms};
     }
@@ -22,7 +24,7 @@ export const createNewDriverAsync = async ({identityId, productTypeId, transacti
 
     return camelize(response.data.data);
   } catch(e) {
-    handleAsyncError(e);
+    return handleAsyncError(e);
   }
 }
 
@@ -33,7 +35,7 @@ export const getCustomerDriverDetailAsync = async (customerId, identityId, drive
                                      headers: {'Authorization': token}})
     return camelize(response.data);
   } catch(e) {
-    handleAsyncError(e);
+    return handleAsyncError(e);
   }
 }
 
@@ -47,7 +49,7 @@ export const getCustomerDriverListAsync = async (filterObject = {}, token) =>{
                                 })
     return camelize(response.data);
   } catch(e) {
-    handleAsyncError(e);
+    return handleAsyncError(e);
   }
 }
 
@@ -61,7 +63,7 @@ export const getDriverListAsync = async (filterObject = {}, token) =>{
                                   })
     return camelize(response.data);
   } catch(e) {
-    handleAsyncError(e);
+    return handleAsyncError(e);
   }
 }
 
@@ -75,7 +77,7 @@ export const exportDriverListFileAsync = async (format, token) =>{
                                    })
     return camelize(response.data);
   } catch(e) {
-    handleAsyncError(e);
+    return handleAsyncError(e);
   }
 }
 
@@ -90,7 +92,7 @@ export const deleteCustomerDriversAsync = async (driverIds, customerId, token) =
                                    })
     return camelize(response.data);
   } catch(e) {
-    handleAsyncError(e);
+    return handleAsyncError(e);
   }
 }
 
@@ -102,7 +104,7 @@ export const getCustomerDriversWithFiltersAsync = async (filterObject = {}, cust
                                      headers: {'Authorization': token}})
      return camelize(categoriesCustomerDrivers(response.data));
   } catch(e) {
-    handleAsyncError(e);
+    return handleAsyncError(e);
   }
 }
 
@@ -114,7 +116,7 @@ export const getCustomerDriverCountsAsync = async (filterObject = {}, customerId
                                    headers: {'Authorization': token}})
     return calculateCustomerDriverCounts(response.data, filterObject.driverTypeIds);
   } catch(e) {
-    handleAsyncError(e);
+    return handleAsyncError(e);
   }
 }
 
