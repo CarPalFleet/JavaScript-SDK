@@ -1,8 +1,8 @@
 import * as Ably from 'ably';
 
 export const pubsub = (key, channel, realtime=true)=>{
-    letclient = realtime?new Ably.Realtime(key):new Ably.Rest(key);
-    letchan = client.channels.get(channel);
+    let client = realtime?new Ably.Realtime(key):new Ably.Rest(key);
+    let chan = client.channels.get(channel);
     return {
         publish: (event, message)=>{
             chan.publish(event, message);

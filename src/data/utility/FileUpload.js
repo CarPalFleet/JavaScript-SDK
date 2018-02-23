@@ -6,7 +6,7 @@ import FormData from 'form-data';
 
 export const fileUploadAsync = async (fileObject, token) => {
   try {
-    letform = new FormData();
+    let form = new FormData();
     form.append('grouping_spreadsheet', fileObject);
 
     let response = await axios(endpoints.API_V3.BATCH_FILE_UPLOAD, {
