@@ -11,7 +11,7 @@ export const getJobDetailAsync = async (orderId, token)=>{
     const jobDetail = await axios({
        method: 'get',
        url: 'endpoints.JOB'.replace('{0}', jobId),
-       headers: {'Authorization': `${bearer} token`}
+       headers: {'Authorization': `bearer ${token}`}
      })
 
     return camelize(jobDetail.data);
@@ -29,7 +29,7 @@ export const getJobSummaryAsync = async (orderId, token)=>{
     const jobSummary = await axios({
       method: 'get',
       url: `${endpoints.JOB.replace('{0}', orderId)}/summary`,
-      headers: {'Authorization': `${bearer} token`}
+      headers: {'Authorization': `bearer ${token}`}
     })
 
     return camelize(jobSummary.data);

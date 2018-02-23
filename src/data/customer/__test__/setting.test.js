@@ -8,7 +8,6 @@ import CONFIG from './Config';
 //     const token = await result;
 //     const response = getCustomerPreferenceSettingsAsync(CONFIG.domain, token.accessToken);
 //     const whiteLabel = await response;
-//     expect(_.findKey(whiteLabel, 'transactionGroupAssets')).toBeTruthy();
 // })
 //
 test('Test for getting WhiteLabel for public with invalid domain for customer', async () => {

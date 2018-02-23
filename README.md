@@ -5,7 +5,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is 0.1.41
+The current version of this SDK is 0.1.42
 
 To install CarPal SDK: **npm i --save carpal**
 
@@ -60,7 +60,8 @@ If you were using webpack and had encountered the ***regeneratorRuntime is not d
 # Driver
 | Module                             | Method                                            | Description                                                          |
 | ---------------------------------- |---------------------------------------------------| ---------------------------------------------------------------------|
-| carpal/dist/data/driver/LiveRoute      | sendLiveRouteDataAsync(liveRouteObj, token)  | This returns a Promise object with sns message. The liveRouteObj consists of {orderId, addressId, driverId, latitude, longitude, orderRouteTypeId}  |
+| carpal/dist/data/driver/LiveRoute  | sendLiveRouteDataAsync(liveRouteObj, token)  | This returns a Promise object with sns message. The liveRouteObj consists of {orderId, addressId, driverId, latitude, longitude, orderRouteTypeId}  |
+| carpal/dist/data/driver/Vehicles   | getVehicleTypesAsync(token)   | This returns a Promise object with all vehicles types|
 
 # Routing
 | Module                             | Method                                            | Description                                                          |

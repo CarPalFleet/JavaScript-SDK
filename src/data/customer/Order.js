@@ -422,7 +422,7 @@ function groupLocationByPickUpAddress(groups, location, errorContents) { //error
 
   // driver will be empty array if there's no driver info
   // Add avatarUrl as a empty string, this field will be included in response.
-  _.isEmpty(location.driver)? location.driver = {} : location.driver['avatarUrl'] = '';
+  isEmpty(location.driver)? location.driver = {} : location.driver['avatarUrl'] = '';
 
   if (errorContents) {
     location.error = mergeLocationDataWithErrors(errorContents, location);

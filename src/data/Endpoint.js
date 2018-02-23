@@ -30,6 +30,7 @@ const endpoints = {
     ROUTE_OPTIMIZE_SETTINGS: `${urlPrefix}/customers/{0}/routes`,
     STATUSES: `${urlPrefix}/dashboard/types`,
     GROUPING_LOCATIONS_ERRORS: `${urlPrefix}/customers/{0}/location/errors`,
+    VEHICLES: `${urlPrefix}/vehicles`,
     API_V3: {
       BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
       GROUPING_LOCATIONS: `${laravelUrlPrefix}/${version}/customer/grouping-location`,

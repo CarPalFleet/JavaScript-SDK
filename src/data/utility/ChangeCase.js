@@ -7,7 +7,7 @@ import isArray from 'lodash.isarray';
  * @return {Object|String} string or keys of object are named in form of camel case
  */
 exports.snakeToCamel = function(data, depth) {
-  if (_.isObject(data) || _.isArray(data)) {
+  if (isObject(data) || isArray(data)) {
     if (typeof depth === 'undefined') {
       depth = 1;
     }
@@ -23,7 +23,7 @@ exports.snakeToCamel = function(data, depth) {
  * @return {Object|String} string or keys of object are named in form of snake
  */
 exports.camelToSnake = function(data, depth) {
-  if (_.isObject(data) || _.isArray(data)) {
+  if (isObject(data) || isArray(data)) {
     if (typeof depth === 'undefined') {
       depth = 1;
     }
@@ -43,7 +43,7 @@ function _snakelize(key) {
 
 // camelize a string formed in underscore
 function _camelize(key) {
-  if (_.isNumber(key)) {
+  if (isNumber(key)) {
     return key;
   }
   key = key.replace(/[\-_\s]+(.)?/g, function(match, ch) {
@@ -56,12 +56,12 @@ function _camelize(key) {
 // camelize/snakelize keys of an object
 // @param {number} depth to which level of keys should it process
 function _processKeys(obj, processer, depth) {
-  if (depth === 0 || !_.isObject(obj)) {
+  if (depth === 0 || !isObject(obj)) {
     return obj;
   }
 
   let result;
-  if (_.isObject(obj)) {
+  if (isObject(obj)) {
     result = {};
     let keys = Object.keys(obj);
     for (let i = 0; i < keys.length; i++) {
