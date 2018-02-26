@@ -35,7 +35,6 @@ test('Creating new driver account by a customer account', async () =>{
     }
 
     const response = await createNewDriverAsync(driverInfo, 1, token.accessToken);
-    console.log("RES", response);
     expect('driver' in response).toBe(true);
 })
 
