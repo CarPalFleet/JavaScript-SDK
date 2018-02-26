@@ -2,7 +2,7 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import { snakeCaseDecorator } from '../decorator/CoreDecorators';
-import _ from 'lodash';
+import isEmpty from 'lodash.isempty';
 
 export const getCustomerOrdersWithFiltersAsync = async (filterObject = {}, customerId, token, validationStatus = false)=>{
     let paramString = Object.keys(filterObject).reduce((str, key) => (str += `&${key}=${filterObject[key]}`), '');
@@ -28,16 +28,6 @@ export const getCustomerOrderCountsAsync = async (filterObject, customerId, toke
     }
 }
 
-export const getOrderDetailAsync = async (customerId, orderId, token)=>{
-    try {
-        const response = await axios({method: 'get',
-                                      url: endpoints.ORDER_DETAIL.replace('{0}', customerId).replace('{1}', orderId),
-                                      headers: {'Authorization': token}})
-        return camelize(response.data);
-    } catch (e) {
-      return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
-    }
-}
 
 export const createNewDeliveryWindow = async ({customerId,
                                                identityId,
@@ -45,7 +35,7 @@ export const createNewDeliveryWindow = async ({customerId,
                                                transactionGroupId=null,
                                                displayName,
                                                startTime,
-                                               endTime}, token) =>{
+                                               endTime}, token) => {
     try {
         let data = {
             identityId,
@@ -105,6 +95,7 @@ export const getBatchOrderProgressAsync = async (customerId, token) => {
   }
 }
 
+/* Function name will be changed as getOrderDetialAsync */
 export const getGroupingLocationAsync = async (groupingLocationId, token) => {
   try {
     let response = await axios({
@@ -119,11 +110,15 @@ export const getGroupingLocationAsync = async (groupingLocationId, token) => {
   }
 }
 
+/* Function name will be changed as getOrdersAsync */
 export const getGroupingLocationsAsync = async (filterObject, customerId, token) => {
   try {
-    // StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+    /*
+      StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+    */
+
     let statusId = filterObject.statusIds || 2;
-    let locations = await fetchAllGroupingLocationsAsync(filterObject, customerId, token);
+    let locations = await fetchAllGroupingLocationsAsync(filterObject, token);
     let errorContents;
     if (statusId === 4) {
       errorContents = await fetchBatchLocationsErrorAsync(filterObject.pickupDate, customerId, token);
@@ -135,8 +130,18 @@ export const getGroupingLocationsAsync = async (filterObject, customerId, token)
   }
 }
 
-export const fetchAllGroupingLocationsAsync = async (filterObject, customerId, token) => {
+/* Function name will be changed as getOrdersAsync */
+export const fetchAllGroupingLocationsAsync = async (filterObject, token) => {
   try {
+    /*
+      Add following filter for remaining order
+      statusIds = 2; // Success Grouping Locations
+      withRoute = 0; // Grouping locations without routes
+      withOrder = 1; // Grouping Location should have included orderId
+      include = 'pickup_group,delivery_address'
+      limit = 20
+      offset = 0
+    */
     let filters = snakeCaseDecorator(filterObject);
     let paramString = Object.keys(filters).reduce((str, key) => (str += `&${key}=${filters[key]}`), '');
     let response = await axios({
@@ -417,7 +422,7 @@ function groupLocationByPickUpAddress(groups, location, errorContents) { //error
 
   // driver will be empty array if there's no driver info
   // Add avatarUrl as a empty string, this field will be included in response.
-  _.isEmpty(location.driver)? location.driver = {} : location.driver['avatarUrl'] = '';
+  isEmpty(location.driver)? location.driver = {} : location.driver['avatarUrl'] = '';
 
   if (errorContents) {
     location.error = mergeLocationDataWithErrors(errorContents, location);

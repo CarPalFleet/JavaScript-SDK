@@ -15,7 +15,6 @@ const endpoints = {
     NEW_CUSTOMER:  `${urlPrefix}/customers`,
     TRANSACTION_GROUP_SETTING:  `${urlPrefix}/transaction-groups/{1}`,
     CUSTOMER_ORDERS: `${urlPrefix}/customers/{0}/orders`,
-    ORDER_DETAIL: `${urlPrefix}/customers/{0}/orders/{1}`,
     DELIVERY_WINDOW: `${urlPrefix}/customers/{0}/delivery-windows`,
     SEARCH: `${urlPrefix}/search`,
     ELASTICSEARCH: `${urlPrefix}/dashboard/search`,
@@ -31,12 +30,16 @@ const endpoints = {
     ROUTE_OPTIMIZE_SETTINGS: `${urlPrefix}/customers/{0}/routes`,
     STATUSES: `${urlPrefix}/dashboard/types`,
     GROUPING_LOCATIONS_ERRORS: `${urlPrefix}/customers/{0}/location/errors`,
+    VEHICLES: `${urlPrefix}/vehicles`,
     API_V3: {
       BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
       GROUPING_LOCATIONS: `${laravelUrlPrefix}/${version}/customer/grouping-location`,
       GROUPING_BATCH_PROGRESSION: `${laravelUrlPrefix}/${version}/customer/grouping-batch/show-recent-pending`,
       PICKUP_GROUP: `${laravelUrlPrefix}/${version}/customer/pickup-group`,
       DRIVER_LISTING: `${laravelUrlPrefix}/${version}/customer/driver`,
+      // ORDER_DETAIL: `${urlPrefix}/customers/{0}/orders/{1}`,
+      JOB: `${urlPrefix}/customers/job/{0}`,
+      ROUTE: `${urlPrefix}/customers/job/{0}`,
     }
 }
 
