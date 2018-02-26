@@ -23,23 +23,23 @@ test('Test for reset password token validation', async ()=>{
     await expect(result).rejects.toHaveProperty('statusCode', 404);
 })
 
-test('Test for getting my jobs.', async ()=>{
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(CONFIG.demail, CONFIG.dpassword, CONFIG.clientId, CONFIG.token);
-    const token = await result;
-    const response = getDriverJobsAsync(1, token.accessToken, CONFIG.date);
-    const myJobs = await response;
-    expect(myJobs instanceof Array).toBe(true);
-})
+// test('Test for getting my jobs.', async ()=>{
+//     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+//     const result = getTokenAsync(CONFIG.demail, CONFIG.dpassword, CONFIG.clientId, CONFIG.token);
+//     const token = await result;
+//     const response = getDriverJobsAsync(1, token.accessToken, CONFIG.date);
+//     const myJobs = await response;
+//     expect(myJobs instanceof Array).toBe(true);
+// })
 
-test('Test for getting my legs.', async ()=>{
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(CONFIG.demail, CONFIG.dpassword, CONFIG.clientId, CONFIG.token);
-    const token = await result;
-    const response = getDriverLegsAsync(1, token.accessToken, CONFIG.date);
-    const myLegs = await response;
-    expect(myLegs instanceof Array).toBe(true);
-})
+// test('Test for getting my legs.', async ()=>{
+    // jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    // const result = getTokenAsync(CONFIG.demail, CONFIG.dpassword, CONFIG.clientId, CONFIG.token);
+    // const token = await result;
+    // const response = getDriverLegsAsync(1, token.accessToken, CONFIG.date);
+    // const myLegs = await response;
+    // expect(myLegs instanceof Array).toBe(true);
+// })
 
 function makeid(size) {
     let text = "";

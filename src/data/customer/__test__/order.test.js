@@ -22,12 +22,12 @@ import {
 import { getTokenAsync } from '../../account/Auth';
 import CONFIG from './Config';
 
-test('Retrieving single grouping location', async () => {
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-    const token = await result;
-    const response = await getGroupingLocationAsync(CONFIG.groupingLocationId, token.accessToken);
-    expect('data' in response).toBe(true);
-})
+// test('Retrieving single grouping location', async () => {
+//     const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+//     const token = await result;
+//     const response = await getGroupingLocationAsync(CONFIG.groupingLocationId, token.accessToken);
+//     expect('data' in response).toBe(true);
+// })
 
 test('Retrieving validated grouping locations', async () => {
     const filterObject = {
@@ -126,18 +126,18 @@ test('Test for uploading batch order progression', async () => {
 //     expect(response.data).toBe(true);
 // })
 
-test('Test for creating new delivery window with product type 1', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
-    const token = await result;
-    const response = await createNewDeliveryWindow({customerId: 1,
-                                                    identityId: 1,
-                                                    productTypeId: 1,
-                                                    displayName: makeid(),
-                                                    startTime: '9:30',
-                                                    endTime: '11:30'}, token.accessToken);
-    expect('id' in response).toBe(true);
-})
+// test('Test for creating new delivery window with product type 1', async () => {
+//     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
+//     const token = await result;
+//     const response = await createNewDeliveryWindow({customerId: 1,
+//                                                     identityId: 1,
+//                                                     productTypeId: 1,
+//                                                     displayName: makeid(),
+//                                                     startTime: '9:30',
+//                                                     endTime: '11:30'}, token.accessToken);
+//     expect('id' in response).toBe(true);
+// })
 
 test('Test for customer order detail', async () => {
     // jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;

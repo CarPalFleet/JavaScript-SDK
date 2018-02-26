@@ -1,5 +1,5 @@
 import axios from 'axios';
-import endpoints from '../data/Endpoint';
+import endpoints from '../Endpoint';
 import camelize from 'camelize';
 
 export const getOptimizedRoutesAsync = async (filters, token) => {
