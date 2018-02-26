@@ -9,7 +9,8 @@ import {
   updateDriverLiveData
 } from '../Driver';
 
-test('Creating new driver account by a customer account', async () =>{
+describe('Create new driver ', () => {
+  it('should response new driver object including id and details', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
     const token = await result;
@@ -36,7 +37,10 @@ test('Creating new driver account by a customer account', async () =>{
 
     const response = await createNewDriverAsync(driverInfo, 1, token.accessToken);
     expect('driver' in response).toBe(true);
-})
+    expect('id' in response.driver).toBe(true);
+    expect('details' in response.driver).toBe(true);
+  });
+});
 
 test(`Test for retrieving detail of customer's driver`, async () => {
     const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
