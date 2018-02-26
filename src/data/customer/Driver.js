@@ -2,19 +2,34 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 
-export const createNewDriverAsync = async ({identityId, productTypeId, transactionGroupId=null,
+export const createNewDriverAsync = async ({identityId, productTypeId, transactionGroupId,
                                             firstName, lastName, email, password, birthday, phone,
                                             existingUserEmail=null, sendConfirmationSms=false,
-                                            isNewUser=true}, customerId, token) =>{
+                                            isNewUser=true, vehicleTypeId, vehicleBrand, vehicleModel,
+                                            vehicleLicenseNumber, vehicleModelYear, vehicleColor}, customerId, token) =>{
   try{
-    const payload = { identityId, productTypeId, transactionGroupId, isNewUser};
+    const defaultPayload = {
+      identityId,
+      productTypeId,
+      transactionGroupId,
+      isNewUser,
+      sendConfirmationSms,
+      vehicle: {
+        vehicleTypeId,
+        vehicleBrand,
+        vehicleModel,
+        vehicleLicenseNumber,
+        vehicleModelYear,
+        vehicleColor
+      }
+    };
 
     let newPayload;
 
     if(isNewUser){
-      newPayload = {...payload, firstName, lastName, email, password, birthday: birthday || '', phone: phone || ''};
+      newPayload = {...defaultPayload, firstName, lastName, email, password, birthday: birthday || '', phone: phone || ''};
     }else{
-      newPayload = {...payload, existingUserEmail, sendConfirmationSms};
+      newPayload = {...defaultPayload, existingUserEmail};
     }
     const response = await axios({method: 'post',
                                   url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),

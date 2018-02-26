@@ -14,21 +14,28 @@ test('Creating new driver account by a customer account', async () =>{
     const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
     const token = await result;
 
-    const driver = {
+    const driverInfo = {
         identityId: 1,
         productTypeId: 3,
         transactionGroupId: [180],
-        isNewsUser: true,
         firstName: 'User',
         lastName: makeid(10),
         email: `${makeid(10)}@example.com`,
         password: '123456',
         birthday: '1980-01-01',
-        phone: '+6592341092'
+        phone: '+6592341092',
+        isNewUser: true,
+        sendConfirmationSms: false,
+        vehicleTypeId: 1,
+        vehicleBrand: 'Scooter',
+        vehicleModel: '12456',
+        vehicleLicenseNumber: '12456',
+        vehicleModelYear: 2018,
+        vehicleColor: 'Black'
     }
 
-    const response = await createNewDriverAsync(driver, 1, token.accessToken);
-
+    const response = await createNewDriverAsync(driverInfo, 1, token.accessToken);
+    console.log("RES", response);
     expect('driver' in response).toBe(true);
 })
 
