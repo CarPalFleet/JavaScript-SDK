@@ -36,9 +36,9 @@ describe('Create new driver ', () => {
     }
 
     const response = await createNewDriverAsync(driverInfo, 1, token.accessToken);
-    expect('driver' in response).toBe(true);
-    expect('id' in response.driver).toBe(true);
-    expect('details' in response.driver).toBe(true);
+    expect('driver' in response).toBeTruthy();
+    expect('id' in response.driver).toBeTruthy();
+    expect('details' in response.driver).toBeTruthy();
   });
 });
 
