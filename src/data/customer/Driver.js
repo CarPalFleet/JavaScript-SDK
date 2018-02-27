@@ -2,39 +2,39 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 
-export const createNewDriverAsync = async ({identityId, productTypeId, transactionGroupId,
-                                            firstName, lastName, email, password, birthday, phone,
-                                            existingUserEmail=null, sendConfirmationSms=false,
-                                            isNewUser=true, vehicleTypeId, vehicleBrand, vehicleModel,
-                                            vehicleLicenseNumber, vehicleModelYear, vehicleColor}, customerId, token) =>{
+export const createNewDriverAsync = async ({birthday, email, existingUserEmail = false,
+                                            firstName, identityId, isNewUser, lastName, password, phone,
+                                            productTypeId, sendConfirmationSms = false, transactionGroupId, 
+                                            vehicleBrand, vehicleColor, vehicleLicenseNumber, 
+					    vehicleModel, vehicleModelYear, vehicleTypeId}, customerId, token) => {
   try{
     const defaultPayload = {
       identityId,
-      productTypeId,
-      transactionGroupId,
       isNewUser,
+      productTypeId,
       sendConfirmationSms,
+      transactionGroupId,
       vehicle: {
-        vehicleTypeId,
         vehicleBrand,
-        vehicleModel,
+        vehicleColor,
         vehicleLicenseNumber,
+        vehicleModel,
         vehicleModelYear,
-        vehicleColor
+        vehicleTypeId
       }
     };
 
     let newPayload;
 
     if(isNewUser){
-      newPayload = {...defaultPayload, firstName, lastName, email, password, birthday: birthday || '', phone: phone || ''};
+      newPayload = {...defaultPayload, birthday: birthday || '', email, firstName, lastName, password, phone: phone || ''};
     }else{
       newPayload = {...defaultPayload, existingUserEmail};
     }
     const response = await axios({method: 'post',
                                   url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),
-                                  headers: {'Content-Type': 'application/json',
-                                            'Authorization': token},
+                                  headers: {'Authorization': token,
+                                            'Content-Type': 'application/json'},
                                   data: newPayload})
 
     return camelize(response.data.data);
