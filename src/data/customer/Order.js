@@ -28,7 +28,6 @@ export const getCustomerOrderCountsAsync = async (filterObject, customerId, toke
     }
 }
 
-
 export const createNewDeliveryWindow = async ({customerId,
                                                identityId,
                                                productTypeId,
@@ -143,7 +142,7 @@ export const fetchAllGroupingLocationsAsync = async (filterObject, token) => {
       offset = 0
     */
     let filters = snakeCaseDecorator(filterObject);
-    let paramString = Object.keys(filters).reduce((str, key) => (str += `&${key}=${filters[key]}`), '');
+    let paramString = convertObjectIntoURLString(filters);
     let response = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.GROUPING_LOCATIONS}${paramString.replace('&', '?')}`,
@@ -187,7 +186,7 @@ export const removeOrderWithErrorAsync = async (groupingLocationId, token) => {
 export const getUniquePickupAddressesAsync = async (filterObject, token) => {
   try {
     let filters = snakeCaseDecorator(filterObject);
-    let paramString = Object.keys(filters).reduce((str, key) => (str += `&${key}=${filters[key]}`), '');
+    let paramString = convertObjectIntoURLString(filters)
     let response = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.PICKUP_GROUP}${paramString.replace('&', '?')}`,
@@ -465,6 +464,10 @@ export const mergeLocationDataWithErrors = (errorContents, location) => {
       return errorList;
     }, []);
   }
+}
+
+function convertObjectIntoURLString(filters) {
+  return Object.keys(filters).reduce((str, key) => (str += `&${key}=${filters[key]}`), '');
 }
 
 function handleAsyncError(e) {
