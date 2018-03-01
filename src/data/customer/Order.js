@@ -170,6 +170,20 @@ export const fetchBatchLocationsErrorAsync = async (pickupDate, customerId, toke
   }
 }
 
+export const removeOrderWithErrorAsync = async (groupingLocationId, token) => {
+  try {
+    let response = await axios({
+      method: 'GET',
+      url: `${endpoints.ORDER_WITH_ERRORS}/${groupingLocationId}`,
+      headers: {'Authorization': token},
+    });
+
+    return { data: true }
+  } catch (e) {
+    return Promise.reject({statusCode: e.response.status, statusText: e.response.statusText});
+  }
+}
+
 export const getUniquePickupAddressesAsync = async (filterObject, token) => {
   try {
     let filters = snakeCaseDecorator(filterObject);

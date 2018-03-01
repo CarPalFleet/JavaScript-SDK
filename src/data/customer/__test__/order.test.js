@@ -8,7 +8,6 @@ import {
   fetchBatchLocationsErrorAsync,
   fetchAllGroupingLocationsAsync,
   getGroupingLocationAsync,
-  fetchBatchOrderCreateErrorMockUp,
   getGroupingLocationsAsync,
   getUniquePickupAddressesAsync,
   createGroupingLocationAsync,
@@ -62,6 +61,18 @@ test('Retrieving error grouping locations', async () => {
     expect('successLocationCount' in response).toBe(true);
     expect('failedLocationCount' in response).toBe(true);
 })
+
+describe('Remove order with error record', () => {
+  it('should remove specific order record. If it is deleted, response data should be true', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+    const token = await result;
+
+    const response = await removeOrderWithErrorAsync(27840, token.accessToken);
+    expect('data' in response).toBeTruthy();
+    expect(response.data).toBeTruthy();
+  });
+});
 
 test('Retrieving error grouping locations from DynamoDB', async () => {
   //Example of pickupdate format 2018-02-28
