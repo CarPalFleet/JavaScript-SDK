@@ -26,12 +26,12 @@ const endpoints = {
     CUSTOMER_DRIVER_DETAIL: `${urlPrefix}/customers/{0}/identities/{1}/drivers/{2}`,
     DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
     NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
-    MY_ORDER_COLUMN_NAMES: `${urlPrefix}/user/{0}/setting/{1}`,
     ROUTE_OPTIMIZE_SETTINGS: `${urlPrefix}/customers/{0}/routes`,
     STATUSES: `${urlPrefix}/dashboard/types`,
     GROUPING_LOCATIONS_ERRORS: `${urlPrefix}/customers/{0}/location/errors`,
     ORDER_WITH_ERRORS: `${urlPrefix}/grouping-location-error`,
     VEHICLES: `${urlPrefix}/vehicles`,
+    CUSTOMER_SETTINGS: `${urlPrefix}/customers/{0}/settings`,
     API_V3: {
       BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
       GROUPING_LOCATIONS: `${laravelUrlPrefix}/${version}/customer/grouping-location`,

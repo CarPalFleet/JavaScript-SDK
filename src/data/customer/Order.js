@@ -466,7 +466,7 @@ export const mergeLocationDataWithErrors = (errorContents, location) => {
   }
 }
 
-function convertObjectIntoURLString(filters) {
+export const convertObjectIntoURLString = (filters) => {
   return Object.keys(filters).reduce((str, key) => (str += `&${key}=${filters[key]}`), '');
 }
 

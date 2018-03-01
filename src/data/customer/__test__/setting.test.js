@@ -1,5 +1,8 @@
 import { getTokenAsync } from '../../account/Auth';
-import { getCustomerPreferenceSettingsAsync } from '../Setting';
+import {
+  getCustomerPreferenceSettingsAsync,
+  getCustomerSettingsAsync
+} from '../Setting';
 import CONFIG from './Config';
 
 // test('Test for getting WhiteLabel for customer', async () =>{
@@ -17,3 +20,10 @@ test('Test for getting WhiteLabel for public with invalid domain for customer', 
     // const response = getCustomerPreferenceSettingsAsync(CONFIG.invalidDomain, token.accessToken);
     // await expect(response).rejects.toHaveProperty('statusCode', 404);
 })
+
+describe('Retreive customer setting', () => {
+  it('should response a list of setting', async () => {
+    const urlString = await getCustomerSettingsAsync(14445, 'routing', token.accessToken);
+    expect(typeof urlString).toBe('string')
+  });
+});

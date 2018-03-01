@@ -16,6 +16,8 @@ import {
   deleteGroupingLocationAsync,
   deleteGroupingLocationsAsync,
   groupLocations,
+  removeOrderWithErrorAsync,
+  convertObjectIntoURLString,
   mergeLocationDataWithErrors
 } from '../Order';
 import { getTokenAsync } from '../../account/Auth';
@@ -122,6 +124,18 @@ test('Test for uploading batch order progression', async () => {
     const response = await getBatchOrderProgressAsync(1, token.accessToken);
     expect('data' in response).toBe(true);
 })
+
+describe('Convert object key/value into url string', () => {
+  it('should response string vaule', async () => {
+    let data = {
+      limit: 20,
+      offset: 1
+    }
+
+    const urlString = await convertObjectIntoURLString(data);
+    expect(typeof urlString).toBe('string')
+  });
+});
 
 // test('Delete Grouping Location', async () => {
   // const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
