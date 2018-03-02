@@ -5,14 +5,18 @@
   "main": "dist/build.js",
   "scripts": {
     "build": "babel src --presets babel-preset-es2015 --out-dir dist",
-    "lint": "node_modules/.bin/eslint /src",
+    "lint": "node_modules/.bin/eslint src",
     "precommit": "lint-staged",
+    "precommit:lint": "node_modules/.bin/eslint",
+    "precommit:prettier":
+      "node_modules/.bin/prettier --single-quote --trailing-comma es5 --arrow-parens always --write",
     "prepublish": "npm run build",
     "test": "npm run build && jest src"
   },
   "lint-staged": {
     "*.{js,json,css,md}": [
-      "node_modules/.bin/prettier --single-quote --trailing-comma es5 --arrow-parens always --write",
+      "npm run precommit:lint",
+      "npm run precommit:prettier",
       "git add"
     ]
   },
@@ -30,12 +34,18 @@
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-builtin-classes": "^0.4.0",
     "babel-plugin-transform-decorators": "^6.24.1",
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^4.18.1",
+    "eslint-config-google": "^0.9.1",
+    "eslint-plugin-jest": "^21.12.2",
+    "husky": "^0.14.3",
     "jest": "^21.2.1",
+    "lint-staged": "^7.0.0",
     "prettier": "1.11.1",
     "webpack": "^2.7.0"
   },
@@ -43,13 +53,8 @@
     "ably": "^1.0.8",
     "aws-sdk": "^2.161.0",
     "axios": "^0.17.0",
-    "babel-plugin-transform-builtin-classes": "^0.4.0",
     "camelize": "^1.0.0",
-    "eslint": "^4.18.1",
-    "eslint-plugin-jest": "^21.12.2",
     "form-data": "^2.3.1",
-    "husky": "^0.14.3",
-    "lint-staged": "^7.0.0",
     "lodash.isarray": "^4.0.0",
     "lodash.isempty": "^4.4.0",
     "lodash.isobject": "^3.0.2",
