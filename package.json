@@ -11,7 +11,7 @@
   },
   "lint-staged": {
     "*.{js,json,css,md}": [
-      "prettier --single-quote --trailing-comma es5 --arrow-parens always --write",
+      "node_modules/.bin/prettier --single-quote --trailing-comma es5 --arrow-parens always --write",
       "git add"
     ]
   },

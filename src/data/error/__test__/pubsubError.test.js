@@ -6,6 +6,6 @@ function doPubSubError() {
 
 it('should recognize pubsub error', () => {
   expect(() => {
-      doPubSubError();
+    doPubSubError();
   }).toThrowError();
 });

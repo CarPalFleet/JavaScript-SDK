@@ -38,7 +38,10 @@ function _snakelize(key) {
   let separator = '_';
   let split = /(?=[A-Z])/;
 
-  return key.split(split).join(separator).toLowerCase();
+  return key
+    .split(split)
+    .join(separator)
+    .toLowerCase();
 }
 
 // camelize a string formed in underscore
@@ -65,7 +68,11 @@ function _processKeys(obj, processer, depth) {
     result = {};
     let keys = Object.keys(obj);
     for (let i = 0; i < keys.length; i++) {
-      result[processer(keys[i])] = _processKeys(obj[keys[i]], processer, depth - 1);
+      result[processer(keys[i])] = _processKeys(
+        obj[keys[i]],
+        processer,
+        depth - 1
+      );
     }
   } else {
     result = [];
@@ -73,7 +80,6 @@ function _processKeys(obj, processer, depth) {
       result[processer(i)] = _processKeys(obj[i], processer, depth - 1);
     }
   }
-
 
   return result;
 }
