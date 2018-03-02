@@ -1,5 +1,5 @@
-import { getTokenAsync } from '../../account/Auth';
-import { getCustomerPreferenceSettingsAsync } from '../Setting';
+import {getTokenAsync} from '../../account/Auth';
+import {getCustomerPreferenceSettingsAsync} from '../Setting';
 import CONFIG from './Config';
 
 // test('Test for getting WhiteLabel for customer', async () =>{

@@ -18,7 +18,7 @@ export const createNewCustomerAsync = async ({
     const response = await axios({
       method: 'post',
       url: endpoints.NEW_CUSTOMER,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type': 'application/json'},
       data: {
         email,
         password,

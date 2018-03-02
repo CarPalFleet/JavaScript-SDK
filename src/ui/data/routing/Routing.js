@@ -27,7 +27,7 @@ export const getDriverSchedules = async () => {
     const response = await axios({
       method: 'post',
       url: endpoints.DRIVER_SCHEDULES.replace('{0}', customerId),
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {Authorization: `Bearer ${token}`},
     });
 
     return camelize(response.data);
@@ -44,7 +44,7 @@ export const getDriverListAsync = async () => {
     const response = await axios({
       method: 'post',
       url: endpoints.DRIVER_LIST.replace('{0}', customerId),
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {Authorization: `Bearer ${token}`},
     });
 
     return camelize(response.data);

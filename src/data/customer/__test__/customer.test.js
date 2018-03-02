@@ -1,5 +1,5 @@
-import { createNewCustomerAsync } from '../Driver';
-import { getTokenAsync } from '../../account/Auth';
+import {createNewCustomerAsync} from '../Driver';
+import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './Config';
 
 test('Creating new customer account', () => {

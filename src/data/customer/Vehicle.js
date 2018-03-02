@@ -11,7 +11,7 @@ export const getVehicleTypesAsync = async (token) => {
     const vehicles = await axios({
       method: 'get',
       url: `${endpoints.VEHICLES}/types`,
-      headers: { Authorization: `bearer ${token}` },
+      headers: {Authorization: `bearer ${token}`},
     });
 
     return camelize(vehicles.data);

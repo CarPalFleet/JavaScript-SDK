@@ -7,7 +7,7 @@ export const resetPasswordRequestAsync = async (email) => {
     const response = await axios({
       method: 'post',
       url: endpoints.PASSWORD_RESET,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type': 'application/json'},
       data: {
         email,
       },
@@ -32,7 +32,7 @@ export const resetPasswordAsync = async (
     const response = await axios({
       method: 'put',
       url: endpoints.PASSWORD_RESET,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type': 'application/json'},
       data: {
         token,
         email,
@@ -54,7 +54,7 @@ export const validateResetPasswordTokenAsync = async (token) => {
     const response = await axios({
       method: 'post',
       url: endpoints.PASSWORD_RESET_TOKEN,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type': 'application/json'},
       data: {
         token,
       },
@@ -75,7 +75,7 @@ export const getDriverJobsAsync = async (id, token, date) => {
     const response = await axios({
       method: 'get',
       url: endpoints.MY_JOBS.replace('{0}', id).replace('{1}', date),
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
     return camelize(response.data.data);
   } catch (e) {
@@ -92,7 +92,7 @@ export const getDriverLegsAsync = async (id, token, date) => {
     const response = await axios({
       method: 'get',
       url: endpoints.MY_LEGS.replace('{0}', id).replace('{1}', date),
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
     return camelize(response.data.data);
   } catch (e) {

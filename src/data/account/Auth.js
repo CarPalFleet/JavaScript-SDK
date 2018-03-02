@@ -7,7 +7,7 @@ export const getTokenAsync = async (email, password, clientId, secret) => {
     const response = await axios({
       method: 'post',
       url: endpoints.OAUTH,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type': 'application/json'},
       data: {
         username: email,
         password,
@@ -31,7 +31,7 @@ export const refreshTokenAsync = async (refreshToken, clientId, secret) => {
     const response = await axios({
       method: 'post',
       url: endpoints.OAUTH,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type': 'application/json'},
       data: {
         refreshToken: refreshToken,
         grantType: 'refresh_token',

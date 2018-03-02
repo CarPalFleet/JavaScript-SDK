@@ -1,8 +1,5 @@
-import {
-  getNotificationsAsync,
-  deleteNotificationAsync,
-} from '../Notification';
-import { getTokenAsync } from '../../account/Auth';
+import {getNotificationsAsync, deleteNotificationAsync} from '../Notification';
+import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './Config';
 
 test('Test for retrieving all notifications', async () => {

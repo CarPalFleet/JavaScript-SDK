@@ -1,7 +1,7 @@
-import { fileUploadAsync } from '../FileUpload';
-import { getTokenAsync } from '../../account/Auth';
+import {fileUploadAsync} from '../FileUpload';
+import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './Config';
-import { snakeCaseDecorator } from '../../decorator/CoreDecorators';
+import {snakeCaseDecorator} from '../../decorator/CoreDecorators';
 
 test('Test for file uploading', async () => {
   // jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;

@@ -1,5 +1,5 @@
-import { getJobDetailAsync, getJobSummaryAsync } from '../Job';
-import { getTokenAsync } from '../../account/Auth';
+import {getJobDetailAsync, getJobSummaryAsync} from '../Job';
+import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './Config';
 
 it('Should get driver details', async () => {

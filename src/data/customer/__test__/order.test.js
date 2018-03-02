@@ -19,7 +19,7 @@ import {
   groupLocations,
   mergeLocationDataWithErrors,
 } from '../Order';
-import { getTokenAsync } from '../../account/Auth';
+import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './Config';
 
 // test('Retrieving single grouping location', async () => {

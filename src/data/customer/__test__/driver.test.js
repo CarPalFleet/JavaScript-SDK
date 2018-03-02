@@ -1,5 +1,5 @@
 import CONFIG from './Config';
-import { getTokenAsync } from '../../account/Auth';
+import {getTokenAsync} from '../../account/Auth';
 import {
   createNewDriverAsync,
   getCustomerDriverDetailAsync,

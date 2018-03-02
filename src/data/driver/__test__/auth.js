@@ -8,7 +8,7 @@ export const getDriverTokenAsync = async (email, password) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      data: { email, password },
+      data: {email, password},
     });
 
     return camelize(response.data);

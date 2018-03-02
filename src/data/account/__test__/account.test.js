@@ -5,7 +5,7 @@ import {
   getDriverLegsAsync,
   validateResetPasswordTokenAsync,
 } from '../Account';
-import { getTokenAsync } from '../Auth';
+import {getTokenAsync} from '../Auth';
 import CONFIG from './Config';
 
 // test('Test for reset password request', async ()=>{

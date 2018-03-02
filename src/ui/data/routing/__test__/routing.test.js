@@ -1,5 +1,5 @@
-import { getTokenAsync } from '../../../../data/account/Auth';
-import { getOrderListWithoutRoutes, multiplyItems } from '../Routing';
+import {getTokenAsync} from '../../../../data/account/Auth';
+import {getOrderListWithoutRoutes, multiplyItems} from '../Routing';
 
 test('Test for sending routing optimization.', async () => {
   // jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;

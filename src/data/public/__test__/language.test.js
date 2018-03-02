@@ -1,4 +1,4 @@
-import { getLanguagesAsync } from '../Language';
+import {getLanguagesAsync} from '../Language';
 
 test('test for languages', async () => {
   const result = await getLanguagesAsync();

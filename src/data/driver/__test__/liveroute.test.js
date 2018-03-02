@@ -1,6 +1,6 @@
-import { sendLiveRouteDataAsync } from '../LiveRoute';
-import { getDriverTokenAsync } from './Auth';
-import { getTokenAsync } from '../../account/Auth';
+import {sendLiveRouteDataAsync} from '../LiveRoute';
+import {getDriverTokenAsync} from './Auth';
+import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './config';
 import axios from 'axios';
 

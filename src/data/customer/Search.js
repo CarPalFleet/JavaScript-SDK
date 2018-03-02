@@ -15,7 +15,7 @@ export const searchAsync = async (
       url: `${
         endpoints.ELASTICSEARCH
       }?keyword=${keywords}&fuzzy=${fuzzy}&fuzziness=${fuzziness}&scope=${scope}`,
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
     return camelize(response.data.data);
   } catch (e) {
@@ -39,7 +39,7 @@ export const myOrderSearchAsync = async (
       url: `${
         endpoints.MY_ORDER_ELASTICSEARCH
       }?keyword=${keywords}&fuzzy=${fuzzy}&fuzziness=${fuzziness}&scope=${scope}`,
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
     return camelize(response.data.data);
   } catch (e) {
@@ -63,7 +63,7 @@ export const myOrderDriverListSearchAsync = async (
       url: `${
         endpoints.DRIVER_LIST_ELASTICSEARCH
       }?keyword=${keywords}&fuzzy=${fuzzy}&fuzziness=${fuzziness}&scope=${scope}`,
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
     return camelize(response.data.data);
   } catch (e) {

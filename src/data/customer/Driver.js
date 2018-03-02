@@ -56,7 +56,7 @@ export const createNewDriverAsync = async (
         phone: phone || '',
       };
     } else {
-      newPayload = { ...defaultPayload, existingUserEmail };
+      newPayload = {...defaultPayload, existingUserEmail};
     }
     const response = await axios({
       method: 'post',
@@ -86,7 +86,7 @@ export const getCustomerDriverDetailAsync = async (
       url: endpoints.CUSTOMER_DRIVER_DETAIL.replace('{0}', customerId)
         .replace('{1}', identityId)
         .replace('{2}', driverId),
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
     return camelize(response.data);
   } catch (e) {
@@ -104,7 +104,7 @@ export const getCustomerDriverListAsync = async (filterObject = {}, token) => {
     const response = await axios({
       method: 'get',
       url: `${endpoints.CUSTOMER_DRIVERS}/${paramString.replace('&', '?')}`,
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {Authorization: `Bearer ${token}`},
     });
     return camelize(response.data);
   } catch (e) {
@@ -125,7 +125,7 @@ export const getDriverListAsync = async (filterObject = {}, token) => {
         '&',
         '?'
       )}`,
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {Authorization: `Bearer ${token}`},
     });
     return camelize(response.data);
   } catch (e) {
@@ -142,7 +142,7 @@ export const exportDriverListFileAsync = async (format, token) => {
     const response = await axios({
       method: 'get',
       url: `${endpoints.EXPORT_CUSTOMER_DRIVERS}?fileType=${format}`,
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {Authorization: `Bearer ${token}`},
     });
     return camelize(response.data);
   } catch (e) {
@@ -156,13 +156,13 @@ export const deleteCustomerDriversAsync = async (
   token
 ) => {
   try {
-    return { data: true };
+    return {data: true};
 
     let paramString = driverIds.join();
     const response = await axios({
       method: 'delete',
       url: `${endpoints.CUSTOMER_DRIVERS}?driver_ids=${paramString}`,
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {Authorization: `Bearer ${token}`},
     });
     return camelize(response.data);
   } catch (e) {
@@ -187,7 +187,7 @@ export const getCustomerDriversWithFiltersAsync = async (
         '{0}',
         customerId
       )}${paramString.replace('&', '?')}`,
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
     return camelize(categoriesCustomerDrivers(response.data));
   } catch (e) {
@@ -208,7 +208,7 @@ export const getCustomerDriverCountsAsync = async (
     const response = await axios({
       method: 'get',
       url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
     return calculateCustomerDriverCounts(
       response.data,
@@ -260,7 +260,7 @@ export const updateDriverLiveData = (
         }
         return matchedPayload;
       },
-      { isDataExist: false, statusId: 0, index: -1, data: {} }
+      {isDataExist: false, statusId: 0, index: -1, data: {}}
     );
 
     if (matchedPayload.isDataExist) {
@@ -297,8 +297,8 @@ export const updateDriverLiveData = (
 function calculateCustomerDriverCounts(data, driverTypeIds) {
   let countData = {
     totalStatusCounts: 0,
-    activeStatusCounts: { 1: 0, 2: 0, 3: 0, 4: 0 },
-    driverTypeCounts: { 1: 0, 2: 0, 3: 0 },
+    activeStatusCounts: {1: 0, 2: 0, 3: 0, 4: 0},
+    driverTypeCounts: {1: 0, 2: 0, 3: 0},
   };
   let drivers = categoriesCustomerDriversForCount(
     data,
@@ -322,9 +322,9 @@ function calculateCustomerDriverCounts(data, driverTypeIds) {
 
 function categoriesCustomerDriversForCount(drivers) {
   let responseData = {
-    1: { 1: [], 2: [], 3: [], 4: [] },
-    2: { 1: [], 2: [], 3: [], 4: [] },
-    3: { 1: [], 2: [], 3: [], 4: [] },
+    1: {1: [], 2: [], 3: [], 4: []},
+    2: {1: [], 2: [], 3: [], 4: []},
+    3: {1: [], 2: [], 3: [], 4: []},
   };
   return {
     data: drivers['data'].reduce((data, value) => {
@@ -339,7 +339,7 @@ function categoriesCustomerDriversForCount(drivers) {
 }
 
 function categoriesCustomerDrivers(drivers) {
-  let responseData = { 1: [], 2: [], 3: [], 4: [] };
+  let responseData = {1: [], 2: [], 3: [], 4: []};
   return {
     data: drivers['data'].reduce((data, value) => {
       if (data[value.driver_status_id]) {
@@ -360,7 +360,7 @@ function handleAsyncError(e) {
   } else {
     /* Catch error of e.response
     That will be undefined when status code is 403 Forbidden */
-    rejectObj = { statusCode: 403, statusText: 'Forbidden' };
+    rejectObj = {statusCode: 403, statusText: 'Forbidden'};
   }
   return Promise.reject(rejectObj);
 }

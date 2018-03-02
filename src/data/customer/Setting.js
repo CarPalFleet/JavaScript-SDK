@@ -7,7 +7,7 @@ export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
     const response = await axios({
       method: 'get',
       url: endpoints.TRANSACTION_GROUP_SETTING.replace('{1}', domain),
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
     return camelize(response.data.data);
   } catch (e) {
@@ -23,7 +23,7 @@ export const fetchMyOrderColumNames = async (type, customerId, token) => {
         '{0}',
         customerId
       )}?type=${type}`,
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
 
     return camelize(response.data);
@@ -42,7 +42,7 @@ function handleAsyncError(e) {
   } else {
     /* Catch error of e.response
     That will be undefined when status code is 403 Forbidden */
-    rejectObj = { statusCode: 403, statusText: 'Forbidden' };
+    rejectObj = {statusCode: 403, statusText: 'Forbidden'};
   }
   return Promise.reject(rejectObj);
 }

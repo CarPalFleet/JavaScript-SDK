@@ -1,4 +1,4 @@
-import { getIdentitiesAsync } from '../Identity';
+import {getIdentitiesAsync} from '../Identity';
 
 test('test for identities', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;

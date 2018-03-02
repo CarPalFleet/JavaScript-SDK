@@ -1,7 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import { snakeCaseDecorator } from '../decorator/CoreDecorators';
+import {snakeCaseDecorator} from '../decorator/CoreDecorators';
 import FormData from 'form-data';
 
 export const fileUploadAsync = async (fileObject, token) => {

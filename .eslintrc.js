@@ -8,10 +8,19 @@ module.exports = {
   extends: ['eslint:recommended', 'plugin:jest/recommended', 'google'],
   plugins: ['jest'],
   env: {
+    es6: true,
     'jest/globals': true,
   },
   parserOptions: {
     ecmaVersion: 8,
     sourceType: 'module',
+    ecmaFeatures: {
+      experimentalObjectRestSpread: true,
+      templateStrings: true,
+    },
+  },
+  rules: {
+    'quote-props': OFF, // Handled by Prettier
+    'max-len': OFF, // Handled by Prettier
   },
 };

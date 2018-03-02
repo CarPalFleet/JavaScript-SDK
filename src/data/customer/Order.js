@@ -1,7 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import { snakeCaseDecorator } from '../decorator/CoreDecorators';
+import {snakeCaseDecorator} from '../decorator/CoreDecorators';
 import isEmpty from 'lodash.isempty';
 
 export const getCustomerOrdersWithFiltersAsync = async (
@@ -20,7 +20,7 @@ export const getCustomerOrdersWithFiltersAsync = async (
       url:
         endpoints.CUSTOMER_ORDERS.replace('{0}', customerId) +
         `?${paramString}`,
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
     return camelize(categoriesCustomerOrders(response.data));
   } catch (e) {
@@ -46,7 +46,7 @@ export const getCustomerOrderCountsAsync = async (
       url:
         endpoints.CUSTOMER_ORDERS.replace('{0}', customerId) +
         `?${paramString}`,
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
     return calculateCustomerOrderCounts(response.data);
   } catch (e) {
@@ -84,7 +84,7 @@ export const createNewDeliveryWindow = async (
     const response = await axios({
       method: 'post',
       url: endpoints.DELIVERY_WINDOW.replace('{0}', customerId),
-      headers: { Authorization: token },
+      headers: {Authorization: token},
       data,
     });
     return camelize(response.data.data);
@@ -110,7 +110,7 @@ export const getDeliveryWindows = async (
         '{0}',
         customerId
       )}?identityId=${identityId}`,
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
 
     return camelize(response.data.data);
@@ -127,7 +127,7 @@ export const getBatchOrderProgressAsync = async (customerId, token) => {
     let response = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.GROUPING_BATCH_PROGRESSION}`,
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {Authorization: `Bearer ${token}`},
     });
 
     let result = camelize(response.data);
@@ -139,7 +139,7 @@ export const getBatchOrderProgressAsync = async (customerId, token) => {
       groupingLocationIdsSuccess: [],
     };
 
-    return { data: updatedProgressData };
+    return {data: updatedProgressData};
   } catch (e) {
     return Promise.reject({
       statusCode: e.response.status,
@@ -154,7 +154,7 @@ export const getGroupingLocationAsync = async (groupingLocationId, token) => {
     let response = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${groupingLocationId}`,
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {Authorization: `Bearer ${token}`},
     });
 
     return camelize(response.data);
@@ -220,7 +220,7 @@ export const fetchAllGroupingLocationsAsync = async (filterObject, token) => {
         '&',
         '?'
       )}`,
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {Authorization: `Bearer ${token}`},
     });
 
     return camelize(response.data);
@@ -244,7 +244,7 @@ export const fetchBatchLocationsErrorAsync = async (
         '{0}',
         customerId
       )}?pickupDate=${pickupDate}`,
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
 
     return camelize(response.data);
@@ -266,7 +266,7 @@ export const getUniquePickupAddressesAsync = async (filterObject, token) => {
     let response = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.PICKUP_GROUP}${paramString.replace('&', '?')}`,
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {Authorization: `Bearer ${token}`},
     });
 
     let result = response.data ? camelize(response.data.data) : [];
@@ -277,7 +277,7 @@ export const getUniquePickupAddressesAsync = async (filterObject, token) => {
       };
     });
 
-    return { data: pickupAddressList };
+    return {data: pickupAddressList};
   } catch (e) {
     return Promise.reject({
       statusCode: e.response.status,
@@ -379,10 +379,10 @@ export const deleteGroupingLocationAsync = async (
     let response = await axios({
       method: 'DELETE',
       url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${groupingLocationId}`,
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {Authorization: `Bearer ${token}`},
     });
 
-    return { data: true };
+    return {data: true};
   } catch (e) {
     return Promise.reject({
       statusCode: e.response.status,
@@ -402,10 +402,10 @@ export const deleteGroupingLocationsAsync = async (
       url: `${
         endpoints.API_V3.GROUPING_LOCATIONS
       }?grouping_location_ids=${paramString}`,
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {Authorization: `Bearer ${token}`},
     });
 
-    return { data: true };
+    return {data: true};
   } catch (e) {
     let errorObject;
     if (e.response.data instanceof Object) {
@@ -429,7 +429,7 @@ export const cancelBatchFileProcessAsync = async (groupingBatchId, token) => {
     let response = await axios({
       method: 'DELETE',
       url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${batchId}`,
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {Authorization: `Bearer ${token}`},
     });
 
     return camelize(response.data);
@@ -481,7 +481,7 @@ export const updateJobLiveData = (
         }
         return matchedPayload;
       },
-      { isDataExist: false, statusId: 0, index: -1, data: {} }
+      {isDataExist: false, statusId: 0, index: -1, data: {}}
     );
 
     if (matchedPayload.isDataExist) {
@@ -504,13 +504,13 @@ export const updateJobLiveData = (
     originalJobDatum['data'][pubSubPayload.orderStatusId].push(pubSubPayload);
     return originalJobDatum;
   } catch (e) {
-    return { statusCode: '500', statusText: 'Error in updating job live data' };
+    return {statusCode: '500', statusText: 'Error in updating job live data'};
   }
 };
 
 function calculateCustomerOrderCounts(data) {
   let orders = categoriesCustomerOrders(data);
-  let countData = { totalStatusCounts: 0, activeStatusCounts: {} };
+  let countData = {totalStatusCounts: 0, activeStatusCounts: {}};
   return Object.keys(orders.data).reduce(function(counts, value) {
     counts.activeStatusCounts[value] = orders.data[value].length;
     counts.totalStatusCounts += orders.data[value].length;
@@ -519,7 +519,7 @@ function calculateCustomerOrderCounts(data) {
 }
 
 function categoriesCustomerOrders(orders) {
-  let responseData = { 2: [], 5: [], 7: [], 9: [] };
+  let responseData = {2: [], 5: [], 7: [], 9: []};
   return {
     data: orders['data'].reduce((data, value) => {
       if (data[value.order_status_id]) {
@@ -539,7 +539,7 @@ export const groupLocations = (locations, errorContents = null) => {
         errorContents
       );
     },
-    { data: [0], groupIds: [0] }
+    {data: [0], groupIds: [0]}
   );
 
   if (typeof locationsGroups['data'][0] === 'number') {
@@ -625,7 +625,7 @@ function handleAsyncError(e) {
   } else {
     /* Catch error of e.response
     That will be undefined when status code is 403 Forbidden */
-    rejectObj = { statusCode: 403, statusText: 'Forbidden' };
+    rejectObj = {statusCode: 403, statusText: 'Forbidden'};
   }
   return Promise.reject(rejectObj);
 }

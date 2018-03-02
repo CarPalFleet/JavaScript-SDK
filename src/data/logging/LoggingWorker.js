@@ -17,7 +17,7 @@ self.onmessage = (e) => {
 };
 
 function sendMessageToMainThread(e) {
-  self.postMessage({ errorCounts: e.data.errorCounts, event: 'finishedJob' });
+  self.postMessage({errorCounts: e.data.errorCounts, event: 'finishedJob'});
 }
 
 let checkConnection = async (e) => {
@@ -25,7 +25,7 @@ let checkConnection = async (e) => {
   let checkSocket = await axios({
     method: 'get',
     url: endpoints.CHECK_SOCKET_CONNECTION,
-    header: { Authorization: e.token },
+    header: {Authorization: e.token},
   });
   errorCounts = 0;
   sendMessageToMainThread(e, true);
@@ -46,7 +46,7 @@ async function handlerConnectionError(e) {
   let checkSocket = await axios({
     method: 'get',
     url: endpoints.SEND_NOTI_TO_SLACK,
-    header: { Authorization: token },
+    header: {Authorization: token},
     body: payload,
   });
   sendMessageToMainThread(e);

@@ -7,7 +7,7 @@ export const getNotificationsAsync = async (all = false, customerId, token) => {
     let response = await axios({
       method: 'GET',
       url: `${endpoints.NOTIFICATIONS.replace('{0}', customerId)}?all=${all}`,
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
 
     return camelize(response.data);
@@ -31,7 +31,7 @@ export const deleteNotificationAsync = async (
         '{0}',
         customerId
       )}/${notificationId}`,
-      headers: { Authorization: token },
+      headers: {Authorization: token},
     });
 
     return camelize(response);

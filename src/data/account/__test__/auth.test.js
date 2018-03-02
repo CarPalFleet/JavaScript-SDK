@@ -1,4 +1,4 @@
-import { getTokenAsync, refreshTokenAsync } from '../Auth';
+import {getTokenAsync, refreshTokenAsync} from '../Auth';
 import CONFIG from './Config';
 
 test('test for account alpha.test@carpal.me', async () => {

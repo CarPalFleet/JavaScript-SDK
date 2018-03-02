@@ -19,7 +19,7 @@ export const getCustomerPublicProfileSettingsAsync = async (domain) => {
     } else {
       /* Catch error of e.response
           That will be undefined when status code is 403 Forbidden */
-      rejectObj = { statusCode: 403, statusText: 'Forbidden' };
+      rejectObj = {statusCode: 403, statusText: 'Forbidden'};
     }
 
     return Promise.reject(rejectObj);
