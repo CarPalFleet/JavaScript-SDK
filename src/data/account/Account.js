@@ -13,7 +13,7 @@ export const resetPasswordRequestAsync = async (email) => {
       },
     });
 
-    return toCamelCase(response.data.data);
+    return camelize(response.data.data);
   } catch (e) {
     return Promise.reject({
       statusCode: e.response.status,
@@ -60,7 +60,7 @@ export const validateResetPasswordTokenAsync = async (token) => {
       },
     });
 
-    return toCamelCase(response.data.data);
+    return camelize(response.data.data);
   } catch (e) {
     return Promise.reject({
       statusCode: e.response.status,

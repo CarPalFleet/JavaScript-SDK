@@ -24,10 +24,7 @@ export const getCustomerOrdersWithFiltersAsync = async (
     });
     return camelize(categoriesCustomerOrders(response.data));
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
@@ -50,10 +47,7 @@ export const getCustomerOrderCountsAsync = async (
     });
     return calculateCustomerOrderCounts(response.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
@@ -89,10 +83,7 @@ export const createNewDeliveryWindow = async (
     });
     return camelize(response.data.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
@@ -101,7 +92,8 @@ export const getDeliveryWindows = async (
   customerId,
   identityId,
   productTypeId,
-  transactionGroupIds
+  transactionGroupIds,
+  token
 ) => {
   try {
     const response = await axios({
@@ -115,10 +107,7 @@ export const getDeliveryWindows = async (
 
     return camelize(response.data.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
@@ -141,10 +130,7 @@ export const getBatchOrderProgressAsync = async (customerId, token) => {
 
     return {data: updatedProgressData};
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
@@ -159,10 +145,7 @@ export const getGroupingLocationAsync = async (groupingLocationId, token) => {
 
     return camelize(response.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
@@ -190,10 +173,7 @@ export const getGroupingLocationsAsync = async (
 
     return groupLocations(locations, errorContents ? errorContents : null);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
@@ -222,10 +202,7 @@ export const fetchAllGroupingLocationsAsync = async (filterObject, token) => {
 
     return camelize(response.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
@@ -246,16 +223,13 @@ export const fetchBatchLocationsErrorAsync = async (
 
     return camelize(response.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
 export const removeOrderWithErrorAsync = async (groupingLocationId, token) => {
   try {
-    let response = await axios({
+    await axios({
       method: 'GET',
       url: `${endpoints.ORDER_WITH_ERRORS}/${groupingLocationId}`,
       headers: {Authorization: token},
@@ -263,10 +237,7 @@ export const removeOrderWithErrorAsync = async (groupingLocationId, token) => {
 
     return {data: true};
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
@@ -290,10 +261,7 @@ export const getUniquePickupAddressesAsync = async (filterObject, token) => {
 
     return {data: pickupAddressList};
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
@@ -314,10 +282,7 @@ export const createGroupingLocationAsync = async (locationObject, token) => {
 
     return camelize(response.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
@@ -343,10 +308,7 @@ export const editGroupingLocationAsync = async (
 
     return camelize(response.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
@@ -375,10 +337,7 @@ export const editGroupingLocationsAsync = async (
 
     return camelize(response.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
@@ -387,7 +346,7 @@ export const deleteGroupingLocationAsync = async (
   token
 ) => {
   try {
-    let response = await axios({
+    await axios({
       method: 'DELETE',
       url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${groupingLocationId}`,
       headers: {Authorization: `Bearer ${token}`},
@@ -395,10 +354,7 @@ export const deleteGroupingLocationAsync = async (
 
     return {data: true};
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
@@ -408,7 +364,7 @@ export const deleteGroupingLocationsAsync = async (
 ) => {
   try {
     let paramString = groupingLocationIds.join();
-    let response = await axios({
+    await axios({
       method: 'DELETE',
       url: `${
         endpoints.API_V3.GROUPING_LOCATIONS
@@ -435,7 +391,7 @@ export const deleteGroupingLocationsAsync = async (
   }
 };
 
-export const cancelBatchFileProcessAsync = async (groupingBatchId, token) => {
+export const cancelBatchFileProcessAsync = async (batchId, token) => {
   try {
     let response = await axios({
       method: 'DELETE',
@@ -445,10 +401,7 @@ export const cancelBatchFileProcessAsync = async (groupingBatchId, token) => {
 
     return camelize(response.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return handleAsyncError(e);
   }
 };
 
@@ -481,7 +434,7 @@ export const updateJobLiveData = (
     let matchedPayload = jobStatusKeys.reduce(
       (matchedPayload, statusId) => {
         let index = originalJobDatum['data'][statusId].findIndex((order) => {
-          return pubSubPayload.orderId == order.orderId; //orderId might be string/integer;
+          return pubSubPayload.orderId == order.orderId; // orderId might be string/integer;
         });
         if (index >= 0) {
           matchedPayload.statusId = statusId;
@@ -511,7 +464,7 @@ export const updateJobLiveData = (
       originalJobDatum['totalStatusCounts'] += 1;
       originalJobDatum['activeStatusCounts'][pubSubPayload.orderStatusId] += 1;
     }
-    //update data Object
+    // update data Object
     originalJobDatum['data'][pubSubPayload.orderStatusId].push(pubSubPayload);
     return originalJobDatum;
   } catch (e) {
@@ -519,6 +472,11 @@ export const updateJobLiveData = (
   }
 };
 
+/**
+ * Calculate Customer Order Counts
+ * @param {object} data
+ * @return {object} data # retrun count of data object
+ */
 function calculateCustomerOrderCounts(data) {
   let orders = categoriesCustomerOrders(data);
   let countData = {totalStatusCounts: 0, activeStatusCounts: {}};
@@ -529,6 +487,11 @@ function calculateCustomerOrderCounts(data) {
   }, countData);
 }
 
+/**
+ * Categories Customer Orders
+ * @param {object} orders
+ * @return {object} data
+ */
 function categoriesCustomerOrders(orders) {
   let responseData = {2: [], 5: [], 7: [], 9: []};
   return {
@@ -558,17 +521,24 @@ export const groupLocations = (locations, errorContents = null) => {
   }
 
   const result = {
-    totalLocationCount: locations['meta'].totalLocationCount, //total_location_count
-    successLocationCount: locations['meta'].validatedLocationCount, //validated_location_count
-    failedLocationCount: locations['meta'].failedLocationCount, //failed_location_count
+    totalLocationCount: locations['meta'].totalLocationCount, // total_location_count
+    successLocationCount: locations['meta'].validatedLocationCount, // validated_location_count
+    failedLocationCount: locations['meta'].failedLocationCount, // failed_location_count
     data: locationsGroups.data,
   };
 
   return result;
 };
 
+/**
+ * Group Order by Pickup Address
+ * @param {object} groups
+ * @param {object} location
+ * @param {object} errorContents The errorContent number.
+ * @return {object} groupped addresses
+ */
 function groupLocationByPickUpAddress(groups, location, errorContents) {
-  //errorContents
+  // ErrorContents
   let groupId = location.pickupGroupId;
   let index = groups['groupIds'].indexOf(groupId);
   if (index === -1) {
@@ -633,6 +603,11 @@ export const convertObjectIntoURLString = (filters) => {
   );
 };
 
+/**
+ * Handle Error
+ * @param {object} e
+ * @return {object} Promise reject with statusCode and statusText
+ */
 function handleAsyncError(e) {
   let rejectObj = {};
   if (e.response) {

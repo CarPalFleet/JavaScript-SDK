@@ -1,4 +1,6 @@
+/* eslint-disable */
 import axios from 'axios';
+import endpoints from './endpoints';
 
 self.onmessage = (e) => {
   let interval = new Interval(
@@ -31,11 +33,13 @@ let checkConnection = async (e) => {
   sendMessageToMainThread(e, true);
 };
 
-checkConnection().catch(handlerConnectionError);
-handlerConnectionError().catch(handleSendNotiError);
-
+/**
+ * Handle Notification Error
+ * @param {error} e
+ * @return {object} Promise.reject with statusCode and statusText
+ */
 async function handlerConnectionError(e) {
-  //Send to Front-end and call wrapper to send message to slack
+  // Send to Front-end and call wrapper to send message to slack
   errorCounts++;
   let payload = {
     slackChannel: '',
@@ -43,6 +47,7 @@ async function handlerConnectionError(e) {
     eventName: 'error.pubsub', // OR error.network
     message: e.response.statusText,
   };
+
   let checkSocket = await axios({
     method: 'get',
     url: endpoints.SEND_NOTI_TO_SLACK,
@@ -52,6 +57,11 @@ async function handlerConnectionError(e) {
   sendMessageToMainThread(e);
 }
 
+/**
+ * Handle Notification Error
+ * @param {error} e
+ * @return {object} Promise.reject with statusCode and statusText
+ */
 function handleSendNotiError(e) {
   return Promise.reject({
     statusCode: e.response.status,
@@ -59,14 +69,19 @@ function handleSendNotiError(e) {
   });
 }
 
+/**
+ * Interval
+ * @param {function} fn
+ * @param {int} time
+ */
 function Interval(fn, time) {
   let timer = false;
   this.start = function() {
-    if (!this.isRunning()) timer = setInterval(fn, time);
+    // if (!this.isRunning()) timer = setInterval(fn, time);
   };
 
   this.stop = function() {
-    clearInterval(timer);
+    // clearInterval(timer);
     timer = false;
   };
 

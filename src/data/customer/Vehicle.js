@@ -2,9 +2,10 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 
-/** Job Detail
- * @param {integer} jobId
- * @param {Object} jobDetail
+/**
+ * Get Vehicles
+ * @param {string} token
+ * @return {object} Promise resolve/reject
  */
 export const getVehicleTypesAsync = async (token) => {
   try {

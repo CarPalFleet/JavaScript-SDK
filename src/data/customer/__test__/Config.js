@@ -9,8 +9,6 @@ const CONFIG = {
   emptyString: '',
   invalidDomain: 'aa.com',
   identityId: 1,
-  customerId: 1,
-  pickupDate: '2017-11-06',
   startPickupDate: '2017-11-06',
   endPickupDate: '2017-11-09',
   orderOptionIds: [],
@@ -204,7 +202,7 @@ const CONFIG = {
     data: [
       {
         customerId: 2318,
-        id: '08997f44-11c7-4e3b-997e-51976298d64c', //DynamoDB ID
+        id: '08997f44-11c7-4e3b-997e-51976298d64c', // DynamoDB ID
         errorMessages: {
           priority: [],
           pickupLocationAddress: [],
@@ -222,8 +220,8 @@ const CONFIG = {
           pickupContactPhone: ['Phone must contain the Country Code'],
           deliveryContactPhone: ['Phone must contain the Country Code'],
           deliveryNotes: [],
-          pickupLocationAddressSuggestion: '', //Extra field
-          deliveryAddressSuggestion: '', //Extra field
+          pickupLocationAddressSuggestion: '', // Extra field
+          deliveryAddressSuggestion: '', // Extra field
           totalWeight: '',
           weightPerItem: '',
         },
@@ -232,7 +230,7 @@ const CONFIG = {
       },
       {
         customerId: 2318,
-        id: '08997f44-11c7-4e3b-997e-51976298d64c', //DynamoDB ID
+        id: '08997f44-11c7-4e3b-997e-51976298d64c', // DynamoDB ID
         errorMessages: {
           priority: [],
           pickupLocationAddress: [],
@@ -242,7 +240,7 @@ const CONFIG = {
           deliveryDate: [],
           pickupTimeWindow: [],
           deliveryTimeWindow: [],
-          driverEmailId: ["Can't find driver's email or id in db"],
+          driverEmailId: ['Cannot find driver email or id in db'],
           itemQuantity: [],
           cashOnDeliveryAmount: [],
           pickupContactEmail: [],
@@ -250,8 +248,8 @@ const CONFIG = {
           pickupContactPhone: ['Phone must contain the Country Code'],
           deliveryContactPhone: ['Phone must contain the Country Code'],
           deliveryNotes: [],
-          pickupLocationAddressSuggestion: '', //Extra field
-          deliveryAddressSuggestion: '', //Extra field
+          pickupLocationAddressSuggestion: '', // Extra field
+          deliveryAddressSuggestion: '', // Extra field
           totalWeight: '',
           weightPerItem: 'Shoulbe number',
         },
@@ -260,11 +258,11 @@ const CONFIG = {
       },
       {
         customerId: 2318,
-        id: '08997f44-11c7-4e3b-997e-51976298d64c', //DynamoDB ID
+        id: '08997f44-11c7-4e3b-997e-51976298d64c', // DynamoDB ID
         errorMessages: {
           priority: [3],
-          pickupLocationAddress: ["pickupLocationAddress shouldn't be empty"],
-          deliveryAddress: ["deliveryAddress shouldn't be null"],
+          pickupLocationAddress: ['pickupLocationAddress shouldn not be empty'],
+          deliveryAddress: ['deliveryAddress should not be null'],
           team: ['Team A'],
           pickupDate: [],
           deliveryDate: ['Should be mm-dd-yyyy'],
@@ -278,8 +276,8 @@ const CONFIG = {
           pickupContactPhone: ['Phone must contain the Country Code'],
           deliveryContactPhone: ['Phone must contain the Country Code'],
           deliveryNotes: [],
-          pickupLocationAddressSuggestion: 'Bla Bla 3 Pickup', //Extra field
-          deliveryAddressSuggestion: 'Bla Bla 3 Delivery', //Extra field
+          pickupLocationAddressSuggestion: 'Bla Bla 3 Pickup', // Extra field
+          deliveryAddressSuggestion: 'Bla Bla 3 Delivery', // Extra field
           totalWeight: '',
           weightPerItem: '',
         },

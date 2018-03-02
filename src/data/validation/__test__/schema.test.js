@@ -1,15 +1,15 @@
 import {getSchemaAsync, validate} from '../Schema';
 
-// describe('Test for retrieving schema by service and schema name', () => {
-//   jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-//   const schemaTypes = [{domain: 'customer', type: 'dashboard-order'}];
-//   schemaTypes.forEach((element) => {
-//     it(`${element.domain} - ${element.type}`, async () => {
-//        const response = await getSchemaAsync(element.domain, element.type);
-//        expect(response.properties).toBeTruthy();
-//     });
-//   });
-// });
+describe('Test for retrieving schema by service and schema name', () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  const schemaTypes = [{domain: 'customer', type: 'dashboard-order'}];
+  schemaTypes.forEach((element) => {
+    it(`${element.domain} - ${element.type}`, async () => {
+      const response = await getSchemaAsync(element.domain, element.type);
+      expect(response.properties).toBeTruthy();
+    });
+  });
+});
 
 test('Test for comparison of schema and payload', async () => {
   let schema = {

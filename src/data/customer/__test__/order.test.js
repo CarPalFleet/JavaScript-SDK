@@ -1,12 +1,8 @@
 import {
-  getOrdersWithFilterAsync,
   getOrderDetailAsync,
   createNewDeliveryWindow,
-  updateJobLiveData,
   getBatchOrderProgressAsync,
-  getBatchLocationsAsync,
   fetchBatchLocationsErrorAsync,
-  fetchAllGroupingLocationsAsync,
   getGroupingLocationAsync,
   getGroupingLocationsAsync,
   getUniquePickupAddressesAsync,
@@ -15,20 +11,26 @@ import {
   editGroupingLocationsAsync,
   deleteGroupingLocationAsync,
   deleteGroupingLocationsAsync,
-  groupLocations,
   removeOrderWithErrorAsync,
   convertObjectIntoURLString,
-  mergeLocationDataWithErrors,
 } from '../Order';
 import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './Config';
 
-// test('Retrieving single grouping location', async () => {
-//     const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-//     const token = await result;
-//     const response = await getGroupingLocationAsync(CONFIG.groupingLocationId, token.accessToken);
-//     expect('data' in response).toBe(true);
-// })
+test('Retrieving single grouping location', async () => {
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const response = await getGroupingLocationAsync(
+    CONFIG.groupingLocationId,
+    token.accessToken
+  );
+  expect('data' in response).toBe(true);
+});
 
 test('Retrieving validated grouping locations', async () => {
   const filterObject = {
@@ -100,7 +102,7 @@ describe('Remove order with error record', () => {
 });
 
 test('Retrieving error grouping locations from DynamoDB', async () => {
-  //Example of pickupdate format 2018-02-28
+  // Example of pickupdate format 2018-02-28
   const result = getTokenAsync(
     CONFIG.temail,
     CONFIG.tpassword,
@@ -207,62 +209,109 @@ describe('Convert object key/value into url string', () => {
   });
 });
 
-// test('Delete Grouping Location', async () => {
-// const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-// const token = await result;
-//     const response = await deleteGroupingLocationAsync(CONFIG.groupingLocationId, token.accessToken);
-//     expect(response.data).toBe(true);
-// })
-//
-// test('Delete Multiple Grouping Locations', async () => {
-//     const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-//     const token = await result;
-//     const response = await deleteGroupingLocationsAsync(CONFIG.groupingLocationIds, token.accessToken);
-//     expect(response.data).toBe(true);
-// })
+test('Delete Grouping Location', async () => {
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const response = await deleteGroupingLocationAsync(
+    CONFIG.groupingLocationId,
+    token.accessToken
+  );
+  expect(response.data).toBe(true);
+});
 
-// test('Test for creating new delivery window with product type 1', async () => {
-//     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-//     const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
-//     const token = await result;
-//     const response = await createNewDeliveryWindow({customerId: 1,
-//                                                     identityId: 1,
-//                                                     productTypeId: 1,
-//                                                     displayName: makeid(),
-//                                                     startTime: '9:30',
-//                                                     endTime: '11:30'}, token.accessToken);
-//     expect('id' in response).toBe(true);
-// })
+test('Delete Multiple Grouping Locations', async () => {
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const response = await deleteGroupingLocationsAsync(
+    CONFIG.groupingLocationIds,
+    token.accessToken
+  );
+  expect(response.data).toBe(true);
+});
+
+test('Test for creating new delivery window with product type 1', async () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  const result = getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const response = await createNewDeliveryWindow(
+    {
+      customerId: 1,
+      identityId: 1,
+      productTypeId: 1,
+      displayName: generateDisplayName(),
+      startTime: '9:30',
+      endTime: '11:30',
+    },
+    token.accessToken
+  );
+  expect('id' in response).toBe(true);
+});
 
 test('Test for customer order detail', async () => {
-  // jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  // const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
-  // const token = await result;
-  // const response = await getOrderDetailAsync(1, 1, token.accessToken);
-  // expect('data' in response).toBe(true);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  const result = getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const response = await getOrderDetailAsync(1, 1, token.accessToken);
+  expect('data' in response).toBe(true);
   expect(true).toBe(true);
 });
 
-// test('Test for creating new delivery window with product type 3 and transaction user account', async () => {
-//     const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-//     const token = await result;
-//     const response = await createNewDeliveryWindow({customerId: 1,
-//                                                     identityId: 1,
-//                                                     productTypeId: 3,
-//                                                     transactionGroupId:1,
-//                                                     displayName: makeid(),
-//                                                     startTime: '9:30',
-//                                                     endTime: '11:30'}, token.accessToken);
-//     expect('id' in response).toBe(true);
-// })
+test('Test for creating new delivery window with product type 3 and transaction user account', async () => {
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const response = await createNewDeliveryWindow(
+    {
+      customerId: 1,
+      identityId: 1,
+      productTypeId: 3,
+      transactionGroupId: 1,
+      displayName: generateDisplayName(),
+      startTime: '9:30',
+      endTime: '11:30',
+    },
+    token.accessToken
+  );
+  expect('id' in response).toBe(true);
+});
 
-function makeid() {
+/**
+ * Generate a name
+ * @param {int} size
+ * @return {string} text
+ */
+function generateDisplayName() {
   let text = '';
   let possible =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-  for (let i = 0; i < 5; i++)
+  for (let i = 0; i < 5; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
 
   return text;
 }

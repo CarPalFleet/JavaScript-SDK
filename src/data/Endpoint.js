@@ -20,7 +20,7 @@ const endpoints = {
   SEARCH: `${urlPrefix}/search`,
   ELASTICSEARCH: `${urlPrefix}/dashboard/search`,
   MY_ORDER_ELASTICSEARCH: `${urlPrefix}/locations/search`,
-  DRIVER_LIST_ELASTICSEARCH: `${urlPrefix}/dashboard/search`, //url will be updated after backend is finished
+  DRIVER_LIST_ELASTICSEARCH: `${urlPrefix}/dashboard/search`, // url will be updated after backend is finished
   SCHEMAS: `${urlPrefix}/schemas/{0}/{1}`,
   CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
   EXPORT_CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
@@ -39,7 +39,6 @@ const endpoints = {
     GROUPING_BATCH_PROGRESSION: `${laravelUrlPrefix}/${version}/customer/grouping-batch/show-recent-pending`,
     PICKUP_GROUP: `${laravelUrlPrefix}/${version}/customer/pickup-group`,
     DRIVER_LISTING: `${laravelUrlPrefix}/${version}/customer/driver`,
-    // ORDER_DETAIL: `${urlPrefix}/customers/{0}/orders/{1}`,
     JOB: `${urlPrefix}/customers/job/{0}`,
     ROUTE: `${urlPrefix}/customers/job/{0}`,
   },

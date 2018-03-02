@@ -128,7 +128,6 @@ export const getDriverListAsync = async (filterObject = {}, token) => {
       headers: {Authorization: `Bearer ${token}`},
     });
 
-    console.log(JSON.stringify(response));
     return camelize(response.data);
   } catch (e) {
     return handleAsyncError(e);
@@ -136,20 +135,22 @@ export const getDriverListAsync = async (filterObject = {}, token) => {
 };
 
 export const exportDriverListFileAsync = async (format, token) => {
-  try {
-    return {
-      downloadUrl: 'http://gahp.net/wp-content/uploads/2017/09/sample.pdf',
-    };
+  // Return sample url which is using in frontend before api is finished.
+  return {
+    downloadUrl: 'http://gahp.net/wp-content/uploads/2017/09/sample.pdf',
+  };
 
-    const response = await axios({
-      method: 'get',
-      url: `${endpoints.EXPORT_CUSTOMER_DRIVERS}?fileType=${format}`,
-      headers: {Authorization: `Bearer ${token}`},
-    });
-    return camelize(response.data);
-  } catch (e) {
-    return handleAsyncError(e);
-  }
+  // try {
+  // const response = await axios({
+  //   method: 'get',
+  //   url: `${endpoints.EXPORT_CUSTOMER_DRIVERS}?fileType=${format}`,
+  //   headers: {Authorization: `Bearer ${token}`},
+  // });
+  //
+  // return camelize(response.data);
+  // } catch (e) {
+  // return handleAsyncError(e);
+  // }
 };
 
 export const deleteCustomerDriversAsync = async (
@@ -157,19 +158,20 @@ export const deleteCustomerDriversAsync = async (
   customerId,
   token
 ) => {
-  try {
-    return {data: true};
+  // Return true which is using in frontend before api is finished.
+  return {data: true};
 
-    let paramString = driverIds.join();
-    const response = await axios({
-      method: 'delete',
-      url: `${endpoints.CUSTOMER_DRIVERS}?driver_ids=${paramString}`,
-      headers: {Authorization: `Bearer ${token}`},
-    });
-    return camelize(response.data);
-  } catch (e) {
-    return handleAsyncError(e);
-  }
+  // try {
+  // let paramString = driverIds.join();
+  // const response = await axios({
+  //   method: 'delete',
+  //   url: `${endpoints.CUSTOMER_DRIVERS}?driver_ids=${paramString}`,
+  //   headers: {Authorization: `Bearer ${token}`},
+  // });
+  // return camelize(response.data);
+  // } catch (e) {
+  // return handleAsyncError(e);
+  // }
 };
 
 export const getCustomerDriversWithFiltersAsync = async (
@@ -209,9 +211,10 @@ export const getCustomerDriverCountsAsync = async (
   try {
     const response = await axios({
       method: 'get',
-      url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),
+      url: `endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId)?${paramString}`,
       headers: {Authorization: token},
     });
+
     return calculateCustomerDriverCounts(
       response.data,
       filterObject.driverTypeIds
@@ -231,7 +234,6 @@ export const updateDriverLiveData = (
     pubSubPayload.data.driverStatusId = pubSubPayload.data.orderId > 0 ? 2 : 1;
     let payload = pubSubPayload.data;
     const driverStatusIds = [1, 2, 3, 4];
-    const driverTypeIds = [1, 2, 3];
     const isValidStatus = driverStatusIds.includes(payload.driverStatusId);
     const isIncludeInStatusIds = filterObject.driverStatusIds
       ? filterObject.driverStatusIds.includes(payload.driverStatusId)
@@ -252,7 +254,7 @@ export const updateDriverLiveData = (
     let matchedPayload = driverStatusKeys.reduce(
       (matchedPayload, statusId) => {
         let index = originalDriverDatum['data'][statusId].findIndex((order) => {
-          return payload.driverId == order.driverId; //orderId might be string/integer;
+          return payload.driverId == order.driverId; // orderId might be string/integer;
         });
         if (index >= 0) {
           matchedPayload.isDataExist = true;
@@ -284,7 +286,7 @@ export const updateDriverLiveData = (
       });
       originalDriverDatum['activeStatusCounts'][payload.driverStatusId] += 1;
     }
-    //update data Object
+    // update data Object
     originalDriverDatum['data'][payload.driverStatusId].push(payload);
     return originalDriverDatum;
   } catch (e) {
@@ -296,6 +298,12 @@ export const updateDriverLiveData = (
   }
 };
 
+/**
+ * Calculate Customer Driver Counts
+ * @param {object} data
+ * @param {array} driverTypeIds
+ * @return {object}
+ */
 function calculateCustomerDriverCounts(data, driverTypeIds) {
   let countData = {
     totalStatusCounts: 0,
@@ -322,6 +330,11 @@ function calculateCustomerDriverCounts(data, driverTypeIds) {
   }, countData);
 }
 
+/**
+ * Categories Customer Drivers for Count
+ * @param {object} drivers
+ * @return {object} drivers
+ */
 function categoriesCustomerDriversForCount(drivers) {
   let responseData = {
     1: {1: [], 2: [], 3: [], 4: []},
@@ -340,6 +353,11 @@ function categoriesCustomerDriversForCount(drivers) {
   };
 }
 
+/**
+ * Categories Customer Drivers
+ * @param {object} drivers
+ * @return {object} drivers
+ */
 function categoriesCustomerDrivers(drivers) {
   let responseData = {1: [], 2: [], 3: [], 4: []};
   return {
@@ -352,6 +370,11 @@ function categoriesCustomerDrivers(drivers) {
   };
 }
 
+/**
+ * Handle Error
+ * @param {object} e
+ * @return {object} Promise reject with statusCode and statusText
+ */
 function handleAsyncError(e) {
   let rejectObj = {};
   if (e.response) {

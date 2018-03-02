@@ -2,11 +2,13 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 
-/** Job Detail
- * @param {integer} jobId
- * @param {Object} jobDetail
+/**
+ * Get Job Detail
+ * @param {int} jobId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
  */
-export const getJobDetailAsync = async (orderId, token) => {
+export const getJobDetailAsync = async (jobId, token) => {
   try {
     const jobDetail = await axios({
       method: 'get',
@@ -23,15 +25,17 @@ export const getJobDetailAsync = async (orderId, token) => {
   }
 };
 
-/** Job Summary
- * @param {integer} jobId
- * @param {Object} jobSummary
+/**
+ * Get Job Summary
+ * @param {int} jobId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
  */
-export const getJobSummaryAsync = async (orderId, token) => {
+export const getJobSummaryAsync = async (jobId, token) => {
   try {
     const jobSummary = await axios({
       method: 'get',
-      url: `${endpoints.JOB.replace('{0}', orderId)}/summary`,
+      url: `${endpoints.JOB.replace('{0}', jobId)}/summary`,
       headers: {Authorization: `bearer ${token}`},
     });
 

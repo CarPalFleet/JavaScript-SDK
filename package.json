@@ -14,11 +14,12 @@
     "test": "npm run build && jest src"
   },
   "lint-staged": {
-    "*.{js,json,css,md}": [
+    "*.{js}": [
       "npm run precommit:prettier",
       "npm run precommit:lint",
       "git add"
-    ]
+    ],
+    "*.{json,css,md}": ["npm run precommit:prettier", "git add"]
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
   "homepage": "https://github.com/CarPalFleet/JavaScript-SDK#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.2",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-builtin-classes": "^0.4.0",
@@ -58,6 +60,7 @@
     "form-data": "^2.3.1",
     "lodash.isarray": "^4.0.0",
     "lodash.isempty": "^4.4.0",
+    "lodash.isnumber": "^3.0.3",
     "lodash.isobject": "^3.0.2",
     "workerjs": "^0.1.1"
   },
