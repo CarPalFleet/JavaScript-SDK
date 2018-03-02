@@ -18,9 +18,9 @@ import {
   groupLocations,
   removeOrderWithErrorAsync,
   convertObjectIntoURLString,
-  mergeLocationDataWithErrors
+  mergeLocationDataWithErrors,
 } from '../Order';
-import { getTokenAsync } from '../../account/Auth';
+import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './Config';
 
 // test('Retrieving single grouping location', async () => {
@@ -31,43 +31,66 @@ import CONFIG from './Config';
 // })
 
 test('Retrieving validated grouping locations', async () => {
-    const filterObject = {
-      statusIds: 2, // 2 = validated records, 4 = errors
-      pickupDate: '2018-02-28',
-      limit: 30,
-      offset: 0
-    }
+  const filterObject = {
+    statusIds: 2, // 2 = validated records, 4 = errors
+    pickupDate: '2018-02-28',
+    limit: 30,
+    offset: 0,
+  };
 
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-    const token = await result;
-    const response = await getGroupingLocationsAsync(filterObject, CONFIG.customerId, token.accessToken);
-    expect('data' in response).toBe(true);
-    expect('totalLocationCount' in response).toBe(true);
-    expect('successLocationCount' in response).toBe(true);
-    expect('failedLocationCount' in response).toBe(true);
-})
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const response = await getGroupingLocationsAsync(
+    filterObject,
+    CONFIG.customerId,
+    token.accessToken
+  );
+  expect('data' in response).toBe(true);
+  expect('totalLocationCount' in response).toBe(true);
+  expect('successLocationCount' in response).toBe(true);
+  expect('failedLocationCount' in response).toBe(true);
+});
 
 test('Retrieving error grouping locations', async () => {
-    const filterObject = {
-      statusIds: 4,
-      pickupDate: '2018-02-28',
-      limit: 30,
-      offset: 0
-    }
+  const filterObject = {
+    statusIds: 4,
+    pickupDate: '2018-02-28',
+    limit: 30,
+    offset: 0,
+  };
 
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-    const token = await result;
-    const response = await getGroupingLocationsAsync(filterObject, CONFIG.customerId, token.accessToken);
-    expect('data' in response).toBe(true);
-    expect('totalLocationCount' in response).toBe(true);
-    expect('successLocationCount' in response).toBe(true);
-    expect('failedLocationCount' in response).toBe(true);
-})
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const response = await getGroupingLocationsAsync(
+    filterObject,
+    CONFIG.customerId,
+    token.accessToken
+  );
+  expect('data' in response).toBe(true);
+  expect('totalLocationCount' in response).toBe(true);
+  expect('successLocationCount' in response).toBe(true);
+  expect('failedLocationCount' in response).toBe(true);
+});
 
 describe('Remove order with error record', () => {
   it('should remove specific order record. If it is deleted, response data should be true', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+    const result = getTokenAsync(
+      CONFIG.temail,
+      CONFIG.tpassword,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
     const token = await result;
 
     const response = await removeOrderWithErrorAsync(27840, token.accessToken);
@@ -78,68 +101,115 @@ describe('Remove order with error record', () => {
 
 test('Retrieving error grouping locations from DynamoDB', async () => {
   //Example of pickupdate format 2018-02-28
-  const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
   const token = await result;
-  const response = await fetchBatchLocationsErrorAsync(CONFIG.pickupDate, CONFIG.customerId, token.accessToken);
+  const response = await fetchBatchLocationsErrorAsync(
+    CONFIG.pickupDate,
+    CONFIG.customerId,
+    token.accessToken
+  );
   expect(response.data instanceof Array).toBe(true);
-})
+});
 
 test('Retrieving pickup group', async () => {
-    let pickupGroupFilters = {
-      pickupDate: "2018-02-05",
-      withOrder: 0
-    }
+  let pickupGroupFilters = {
+    pickupDate: '2018-02-05',
+    withOrder: 0,
+  };
 
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-    const token = await result;
-    const response = await getUniquePickupAddressesAsync(pickupGroupFilters, token.accessToken);
-    expect('data' in response).toBe(true);
-    expect(response.data instanceof Array).toBe(true);
-})
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const response = await getUniquePickupAddressesAsync(
+    pickupGroupFilters,
+    token.accessToken
+  );
+  expect('data' in response).toBe(true);
+  expect(response.data instanceof Array).toBe(true);
+});
 
 test('Create Grouping Location', async () => {
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-    const token = await result;
-    const response = await createGroupingLocationAsync(CONFIG.locationObject, token.accessToken);
-    expect('data' in response).toBe(true);
-})
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const response = await createGroupingLocationAsync(
+    CONFIG.locationObject,
+    token.accessToken
+  );
+  expect('data' in response).toBe(true);
+});
 
 test('Edit Grouping Location', async () => {
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-    const token = await result;
-    const response = await editGroupingLocationAsync(CONFIG.groupingLocationId, CONFIG.locationObject, token.accessToken);
-    expect('data' in response).toBe(true);
-})
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const response = await editGroupingLocationAsync(
+    CONFIG.groupingLocationId,
+    CONFIG.locationObject,
+    token.accessToken
+  );
+  expect('data' in response).toBe(true);
+});
 
 test('Edit Multiple Grouping Locations', async () => {
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-    const token = await result;
-    const response = await editGroupingLocationsAsync(CONFIG.locationDataList, token.accessToken);
-    expect('data' in response).toBe(true);
-})
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const response = await editGroupingLocationsAsync(
+    CONFIG.locationDataList,
+    token.accessToken
+  );
+  expect('data' in response).toBe(true);
+});
 
 test('Test for uploading batch order progression', async () => {
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-    const token = await result;
-    const response = await getBatchOrderProgressAsync(1, token.accessToken);
-    expect('data' in response).toBe(true);
-})
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const response = await getBatchOrderProgressAsync(1, token.accessToken);
+  expect('data' in response).toBe(true);
+});
 
 describe('Convert object key/value into url string', () => {
   it('should response string vaule', async () => {
     let data = {
       limit: 20,
-      offset: 1
-    }
+      offset: 1,
+    };
 
     const urlString = await convertObjectIntoURLString(data);
-    expect(typeof urlString).toBe('string')
+    expect(typeof urlString).toBe('string');
   });
 });
 
 // test('Delete Grouping Location', async () => {
-  // const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-  // const token = await result;
+// const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+// const token = await result;
 //     const response = await deleteGroupingLocationAsync(CONFIG.groupingLocationId, token.accessToken);
 //     expect(response.data).toBe(true);
 // })
@@ -165,13 +235,13 @@ describe('Convert object key/value into url string', () => {
 // })
 
 test('Test for customer order detail', async () => {
-    // jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    // const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
-    // const token = await result;
-    // const response = await getOrderDetailAsync(1, 1, token.accessToken);
-    // expect('data' in response).toBe(true);
-    expect(true).toBe(true);
-})
+  // jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  // const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
+  // const token = await result;
+  // const response = await getOrderDetailAsync(1, 1, token.accessToken);
+  // expect('data' in response).toBe(true);
+  expect(true).toBe(true);
+});
 
 // test('Test for creating new delivery window with product type 3 and transaction user account', async () => {
 //     const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
@@ -187,11 +257,12 @@ test('Test for customer order detail', async () => {
 // })
 
 function makeid() {
-    let text = "";
-    let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let text = '';
+  let possible =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-    for (let i = 0; i < 5; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  for (let i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-    return text;
-  }
+  return text;
+}

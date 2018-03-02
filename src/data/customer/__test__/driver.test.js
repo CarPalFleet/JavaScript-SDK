@@ -1,41 +1,50 @@
 import CONFIG from './Config';
-import { getTokenAsync } from '../../account/Auth';
+import {getTokenAsync} from '../../account/Auth';
 import {
   createNewDriverAsync,
   getCustomerDriverDetailAsync,
   getCustomerDriverListAsync,
   getCustomerDriversAsync,
   getDriverListAsync,
-  updateDriverLiveData
+  updateDriverLiveData,
 } from '../Driver';
 
 describe('Create new driver ', () => {
   it('should response new driver object including id and details', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
+    const result = getTokenAsync(
+      CONFIG.temail,
+      CONFIG.tpassword,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
     const token = await result;
 
     const driverInfo = {
-        identityId: 1,
-        productTypeId: 3,
-        transactionGroupId: [180],
-        firstName: 'User',
-        lastName: makeid(10),
-        email: `${makeid(10)}@example.com`,
-        password: '123456',
-        birthday: '1980-01-01',
-        phone: '+6592341092',
-        isNewUser: true,
-        sendConfirmationSms: false,
-        vehicleTypeId: 1,
-        vehicleBrand: 'Scooter',
-        vehicleModel: '12456',
-        vehicleLicenseNumber: '12456',
-        vehicleModelYear: 2018,
-        vehicleColor: 'Black'
-    }
+      identityId: 1,
+      productTypeId: 3,
+      transactionGroupId: [180],
+      firstName: 'User',
+      lastName: makeid(10),
+      email: `${makeid(10)}@example.com`,
+      password: '123456',
+      birthday: '1980-01-01',
+      phone: '+6592341092',
+      isNewUser: true,
+      sendConfirmationSms: false,
+      vehicleTypeId: 1,
+      vehicleBrand: 'Scooter',
+      vehicleModel: '12456',
+      vehicleLicenseNumber: '12456',
+      vehicleModelYear: 2018,
+      vehicleColor: 'Black',
+    };
 
-    const response = await createNewDriverAsync(driverInfo, 1, token.accessToken);
+    const response = await createNewDriverAsync(
+      driverInfo,
+      1,
+      token.accessToken
+    );
     expect('driver' in response).toBeTruthy();
     expect('id' in response.driver).toBeTruthy();
     expect('details' in response.driver).toBeTruthy();
@@ -43,40 +52,55 @@ describe('Create new driver ', () => {
 });
 
 test(`Test for retrieving detail of customer's driver`, async () => {
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-    const token = await result;
-    const response = await getCustomerDriverDetailAsync(1, 5, 9869, token.accessToken);
-    expect(response instanceof Object).toBe(true);
-})
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const response = await getCustomerDriverDetailAsync(
+    1,
+    5,
+    9869,
+    token.accessToken
+  );
+  expect(response instanceof Object).toBe(true);
+});
 
 test(`Test for retrieving V3 driver list`, async () => {
-    const result = getTokenAsync(CONFIG.temail, CONFIG.tpassword, CONFIG.clientId, CONFIG.clientSecret);
-    const token = await result;
-    const filters =  {
-      limit: 2,
-      page: 1
-    }
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const filters = {
+    limit: 2,
+    page: 1,
+  };
 
-    const response = await getDriverListAsync(filters, token.accessToken);
-    expect('data' in response).toBe(true);
-    expect(response.data instanceof Array).toBe(true);
-})
+  const response = await getDriverListAsync(filters, token.accessToken);
+  expect('data' in response).toBe(true);
+  expect(response.data instanceof Array).toBe(true);
+});
 
-test('Test for retrieving drivers by a customer account', async () =>{
-    // jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    // const filterObj = {
-    //     driverStatusIds: [2],
-    //     orderRouteTypeIds: [1,2],
-    //     driverTypeIds: [1,2,3]
-    // }
-    // const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
-    // const token = await result;
-    //
-    // const response = await getCustomerDriverListAsync(filterObj, 1, token.accessToken);
-    //
-    // expect(response instanceof Array).toBe(true);
-    expect(true).toBe(true);
-})
+test('Test for retrieving drivers by a customer account', async () => {
+  // jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  // const filterObj = {
+  //     driverStatusIds: [2],
+  //     orderRouteTypeIds: [1,2],
+  //     driverTypeIds: [1,2,3]
+  // }
+  // const result = getTokenAsync(CONFIG.email, CONFIG.password, CONFIG.clientId, CONFIG.clientSecret);
+  // const token = await result;
+  //
+  // const response = await getCustomerDriverListAsync(filterObj, 1, token.accessToken);
+  //
+  // expect(response instanceof Array).toBe(true);
+  expect(true).toBe(true);
+});
 
 // test('Test for pubsub live data for job', async () =>{
 //     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
@@ -135,11 +159,12 @@ test('Test for retrieving drivers by a customer account', async () =>{
 // })
 
 function makeid(size) {
-    let text = "";
-    let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let text = '';
+  let possible =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-    for (let i = 0; i < size; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  for (let i = 0; i < size; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-    return text;
+  return text;
 }

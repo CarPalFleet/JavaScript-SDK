@@ -1,9 +1,11 @@
-import { resetPasswordRequestAsync,
-         resetPasswordAsync,
-         getDriverJobsAsync,
-         getDriverLegsAsync,
-         validateResetPasswordTokenAsync } from '../Account';
-import { getTokenAsync } from '../Auth';
+import {
+  resetPasswordRequestAsync,
+  resetPasswordAsync,
+  getDriverJobsAsync,
+  getDriverLegsAsync,
+  validateResetPasswordTokenAsync,
+} from '../Account';
+import {getTokenAsync} from '../Auth';
 import CONFIG from './Config';
 
 // test('Test for reset password request', async ()=>{
@@ -18,10 +20,10 @@ import CONFIG from './Config';
 //      expect(result).toBe(true);
 // })
 
-test('Test for reset password token validation', async ()=>{
-    const result = validateResetPasswordTokenAsync(makeid(32));
-    await expect(result).rejects.toHaveProperty('statusCode', 404);
-})
+test('Test for reset password token validation', async () => {
+  const result = validateResetPasswordTokenAsync(makeid(32));
+  await expect(result).rejects.toHaveProperty('statusCode', 404);
+});
 
 // test('Test for getting my jobs.', async ()=>{
 //     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
@@ -33,20 +35,21 @@ test('Test for reset password token validation', async ()=>{
 // })
 
 // test('Test for getting my legs.', async ()=>{
-    // jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    // const result = getTokenAsync(CONFIG.demail, CONFIG.dpassword, CONFIG.clientId, CONFIG.token);
-    // const token = await result;
-    // const response = getDriverLegsAsync(1, token.accessToken, CONFIG.date);
-    // const myLegs = await response;
-    // expect(myLegs instanceof Array).toBe(true);
+// jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+// const result = getTokenAsync(CONFIG.demail, CONFIG.dpassword, CONFIG.clientId, CONFIG.token);
+// const token = await result;
+// const response = getDriverLegsAsync(1, token.accessToken, CONFIG.date);
+// const myLegs = await response;
+// expect(myLegs instanceof Array).toBe(true);
 // })
 
 function makeid(size) {
-    let text = "";
-    let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let text = '';
+  let possible =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-    for (let i = 0; i < size; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  for (let i = 0; i < size; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-    return text;
+  return text;
 }
