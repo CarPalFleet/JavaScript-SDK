@@ -4,8 +4,8 @@ import camelize from 'camelize';
 
 export const createNewDriverAsync = async ({birthday, email, existingUserEmail = false,
                                             firstName, identityId, isNewUser, lastName, password, phone,
-                                            productTypeId, sendConfirmationSms = false, transactionGroupId, 
-                                            vehicleBrand, vehicleColor, vehicleLicenseNumber, 
+                                            productTypeId, sendConfirmationSms = false, transactionGroupId,
+                                            vehicleBrand, vehicleColor, vehicleLicenseNumber,
 					    vehicleModel, vehicleModelYear, vehicleTypeId}, customerId, token) => {
   try{
     const defaultPayload = {
@@ -76,6 +76,8 @@ export const getDriverListAsync = async (filterObject = {}, token) =>{
                                   url: `${endpoints.API_V3.DRIVER_LISTING}/${paramString.replace('&', '?')}`,
                                   headers: {'Authorization': `Bearer ${token}`}
                                   })
+
+    console.log(JSON.stringify(response));
     return camelize(response.data);
   } catch(e) {
     return handleAsyncError(e);
