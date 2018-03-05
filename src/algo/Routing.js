@@ -12,7 +12,7 @@ export const routeOptimizeAsync = async (
     speed,
     capacity,
     deliveryWindow,
-    date,
+    pickupDate,
   },
   token
 ) => {
@@ -28,7 +28,7 @@ export const routeOptimizeAsync = async (
         speed,
         capacity,
         deliveryWindow,
-        date,
+        pickupDate,
       },
       headers: {
         Authorization: token,
