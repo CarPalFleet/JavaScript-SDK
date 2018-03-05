@@ -151,18 +151,17 @@ export const getGroupingLocationAsync = async (groupingLocationId, token) => {
 };
 
 /* Function name will be changed as getOrdersAsync */
-
 /**
  * Get Orders
- * @param {object} filterObject # {statusIds (mandatory), pickupDate (mandatory), with_order, with_driver, with_route, sort, limit, offset}
+ * @param {object} filterObject # {statusIds, pickupDate (mandatory), withOrder, withDriver, withRoute, sort, limit, offset}
  * StatusIds = 1/2/3/4. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
  * pickupDate (mandatory) = '2018-02-28'
- * with_order (optional) = 1 OR 0
- * with_driver (optional) = 1 OR 0
- * with_route (optional) = 1 OR 0
+ * withOrder (optional) = 1 OR 0
+ * withDriver (optional) = 1 OR 0
+ * withRoute (optional) = 1 OR 0
  * sort (optional) = fieldName,asc OR desc
- * limit = 20
- * offset = 0
+ * limit = 20 (optional)
+ * offset = 0 (optional)
  * @param {customerId} customerId
  * @param {string} token
  * @return {object} Promise resolve/reject
