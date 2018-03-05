@@ -10,8 +10,8 @@ const CONFIG = {
     driverId: 9168,
     latitude: '14.572824',
     longitude: '121.0963087',
-    orderRouteType: 1
-  }
-}
+    orderRouteType: 1,
+  },
+};
 
 export default CONFIG;

@@ -4,6 +4,6 @@ const CONFIG = {
   clientSecret: '8iQwaS8mJLvrW5KrGUrjDZ90bTrwk7frv4ygk7qt',
   clientId: '2',
   userId: '14445',
-}
+};
 
 export default CONFIG;

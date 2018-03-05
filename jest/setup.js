@@ -1,1 +1,1 @@
-Object.defineProperty(window, 'setupTestFrameworkScriptFile', { timer: 50000 });
+Object.defineProperty(window, 'setupTestFrameworkScriptFile', {timer: 50000});
