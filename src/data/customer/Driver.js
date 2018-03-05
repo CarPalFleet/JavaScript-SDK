@@ -1,6 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import {apiResponseErrorHandler} from '../../utility/Util';
 
 export const createNewDriverAsync = async (
   {
@@ -70,7 +71,7 @@ export const createNewDriverAsync = async (
 
     return camelize(response.data.data);
   } catch (e) {
-    return handleAsyncError(e);
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -90,7 +91,7 @@ export const getCustomerDriverDetailAsync = async (
     });
     return camelize(response.data);
   } catch (e) {
-    return handleAsyncError(e);
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -108,7 +109,7 @@ export const getCustomerDriverListAsync = async (filterObject = {}, token) => {
     });
     return camelize(response.data);
   } catch (e) {
-    return handleAsyncError(e);
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -130,7 +131,7 @@ export const getDriverListAsync = async (filterObject = {}, token) => {
 
     return camelize(response.data);
   } catch (e) {
-    return handleAsyncError(e);
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -149,7 +150,7 @@ export const exportDriverListFileAsync = async (format, token) => {
   //
   // return camelize(response.data);
   // } catch (e) {
-  // return handleAsyncError(e);
+  // return apiResponseErrorHandler(e);
   // }
 };
 
@@ -170,7 +171,7 @@ export const deleteCustomerDriversAsync = async (
   // });
   // return camelize(response.data);
   // } catch (e) {
-  // return handleAsyncError(e);
+  // return apiResponseErrorHandler(e);
   // }
 };
 
@@ -195,7 +196,7 @@ export const getCustomerDriversWithFiltersAsync = async (
     });
     return camelize(categoriesCustomerDrivers(response.data));
   } catch (e) {
-    return handleAsyncError(e);
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -220,7 +221,7 @@ export const getCustomerDriverCountsAsync = async (
       filterObject.driverTypeIds
     );
   } catch (e) {
-    return handleAsyncError(e);
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -299,6 +300,73 @@ export const updateDriverLiveData = (
 };
 
 /**
+ * Get Routes
+ * @param {object} filterObject # pickupDate (mandatory), withAvailability, withSchedule, recommendedRorOrderId, limit, offset}
+ * pickupDate (mandatory) = '2018-02-28'
+ * withAvailability (optional) = 1 OR 0 (1 means return all drivers with availabiliy, 0 means unavailable drivers; optional)
+ * withSchedule (optional) = 1 OR 0 (1 means return all drivers with schedule, 0 means drivers without schedule; optional)
+ * recommendedRorOrderId (optional) = 123 (orderId)
+ * limit = 20 (optional)
+ * offset = 0 (optional)
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getDriverListAsync = async (filterObject = {}, token) => {
+  try {
+    let paramString = Object.keys(filterObject).reduce(
+      (str, key) => (str += `&${key}=${filterObject[key]}`),
+      ''
+    );
+
+    const response = await axios({
+      method: 'get',
+      url: `${endpoints.API_V3.DRIVER_LISTING}/${paramString.replace(
+        '&',
+        '?'
+      )}`,
+      headers: {Authorization: `Bearer ${token}`},
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Get Routes
+ * @param {object} filterObject # pickupDate (mandatory), withAvailability, withSchedule, recommendedRorOrderId, limit, offset}
+ * pickupDate (mandatory) = '2018-02-28'
+ * withAvailability (optional) = 1 OR 0 (1 means return all drivers with availabiliy, 0 means unavailable drivers; optional)
+ * withSchedule (optional) = 1 OR 0 (1 means return all drivers with schedule, 0 means drivers without schedule; optional)
+ * recommendedRorOrderId (optional) = 123 (orderId)
+ * limit = 20 (optional)
+ * offset = 0 (optional)
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getDriverListAsync = async (filterObject = {}, token) => {
+  try {
+    let paramString = Object.keys(filterObject).reduce(
+      (str, key) => (str += `&${key}=${filterObject[key]}`),
+      ''
+    );
+
+    const response = await axios({
+      method: 'get',
+      url: `${endpoints.API_V3.DRIVER_LISTING}/${paramString.replace(
+        '&',
+        '?'
+      )}`,
+      headers: {Authorization: `Bearer ${token}`},
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+/**
  * Calculate Customer Driver Counts
  * @param {object} data
  * @param {array} driverTypeIds
@@ -368,24 +436,4 @@ function categoriesCustomerDrivers(drivers) {
       return data;
     }, responseData),
   };
-}
-
-/**
- * Handle Error
- * @param {object} e
- * @return {object} Promise reject with statusCode and statusText
- */
-function handleAsyncError(e) {
-  let rejectObj = {};
-  if (e.response) {
-    rejectObj = {
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    };
-  } else {
-    /* Catch error of e.response
-    That will be undefined when status code is 403 Forbidden */
-    rejectObj = {statusCode: 403, statusText: 'Forbidden'};
-  }
-  return Promise.reject(rejectObj);
 }

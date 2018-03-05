@@ -1,6 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import {apiResponseErrorHandler} from '../../utility/Util';
 
 export const sendLiveRouteDataAsync = async (liveRouteObj, token) => {
   try {
@@ -15,18 +16,6 @@ export const sendLiveRouteDataAsync = async (liveRouteObj, token) => {
     });
     return camelize(response.data);
   } catch (e) {
-    handleAsyncError(e);
+    return apiResponseErrorHandler(e);
   }
 };
-
-/**
- * Handle Error
- * @param {object} e
- * @return {object} Promise reject with statusCode and statusText
- */
-function handleAsyncError(e) {
-  return Promise.reject({
-    statusCode: e.response.status,
-    statusText: e.response.statusText,
-  });
-}

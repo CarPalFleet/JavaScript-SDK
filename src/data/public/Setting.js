@@ -1,6 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import {apiResponseErrorHandler} from '../../utility/Util';
 
 export const getCustomerPublicProfileSettingsAsync = async (domain) => {
   try {
@@ -10,18 +11,6 @@ export const getCustomerPublicProfileSettingsAsync = async (domain) => {
     });
     return camelize(response.data.data);
   } catch (e) {
-    let rejectObj = {};
-    if (e.response) {
-      rejectObj = {
-        statusCode: e.response.status,
-        statusText: e.response.statusText,
-      };
-    } else {
-      /* Catch error of e.response
-          That will be undefined when status code is 403 Forbidden */
-      rejectObj = {statusCode: 403, statusText: 'Forbidden'};
-    }
-
-    return Promise.reject(rejectObj);
+    return apiResponseErrorHandler(e);
   }
 };

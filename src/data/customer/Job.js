@@ -1,7 +1,10 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {convertObjectIntoURLString} from '../utility/Util';
+import {
+  convertObjectIntoURLString,
+  apiResponseErrorHandler,
+} from '../utility/Util';
 
 /**
  * Get Job Detail
@@ -13,16 +16,13 @@ export const getJobDetailAsync = async (jobId, token) => {
   try {
     const jobDetail = await axios({
       method: 'get',
-      url: 'endpoints.JOB'.replace('{0}', jobId),
+      url: 'endpoints.API_V3.JOB'.replace('{0}', jobId),
       headers: {Authorization: `bearer ${token}`},
     });
 
     return camelize(jobDetail.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -36,16 +36,13 @@ export const getJobSummaryAsync = async (jobId, token) => {
   try {
     const jobSummary = await axios({
       method: 'get',
-      url: `${endpoints.JOB.replace('{0}', jobId)}/summary`,
+      url: `${endpoints.API_V3.JOB.replace('{0}', jobId)}/summary`,
       headers: {Authorization: `bearer ${token}`},
     });
 
     return camelize(jobSummary.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -60,15 +57,35 @@ export const getRecommendedJobsAsync = async (filterObject = {}, token) => {
     let paramString = convertObjectIntoURLString(filterObject);
     const jobSummary = await axios({
       method: 'get',
-      url: `${endpoints.RECOMMENDED_JOB}${paramString.replace('&', '?')}`,
+      url: `${endpoints.API_V3.RECOMMENDED_JOB}${paramString.replace(
+        '&',
+        '?'
+      )}`,
       headers: {Authorization: `bearer ${token}`},
     });
 
     return camelize(jobSummary.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Remove Job
+ * @param {int} jobId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const removeJobAsync = async (jobId, token) => {
+  try {
+    const jobSummary = await axios({
+      method: 'delete',
+      url: `${endpoints.API_V3.JOB}/${jobId}`,
+      headers: {Authorization: `bearer ${token}`},
     });
+
+    return camelize(jobSummary.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
   }
 };

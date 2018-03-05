@@ -1,6 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import {apiResponseErrorHandler} from '../../utility/Util';
 
 /** Retriving whiteLabel (Logo and Background)
  * Return transaction customer's logo and Background if it is existed in database
@@ -17,7 +18,7 @@ export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
     });
     return camelize(response.data.data);
   } catch (e) {
-    return handleAsyncError(e);
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -44,25 +45,6 @@ export const getCustomerSettingsAsync = async (customerId, type, token) => {
 
     return camelize(response.data);
   } catch (e) {
-    return handleAsyncError(e);
+    return apiResponseErrorHandler(e);
   }
 };
-
-/** Handle all types of error
- * @param {error} e # error object
- * @return {object} promise.reject with different statusCode and statusText
- */
-function handleAsyncError(e) {
-  let rejectObj = {};
-  if (e.response) {
-    rejectObj = {
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    };
-  } else {
-    /* Catch error of e.response
-    That will be undefined when status code is 403 Forbidden */
-    rejectObj = {statusCode: 403, statusText: 'Forbidden'};
-  }
-  return Promise.reject(rejectObj);
-}

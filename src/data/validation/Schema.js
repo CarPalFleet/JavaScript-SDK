@@ -1,6 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import {apiResponseErrorHandler} from '../../utility/Util';
 
 export const getSchemaAsync = async (service, schemaName) => {
   try {
@@ -9,14 +10,11 @@ export const getSchemaAsync = async (service, schemaName) => {
     );
     return camelize(response.data.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };
 
-export const validate = (schema, payload) => {
+export const validateSchema = (schema, payload) => {
   const schemaKeys = Object.keys(schema);
   return Object.entries(payload).every(
     ([key, value]) => schemaKeys.includes(key) && typeof value === schema[key]
