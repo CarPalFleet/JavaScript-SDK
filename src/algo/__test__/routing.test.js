@@ -29,3 +29,22 @@ test('Test for sending routing optimization.', async () => {
   expect('data' in response).toBe(true);
   expect(true).toBe(true);
 });
+
+describe('Retrieve whitelabel', () => {
+  it('should response object including whitelabel info', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    const result = getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    const token = await result;
+    const response = getCustomerPreferenceSettingsAsync(
+      CONFIG.domain,
+      token.accessToken
+    );
+    const whiteLabel = await response;
+    await expect(whiteLabel).rejects.toHaveProperty('statusCode', 404);
+  });
+});

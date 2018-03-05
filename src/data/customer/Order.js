@@ -3,6 +3,7 @@ import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import {snakeCaseDecorator} from '../decorator/CoreDecorators';
 import isEmpty from 'lodash.isempty';
+import {convertObjectIntoURLString} from '../utility/Util';
 
 export const getCustomerOrdersWithFiltersAsync = async (
   filterObject = {},
@@ -150,19 +151,38 @@ export const getGroupingLocationAsync = async (groupingLocationId, token) => {
 };
 
 /* Function name will be changed as getOrdersAsync */
+
+/**
+ * Get Orders
+ * @param {object} filterObject # {statusIds (mandatory), pickupDate (mandatory), with_order, with_driver, with_route, sort, limit, offset}
+ * StatusIds = 1/2/3/4. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+ * pickupDate (mandatory) = '2018-02-28'
+ * with_order (optional) = 1 OR 0
+ * with_driver (optional) = 1 OR 0
+ * with_route (optional) = 1 OR 0
+ * sort (optional) = fieldName,asc OR desc
+ * limit = 20
+ * offset = 0
+ * @param {customerId} customerId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const getGroupingLocationsAsync = async (
   filterObject,
   customerId,
   token
 ) => {
   try {
-    /*
-      StatusIds has 4 types. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+    /* If there's no statusId is passed.
+    * Use 2 as default. It means validated orders
     */
-
     let statusId = filterObject.statusIds || 2;
     let locations = await fetchAllGroupingLocationsAsync(filterObject, token);
     let errorContents;
+
+    /* Check statusId whethere 4 or not
+    * If statusId is 4, need to combine the response with error contents
+    */
     if (statusId === 4) {
       errorContents = await fetchBatchLocationsErrorAsync(
         filterObject.pickupDate,
@@ -594,13 +614,6 @@ export const mergeLocationDataWithErrors = (errorContents, location) => {
       return errorList;
     }, []);
   }
-};
-
-export const convertObjectIntoURLString = (filters) => {
-  return Object.keys(filters).reduce(
-    (str, key) => (str += `&${key}=${filters[key]}`),
-    ''
-  );
 };
 
 /**

@@ -12,7 +12,6 @@ import {
   deleteGroupingLocationAsync,
   deleteGroupingLocationsAsync,
   removeOrderWithErrorAsync,
-  convertObjectIntoURLString,
 } from '../Order';
 import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './Config';
@@ -195,18 +194,6 @@ test('Test for uploading batch order progression', async () => {
   const token = await result;
   const response = await getBatchOrderProgressAsync(1, token.accessToken);
   expect('data' in response).toBe(true);
-});
-
-describe('Convert object key/value into url string', () => {
-  it('should response string vaule', async () => {
-    let data = {
-      limit: 20,
-      offset: 1,
-    };
-
-    const urlString = await convertObjectIntoURLString(data);
-    expect(typeof urlString).toBe('string');
-  });
 });
 
 test('Delete Grouping Location', async () => {

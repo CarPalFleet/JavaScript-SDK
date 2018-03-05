@@ -40,6 +40,7 @@ const endpoints = {
     PICKUP_GROUP: `${laravelUrlPrefix}/${version}/customer/pickup-group`,
     DRIVER_LISTING: `${laravelUrlPrefix}/${version}/customer/driver`,
     JOB: `${urlPrefix}/customers/job/{0}`,
+    RECOMMENDED_JOB: `${urlPrefix}/customers/job/{0}`,
     ROUTE: `${urlPrefix}/customers/job/{0}`,
   },
 };
