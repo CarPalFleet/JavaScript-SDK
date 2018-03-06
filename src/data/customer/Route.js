@@ -87,7 +87,11 @@ export const createRouteLocationAsync = async (
  * pickupWindowEnd (optional)(string)
  * @param {Object} Promise resolve/reject
  */
-export const updateRouteLocationAsync = async (routeId, payload, token) => {
+export const updateRouteLocationAsync = async (
+  routeId,
+  payload = {},
+  token
+) => {
   try {
     const result = await axios({
       method: 'post',
