@@ -1,7 +1,10 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {convertObjectIntoURLString, apiResponseErrorHandler} from '../../utility/Util';
+import {
+  convertObjectIntoURLString,
+  apiResponseErrorHandler,
+} from '../../utility/Util';
 
 export const createNewDriverAsync = async (
   {
@@ -288,70 +291,6 @@ export const updateDriverLiveData = (
 };
 
 /**
-<<<<<<< HEAD
- * Get Routes
- * @param {object} filterObject # pickupDate (mandatory), withAvailability, withSchedule, recommendedRorOrderId, limit, offset}
- * pickupDate (mandatory) = '2018-02-28'
- * withAvailability (optional) = 1 OR 0 (1 means return all drivers with availabiliy, 0 means unavailable drivers; optional)
- * withSchedule (optional) = 1 OR 0 (1 means return all drivers with schedule, 0 means drivers without schedule; optional)
- * recommendedRorOrderId (optional) = 123 (orderId)
- * limit = 20 (optional)
- * offset = 0 (optional)
- * @param {string} token
- * @return {object} Promise resolve/reject
- */
-export const getDriverListAsync = async (filterObject = {}, token) => {
-  try {
-    let paramString = convertObjectIntoURLString(filterObject);
-
-    const response = await axios({
-      method: 'get',
-      url: `${endpoints.API_V3.DRIVER_LISTING}/${paramString.replace(
-        '&',
-        '?'
-      )}`,
-      headers: {Authorization: `Bearer ${token}`},
-    });
-
-    return camelize(response.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-/**
- * Get Routes
- * @param {object} filterObject # pickupDate (mandatory), withAvailability, withSchedule, recommendedRorOrderId, limit, offset}
- * pickupDate (mandatory) = '2018-02-28'
- * withAvailability (optional) = 1 OR 0 (1 means return all drivers with availabiliy, 0 means unavailable drivers; optional)
- * withSchedule (optional) = 1 OR 0 (1 means return all drivers with schedule, 0 means drivers without schedule; optional)
- * recommendedRorOrderId (optional) = 123 (orderId)
- * limit = 20 (optional)
- * offset = 0 (optional)
- * @param {string} token
- * @return {object} Promise resolve/reject
- */
-export const getDriverListAsync = async (filterObject = {}, token) => {
-  try {
-    let paramString = convertObjectIntoURLString(filterObject);
-
-    const response = await axios({
-      method: 'get',
-      url: `${endpoints.API_V3.DRIVER_LISTING}/${paramString.replace(
-        '&',
-        '?'
-      )}`,
-      headers: {Authorization: `Bearer ${token}`},
-    });
-
-    return camelize(response.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-/**
-=======
->>>>>>> fe1571b19a283d229eef220abf0db403a4fd2a2b
  * Calculate Customer Driver Counts
  * @param {object} data
  * @param {array} driverTypeIds
