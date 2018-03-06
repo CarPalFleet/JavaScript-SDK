@@ -14,10 +14,7 @@ export const getCustomerOrdersWithFiltersAsync = async (
   token,
   validationStatus = false
 ) => {
-  let paramString = Object.keys(filterObject).reduce(
-    (str, key) => (str += `&${key}=${filterObject[key]}`),
-    ''
-  );
+  let paramString = convertObjectIntoURLString(filterObject);
   try {
     const response = await axios({
       method: 'get',
@@ -37,10 +34,7 @@ export const getCustomerOrderCountsAsync = async (
   customerId,
   token
 ) => {
-  let paramString = Object.keys(filterObject).reduce(
-    (str, key) => (str += `&${key}=${filterObject[key]}`),
-    ''
-  );
+  let paramString = convertObjectIntoURLString(filterObject);
   try {
     const response = await axios({
       method: 'get',
@@ -421,10 +415,7 @@ export const deleteGroupingLocationsAsync = async (
         statusText: e.response.data.error.message,
       };
     } else {
-      errorObject = {
-        statusCode: e.response.status,
-        statusText: e.response.statusText,
-      };
+      return apiResponseErrorHandler(e);
     }
 
     return Promise.reject(errorObject);

@@ -6,12 +6,12 @@ import {apiResponseErrorHandler} from '../../utility/Util';
 /**
  * Get Routes
  * @param {object} filterObject # pickupDate (mandatory), withAvailability, withSchedule, recommendedRorOrderId, limit, offset}
- * pickupDate (mandatory) = '2018-02-28'
- * withAvailability (optional) = 1 OR 0 (1 means return all drivers with availabiliy, 0 means unavailable drivers; optional)
- * withSchedule (optional) = 1 OR 0 (1 means return all drivers with schedule, 0 means drivers without schedule; optional)
- * recommendedRorOrderId (optional) = 123 (orderId)
- * limit = 20 (optional)
- * offset = 0 (optional)
+ * pickupDate (mandatory)(string) = '2018-02-28'
+ * withAvailability (optional)(int) = 1 OR 0 (1 means return all drivers with availabiliy, 0 means unavailable drivers; optional)
+ * withSchedule (optional)(int) = 1 OR 0 (1 means return all drivers with schedule, 0 means drivers without schedule; optional)
+ * recommendedRorOrderId (optional)(int) = 123 (orderId)
+ * limit = 20 (optional)(int)
+ * offset = 0 (optional)(int)
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
@@ -51,86 +51,76 @@ export const removeRouteAsync = async (routeId, token) => {
 };
 
 /** Create Route Location
- * @param {int} payload #{driverId, pickupDate, routeLocations = []}
- * routeLocations = []
- * example of routeLocations
- [
-    {
-      "sequence": 1,
-      "groupingLocationId": 1,
-      "locationTypeId": 3
-    }
- ]
- * @param {object} Promise resolve/reject
+ * @param {int} routeId
+ * @param {array} payload [{sequence, groupingLocationId, locationTypeId}]
+ * sequence (mandatory)(int)
+ * groupingLocationId (optional)(int) eg. 1
+ * locationTypeId (optional)(int) 2 for Delivery Location, 3 for Pickup Location
+ * @param {Object} Promise resolve/reject
  */
-export const createRouteLocationAsync = async ({}, token) => {
+export const createRouteLocationAsync = async (
+  routeId,
+  payload = [],
+  token
+) => {
   try {
-    let payload = {
-      driverId,
-      pickupDate,
-      routeLocations,
-    };
-
-    const updatedRoute = await axios({
-      method: 'post',
-      url: endpoints.API_V3.ROUTE,
+    const result = await axios({
+      method: 'put',
+      url: endpoints.API_V3.ROUTE_LOCATION,
       headers: {Authorization: `bearer ${token}`},
       data: payload,
     });
 
-    return camelize(updatedRoute.data);
+    return camelize(result.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
 };
 
 /** Update Route Location
- * @param {int} payload #{driverId, pickupDate, routeLocations = []}
- * routeLocations = []
- * example of routeLocations
- [
-    {
-      "sequence": 1,
-      "groupingLocation_id": 1,
-      "locationTypeId": 3,
-      "routeCapacity": 10.5
-    }
- ]
- * @param {object} Promise resolve/reject
+ * @param {int} routeId
+ * @param {object} payload {routeLocationId, sequence, locationTypeId, pickupWindowStart, pickupWindowEnd}
+ * routeLocationId (mandatory)(int)
+ * sequence (optional)(int) eg. 1
+ * locationTypeId (optional)(int) 2 for Delivery Location, 3 for Pickup Location
+ * pickupWindowStart (optional)(string)
+ * pickupWindowEnd (optional)(string)
+ * @param {Object} Promise resolve/reject
  */
-export const updateRouteLocationAsync = async (
-  {driverId, pickupDate, routeLocations = []},
-  token
-) => {
+export const updateRouteLocationAsync = async (routeId, payload, token) => {
   try {
-    let payload = {
-      driverId,
-      pickupDate,
-      routeLocations,
-    };
-
-    const updatedRoute = await axios({
+    const result = await axios({
       method: 'post',
-      url: endpoints.API_V3.ROUTE,
+      url: `${endpoints.API_V3.ROUTE_LOCATION.replace('{0}', routeId)}`,
       headers: {Authorization: `bearer ${token}`},
       data: payload,
     });
 
-    return camelize(updatedRoute.data);
+    return camelize(result.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
 };
 
-/** Remove Route Location
+/** Remove route schedule from driver
  * @param {int} routeId
- * @param {Object} true
+ * @param {int} routeLocationIds # csv eg. 1,2,3
+ * @param {string} token
+ * @param {Object} Promise resolve/reject
+ * If resolve, return { data: true }
  */
-export const removeRouteLocationAsync = async (routeLocationId, token) => {
+export const removeRouteLocationsAsync = async (
+  routeId,
+  routeLocationIds,
+  token
+) => {
   try {
     const result = await axios({
       method: 'delete',
-      url: `${endpoints.API_V3.ROUTE}/${routeLocationId}`,
+      url: `${endpoints.API_V3.ROUTE_LOCATION.replace(
+        '{0}',
+        routeLocationId
+      )}?route_location_ids=${routeLocationIds}`,
       headers: {Authorization: `bearer ${token}`},
     });
 
@@ -139,10 +129,3 @@ export const removeRouteLocationAsync = async (routeLocationId, token) => {
     return apiResponseErrorHandler(e);
   }
 };
-
-function apiResponseErrorHandler(e) {
-  return Promise.reject({
-    statusCode: e.response.status,
-    statusText: e.response.statusText,
-  });
-}

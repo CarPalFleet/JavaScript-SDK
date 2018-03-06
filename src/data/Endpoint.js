@@ -42,7 +42,7 @@ const endpoints = {
     JOB: `${urlPrefix}/customers/job/{0}`,
     RECOMMENDED_JOB: `${urlPrefix}/customers/job/{0}`,
     ROUTE: `${urlPrefix}/customers/job/{0}`,
-    ROUTE_LOCATION: `${urlPrefix}/customers/route/{0}/route-location`,
+    ROUTE_LOCATION: `${urlPrefix}/customer/route/{0}/route-location`,
   },
 };
 

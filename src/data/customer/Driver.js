@@ -1,7 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../../utility/Util';
+import {convertObjectIntoURLString, apiResponseErrorHandler} from '../../utility/Util';
 
 export const createNewDriverAsync = async (
   {
@@ -97,10 +97,7 @@ export const getCustomerDriverDetailAsync = async (
 
 export const getCustomerDriverListAsync = async (filterObject = {}, token) => {
   try {
-    let paramString = Object.keys(filterObject).reduce(
-      (str, key) => (str += `&${key}=${filterObject[key]}`),
-      ''
-    );
+    let paramString = convertObjectIntoURLString(filterObject);
 
     const response = await axios({
       method: 'get',
@@ -115,10 +112,7 @@ export const getCustomerDriverListAsync = async (filterObject = {}, token) => {
 
 export const getDriverListAsync = async (filterObject = {}, token) => {
   try {
-    let paramString = Object.keys(filterObject).reduce(
-      (str, key) => (str += `&${key}=${filterObject[key]}`),
-      ''
-    );
+    let paramString = convertObjectIntoURLString(filterObject);
 
     const response = await axios({
       method: 'get',
@@ -181,10 +175,7 @@ export const getCustomerDriversWithFiltersAsync = async (
   token,
   validationStatus = false
 ) => {
-  let paramString = Object.keys(filterObject).reduce(
-    (str, key) => (str += `&${key}=${filterObject[key]}`),
-    ''
-  );
+  let paramString = convertObjectIntoURLString(filterObject);
   try {
     const response = await axios({
       method: 'get',
@@ -205,10 +196,7 @@ export const getCustomerDriverCountsAsync = async (
   customerId,
   token
 ) => {
-  let paramString = Object.keys(filterObject).reduce(
-    (str, key) => (str += `&${key}=${filterObject[key]}`),
-    ''
-  );
+  let paramString = convertObjectIntoURLString(filterObject);
   try {
     const response = await axios({
       method: 'get',
@@ -313,10 +301,7 @@ export const updateDriverLiveData = (
  */
 export const getDriverListAsync = async (filterObject = {}, token) => {
   try {
-    let paramString = Object.keys(filterObject).reduce(
-      (str, key) => (str += `&${key}=${filterObject[key]}`),
-      ''
-    );
+    let paramString = convertObjectIntoURLString(filterObject);
 
     const response = await axios({
       method: 'get',
@@ -347,10 +332,7 @@ export const getDriverListAsync = async (filterObject = {}, token) => {
  */
 export const getDriverListAsync = async (filterObject = {}, token) => {
   try {
-    let paramString = Object.keys(filterObject).reduce(
-      (str, key) => (str += `&${key}=${filterObject[key]}`),
-      ''
-    );
+    let paramString = convertObjectIntoURLString(filterObject);
 
     const response = await axios({
       method: 'get',

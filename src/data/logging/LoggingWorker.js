@@ -1,6 +1,7 @@
 /* eslint-disable */
 import axios from 'axios';
 import endpoints from './endpoints';
+import {apiResponseErrorHandler} from '../../utility/Util';
 
 self.onmessage = (e) => {
   let interval = new Interval(
@@ -55,18 +56,6 @@ async function handlerConnectionError(e) {
     body: payload,
   });
   sendMessageToMainThread(e);
-}
-
-/**
- * Handle Notification Error
- * @param {error} e
- * @return {object} Promise.reject with statusCode and statusText
- */
-function handleSendNotiError(e) {
-  return Promise.reject({
-    statusCode: e.response.status,
-    statusText: e.response.statusText,
-  });
 }
 
 /**
