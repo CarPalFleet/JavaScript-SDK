@@ -1,6 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import {apiResponseErrorHandler} from '../../utility/Util';
 
 export const getNotificationsAsync = async (all = false, customerId, token) => {
   try {
@@ -12,10 +13,7 @@ export const getNotificationsAsync = async (all = false, customerId, token) => {
 
     return camelize(response.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -36,9 +34,6 @@ export const deleteNotificationAsync = async (
 
     return camelize(response);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };

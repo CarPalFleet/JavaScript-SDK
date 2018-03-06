@@ -2,6 +2,7 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import FormData from 'form-data';
+import {apiResponseErrorHandler} from '../../utility/Util';
 
 export const fileUploadAsync = async (fileObject, token) => {
   try {
@@ -19,9 +20,6 @@ export const fileUploadAsync = async (fileObject, token) => {
 
     return camelize(response.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };

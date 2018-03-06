@@ -1,6 +1,10 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import {
+  convertObjectIntoURLString,
+  apiResponseErrorHandler,
+} from '../../utility/Util';
 
 export const createNewDriverAsync = async (
   {
@@ -70,7 +74,7 @@ export const createNewDriverAsync = async (
 
     return camelize(response.data.data);
   } catch (e) {
-    return handleAsyncError(e);
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -90,16 +94,13 @@ export const getCustomerDriverDetailAsync = async (
     });
     return camelize(response.data);
   } catch (e) {
-    return handleAsyncError(e);
+    return apiResponseErrorHandler(e);
   }
 };
 
 export const getCustomerDriverListAsync = async (filterObject = {}, token) => {
   try {
-    let paramString = Object.keys(filterObject).reduce(
-      (str, key) => (str += `&${key}=${filterObject[key]}`),
-      ''
-    );
+    let paramString = convertObjectIntoURLString(filterObject);
 
     const response = await axios({
       method: 'get',
@@ -108,16 +109,13 @@ export const getCustomerDriverListAsync = async (filterObject = {}, token) => {
     });
     return camelize(response.data);
   } catch (e) {
-    return handleAsyncError(e);
+    return apiResponseErrorHandler(e);
   }
 };
 
 export const getDriverListAsync = async (filterObject = {}, token) => {
   try {
-    let paramString = Object.keys(filterObject).reduce(
-      (str, key) => (str += `&${key}=${filterObject[key]}`),
-      ''
-    );
+    let paramString = convertObjectIntoURLString(filterObject);
 
     const response = await axios({
       method: 'get',
@@ -130,7 +128,7 @@ export const getDriverListAsync = async (filterObject = {}, token) => {
 
     return camelize(response.data);
   } catch (e) {
-    return handleAsyncError(e);
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -149,7 +147,7 @@ export const exportDriverListFileAsync = async (format, token) => {
   //
   // return camelize(response.data);
   // } catch (e) {
-  // return handleAsyncError(e);
+  // return apiResponseErrorHandler(e);
   // }
 };
 
@@ -170,7 +168,7 @@ export const deleteCustomerDriversAsync = async (
   // });
   // return camelize(response.data);
   // } catch (e) {
-  // return handleAsyncError(e);
+  // return apiResponseErrorHandler(e);
   // }
 };
 
@@ -180,10 +178,7 @@ export const getCustomerDriversWithFiltersAsync = async (
   token,
   validationStatus = false
 ) => {
-  let paramString = Object.keys(filterObject).reduce(
-    (str, key) => (str += `&${key}=${filterObject[key]}`),
-    ''
-  );
+  let paramString = convertObjectIntoURLString(filterObject);
   try {
     const response = await axios({
       method: 'get',
@@ -195,7 +190,7 @@ export const getCustomerDriversWithFiltersAsync = async (
     });
     return camelize(categoriesCustomerDrivers(response.data));
   } catch (e) {
-    return handleAsyncError(e);
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -204,10 +199,7 @@ export const getCustomerDriverCountsAsync = async (
   customerId,
   token
 ) => {
-  let paramString = Object.keys(filterObject).reduce(
-    (str, key) => (str += `&${key}=${filterObject[key]}`),
-    ''
-  );
+  let paramString = convertObjectIntoURLString(filterObject);
   try {
     const response = await axios({
       method: 'get',
@@ -220,7 +212,7 @@ export const getCustomerDriverCountsAsync = async (
       filterObject.driverTypeIds
     );
   } catch (e) {
-    return handleAsyncError(e);
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -368,24 +360,4 @@ function categoriesCustomerDrivers(drivers) {
       return data;
     }, responseData),
   };
-}
-
-/**
- * Handle Error
- * @param {object} e
- * @return {object} Promise reject with statusCode and statusText
- */
-function handleAsyncError(e) {
-  let rejectObj = {};
-  if (e.response) {
-    rejectObj = {
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    };
-  } else {
-    /* Catch error of e.response
-    That will be undefined when status code is 403 Forbidden */
-    rejectObj = {statusCode: 403, statusText: 'Forbidden'};
-  }
-  return Promise.reject(rejectObj);
 }

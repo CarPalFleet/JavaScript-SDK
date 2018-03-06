@@ -10,3 +10,23 @@ export const convertObjectIntoURLString = (filters) => {
     ''
   );
 };
+
+/**
+ * Handle API Error
+ * @param {object} e #error object
+ * @return {object} Promise reject with statusCode and statusText
+ */
+export const apiResponseErrorHandler = (e) => {
+  let rejectObj = {};
+  if (e.response) {
+    rejectObj = {
+      statusCode: e.response.status,
+      statusText: e.response.statusText,
+    };
+  } else {
+    /* Catch error of e.response
+    That will be undefined when status code is 403 Forbidden */
+    rejectObj = {statusCode: 403, statusText: 'Forbidden'};
+  }
+  return Promise.reject(rejectObj);
+};

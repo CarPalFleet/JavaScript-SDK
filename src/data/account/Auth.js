@@ -1,6 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import {apiResponseErrorHandler} from '../../utility/Util';
 
 export const getTokenAsync = async (email, password, clientId, secret) => {
   try {
@@ -19,10 +20,7 @@ export const getTokenAsync = async (email, password, clientId, secret) => {
     });
     return camelize(response.data.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -43,9 +41,6 @@ export const refreshTokenAsync = async (refreshToken, clientId, secret) => {
 
     return camelize(response.data.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };

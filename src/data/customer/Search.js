@@ -1,6 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import {apiResponseErrorHandler} from '../../utility/Util';
 
 export const searchAsync = async (
   keywords,
@@ -19,10 +20,7 @@ export const searchAsync = async (
     });
     return camelize(response.data.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -43,10 +41,7 @@ export const myOrderSearchAsync = async (
     });
     return camelize(response.data.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -67,9 +62,6 @@ export const myOrderDriverListSearchAsync = async (
     });
     return camelize(response.data.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };

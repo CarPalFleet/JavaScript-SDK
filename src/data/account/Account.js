@@ -1,6 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import {apiResponseErrorHandler} from '../../utility/Util';
 
 export const resetPasswordRequestAsync = async (email) => {
   try {
@@ -15,10 +16,7 @@ export const resetPasswordRequestAsync = async (email) => {
 
     return camelize(response.data.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -42,10 +40,7 @@ export const resetPasswordAsync = async (
     });
     return camelize(response.data.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -62,10 +57,7 @@ export const validateResetPasswordTokenAsync = async (token) => {
 
     return camelize(response.data.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -79,10 +71,7 @@ export const getDriverJobsAsync = async (id, token, date) => {
     });
     return camelize(response.data.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -96,9 +85,6 @@ export const getDriverLegsAsync = async (id, token, date) => {
     });
     return camelize(response.data.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };
