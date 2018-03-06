@@ -288,6 +288,7 @@ export const updateDriverLiveData = (
 };
 
 /**
+<<<<<<< HEAD
  * Get Routes
  * @param {object} filterObject # pickupDate (mandatory), withAvailability, withSchedule, recommendedRorOrderId, limit, offset}
  * pickupDate (mandatory) = '2018-02-28'
@@ -349,6 +350,8 @@ export const getDriverListAsync = async (filterObject = {}, token) => {
   }
 };
 /**
+=======
+>>>>>>> fe1571b19a283d229eef220abf0db403a4fd2a2b
  * Calculate Customer Driver Counts
  * @param {object} data
  * @param {array} driverTypeIds
