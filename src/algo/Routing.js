@@ -19,7 +19,7 @@ export const optimizeRouteAsync = async (payload = {}, token) => {
       method: 'post',
       url: endpoints.OPTIMIZE_ROUTE,
       headers: {
-        Authorization: `bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: camelToSnakeCase(payload),
