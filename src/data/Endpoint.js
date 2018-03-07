@@ -39,10 +39,10 @@ const endpoints = {
     GROUPING_BATCH_PROGRESSION: `${laravelUrlPrefix}/${version}/customer/grouping-batch/show-recent-pending`,
     PICKUP_GROUP: `${laravelUrlPrefix}/${version}/customer/pickup-group`,
     DRIVER_LISTING: `${laravelUrlPrefix}/${version}/customer/driver`,
-    OPTIMIZE_ROUTE: `${laravelUrlPrefix}/${version}/customer/driver`,
     JOB: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
     RECOMMENDED_JOB: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
     ROUTE: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
+    OPTIMIZE_ROUTE: `${laravelUrlPrefix}/${version}/customers/route/optimization`,
     ROUTE_LOCATION: `${laravelUrlPrefix}/${version}/customer/route/{0}/route-location`,
   },
 };

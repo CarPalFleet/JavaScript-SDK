@@ -14,6 +14,12 @@ If you were using webpack and had encountered the **_regeneratorRuntime is not d
 
 **We only tested it with ES6, theoretically it should work with ES5. Use it at your own risk for ES5.**
 
+# Algo
+
+| Module                   | Method                                                          | Description                                                                                                                                                                                                           |
+| ------------------------ | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| carpal/dist/algo/Routing | optimizeRouteAsync({date, routeSettingId, routingScope}, token) | This returns a Promise object (reject/resolve). <br />Example. **date (mandatory)(string) = '2018-02-28'** <br />\*\*routeSettingId (mandatory)(integer) = 124** <br />**routingScope (mandatory)(string) = 'all'\*\* |
+
 # Account
 
 | Module                           | Method                                                      | Description                                                                                                 |
