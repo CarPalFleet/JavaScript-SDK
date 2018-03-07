@@ -1,45 +1,32 @@
 import axios from 'axios';
 import endpoints from '../data/Endpoint';
 import camelize from 'camelize';
+import {apiResponseErrorHandler} from '../data/utility/Util';
+import {camelToSnakeCase} from '../data/utility/ChangeCase';
 
-export const routeOptimizeAsync = async (
-  {
-    customerId,
-    autoDispatch,
-    serviceTime,
-    geoFence,
-    assignTaggedDriver,
-    speed,
-    capacity,
-    deliveryWindow,
-    pickupDate,
-  },
-  token
-) => {
+/**
+ * Optimize route
+ * @param {object} payload # {date, routeSettingId, routingScope}
+ * date (mandatory)(string) = '2018-02-28' #pickupDate
+ * routeSettingId (mandatory)(integer) = 124
+ * routingScope (mandatory)(string) = 'all'
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const optimizeRouteAsync = async (payload = {}, token) => {
   try {
     const response = await axios({
       method: 'post',
-      url: endpoints.ROUTE_OPTIMIZE_SETTINGS.replace('{0}', customerId),
-      body: {
-        autoDispatch,
-        serviceTime,
-        geoFence,
-        assignTaggedDriver,
-        speed,
-        capacity,
-        deliveryWindow,
-        pickupDate,
-      },
+      url: endpoints.OPTIMIZE_ROUTE,
       headers: {
-        Authorization: token,
+        Authorization: `bearer ${token}`,
         'Content-Type': 'application/json',
       },
+      body: camelToSnakeCase(payload),
     });
-    return camelize(response.data.data);
+
+    return camelize(response.data);
   } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
+    return apiResponseErrorHandler(e);
   }
 };
