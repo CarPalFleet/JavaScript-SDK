@@ -4,6 +4,7 @@ import camelize from 'camelize';
 
 export const routeOptimizeAsync = async (
   {
+    // REVIEW (NP) sorting keys can help readability and PR diffs you can use tool already in VSCode/Atom or use a plugin
     customerId,
     autoDispatch,
     serviceTime,

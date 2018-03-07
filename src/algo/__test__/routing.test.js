@@ -26,12 +26,15 @@ test('Test for sending routing optimization.', async () => {
     token.accessToken
   );
 
+  // REVIEW .toBe(true); can be replaced by .toBeTruthy() you can search and replace in the whole project for that and update all at one
   expect('data' in response).toBe(true);
+  // REVIEW this lien doesn't do anything
   expect(true).toBe(true);
 });
 
 describe('Retrieve whitelabel', () => {
   it('should response object including whitelabel info', async () => {
+    // REVIEW all test using a longer timeout should be E2E test, to test that code as a unit test you need to a use stub or mock for the network call
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const result = getTokenAsync(
       CONFIG.email,
@@ -40,6 +43,7 @@ describe('Retrieve whitelabel', () => {
       CONFIG.clientSecret
     );
     const token = await result;
+    // REVIEW getCustomerPreferenceSettingsAsync is not defined
     const response = getCustomerPreferenceSettingsAsync(
       CONFIG.domain,
       token.accessToken
