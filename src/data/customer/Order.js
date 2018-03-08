@@ -301,7 +301,7 @@ export const updateAndTruncateOrderErrorsAsync = async (
 
 /**
  * Remove Order Error Record (single record) from Dynamodb
- * @param {int} errorId
+ * @param {int} groupingLocationId
  * @param {string} token
  * @return {promise} reject/resolve
  * if resolve, will return {data: true}
