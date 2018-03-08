@@ -9,6 +9,7 @@ import isNumber from 'lodash.isNumber';
  */
 export const snakeToCamel = function(data, depth) {
   if (isObject(data) || isArray(data)) {
+    // REVIEW consider comparing to null with double ==
     if (typeof depth === 'undefined') {
       depth = 1;
     }
@@ -39,6 +40,7 @@ export const camelToSnake = function(data, depth) {
  * @param {int/string} key The first param.
  * @return {string} key
  */
+// REVIEW why do you use _ for the name?
 function _snakelize(key) {
   let separator = '_';
   let split = /(?=[A-Z])/;
