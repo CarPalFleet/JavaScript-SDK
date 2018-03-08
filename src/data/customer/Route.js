@@ -17,6 +17,7 @@ import {apiResponseErrorHandler} from '../../utility/Util';
  */
 export const getRouteAsync = async (filterObject, token) => {
   try {
+    // REVIEW undefined functions convertObjectIntoURLString and snakeCaseDecorator
     let paramString = convertObjectIntoURLString(
       snakeCaseDecorator(filterObject)
     );
@@ -38,6 +39,7 @@ export const getRouteAsync = async (filterObject, token) => {
  */
 export const removeRouteAsync = async (routeId, token) => {
   try {
+    // REVIEW result is not used
     const result = await axios({
       method: 'delete',
       url: `${endpoints.API_V3.ROUTE}/${routeId}`,
@@ -119,6 +121,7 @@ export const removeRouteLocationsAsync = async (
   token
 ) => {
   try {
+    // REVIEW result is not used
     const result = await axios({
       method: 'delete',
       url: `${endpoints.API_V3.ROUTE_LOCATION.replace(

@@ -1,3 +1,4 @@
+// REVIEW I'm not sure those eslint disable are useful
 import {
   resetPasswordRequestAsync,
   resetPasswordAsync,
@@ -7,6 +8,10 @@ import {
 } from '../Account';
 import {getTokenAsync} from '../Auth';
 import CONFIG from './Config';
+
+// REVIEW try staying consistent using it or test
+// REVIEW if using test there is no need to write test as the first word
+// REVIEW a better naming (and I am sure you can find better =D) here could be test('for a succeful request when resetting a password')
 
 test('Test for reset password request', async () => {
   const response = resetPasswordRequestAsync(CONFIG.email);
@@ -41,6 +46,8 @@ test('Test for getting my jobs.', async () => {
   const token = await result;
   const response = getDriverJobsAsync(1, token.accessToken, CONFIG.date);
   const myJobs = await response;
+  // REVIEW (NP) you could use Array.isArray() https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array/isArray
+  // REVIEW you could also use a snapshot here because testing if the response is an array doesn't prove the result is the expected behavior
   expect(myJobs instanceof Array).toBe(true);
 });
 
@@ -55,6 +62,7 @@ test('Test for getting my legs.', async () => {
   const token = await result;
   const response = getDriverLegsAsync(1, token.accessToken, CONFIG.date);
   const myLegs = await response;
+  // REVIEW same as previously
   expect(myLegs instanceof Array).toBe(true);
 });
 

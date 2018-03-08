@@ -18,5 +18,6 @@ export const Logging = async (errorLimit, interval, token) => {
  * @param {event} event
  */
 function catchErrorCounts(errorCounts, event) {
+  // REVIEW this functions doesn't do anything
   errorCounts = event.data;
 }

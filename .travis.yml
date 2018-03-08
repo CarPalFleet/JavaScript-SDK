@@ -6,3 +6,5 @@ node_js:
 install: "npm install"
 script:
   - "npm test"
+# REVIEW you should consider adding an ESLint validation during the CI/CD process
+# REVIEW you could also update npm repository here
