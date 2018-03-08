@@ -131,22 +131,24 @@ describe('Call API to update error records and Remove batch errors of order from
 });
 
 describe('Remove batch errors of order from Dynamodb', () => {
-  it('Should get driver details', async () => {
+  it('Should response an object and data should be true.', async () => {
     const response = await removeOrderErrorRecordsAsync(
       CONFIG.orderWithErrorIds,
       CONFIG.token
     );
     expect('data' in response).toBeTruthy();
+    expect(response.data).toBeTruthy();
   });
 });
 
 describe('Remove one error record of order from Dynamodb', () => {
-  it('Should get driver details', async () => {
+  it('Should response an object and data should be true.', async () => {
     const response = await removeOrderErrorRecordsAsync(
-      CONFIG.orderWithErrorId,
+      CONFIG.groupingBatchId,
       CONFIG.token
     );
     expect('data' in response).toBeTruthy();
+    expect(response.data).toBeTruthy();
   });
 });
 

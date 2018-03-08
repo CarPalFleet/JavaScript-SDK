@@ -306,11 +306,14 @@ export const updateAndTruncateOrderErrorsAsync = async (
  * @return {promise} reject/resolve
  * if resolve, will return {data: true}
  */
-export const removeOrderErrorRecordAsync = async (errorId, token) => {
+export const removeOrderErrorRecordAsync = async (
+  groupingLocationId,
+  token
+) => {
   try {
     await axios({
       method: 'DELETE',
-      url: `${endpoints.ORDER_WITH_ERRORS}/${errorId}`,
+      url: `${endpoints.ORDER_WITH_ERRORS}/${groupingLocationId}`,
       headers: {Authorization: token},
     });
 
