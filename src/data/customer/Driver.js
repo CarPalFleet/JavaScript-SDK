@@ -138,6 +138,7 @@ export const exportDriverListFileAsync = async (format, token) => {
     downloadUrl: 'http://gahp.net/wp-content/uploads/2017/09/sample.pdf',
   };
 
+  // REVIEW remove commented, you can always find it back with git
   // try {
   // const response = await axios({
   //   method: 'get',
@@ -225,16 +226,31 @@ export const updateDriverLiveData = (
     pubSubPayload = camelize(pubSubPayload);
     pubSubPayload.data.driverStatusId = pubSubPayload.data.orderId > 0 ? 2 : 1;
     let payload = pubSubPayload.data;
+    // REVIEW explain what those ids refer to
     const driverStatusIds = [1, 2, 3, 4];
     const isValidStatus = driverStatusIds.includes(payload.driverStatusId);
+    // REVIEW this code is hard to understand maybe I am wrong but it seems erronous
+    // a ternary condition should look like:
+    // condition ? expr1 : expr2
+    // but here we have
+    // const isIncludeInStatusIds = filterObject.driverStatusIds ? expr1 : expr2
+    // filterObject.driverStatusIds is not a condition and looks like part of an object
+    // moreover .includes already return a boolean so I don't understand the point
     const isIncludeInStatusIds = filterObject.driverStatusIds
       ? filterObject.driverStatusIds.includes(payload.driverStatusId)
       : true;
     let isIncludeInDriverTypeIds = true;
+    // REVIEW this is also hard to understand how is driverTypeIds a condition or boolean
+    // you are checking if there is value ?
+    // consider using filterObject.driverTypeIds != null
+    // I intentionally wrote != instead of !== check this link to understand why http://adripofjavascript.com/blog/drips/equals-equals-null-in-javascript.html
     if (filterObject.driverTypeIds) {
       let hasDriverTypeId = payload.driverTypeIds.find((driverTypeId) => {
         return filterObject.driverTypeIds.includes(driverTypeId);
       });
+      // REVIEW you can replace this ternary by
+      // isIncludeInDriverTypeIds = !!hasDriverTypeId
+      // you can check this link to understand the double negation https://blog.jscrambler.com/12-extremely-useful-hacks-for-javascript/
       isIncludeInDriverTypeIds = hasDriverTypeId ? true : false;
     } else isIncludeInDriverTypeIds = true;
 
@@ -246,6 +262,7 @@ export const updateDriverLiveData = (
     let matchedPayload = driverStatusKeys.reduce(
       (matchedPayload, statusId) => {
         let index = originalDriverDatum['data'][statusId].findIndex((order) => {
+          // REVIEW consider converting values to the same type and use triple equal here
           return payload.driverId == order.driverId; // orderId might be string/integer;
         });
         if (index >= 0) {
@@ -262,17 +279,27 @@ export const updateDriverLiveData = (
     if (matchedPayload.isDataExist) {
       // update activeStatusCounts
       originalDriverDatum['activeStatusCounts'][payload.driverStatusId] += 1;
+      // REVIEW you can use const here
       let currentStatusCounts =
         originalDriverDatum['activeStatusCounts'][matchedPayload.statusId];
+
+      // REVIEW this ternary is also hard to understand
+      // if(originalDriverDatum['activeStatusCounts'][matchedPayload.statusId] != null)  {
+      //   originalDriverDatum['activeStatusCounts'][matchedPayload.statusId] -=1
+      // }
       originalDriverDatum['activeStatusCounts'][
         matchedPayload.statusId
       ] -= currentStatusCounts ? 1 : 0;
+
+      // REVIEW remove the delete keyword, splice function already remove the items
+      // moreover this is not how delete works
       delete originalDriverDatum['data'][matchedPayload.statusId].splice(
         matchedPayload.index,
         1
       );
     } else {
       originalDriverDatum['totalStatusCounts'] += 1;
+      // REVIEW consider using .map or .reduce
       filterObject.driverTypeIds.forEach((driverTypeId) => {
         originalDriverDatum['driverTypeCounts'][driverTypeId] += 1;
       });
@@ -285,6 +312,7 @@ export const updateDriverLiveData = (
     return {
       statusCode: '500',
       statusText: 'Error in updating job live data',
+      // REVIEW is it useful to pass e as well?
       e,
     };
   }
@@ -297,16 +325,21 @@ export const updateDriverLiveData = (
  * @return {object}
  */
 function calculateCustomerDriverCounts(data, driverTypeIds) {
+  // REVIEW please be consistent using function keyword or arrow functions
   let countData = {
     totalStatusCounts: 0,
     activeStatusCounts: {1: 0, 2: 0, 3: 0, 4: 0},
     driverTypeCounts: {1: 0, 2: 0, 3: 0},
   };
+
+  // REVIEW categoriesCustomerDriversForCount() only takes one argument
   let drivers = categoriesCustomerDriversForCount(
     data,
     countData,
     driverTypeIds
   );
+
+  // REVIEW this is extremely complicated to understand can you split it in smaller functions or steps
   return Object.keys(drivers.data).reduce(function(counts, value) {
     Object.keys(drivers.data[value]).forEach(function(key) {
       let count = drivers.data[value][key].length;

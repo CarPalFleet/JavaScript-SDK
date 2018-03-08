@@ -17,6 +17,7 @@ export const getSchemaAsync = async (service, schemaName) => {
 export const validateSchema = (schema, payload) => {
   const schemaKeys = Object.keys(schema);
   return Object.entries(payload).every(
+    // REVIEW are you sure schema[key] contains a type in typeof value === schema[key]
     ([key, value]) => schemaKeys.includes(key) && typeof value === schema[key]
   );
 };

@@ -21,6 +21,7 @@ export const getCustomerOrdersWithFiltersAsync = async (
       url:
         endpoints.CUSTOMER_ORDERS.replace('{0}', customerId) +
         `?${paramString}`,
+      // REVIEW: missing Bearer maybe?
       headers: {Authorization: token},
     });
     return camelize(categoriesCustomerOrders(response.data));
@@ -39,6 +40,7 @@ export const getCustomerOrderCountsAsync = async (
     const response = await axios({
       method: 'get',
       url:
+        // REVIEW use template string
         endpoints.CUSTOMER_ORDERS.replace('{0}', customerId) +
         `?${paramString}`,
       headers: {Authorization: token},
@@ -70,6 +72,7 @@ export const createNewDeliveryWindow = async (
       endTime,
     };
 
+    // REVIEW use ===
     if (productTypeId == 3) {
       data.transactionGroupId = transactionGroupId;
     }
@@ -408,7 +411,9 @@ export const deleteGroupingLocationsAsync = async (
 
     return {data: true};
   } catch (e) {
+    // REVIEW move this line inside the if
     let errorObject;
+    // REVIEW is there a reason to not use the default apiResponseErrorHandler() ?
     if (e.response.data instanceof Object) {
       errorObject = {
         statusCode: e.response.data.error.http_code,
@@ -418,6 +423,7 @@ export const deleteGroupingLocationsAsync = async (
       return apiResponseErrorHandler(e);
     }
 
+    // REVIEW move this line inside the if
     return Promise.reject(errorObject);
   }
 };
@@ -487,6 +493,7 @@ export const updateJobLiveData = (
       originalJobDatum['activeStatusCounts'][
         matchedPayload.statusId
       ] -= currentStatusCounts ? 1 : 0;
+      // REVIEW same as before with the delete and splice
       delete originalJobDatum['data'][matchedPayload.statusId].splice(
         matchedPayload.index,
         1
@@ -615,6 +622,7 @@ export const mergeLocationDataWithErrors = (errorContents, location) => {
         let includeSuggestionKey =
           error['errorMessages'][key] ===
           ('pickupLocationAddress' || 'deliveryAddress');
+
         errorList.push({
           key: key,
           suggestionKey: includeSuggestionKey ? ['latitude', 'longitude'] : [],
