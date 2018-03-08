@@ -43,6 +43,7 @@ const endpoints = {
     RECOMMENDED_JOB: `${urlPrefix}/customers/job/{0}`,
     ROUTE: `${urlPrefix}/customers/job/{0}`,
     ROUTE_LOCATION: `${urlPrefix}/customer/route/{0}/route-location`,
+    DIRVER_SCHEDULE: `${laravelUrlPrefix}/${version}/customer/driver-schedule/{0}`,
   },
 };
 
