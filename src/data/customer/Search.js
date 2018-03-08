@@ -24,16 +24,25 @@ export const searchAsync = async (
   }
 };
 
+{
+	"customer_id": 2092,
+	"fuzzy": false,
+	"fuzziness": 1,
+	"scopes": {
+		"drivers" : ["driver_id","driver_name"],
+		"jobs" : ["order_id"],
+		"orders" : ["grouping_location_id"]
+	},
+	"keywords": "1234"
+}
+
 export const myOrderSearchAsync = async (
-  keywords,
-  scope,
-  fuzzy = true,
-  fuzziness = 1,
+  {customer_id, fuzzy, fuzziness, scopes, keywords},
   token
 ) => {
   try {
     const response = await axios({
-      method: 'get',
+      method: 'post',
       url: `${
         endpoints.MY_ORDER_ELASTICSEARCH
       }?keyword=${keywords}&fuzzy=${fuzzy}&fuzziness=${fuzziness}&scope=${scope}`,
