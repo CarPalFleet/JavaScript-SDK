@@ -12,6 +12,8 @@ import {
   deleteGroupingLocationAsync,
   deleteGroupingLocationsAsync,
   removeOrderWithErrorAsync,
+  updateAndTruncateOrderErrorsAsync,
+  removeOrderErrorRecordsAsync,
 } from '../Order';
 import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './Config';
@@ -115,6 +117,37 @@ test('Retrieving error grouping locations from DynamoDB', async () => {
     token.accessToken
   );
   expect(response.data instanceof Array).toBe(true);
+});
+
+describe('Call API to update error records and Remove batch errors of order from Dynamodb', () => {
+  it('Should return {data: {}, isUpdatedOrder: true, isTruncateErrorReords: true}', async () => {
+    const response = await updateAndTruncateOrderErrorsAsync(
+      CONFIG.orderWithErrorIds,
+      CONFIG.locationDataList,
+      CONFIG.token
+    );
+    expect('data' in response).toBeTruthy();
+  });
+});
+
+describe('Remove batch errors of order from Dynamodb', () => {
+  it('Should get driver details', async () => {
+    const response = await removeOrderErrorRecordsAsync(
+      CONFIG.orderWithErrorIds,
+      CONFIG.token
+    );
+    expect('data' in response).toBeTruthy();
+  });
+});
+
+describe('Remove one error record of order from Dynamodb', () => {
+  it('Should get driver details', async () => {
+    const response = await removeOrderErrorRecordsAsync(
+      CONFIG.orderWithErrorId,
+      CONFIG.token
+    );
+    expect('data' in response).toBeTruthy();
+  });
 });
 
 test('Retrieving pickup group', async () => {

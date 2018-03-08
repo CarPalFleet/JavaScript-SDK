@@ -4,7 +4,7 @@ import camelize from 'camelize';
 import {
   convertObjectIntoURLString,
   apiResponseErrorHandler,
-} from '../../utility/Util';
+} from '../utility/Util';
 
 export const createNewDriverAsync = async (
   {
