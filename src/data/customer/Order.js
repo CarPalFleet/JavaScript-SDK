@@ -6,6 +6,7 @@ import isEmpty from 'lodash.isempty';
 import {
   convertObjectIntoURLString,
   apiResponseErrorHandler,
+  rejectPromise,
 } from '../utility/Util';
 
 export const getCustomerOrdersWithFiltersAsync = async (
@@ -188,7 +189,8 @@ export const getGroupingLocationsAsync = async (
 
     return groupLocations(locations, errorContents ? errorContents : null);
   } catch (e) {
-    return apiResponseErrorHandler(e);
+    // Response Promise Reject with statusCode and statusText
+    return rejectPromise(e);
   }
 };
 
@@ -210,7 +212,7 @@ export const getRemainingOrdersAsync = async (filterObject, token) => {
     let locations = await fetchAllGroupingLocationsAsync(filterObject, token);
     return groupLocations(locations);
   } catch (e) {
-    return apiResponseErrorHandler(e);
+    return rejectPromise(e);
   }
 };
 
@@ -298,7 +300,7 @@ export const updateAndTruncateOrderErrorsAsync = async (
       isTruncateErrorReords: true,
     };
   } catch (e) {
-    return apiResponseErrorHandler(e);
+    return rejectPromise(e);
   }
 };
 
