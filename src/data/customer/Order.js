@@ -679,8 +679,15 @@ function groupLocationByPickUpAddress(groups, location, errorContents) {
   return groups;
 }
 
+/**
+ * Merge Location data with Errors
+ * @param {object} errorContents # Error object
+ * @param {object} location # location object
+ * @return {array} errorList
+ * if there's no error for this location, it will response empty array.
+ */
 export const mergeLocationDataWithErrors = (errorContents, location) => {
-  let error = errorContents.data.find(
+  const error = errorContents.data.find(
     (errorContent) => errorContent.groupingLocationId === location.id
   );
   if (error) {
@@ -704,4 +711,7 @@ export const mergeLocationDataWithErrors = (errorContents, location) => {
       return errorList;
     }, []);
   }
+
+  /* Response empty array if there's no error from dynamodb */
+  return [];
 };

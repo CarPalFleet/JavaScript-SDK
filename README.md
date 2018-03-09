@@ -8,6 +8,7 @@ The SDK is under active development, we will release the latest version to npm a
 
 The current version of this SDK is 0.1.47
 
+
 To install CarPal SDK: **npm i --save carpal**
 
 If you were using webpack and had encountered the **_regeneratorRuntime is not defined_** error, you may need to include **babel-polyfill** to your project(**npm install --save babel-polyfill**). For more info, you can find it from here https://stackoverflow.com/questions/33527653/babel-6-regeneratorruntime-is-not-defined
