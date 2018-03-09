@@ -1,6 +1,5 @@
 import isObject from 'lodash.isobject';
 import isArray from 'lodash.isarray';
-import isNumber from 'lodash.isNumber';
 
 /**
  * @param {Object|String} data string or keys of object are named in form of snake
