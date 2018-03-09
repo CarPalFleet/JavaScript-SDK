@@ -41,18 +41,12 @@ test('Retrieving validated grouping locations', async () => {
     offset: 0,
   };
 
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   const response = await getGroupingLocationsAsync(
     filterObject,
     CONFIG.customerId,
-    token.accessToken
+    CONFIG.token
   );
+
   expect('data' in response).toBe(true);
   expect('totalLocationCount' in response).toBe(true);
   expect('successLocationCount' in response).toBe(true);
@@ -67,18 +61,12 @@ test('Retrieving error grouping locations', async () => {
     offset: 0,
   };
 
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   const response = await getGroupingLocationsAsync(
     filterObject,
     CONFIG.customerId,
-    token.accessToken
+    CONFIG.token
   );
+
   expect('data' in response).toBe(true);
   expect('totalLocationCount' in response).toBe(true);
   expect('successLocationCount' in response).toBe(true);

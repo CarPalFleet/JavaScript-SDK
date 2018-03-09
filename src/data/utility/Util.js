@@ -30,3 +30,16 @@ export const apiResponseErrorHandler = (e) => {
   }
   return Promise.reject(rejectObj);
 };
+
+/**
+ * Response Promise Reject
+ * It is for normal function rejection (not ajax call) to front-end
+ * @param {object} e #error object
+ * @return {object} Promise reject with statusCode and statusText
+ */
+export const rejectPromise = (e) => {
+  return Promise.reject({
+    statusCode: e.statusCode,
+    statusText: e.statusText,
+  });
+};
