@@ -32,11 +32,11 @@ export const refreshTokenAsync = async (refreshToken, clientId, secret) => {
       url: endpoints.OAUTH,
       headers: {'Content-Type': 'application/json'},
       data: {
-        refreshToken: refreshToken,
+        refreshToken,
         grantType: 'refresh_token',
         clientId,
         clientSecret: secret,
-        scope: 'full-access',
+        scope: '',
       },
     });
 
