@@ -11,6 +11,7 @@ describe('Test for retrieving schema by service and schema name', () => {
   });
 });
 
+// REVIEW include those test in the describe
 test('Test for comparison of schema and payload', async () => {
   let schema = {
     order_id: 'number',
@@ -43,5 +44,6 @@ test('Test for comparison of schema and payload', async () => {
     driver_id: 'number',
     driver_name: 'string',
   };
+  // REVIEW use toBeFalsy()
   expect(validate(schema, payload)).toBe(false);
 });

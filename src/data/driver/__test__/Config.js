@@ -1,3 +1,5 @@
+// REVIEW this file is not a test but is in the __test__ folder
+
 const CONFIG = {
   baseURL: 'https://api-test.carpal.me',
   driverEmail: 'alpha.test.driver1@carpal.me',

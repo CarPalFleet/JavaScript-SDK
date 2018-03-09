@@ -8,6 +8,7 @@ describe('Convert object key/value into url string', () => {
     };
 
     const urlString = await convertObjectIntoURLString(data);
+    // REVIEW this test could be more useful is you would compare the urlString to a REGEX
     expect(typeof urlString).toBe('string');
   });
 });

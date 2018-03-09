@@ -1,3 +1,5 @@
+// REVIEW this test doesn't do anything
+
 import PubSubError from '../PubSubError';
 
 /**

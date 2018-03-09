@@ -1,6 +1,7 @@
 import {createNewCustomerAsync} from '../Driver';
 
 test('Creating new customer account', async () => {
+  // REVIEW you could mock Date.now() to make sure it always sends back the same date if necessary (I don't think it is needed here)
   const random = Date.now();
   const customer = {
     email: `vader${random}@carpal.me`,

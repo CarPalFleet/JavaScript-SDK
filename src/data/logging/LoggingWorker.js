@@ -1,3 +1,5 @@
+// REVIEW don't disable eslint
+// Many many errors in this file I didn't commented for all of them
 /* eslint-disable */
 import axios from 'axios';
 import endpoints from './endpoints';
@@ -24,13 +26,16 @@ function sendMessageToMainThread(e) {
 }
 
 let checkConnection = async (e) => {
+  // REVIEW unused vars token and checksocket
   let token = e.data;
   let checkSocket = await axios({
     method: 'get',
     url: endpoints.CHECK_SOCKET_CONNECTION,
     header: {Authorization: e.token},
   });
+  // REVIEW missing keyword let or const
   errorCounts = 0;
+  // REVIEW sendMessageToMainThread only takes one argument
   sendMessageToMainThread(e, true);
 };
 
@@ -63,6 +68,7 @@ async function handlerConnectionError(e) {
  * @param {function} fn
  * @param {int} time
  */
+// REVIEW is this used somewhere?
 function Interval(fn, time) {
   let timer = false;
   this.start = function() {
