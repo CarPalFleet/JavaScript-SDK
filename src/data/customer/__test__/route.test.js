@@ -48,11 +48,11 @@ test(`Test for update driver schedule`, async () => {
   );
   const token = await result;
   const playload = {
-    driver_id: 25148,
-    transaction_group_id: 180,
-    start_time: '10:01',
-    end_time: '13:02',
-    start_at: '2018-03-01',
+    driverId: 25148,
+    transactionGroupId: 180,
+    startTime: '10:01',
+    endTime: '13:02',
+    startAt: '2018-03-01',
   }
   const scheduleId = CONFIG.scheduleId;
   const response = await updateRouteLocationAsync(scheduleId, playload, token.accessToken);
@@ -81,11 +81,11 @@ test(`Test for create driver schedule`, async () => {
   );
   const token = await result;
   const playload = {
-    driver_id: 25148,
-    transaction_group_id: 180,
-    start_time: '10:01',
-    end_time: '13:02',
-    start_at: '2018-03-01',
+    driverId: 25148,
+    transactionGroupId: 180,
+    startTime: '10:01',
+    endTime: '13:02',
+    startAt: '2018-03-01',
   }
   const response = await createDriverScheduleAsync(playload, token.accessToken);
   expect(response.status).toBe(200);
