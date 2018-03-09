@@ -617,7 +617,7 @@ function groupLocationByPickUpAddress(groups, location, errorContents) {
  * if there's no error for this location, it will response empty array.
  */
 export const mergeLocationDataWithErrors = (errorContents, location) => {
-  let error = errorContents.data.find(
+  const error = errorContents.data.find(
     (errorContent) => errorContent.groupingLocationId === location.id
   );
   if (error) {
