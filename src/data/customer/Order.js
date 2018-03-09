@@ -6,7 +6,8 @@ import isEmpty from 'lodash.isempty';
 import {
   convertObjectIntoURLString,
   apiResponseErrorHandler,
-} from '../../utility/Util';
+  rejectPromise,
+} from '../utility/Util';
 
 export const getCustomerOrdersWithFiltersAsync = async (
   filterObject = {},
@@ -188,7 +189,8 @@ export const getGroupingLocationsAsync = async (
 
     return groupLocations(locations, errorContents ? errorContents : null);
   } catch (e) {
-    return apiResponseErrorHandler(e);
+    // Response Promise Reject with statusCode and statusText
+    return rejectPromise(e);
   }
 };
 
@@ -210,7 +212,7 @@ export const getRemainingOrdersAsync = async (filterObject, token) => {
     let locations = await fetchAllGroupingLocationsAsync(filterObject, token);
     return groupLocations(locations);
   } catch (e) {
-    return apiResponseErrorHandler(e);
+    return rejectPromise(e);
   }
 };
 
@@ -264,12 +266,82 @@ export const fetchBatchLocationsErrorAsync = async (
   }
 };
 
-export const removeOrderWithErrorAsync = async (groupingLocationId, token) => {
+/**
+ * Fixed error records in RDS
+  and Truncate existing error records from Dynamodb
+ * This function call 2 API endpoints one after another
+ * Call editGroupingLocationsAsync to edit the error grouping locations
+ * if it's success, call removeOrderErrorRecordsAsync to truncate records from Dynamodb
+ * if both API call is success, it will return isUpdatedOrder and isTruncateErrorReords as true
+ * @param {array} errorIds
+ * @param {array} locationDataList
+ * @param {string} token
+ * @return {promise} reject/resolve
+ * In resolve, it will return object. Example. {data, isUpdatedOrder, isTruncateErrorReords}
+ * data = response object from edit endpoint
+ * isUpdatedOrder = true means successfullly edited the orders
+ * isTruncateErrorReords = true means successfully truncated errors
+ */
+export const updateAndTruncateOrderErrorsAsync = async (
+  errorIds = [],
+  locationDataList = [],
+  token
+) => {
+  try {
+    let editResponse = await editGroupingLocationsAsync(
+      locationDataList,
+      token
+    );
+    await removeOrderErrorRecordsAsync(errorIds, token);
+
+    return {
+      data: editResponse,
+      isUpdatedOrder: true,
+      isTruncateErrorReords: true,
+    };
+  } catch (e) {
+    return rejectPromise(e);
+  }
+};
+
+/**
+ * Remove Order Error Record (single record) from Dynamodb
+ * @param {int} groupingLocationId
+ * @param {string} token
+ * @return {promise} reject/resolve
+ * if resolve, will return {data: true}
+ */
+export const removeOrderErrorRecordAsync = async (
+  groupingLocationId,
+  token
+) => {
   try {
     await axios({
-      method: 'GET',
+      method: 'DELETE',
       url: `${endpoints.ORDER_WITH_ERRORS}/${groupingLocationId}`,
       headers: {Authorization: token},
+    });
+
+    return {data: true};
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Remove Order Error Records (multiple records) from Dynamodb
+ * @param {array} errorIds
+ * @param {string} token
+ * @return {promise} reject/resolve
+ * if resolve, will return {data: true}
+ */
+export const removeOrderErrorRecordsAsync = async (errorIds = [], token) => {
+  try {
+    await axios({
+      method: 'DELETE',
+      url: `${endpoints.BATCH_ORDER_WITH_ERRORS}`,
+      headers: {Authorization: token},
+      payload: {errorIds},
     });
 
     return {data: true};
@@ -609,8 +681,15 @@ function groupLocationByPickUpAddress(groups, location, errorContents) {
   return groups;
 }
 
+/**
+ * Merge Location data with Errors
+ * @param {object} errorContents # Error object
+ * @param {object} location # location object
+ * @return {array} errorList
+ * if there's no error for this location, it will response empty array.
+ */
 export const mergeLocationDataWithErrors = (errorContents, location) => {
-  let error = errorContents.data.find(
+  const error = errorContents.data.find(
     (errorContent) => errorContent.groupingLocationId === location.id
   );
   if (error) {
@@ -625,6 +704,7 @@ export const mergeLocationDataWithErrors = (errorContents, location) => {
 
         errorList.push({
           key: key,
+          errorId: error['id'],
           suggestionKey: includeSuggestionKey ? ['latitude', 'longitude'] : [],
           suggestion: error['errorMessages'][key + 'Suggestion'] || '',
           errorMessage: error['errorMessages'][key],
@@ -633,4 +713,7 @@ export const mergeLocationDataWithErrors = (errorContents, location) => {
       return errorList;
     }, []);
   }
+
+  /* Response empty array if there's no error from dynamodb */
+  return [];
 };
