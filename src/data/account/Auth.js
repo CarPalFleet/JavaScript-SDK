@@ -18,6 +18,7 @@ export const getTokenAsync = async (email, password, clientId, secret) => {
         scope: 'full-access',
       },
     });
+
     return camelize(response.data.data);
   } catch (e) {
     return apiResponseErrorHandler(e);

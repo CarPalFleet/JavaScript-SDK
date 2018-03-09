@@ -11,7 +11,10 @@
     "precommit:prettier":
       "node_modules/.bin/prettier --single-quote --trailing-comma es5 --arrow-parens always --write",
     "prepublish": "npm run build",
-    "test": "npm run build && jest src"
+    "test": "jest --testPathIgnorePatterns=__integration__",
+    "test:watch": "jest --testPathIgnorePatterns=__integration__  --watch",
+    "test:integration": "jest --testPathPattern=__integration__",
+    "test:integration:watch": "jest --testPathPattern=__integration__  --watch"
   },
   "lint-staged": {
     "*.{js}": [
@@ -60,6 +63,7 @@
     "form-data": "^2.3.1",
     "lodash.isarray": "^4.0.0",
     "lodash.isempty": "^4.4.0",
+    "lodash.isequal": "^4.5.0",
     "lodash.isnumber": "^3.0.3",
     "lodash.isobject": "^3.0.2",
     "workerjs": "^0.1.1"
