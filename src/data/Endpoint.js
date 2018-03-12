@@ -1,6 +1,6 @@
 const urlPrefix =
-  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/prod';
-const laravelUrlPrefix = 'https://api.carpal.me';
+  'test.https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/prod';
+const laravelUrlPrefix = 'test.https://api.carpal.me';
 const version = 'v3';
 
 const endpoints = {
