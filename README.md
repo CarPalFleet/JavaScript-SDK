@@ -6,9 +6,15 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is 0.1.50
+The current version of this SDK is 0.1.52 (for alpha version) and 0.1.51 (for dev version)
 
-To install CarPal SDK: **npm i --save carpal**
+#### Install SDK Alpha Version
+
+**npm i --save carpal@alpha**
+
+#### Install SDK Dev Version
+
+**npm i --save carpal@dev**
 
 If you were using webpack and had encountered the **_regeneratorRuntime is not defined_** error, you may need to include **babel-polyfill** to your project(**npm install --save babel-polyfill**). For more info, you can find it from here https://stackoverflow.com/questions/33527653/babel-6-regeneratorruntime-is-not-defined
 
