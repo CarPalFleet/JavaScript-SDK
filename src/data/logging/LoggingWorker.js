@@ -3,7 +3,7 @@
 /* eslint-disable */
 import axios from 'axios';
 import endpoints from './endpoints';
-import {apiResponseErrorHandler} from '../../utility/Util';
+import {apiResponseErrorHandler} from '../utility/Util';
 
 self.onmessage = (e) => {
   let interval = new Interval(

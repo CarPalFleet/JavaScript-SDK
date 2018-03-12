@@ -31,6 +31,7 @@ const endpoints = {
   STATUSES: `${urlPrefix}/dashboard/types`,
   GROUPING_LOCATIONS_ERRORS: `${urlPrefix}/customers/{0}/location/errors`,
   ORDER_WITH_ERRORS: `${urlPrefix}/grouping-location-error`,
+  BATCH_ORDER_WITH_ERRORS: `${urlPrefix}/grouping-location-errors`,
   VEHICLES: `${urlPrefix}/vehicles`,
   CUSTOMER_SETTINGS: `${urlPrefix}/customers/{0}/settings`,
   API_V3: {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../../utility/Util';
+import {apiResponseErrorHandler} from '../utility/Util';
 
 export const getTokenAsync = async (email, password, clientId, secret) => {
   try {
@@ -18,6 +18,7 @@ export const getTokenAsync = async (email, password, clientId, secret) => {
         scope: 'full-access',
       },
     });
+
     return camelize(response.data.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
@@ -31,11 +32,11 @@ export const refreshTokenAsync = async (refreshToken, clientId, secret) => {
       url: endpoints.OAUTH,
       headers: {'Content-Type': 'application/json'},
       data: {
-        refreshToken: refreshToken,
+        refreshToken,
         grantType: 'refresh_token',
         clientId,
         clientSecret: secret,
-        scope: 'full-access',
+        scope: '',
       },
     });
 

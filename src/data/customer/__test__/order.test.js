@@ -12,6 +12,8 @@ import {
   deleteGroupingLocationAsync,
   deleteGroupingLocationsAsync,
   removeOrderWithErrorAsync,
+  updateAndTruncateOrderErrorsAsync,
+  removeOrderErrorRecordsAsync,
 } from '../Order';
 import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './Config';
@@ -39,18 +41,12 @@ test('Retrieving validated grouping locations', async () => {
     offset: 0,
   };
 
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   const response = await getGroupingLocationsAsync(
     filterObject,
     CONFIG.customerId,
-    token.accessToken
+    CONFIG.token
   );
+
   expect('data' in response).toBe(true);
   expect('totalLocationCount' in response).toBe(true);
   expect('successLocationCount' in response).toBe(true);
@@ -65,18 +61,12 @@ test('Retrieving error grouping locations', async () => {
     offset: 0,
   };
 
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   const response = await getGroupingLocationsAsync(
     filterObject,
     CONFIG.customerId,
-    token.accessToken
+    CONFIG.token
   );
+
   expect('data' in response).toBe(true);
   expect('totalLocationCount' in response).toBe(true);
   expect('successLocationCount' in response).toBe(true);
@@ -115,6 +105,39 @@ test('Retrieving error grouping locations from DynamoDB', async () => {
     token.accessToken
   );
   expect(response.data instanceof Array).toBe(true);
+});
+
+describe('Call API to update error records and Remove batch errors of order from Dynamodb', () => {
+  it('Should return {data: {}, isUpdatedOrder: true, isTruncateErrorReords: true}', async () => {
+    const response = await updateAndTruncateOrderErrorsAsync(
+      CONFIG.orderWithErrorIds,
+      CONFIG.locationDataList,
+      CONFIG.token
+    );
+    expect('data' in response).toBeTruthy();
+  });
+});
+
+describe('Remove batch errors of order from Dynamodb', () => {
+  it('Should response an object and data should be true.', async () => {
+    const response = await removeOrderErrorRecordsAsync(
+      CONFIG.orderWithErrorIds,
+      CONFIG.token
+    );
+    expect('data' in response).toBeTruthy();
+    expect(response.data).toBeTruthy();
+  });
+});
+
+describe('Remove one error record of order from Dynamodb', () => {
+  it('Should response an object and data should be true.', async () => {
+    const response = await removeOrderErrorRecordsAsync(
+      CONFIG.groupingBatchId,
+      CONFIG.token
+    );
+    expect('data' in response).toBeTruthy();
+    expect(response.data).toBeTruthy();
+  });
 });
 
 test('Retrieving pickup group', async () => {

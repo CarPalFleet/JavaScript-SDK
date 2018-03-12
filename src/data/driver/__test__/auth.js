@@ -3,7 +3,7 @@
 import axios from 'axios';
 import CONFIG from './endpoints';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../../utility/Util';
+import {apiResponseErrorHandler} from '../utility/Util';
 
 export const getDriverTokenAsync = async (email, password) => {
   try {
