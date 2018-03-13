@@ -4,7 +4,11 @@ node_js:
   - "6"
   - "5"
 install: "npm install"
+branches:
+  only:
+    - dev
+    - edge
 script:
   - "npm test"
+repo: https://github.com/CarPalFleet/Javascript-SDK
 # REVIEW you should consider adding an ESLint validation during the CI/CD process
-# REVIEW you could also update npm repository here
