@@ -341,7 +341,7 @@ export const removeOrderErrorRecordsAsync = async (errorIds = [], token) => {
       method: 'DELETE',
       url: `${endpoints.BATCH_ORDER_WITH_ERRORS}`,
       headers: {Authorization: token},
-      payload: {errorIds},
+      data: {errorIds},
     });
 
     return {data: true};
