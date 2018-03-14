@@ -19,9 +19,10 @@ export const getCustomerOrdersWithFiltersAsync = async (
   try {
     const response = await axios({
       method: 'get',
-      url:
-        endpoints.CUSTOMER_ORDERS.replace('{0}', customerId) +
-        `?${paramString}`,
+      url: `${endpoints.CUSTOMER_ORDERS.replace(
+        '{0}',
+        customerId
+      )}${paramString.replace('&', '?')}`,
       // REVIEW: missing Bearer maybe?
       headers: {Authorization: token},
     });
@@ -169,7 +170,10 @@ export const getOrdersBasedOnSearchResult = async (
   try {
     const filedName = 'groupingLocationIds';
     // Manipulate the groupingLocationIds of Array Object into CSV string
-    const groupingLocationIds = getCSVStringFromArrayObject(searchResult, filedName);
+    const groupingLocationIds = getCSVStringFromArrayObject(
+      searchResult,
+      filedName
+    );
     if (!groupingLocationIds) {
       return [];
     }
