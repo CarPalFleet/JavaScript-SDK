@@ -9,6 +9,7 @@ import {
 export const createNewDriverAsync = async (
   {
     birthday,
+    driverTypeIds,
     email,
     existingUserEmail = false,
     firstName,
@@ -32,6 +33,7 @@ export const createNewDriverAsync = async (
 ) => {
   try {
     const defaultPayload = {
+      driverTypeIds,
       identityId,
       isNewUser,
       productTypeId,
@@ -204,7 +206,10 @@ export const getCustomerDriverCountsAsync = async (
   try {
     const response = await axios({
       method: 'get',
-      url: `endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId)?${paramString}`,
+      url: `${endpoints.CUSTOMER_DRIVERS.replace(
+        '{0}',
+        customerId
+      )}${paramString.replace('&', '?')}`,
       headers: {Authorization: token},
     });
 
