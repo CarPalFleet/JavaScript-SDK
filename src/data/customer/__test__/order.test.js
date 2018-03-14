@@ -14,6 +14,8 @@ import {
   removeOrderWithErrorAsync,
   updateAndTruncateOrderErrorsAsync,
   removeOrderErrorRecordsAsync,
+  getOrdersBasedOnSearchResult,
+  getCSVStringFromArrayObject,
 } from '../Order';
 import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './Config';
@@ -71,6 +73,28 @@ test('Retrieving error grouping locations', async () => {
   expect('totalLocationCount' in response).toBe(true);
   expect('successLocationCount' in response).toBe(true);
   expect('failedLocationCount' in response).toBe(true);
+});
+
+describe('Retrieve Order Based on the search result', () => {
+  it('should response specific orders array', async () => {
+    const response = await getOrdersBasedOnSearchResult(
+      CONFIG.customerId,
+      CONFIG.filterObject,
+      CONFIG.searchResult,
+      CONFIG.token
+    );
+    expect('data' in response).toBeTruthy();
+  });
+});
+
+describe('Convert Ids into CSV string', () => {
+  it('should response string', async () => {
+    const response = await getCSVStringFromArrayObject(
+      CONFIG.searchResult,
+      CONFIG.fieldName
+    );
+    expect.stringContaining(response);
+  });
 });
 
 describe('Remove order with error record', () => {

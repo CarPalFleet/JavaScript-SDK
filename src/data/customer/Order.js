@@ -19,9 +19,10 @@ export const getCustomerOrdersWithFiltersAsync = async (
   try {
     const response = await axios({
       method: 'get',
-      url:
-        endpoints.CUSTOMER_ORDERS.replace('{0}', customerId) +
-        `?${paramString}`,
+      url: `${endpoints.CUSTOMER_ORDERS.replace(
+        '{0}',
+        customerId
+      )}${paramString.replace('&', '?')}`,
       // REVIEW: missing Bearer maybe?
       headers: {Authorization: token},
     });
@@ -151,14 +152,54 @@ export const getGroupingLocationAsync = async (groupingLocationId, token) => {
   }
 };
 
+/**
+ * Retrieve specific order based on the search result
+ * @param {int} customerId
+ * @param {object} filterObject
+ * @param {array} searchResult
+ * @param {string} token
+ * @return {promise} reject/resolve
+ * Will return [] array if there's no groupingLocationIds
+ */
+export const getOrdersBasedOnSearchResult = async (
+  customerId,
+  filterObject,
+  searchResult,
+  token
+) => {
+  try {
+    const filedName = 'groupingLocationIds';
+    // Manipulate the groupingLocationIds of Array Object into CSV string
+    const groupingLocationIds = getCSVStringFromArrayObject(
+      searchResult,
+      filedName
+    );
+    if (!groupingLocationIds) {
+      return [];
+    }
+
+    filterObject[filedName] = groupingLocationIds;
+    const groupingLocation = await getGroupingLocationsAsync(
+      filterObject,
+      customerId,
+      token
+    );
+
+    return groupingLocation;
+  } catch (e) {
+    return rejectPromise(e);
+  }
+};
+
 /* Function name will be changed as getOrdersAsync */
 /**
  * Get Orders
- * @param {object} filterObject # {statusIds, pickupDate (mandatory), limit, offset}
+ * @param {object} filterObject # {statusIds, groupingLocationIds, pickupDate (mandatory), limit, offset}
  * StatusIds = 1/2/3/4. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+ * groupingLocationIds (string)(optional) = "27638, 27644"
  * pickupDate (mandatory) = '2018-02-28'
- * limit = 20 (optional)
- * offset = 0 (optional)
+ * limit = 20 (int)(optional)
+ * offset = 0 (int)(optional)
  * @param {customerId} customerId
  * @param {string} token
  * @return {object} Promise resolve/reject
@@ -716,4 +757,18 @@ export const mergeLocationDataWithErrors = (errorContents, location) => {
 
   /* Response empty array if there's no error from dynamodb */
   return [];
+};
+
+/**
+ * Manipulate the id of Array Object into CSV string
+ * @param {object} array
+ * @param {object} fieldName
+ * @return {string} comma seperated value string
+ */
+export const getCSVStringFromArrayObject = (array, fieldName) => {
+  return array
+    .map((data) => {
+      return data[fieldName];
+    })
+    .join();
 };

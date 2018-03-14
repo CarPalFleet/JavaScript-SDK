@@ -16,7 +16,7 @@ export const getJobDetailAsync = async (jobId, token) => {
   try {
     const jobDetail = await axios({
       method: 'get',
-      url: 'endpoints.API_V3.JOB'.replace('{0}', jobId),
+      url: endpoints.API_V3.JOB.replace('{0}', jobId),
       // REVIEW is there an error here bearer instead of Bearer?
       headers: {Authorization: `bearer ${token}`},
     });
