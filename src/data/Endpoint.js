@@ -17,10 +17,9 @@ const endpoints = {
   TRANSACTION_GROUP_SETTING: `${urlPrefix}/transaction-groups/{1}`,
   CUSTOMER_ORDERS: `${urlPrefix}/customers/{0}/orders`,
   DELIVERY_WINDOW: `${urlPrefix}/customers/{0}/delivery-windows`,
-  SEARCH: `${urlPrefix}/search`,
-  ELASTICSEARCH: `${urlPrefix}/dashboard/search`,
-  MY_ORDER_ELASTICSEARCH: `${urlPrefix}/locations/search`,
-  DRIVER_LIST_ELASTICSEARCH: `${urlPrefix}/dashboard/search`, // url will be updated after backend is finished
+  ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`,
+  GENERAL_SEARCH: `${urlPrefix}/locations/search`,
+  DRIVER_LIST_ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`, // url will be updated after backend is finished
   SCHEMAS: `${urlPrefix}/schemas/{0}/{1}`,
   CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
   EXPORT_CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
