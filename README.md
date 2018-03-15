@@ -6,7 +6,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is 0.1.65
+The current version of this SDK is 0.1.66
 
 #### Install SDK Alpha Version
 
