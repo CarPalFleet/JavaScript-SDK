@@ -169,6 +169,7 @@ export const getOrdersBasedOnSearchResult = async (
 ) => {
   try {
     const filedName = 'groupingLocationId';
+    const orderFilterFieldName = 'groupingLocationIds';
     // Manipulate the groupingLocationIds of Array Object into CSV string
     const groupingLocationIds = getCSVStringFromArrayObject(
       searchResult,
@@ -178,7 +179,8 @@ export const getOrdersBasedOnSearchResult = async (
       return [];
     }
 
-    filterObject[filedName] = groupingLocationIds;
+    // filter the order with groupingLocationIds
+    filterObject[orderFilterFieldName] = groupingLocationIds;
     const groupingLocation = await getGroupingLocationsAsync(
       filterObject,
       customerId,
