@@ -18,7 +18,7 @@ const endpoints = {
   CUSTOMER_ORDERS: `${urlPrefix}/customers/{0}/orders`,
   DELIVERY_WINDOW: `${urlPrefix}/customers/{0}/delivery-windows`,
   ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`,
-  GENERAL_SEARCH: `${urlPrefix}/locations/search`,
+  GENERAL_SEARCH: `${urlPrefix}/search`,
   DRIVER_LIST_ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`, // url will be updated after backend is finished
   SCHEMAS: `${urlPrefix}/schemas/{0}/{1}`,
   CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
