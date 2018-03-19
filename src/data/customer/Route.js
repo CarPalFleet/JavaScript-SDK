@@ -82,7 +82,7 @@ export const createRouteLocationAsync = async (
 
 /** Update driver time slot
  * @param {int} scheduleId
- * @param {object} payload {driver_id, transactionGroupId, startTime, endTime, startDate}
+ * @param {object} payload {driverId, transactionGroupId, startTime, endTime, startDate}
  * scheduleId (optional)(int)
  * transactionGroupId (optional)(int)
  * startTime (optional)(date_format:H:i)
