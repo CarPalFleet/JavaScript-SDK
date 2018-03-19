@@ -79,6 +79,97 @@ export const createRouteLocationAsync = async (
   }
 };
 
+
+/** Update driver time slot
+ * @param {int} scheduleId
+ * @param {object} payload {driverId, transactionGroupId, startTime, endTime, startDate}
+ * scheduleId (optional)(int)
+ * transactionGroupId (optional)(int)
+ * startTime (optional)(date_format:H:i)
+ * endTime (optional)(date_format:H:i)
+ * startDate (optional)(date_format:Y-m-d)
+ * @param {Object} Promise resolve/reject
+ * If resolve, return value: boolean(To indicate update successful or failed)
+ * remarks: the API endpoint will return one of the following status:
+ * 400: Validation Error
+ * 400: Driver Schedule with same values exists
+ * 200: Success
+ */
+
+export const updateDriverScheduleAsync = async (
+  payload = {},
+  token
+) => {
+  try {
+    const result = await axios({
+      method: 'put',
+      url: `${endpoints.API_V3.DIRVER_SCHEDULE.replace('{0}', scheduleId)}`,
+      headers: {Authorization: `Bearer ${token}`},
+      data: payload,
+    });
+    return camelize(result.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/** deleteDriverScheduleAsync
+ * @param {int} scheduleId
+ * @param {Object} Promise resolve/reject
+ * return value: boolean(To indicate delete successful or failed)
+ * remarks: the API endpoint will return one of the following status:
+ * 404: Driver Schedule does not exists
+ * 204: Success with no content
+ */
+
+export const deleteDriverScheduleAsync = async (
+  scheduleId,
+  token
+) => {
+  try {
+    const result = await axios({
+      method: 'delete',
+      url: `${endpoints.API_V3.DIRVER_SCHEDULE.replace('{0}', scheduleId)}`,
+      headers: {Authorization: `Bearer ${token}`},
+    });
+    return {data: true};
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/** Add new driver time slot
+ * @param {object} payload {driverId, transactionGroupId, startTime, endTime, startDate}
+ * driverId (mandatory)(int)
+ * transactionGroupId (mandatory)(int)
+ * startTime (mandatory)(date_format:H:i)
+ * endTime (mandatory)(date_format:H:i)
+ * startDate (mandatory)(date_format:Y-m-d)
+ * @param {Object} Promise resolve/reject
+ * If resolve, return value: boolean(To indicate update successful or failed)
+ * remarks: the API endpoint will return one of the following status:
+ * 400: Validation Error
+ * 400: Driver Schedule with same values exists
+ * 200: Success
+ */
+
+export const createDriverScheduleAsync = async (
+  payload = {},
+  token
+) => {
+  try {
+    const result = await axios({
+      method: 'post',
+      url: `${endpoints.API_V3.DIRVER_SCHEDULE.replace('{0}', '')}`,
+      headers: {Authorization: `Bearer ${token}`},
+      data: payload,
+    });
+    return camelize(result.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
 /** Update Route Location
  * @param {int} routeId
  * @param {object} payload {routeLocationId, sequence, locationTypeId, pickupWindowStart, pickupWindowEnd}

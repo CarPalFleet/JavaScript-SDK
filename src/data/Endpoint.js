@@ -44,6 +44,7 @@ const endpoints = {
     ROUTE: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
     OPTIMIZE_ROUTE: `${laravelUrlPrefix}/${version}/customers/route/optimization`,
     ROUTE_LOCATION: `${laravelUrlPrefix}/${version}/customer/route/{0}/route-location`,
+    DRIVER_SCHEDULE: `${laravelUrlPrefix}/${version}/customer/driver-schedule/{0}`,
   },
 };
 
