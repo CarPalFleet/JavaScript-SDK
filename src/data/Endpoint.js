@@ -41,12 +41,12 @@ const endpoints = {
     DRIVER_LISTING: `${laravelUrlPrefix}/${version}/customer/driver`,
     JOB: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
     RECOMMENDED_JOB: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
-    ROUTE: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
+    ROUTE: `${laravelUrlPrefix}/${version}/customers/route/{0}`,
     OPTIMIZE_ROUTE: `${laravelUrlPrefix}/${version}/customers/route/optimization`,
     ROUTE_LOCATION: `${laravelUrlPrefix}/${version}/customer/route/{0}/route-location`,
     DRIVER_SCHEDULE: `${laravelUrlPrefix}/${version}/customer/driver-schedule/{0}`,
-    EXPORT_DRIVER_LIST: `${laravelUrlPrefix}/${version}/customer/driverlist/export/{0}`, // url will be updated after backend is finished
-    EXPORT_ROUTE: `${laravelUrlPrefix}/${version}/customer/route/export/{0}`, // url will be updated after backend is finished
+    EXPORT_DRIVER_LIST: `${laravelUrlPrefix}/${version}/customer/driverlist/export`, // url will be updated after backend is finished
+    EXPORT_ROUTE: `${laravelUrlPrefix}/${version}/customer/route/export`, // url will be updated after backend is finished
   },
 };
 
