@@ -1,6 +1,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+import FormData from 'form-data';
 import {snakeCaseDecorator} from '../decorator/CoreDecorators';
 import isEmpty from 'lodash.isempty';
 import {
@@ -9,7 +10,7 @@ import {
   rejectPromise,
 } from '../utility/Util';
 
-export const getCustomerOrdersWithFiltersAsync = async (
+export const getOrdersWithFiltersAsync = async (
   filterObject = {},
   customerId,
   token,
@@ -18,7 +19,7 @@ export const getCustomerOrdersWithFiltersAsync = async (
   let paramString = convertObjectIntoURLString(filterObject);
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url: `${endpoints.CUSTOMER_ORDERS.replace(
         '{0}',
         customerId
@@ -32,15 +33,11 @@ export const getCustomerOrdersWithFiltersAsync = async (
   }
 };
 
-export const getCustomerOrderCountsAsync = async (
-  filterObject,
-  customerId,
-  token
-) => {
+export const getOrderCountsAsync = async (filterObject, customerId, token) => {
   let paramString = convertObjectIntoURLString(filterObject);
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url:
         // REVIEW use template string
         endpoints.CUSTOMER_ORDERS.replace('{0}', customerId) +
@@ -53,7 +50,7 @@ export const getCustomerOrderCountsAsync = async (
   }
 };
 
-export const createNewDeliveryWindow = async (
+export const createDeliveryWindow = async (
   {
     customerId,
     identityId,
@@ -79,7 +76,7 @@ export const createNewDeliveryWindow = async (
       data.transactionGroupId = transactionGroupId;
     }
     const response = await axios({
-      method: 'post',
+      method: 'POST',
       url: endpoints.DELIVERY_WINDOW.replace('{0}', customerId),
       headers: {Authorization: token},
       data,
@@ -100,7 +97,7 @@ export const getDeliveryWindows = async (
 ) => {
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url: `${endpoints.DELIVERY_WINDOW.replace(
         '{0}',
         customerId
@@ -114,7 +111,27 @@ export const getDeliveryWindows = async (
   }
 };
 
-export const getBatchOrderProgressAsync = async (customerId, token) => {
+export const fileUploadForOrderAsync = async (fileObject, token) => {
+  try {
+    let form = new FormData();
+    form.append('grouping_spreadsheet', fileObject);
+
+    let response = await axios(endpoints.API_V3.BATCH_FILE_UPLOAD, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+      data: form,
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+export const getUploadedOrderProgressionAsync = async (customerId, token) => {
   try {
     let response = await axios({
       method: 'GET',
@@ -138,7 +155,7 @@ export const getBatchOrderProgressAsync = async (customerId, token) => {
 };
 
 /* Function name will be changed as getOrderDetialAsync */
-export const getGroupingLocationAsync = async (groupingLocationId, token) => {
+export const getOrderAsync = async (groupingLocationId, token) => {
   try {
     let response = await axios({
       method: 'GET',
@@ -181,19 +198,18 @@ export const getOrdersBasedOnSearchResult = async (
 
     // filter the order with groupingLocationIds
     filterObject[orderFilterFieldName] = groupingLocationIds;
-    const groupingLocation = await getGroupingLocationsAsync(
+    const order = await getOrdersGroupByPickUpAddressAsync(
       filterObject,
       customerId,
       token
     );
 
-    return groupingLocation;
+    return order;
   } catch (e) {
     return rejectPromise(e);
   }
 };
 
-/* Function name will be changed as getOrdersAsync */
 /**
  * Get Orders
  * @param {object} filterObject # {statusIds, groupingLocationIds, pickupDate (mandatory), limit, offset}
@@ -206,7 +222,7 @@ export const getOrdersBasedOnSearchResult = async (
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const getGroupingLocationsAsync = async (
+export const getOrdersGroupByPickUpAddressAsync = async (
   filterObject,
   customerId,
   token
@@ -216,14 +232,14 @@ export const getGroupingLocationsAsync = async (
     * Use 2 as default. It means validated orders
     */
     let statusId = filterObject.statusIds || 2;
-    let locations = await fetchAllGroupingLocationsAsync(filterObject, token);
+    let locations = await getOrdersAsync(filterObject, token);
     let errorContents;
 
     /* Check statusId whethere 4 or not
     * If statusId is 4, need to combine the response with error contents
     */
     if (statusId === 4) {
-      errorContents = await fetchBatchLocationsErrorAsync(
+      errorContents = await getErrorOrderContentsAsync(
         filterObject.pickupDate,
         customerId,
         token
@@ -233,6 +249,22 @@ export const getGroupingLocationsAsync = async (
     return groupLocations(locations, errorContents ? errorContents : null);
   } catch (e) {
     // Response Promise Reject with statusCode and statusText
+    return rejectPromise(e);
+  }
+};
+
+/**
+ * Merge Order Records
+ * @param {array} oldOrderRecords
+ * @param {array} newOrderRecords
+ * @return {object} Promise resolve/reject
+ */
+export const mergeOrderRecords = (oldOrderRecords, newOrderRecords) => {
+  try {
+    newOrderRecords.map(function(order) {
+      newOrderRecords[order.pickupGroupId].push(order);
+    });
+  } catch (e) {
     return rejectPromise(e);
   }
 };
@@ -252,7 +284,7 @@ export const getGroupingLocationsAsync = async (
  */
 export const getRemainingOrdersAsync = async (filterObject, token) => {
   try {
-    let locations = await fetchAllGroupingLocationsAsync(filterObject, token);
+    let locations = await getOrdersAsync(filterObject, token);
     return groupLocations(locations);
   } catch (e) {
     return rejectPromise(e);
@@ -260,7 +292,7 @@ export const getRemainingOrdersAsync = async (filterObject, token) => {
 };
 
 /* Function name will be changed as getOrdersAsync */
-export const fetchAllGroupingLocationsAsync = async (filterObject, token) => {
+export const getOrdersAsync = async (filterObject, token) => {
   try {
     /*
       Add following filter for remaining order
@@ -288,7 +320,7 @@ export const fetchAllGroupingLocationsAsync = async (filterObject, token) => {
   }
 };
 
-export const fetchBatchLocationsErrorAsync = async (
+export const getErrorOrderContentsAsync = async (
   pickupDate,
   customerId,
   token
@@ -313,7 +345,7 @@ export const fetchBatchLocationsErrorAsync = async (
  * Fixed error records in RDS
   and Truncate existing error records from Dynamodb
  * This function call 2 API endpoints one after another
- * Call editGroupingLocationsAsync to edit the error grouping locations
+ * Call editOrdersAsync to edit the error grouping locations
  * if it's success, call removeOrderErrorRecordsAsync to truncate records from Dynamodb
  * if both API call is success, it will return isUpdatedOrder and isTruncateErrorReords as true
  * @param {array} errorIds
@@ -331,10 +363,7 @@ export const updateAndTruncateOrderErrorsAsync = async (
   token
 ) => {
   try {
-    let editResponse = await editGroupingLocationsAsync(
-      locationDataList,
-      token
-    );
+    let editResponse = await editOrdersAsync(locationDataList, token);
     await removeOrderErrorRecordsAsync(errorIds, token);
 
     return {
@@ -354,7 +383,7 @@ export const updateAndTruncateOrderErrorsAsync = async (
  * @return {promise} reject/resolve
  * if resolve, will return {data: true}
  */
-export const removeOrderErrorRecordAsync = async (
+export const removeErrorOrderRecordAsync = async (
   groupingLocationId,
   token
 ) => {
@@ -417,7 +446,7 @@ export const getUniquePickupAddressesAsync = async (filterObject, token) => {
   }
 };
 
-export const createGroupingLocationAsync = async (locationObject, token) => {
+export const createOrderAsync = async (locationObject, token) => {
   try {
     locationObject = snakeCaseDecorator(locationObject);
     let response = await axios({
@@ -438,7 +467,7 @@ export const createGroupingLocationAsync = async (locationObject, token) => {
   }
 };
 
-export const editGroupingLocationAsync = async (
+export const editOrderAsync = async (
   groupingLocationId,
   locationObject,
   token
@@ -464,10 +493,7 @@ export const editGroupingLocationAsync = async (
   }
 };
 
-export const editGroupingLocationsAsync = async (
-  locationDataList = [],
-  token
-) => {
+export const editOrdersAsync = async (locationDataList = [], token) => {
   try {
     let updatedLocationDataList = locationDataList.map((data) => {
       let tmpObject = {
@@ -493,10 +519,7 @@ export const editGroupingLocationsAsync = async (
   }
 };
 
-export const deleteGroupingLocationAsync = async (
-  groupingLocationId,
-  token
-) => {
+export const deleteOrderAsync = async (groupingLocationId, token) => {
   try {
     await axios({
       method: 'DELETE',
@@ -510,10 +533,7 @@ export const deleteGroupingLocationAsync = async (
   }
 };
 
-export const deleteGroupingLocationsAsync = async (
-  groupingLocationIds = [],
-  token
-) => {
+export const deleteOrdersAsync = async (groupingLocationIds = [], token) => {
   try {
     let paramString = groupingLocationIds.join();
     await axios({
@@ -557,7 +577,7 @@ export const cancelBatchFileProcessAsync = async (batchId, token) => {
   }
 };
 
-export const updateJobLiveData = (
+export const getUpdatedJobLiveData = (
   originalJobDatum,
   pubSubPayload,
   filterObject

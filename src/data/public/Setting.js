@@ -6,7 +6,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
 export const getCustomerPublicProfileSettingsAsync = async (domain) => {
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url: endpoints.TRANSACTION_GROUP_SETTING.replace('{1}', domain),
     });
     return camelize(response.data.data);

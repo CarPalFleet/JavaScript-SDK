@@ -29,7 +29,7 @@ let checkConnection = async (e) => {
   // REVIEW unused vars token and checksocket
   let token = e.data;
   let checkSocket = await axios({
-    method: 'get',
+    method: 'GET',
     url: endpoints.CHECK_SOCKET_CONNECTION,
     header: {Authorization: e.token},
   });
@@ -55,7 +55,7 @@ async function handlerConnectionError(e) {
   };
 
   let checkSocket = await axios({
-    method: 'get',
+    method: 'GET',
     url: endpoints.SEND_NOTI_TO_SLACK,
     header: {Authorization: token},
     body: payload,

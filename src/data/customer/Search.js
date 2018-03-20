@@ -20,7 +20,7 @@ export const searchAsync = async (
 ) => {
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url: `${
         endpoints.ELASTIC_SEARCH
       }?keyword=${keywords}&fuzzy=${fuzzy}&fuzziness=${fuzziness}&scope=${scope}`,
@@ -59,7 +59,7 @@ export const generalSearch = async (
 ) => {
   try {
     const response = await axios({
-      method: 'post',
+      method: 'POST',
       url: endpoints.GENERAL_SEARCH,
       headers: {Authorization: token},
       data: {customerId, fuzzy, fuzziness, keywords, scopes},
@@ -79,7 +79,7 @@ export const driverSearch = async (
 ) => {
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url: `${
         endpoints.DRIVER_LIST_ELASTIC_SEARCH
       }?keyword=${keywords}&fuzzy=${fuzzy}&fuzziness=${fuzziness}&scope=${scope}`,

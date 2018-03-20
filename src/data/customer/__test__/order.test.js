@@ -1,16 +1,17 @@
 import {
   getOrderDetailAsync,
-  createNewDeliveryWindow,
-  getBatchOrderProgressAsync,
-  fetchBatchLocationsErrorAsync,
-  getGroupingLocationAsync,
-  getGroupingLocationsAsync,
+  createDeliveryWindow,
+  fileUploadForOrderAsync,
+  getUploadedOrderProgressionAsync,
+  getErrorOrderContentsAsync,
+  getOrderAsync,
+  getOrdersGroupByPickUpAddressAsync,
   getUniquePickupAddressesAsync,
-  createGroupingLocationAsync,
-  editGroupingLocationAsync,
-  editGroupingLocationsAsync,
-  deleteGroupingLocationAsync,
-  deleteGroupingLocationsAsync,
+  createOrderAsync,
+  editOrderAsync,
+  editOrdersAsync,
+  deleteOrderAsync,
+  deleteOrdersAsync,
   removeOrderWithErrorAsync,
   updateAndTruncateOrderErrorsAsync,
   removeOrderErrorRecordsAsync,
@@ -28,7 +29,7 @@ test('Retrieving single grouping location', async () => {
     CONFIG.clientSecret
   );
   const token = await result;
-  const response = await getGroupingLocationAsync(
+  const response = await getOrderAsync(
     CONFIG.groupingLocationId,
     token.accessToken
   );
@@ -43,7 +44,7 @@ test('Retrieving validated grouping locations', async () => {
     offset: 0,
   };
 
-  const response = await getGroupingLocationsAsync(
+  const response = await getOrdersGroupByPickUpAddressAsync(
     filterObject,
     CONFIG.customerId,
     CONFIG.token
@@ -63,7 +64,7 @@ test('Retrieving error grouping locations', async () => {
     offset: 0,
   };
 
-  const response = await getGroupingLocationsAsync(
+  const response = await getOrdersGroupByPickUpAddressAsync(
     filterObject,
     CONFIG.customerId,
     CONFIG.token
@@ -123,7 +124,7 @@ test('Retrieving error grouping locations from DynamoDB', async () => {
     CONFIG.clientSecret
   );
   const token = await result;
-  const response = await fetchBatchLocationsErrorAsync(
+  const response = await getErrorOrderContentsAsync(
     CONFIG.pickupDate,
     CONFIG.customerId,
     token.accessToken
@@ -193,7 +194,7 @@ test('Create Grouping Location', async () => {
     CONFIG.clientSecret
   );
   const token = await result;
-  const response = await createGroupingLocationAsync(
+  const response = await createOrderAsync(
     CONFIG.locationObject,
     token.accessToken
   );
@@ -208,7 +209,7 @@ test('Edit Grouping Location', async () => {
     CONFIG.clientSecret
   );
   const token = await result;
-  const response = await editGroupingLocationAsync(
+  const response = await editOrderAsync(
     CONFIG.groupingLocationId,
     CONFIG.locationObject,
     token.accessToken
@@ -224,11 +225,46 @@ test('Edit Multiple Grouping Locations', async () => {
     CONFIG.clientSecret
   );
   const token = await result;
-  const response = await editGroupingLocationsAsync(
+  const response = await editOrdersAsync(
     CONFIG.locationDataList,
     token.accessToken
   );
   expect('data' in response).toBe(true);
+});
+
+test('Test for file uploading', async () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  const result = getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  let formData = {};
+  const response = await fileUploadForOrderAsync(
+    {groupingSpreadsheet: formData},
+    token.accessToken
+  );
+  expect('groupingBatchId' in response.data).toBe(true);
+  expect(true).toBe(true);
+});
+
+test('Test for file uploading error', async () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  const result = getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const response = await fileUploadForOrderAsync(
+    {grouping_spreadsheet: 12},
+    token.accessToken
+  );
+
+  expect('error' in response).toBe(true);
 });
 
 test('Test for uploading batch order progression', async () => {
@@ -239,7 +275,7 @@ test('Test for uploading batch order progression', async () => {
     CONFIG.clientSecret
   );
   const token = await result;
-  const response = await getBatchOrderProgressAsync(1, token.accessToken);
+  const response = await getUploadedOrderProgressionAsync(1, token.accessToken);
   expect('data' in response).toBe(true);
 });
 
@@ -251,7 +287,7 @@ test('Delete Grouping Location', async () => {
     CONFIG.clientSecret
   );
   const token = await result;
-  const response = await deleteGroupingLocationAsync(
+  const response = await deleteOrderAsync(
     CONFIG.groupingLocationId,
     token.accessToken
   );
@@ -266,7 +302,7 @@ test('Delete Multiple Grouping Locations', async () => {
     CONFIG.clientSecret
   );
   const token = await result;
-  const response = await deleteGroupingLocationsAsync(
+  const response = await deleteOrdersAsync(
     CONFIG.groupingLocationIds,
     token.accessToken
   );
@@ -282,7 +318,7 @@ test('Test for creating new delivery window with product type 1', async () => {
     CONFIG.clientSecret
   );
   const token = await result;
-  const response = await createNewDeliveryWindow(
+  const response = await createDeliveryWindow(
     {
       customerId: 1,
       identityId: 1,
@@ -318,7 +354,7 @@ test('Test for creating new delivery window with product type 3 and transaction 
     CONFIG.clientSecret
   );
   const token = await result;
-  const response = await createNewDeliveryWindow(
+  const response = await createDeliveryWindow(
     {
       customerId: 1,
       identityId: 1,

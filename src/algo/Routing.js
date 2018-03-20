@@ -16,7 +16,7 @@ import {camelToSnakeCase} from '../data/utility/ChangeCase';
 export const optimizeRouteAsync = async (payload = {}, token) => {
   try {
     const response = await axios({
-      method: 'post',
+      method: 'POST',
       url: endpoints.OPTIMIZE_ROUTE,
       headers: {
         Authorization: `Bearer ${token}`,

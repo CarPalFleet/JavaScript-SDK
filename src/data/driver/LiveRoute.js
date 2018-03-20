@@ -6,7 +6,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
 export const sendLiveRouteDataAsync = async (liveRouteObj, token) => {
   try {
     const response = await axios({
-      method: 'post',
+      method: 'POST',
       url: endpoints.DRIVER_LIVE_ROUTES.replace('{0}', liveRouteObj.driverId),
       headers: {
         'Content-Type': 'application/json',
