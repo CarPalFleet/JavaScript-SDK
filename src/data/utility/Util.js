@@ -104,3 +104,17 @@ export const pushKeyAndMessageToArray = (newArray, [key, value]) => {
   newArray.push({key: key, messages: value});
   return newArray;
 };
+
+/**
+ * Manipulate the id of Array Object into CSV string
+ * @param {object} array
+ * @param {object} fieldName
+ * @return {string} comma seperated value string
+ */
+export const getCSVStringFromArrayObject = (array, fieldName) => {
+  return array
+    .map((data) => {
+      return data[fieldName];
+    })
+    .join();
+};

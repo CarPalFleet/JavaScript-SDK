@@ -1,10 +1,13 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../utility/Util';
+import {
+  apiResponseErrorHandler,
+  convertObjectIntoURLString,
+} from '../utility/Util';
 
 /** Elastic Search
- * @param {string} keywords
+ * @param {string} keyword
  * @param {object} scope
  * @param {int} fuzzy
  * @param {int} fuzziness
@@ -12,18 +15,22 @@ import {apiResponseErrorHandler} from '../utility/Util';
  * @return {object} Promise (resolve/reject)
  */
 export const searchAsync = async (
-  keywords,
+  keyword,
   scope,
   fuzzy = true,
   fuzziness = 1,
   token
 ) => {
   try {
+    const paramString = convertObjectIntoURLString({
+      keyword,
+      fuzzy,
+      fuzziness,
+      scope,
+    });
     const response = await axios({
       method: 'GET',
-      url: `${
-        endpoints.ELASTIC_SEARCH
-      }?keyword=${keywords}&fuzzy=${fuzzy}&fuzziness=${fuzziness}&scope=${scope}`,
+      url: `${endpoints.ELASTIC_SEARCH}${paramString.replace('&', '?')}`,
       headers: {Authorization: token},
     });
     return camelize(response.data.data);
@@ -46,6 +53,7 @@ export const searchAsync = async (
        "jobs" : ["orderId"],
        "orders" : ["groupingLocationId"]
    }
+ * @param {string} pickupDate (optional) # yyyy-mm-dd
  * @param {string} token
  * @return {object} response
  */
@@ -55,6 +63,7 @@ export const generalSearch = async (
   fuzziness = 1,
   keywords,
   scopes,
+  pickupDate = '',
   token
 ) => {
   try {
@@ -62,30 +71,16 @@ export const generalSearch = async (
       method: 'POST',
       url: endpoints.GENERAL_SEARCH,
       headers: {Authorization: token},
-      data: {customerId, fuzzy, fuzziness, keywords, scopes},
+      data: {
+        customerId,
+        fuzzy,
+        fuzziness,
+        keywords,
+        scopes,
+        pickupDate,
+      },
     });
     return camelize(response.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-export const driverSearch = async (
-  keywords,
-  scope,
-  fuzzy = true,
-  fuzziness = 1,
-  token
-) => {
-  try {
-    const response = await axios({
-      method: 'GET',
-      url: `${
-        endpoints.DRIVER_LIST_ELASTIC_SEARCH
-      }?keyword=${keywords}&fuzzy=${fuzzy}&fuzziness=${fuzziness}&scope=${scope}`,
-      headers: {Authorization: token},
-    });
-    return camelize(response.data.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }

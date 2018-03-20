@@ -4,6 +4,8 @@ import camelize from 'camelize';
 import {
   convertObjectIntoURLString,
   apiResponseErrorHandler,
+  rejectPromise,
+  getCSVStringFromArrayObject,
 } from '../utility/Util';
 
 export const createDriverAsync = async (
@@ -113,6 +115,38 @@ export const getDriversAsync = async (filterObject = {}, token) => {
     return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Retrieve specific driver based on the search result
+ * @param {object} filterObject
+ * @param {array} searchResult
+ * @param {string} token
+ * @return {promise} reject/resolve
+ * Will return [] array if there's no drivers
+ */
+export const getDriversBasedOnSearchResult = async (
+  filterObject,
+  searchResult,
+  token
+) => {
+  try {
+    const filedName = 'driver_id';
+    const driverFilterFieldName = 'id';
+    // Manipulate the driversIds of Array Object into CSV string
+    const driverIds = getCSVStringFromArrayObject(searchResult, filedName);
+    if (!driverIds) {
+      return [];
+    }
+
+    // filter the driver with search result ids
+    filterObject[driverFilterFieldName] = driverIds;
+    const driver = await getDriversAsync(filterObject, token);
+
+    return driver;
+  } catch (e) {
+    return rejectPromise(e);
   }
 };
 

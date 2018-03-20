@@ -8,6 +8,7 @@ import {
   convertObjectIntoURLString,
   apiResponseErrorHandler,
   rejectPromise,
+  getCSVStringFromArrayObject,
 } from '../utility/Util';
 
 export const getOrdersWithFiltersAsync = async (
@@ -24,7 +25,6 @@ export const getOrdersWithFiltersAsync = async (
         '{0}',
         customerId
       )}${paramString.replace('&', '?')}`,
-      // REVIEW: missing Bearer maybe?
       headers: {Authorization: token},
     });
     return camelize(categoriesCustomerOrders(response.data));
@@ -38,10 +38,10 @@ export const getOrderCountsAsync = async (filterObject, customerId, token) => {
   try {
     const response = await axios({
       method: 'GET',
-      url:
-        // REVIEW use template string
-        endpoints.CUSTOMER_ORDERS.replace('{0}', customerId) +
-        `?${paramString}`,
+      url: `${endpoints.CUSTOMER_ORDERS.replace(
+        '{0}',
+        customerId
+      )}${paramString.replace('&', '?')}`,
       headers: {Authorization: token},
     });
     return calculateCustomerOrderCounts(response.data);
@@ -291,7 +291,6 @@ export const getRemainingOrdersAsync = async (filterObject, token) => {
   }
 };
 
-/* Function name will be changed as getOrdersAsync */
 export const getOrdersAsync = async (filterObject, token) => {
   try {
     /*
@@ -779,18 +778,4 @@ export const mergeLocationDataWithErrors = (errorContents, location) => {
 
   /* Response empty array if there's no error from dynamodb */
   return [];
-};
-
-/**
- * Manipulate the id of Array Object into CSV string
- * @param {object} array
- * @param {object} fieldName
- * @return {string} comma seperated value string
- */
-export const getCSVStringFromArrayObject = (array, fieldName) => {
-  return array
-    .map((data) => {
-      return data[fieldName];
-    })
-    .join();
 };

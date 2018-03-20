@@ -4,8 +4,8 @@ import {
   createDriverAsync,
   getDriverDetailAsync,
   getDriversAsync,
-  getDriversAsync,
   getUpdatedDriverLiveData,
+  getDriversBasedOnSearchResult,
 } from '../Driver';
 
 describe('Create new driver ', () => {
@@ -74,6 +74,17 @@ test(`Test for retrieving V3 driver list`, async () => {
   const response = await getDriversAsync(filters, token.accessToken);
   expect('data' in response).toBe(true);
   expect(response.data instanceof Array).toBe(true);
+});
+
+describe('Retrieve Driver based on the search result', () => {
+  it('should response specific drivers array', async () => {
+    const response = await getDriversBasedOnSearchResult(
+      CONFIG.filterObject,
+      CONFIG.searchResult,
+      CONFIG.token
+    );
+    expect('data' in response).toBeTruthy();
+  });
 });
 
 test('Test for retrieving drivers by a customer account', async () => {
