@@ -6,7 +6,7 @@ import {
   apiResponseErrorHandler,
 } from '../utility/Util';
 
-export const createNewDriverAsync = async (
+export const createDriverAsync = async (
   {
     birthday,
     driverTypeIds,
@@ -80,7 +80,7 @@ export const createNewDriverAsync = async (
   }
 };
 
-export const getCustomerDriverDetailAsync = async (
+export const getDriverDetailAsync = async (
   customerId,
   identityId,
   driverId,
@@ -100,31 +100,13 @@ export const getCustomerDriverDetailAsync = async (
   }
 };
 
-export const getCustomerDriverListAsync = async (filterObject = {}, token) => {
+export const getDriversAsync = async (filterObject = {}, token) => {
   try {
     let paramString = convertObjectIntoURLString(filterObject);
 
     const response = await axios({
       method: 'GET',
-      url: `${endpoints.CUSTOMER_DRIVERS}/${paramString.replace('&', '?')}`,
-      headers: {Authorization: `Bearer ${token}`},
-    });
-    return camelize(response.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-export const getDriverListAsync = async (filterObject = {}, token) => {
-  try {
-    let paramString = convertObjectIntoURLString(filterObject);
-
-    const response = await axios({
-      method: 'GET',
-      url: `${endpoints.API_V3.DRIVER_LISTING}/${paramString.replace(
-        '&',
-        '?'
-      )}`,
+      url: `${endpoints.API_V3.DRIVER}/${paramString.replace('&', '?')}`,
       headers: {Authorization: `Bearer ${token}`},
     });
 
@@ -134,11 +116,7 @@ export const getDriverListAsync = async (filterObject = {}, token) => {
   }
 };
 
-export const deleteCustomerDriversAsync = async (
-  driverIds,
-  customerId,
-  token
-) => {
+export const deleteDriversAsync = async (driverIds, customerId, token) => {
   // Return true which is using in frontend before api is finished.
   return {data: true};
 
@@ -155,7 +133,7 @@ export const deleteCustomerDriversAsync = async (
   // }
 };
 
-export const getCustomerDriversWithFiltersAsync = async (
+export const getDriversWithFiltersAsync = async (
   filterObject = {},
   customerId,
   token,
@@ -177,7 +155,7 @@ export const getCustomerDriversWithFiltersAsync = async (
   }
 };
 
-export const getCustomerDriverCountsAsync = async (
+export const getDriverCountsAsync = async (
   filterObject = {},
   customerId,
   token
@@ -202,7 +180,7 @@ export const getCustomerDriverCountsAsync = async (
   }
 };
 
-export const updateDriverLiveData = (
+export const getUpdatedDriverLiveData = (
   originalDriverDatum,
   pubSubPayload,
   filterObject
