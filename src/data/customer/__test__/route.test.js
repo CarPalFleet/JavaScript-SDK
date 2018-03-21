@@ -2,7 +2,7 @@ import {
   getRoutesAsync,
   removeRouteAsync,
   createRouteLocationAsync,
-  updateRouteLocationAsync,
+  storeRouteLocationAsync,
   removeRouteLocationsAsync,
 } from '../Route';
 import CONFIG from './Config.js';
@@ -43,11 +43,10 @@ describe('Create new route location', () => {
   });
 });
 
-describe('Update route location', () => {
+describe('Store route location', () => {
   it('should return true value in data', async () => {
-    const result = await updateRouteLocationAsync(
-      CONFIG.routeId,
-      CONFIG.updateRouteLocationPayload,
+    const result = await storeRouteLocationAsync(
+      CONFIG.createRoutePayload,
       CONFIG.token
     );
     expect('data' in result).toBeTruthy();

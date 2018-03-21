@@ -27,6 +27,21 @@ const CONFIG = {
   customerId: 14445,
   fuzzy: false,
   fuzziness: 1,
+  createRoutePayload: [
+    {
+      driver_id: 2,
+      pickup_date: '2018-03-30',
+      route_settings: '{}',
+      route_locations: [
+        {
+          sequence: 1,
+          grouping_location_id: 1,
+          location_type_id: 3,
+          route_capacity: 10.5,
+        },
+      ],
+    },
+  ],
   scopes: {
     drivers: ['driverId', 'driverName'],
     jobs: ['orderId'],

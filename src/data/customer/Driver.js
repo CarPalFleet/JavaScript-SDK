@@ -6,6 +6,7 @@ import {
   apiResponseErrorHandler,
   rejectPromise,
   getCSVStringFromArrayObject,
+  camelToSnakeCase,
 } from '../utility/Util';
 
 export const createDriverAsync = async (
@@ -209,6 +210,34 @@ export const getDriverCountsAsync = async (
       response.data,
       filterObject.driverTypeIds
     );
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Get Routes
+ * @param {object} filterObject # {pickupDate (mandatory), withAvailability, withSchedule, limit, offset}
+ * pickupDate (optional)(string) = '2018-02-28'
+ * withAvailability (optional)(int) = 1/0
+ * withSchedule (optional)(int) = 1/0
+ * limit = 20 (optional)(int)
+ * page = 0 (optional)(int)
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getDriverRoutesAsync = async (filterObject, token) => {
+  try {
+    let paramString = convertObjectIntoURLString(
+      camelToSnakeCase(filterObject)
+    );
+    const routes = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.DRIVER_ROUTE}${paramString.replace('&', '?')}`,
+      headers: {Authorization: `Bearer ${token}`},
+    });
+
+    return camelize(routes.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }

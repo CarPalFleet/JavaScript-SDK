@@ -9,9 +9,10 @@ import {camelToSnakeCase} from '../data/utility/ChangeCase';
 
 /**
  * Get Routes
- * @param {object} filterObject # pickupDate (mandatory), withAvailability, withSchedule, recommendedRorOrderId, limit, offset}
+ * @param {object} filterObject # pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
  * pickupDate (optional)(string) = '2018-02-28'
- * routeStatusIds (optional)(int) = 12
+ * routeStatusIds (optional)(int) = 1,2 (csv)
+ * includeOrders (optional)(bollean) = true/false
  * limit = 20 (optional)(int)
  * page = 0 (optional)(int)
  * @param {string} token
@@ -35,24 +36,42 @@ export const getRoutesAsync = async (filterObject, token) => {
 };
 
 /**
- * Get Routes
- * @param {object} filterObject # pickupDate (mandatory), withAvailability, withSchedule, recommendedRorOrderId, limit, offset}
- * pickupDate (optional)(string) = '2018-02-28'
- * routeStatusIds (optional)(int) = 12
- * limit = 20 (optional)(int)
- * page = 0 (optional)(int)
+ * Create Routes
+ * @param {object} payload
+ * pickupDate (mandatory) (string),
+ * driverId (optional) (int),
+ * routeSettings (optional) (json string),
+ * routeLocations (mandatory) (array),
+ * sequence (mandatory) (int),
+ * groupingLocationId (mandatory) (int)
+ * locationTypeId  (mandatory) (int)
+ * routeCapacity (optional) (decimal)
+ Example payload
+ [
+  {
+    "driver_id": 2,
+    "pickup_date": "2018-03-30",
+    "route_settings": "{}",
+    "route_locations": [
+      {
+        "sequence": 1,
+        "grouping_location_id": 1,
+        "location_type_id": 3,
+        "route_capacity": 10.5
+      }
+    ]
+  }
+]
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const createRouteAsync = async (filterObject, token) => {
+export const storeRouteAsync = async (payload, token) => {
   try {
-    let paramString = convertObjectIntoURLString(
-      camelToSnakeCase(filterObject)
-    );
     const routes = await axios({
-      method: 'GET',
-      url: `${endpoints.API_V3.ROUTE}${paramString.replace('&', '?')}`,
+      method: 'POST',
+      url: endpoints.API_V3.ROUTE,
       headers: {Authorization: `Bearer ${token}`},
+      data: payload,
     });
 
     return camelize(routes.data);
@@ -86,6 +105,14 @@ export const removeRouteAsync = async (routeId, token) => {
  * sequence (mandatory)(int)
  * groupingLocationId (optional)(int) eg. 1
  * locationTypeId (optional)(int) 2 for Delivery Location, 3 for Pickup Location
+ * Exaple payload
+ [
+  {
+    "sequence": 1,
+    "groupingLocationId": 1,
+    "locationTypeId": 3
+  }
+ ]
  * @param {string} token
  * @return {Object} Promise resolve/reject
  */
@@ -134,7 +161,7 @@ export const createRouteLocationAsync = async (
  */
 export const updateRouteLocationAsync = async (
   routeId,
-  payload = {},
+  payload = [],
   token
 ) => {
   try {

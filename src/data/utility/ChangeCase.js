@@ -1,5 +1,6 @@
 import isObject from 'lodash.isobject';
 import isArray from 'lodash.isarray';
+import isNumber from 'lodash.isnumber';
 
 /**
  * @param {Object|String} data string or keys of object are named in form of snake
@@ -28,9 +29,9 @@ export const camelToSnake = function(data, depth) {
     if (typeof depth === 'undefined') {
       depth = 1;
     }
-    return _processKeys(data, _snakelize, depth);
+    return _processKeys(data, snakelize, depth);
   } else {
-    return _snakelize(data);
+    return snakelize(data);
   }
 };
 
@@ -39,8 +40,7 @@ export const camelToSnake = function(data, depth) {
  * @param {int/string} key The first param.
  * @return {string} key
  */
-// REVIEW why do you use _ for the name?
-function _snakelize(key) {
+function snakelize(key) {
   let separator = '_';
   let split = /(?=[A-Z])/;
 
