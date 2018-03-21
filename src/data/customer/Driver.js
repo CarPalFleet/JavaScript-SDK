@@ -4,9 +4,11 @@ import camelize from 'camelize';
 import {
   convertObjectIntoURLString,
   apiResponseErrorHandler,
+  rejectPromise,
+  getCSVStringFromArrayObject,
 } from '../utility/Util';
 
-export const createNewDriverAsync = async (
+export const createDriverAsync = async (
   {
     birthday,
     driverTypeIds,
@@ -65,7 +67,7 @@ export const createNewDriverAsync = async (
       newPayload = {...defaultPayload, existingUserEmail};
     }
     const response = await axios({
-      method: 'post',
+      method: 'POST',
       url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),
       headers: {
         Authorization: token,
@@ -80,7 +82,7 @@ export const createNewDriverAsync = async (
   }
 };
 
-export const getCustomerDriverDetailAsync = async (
+export const getDriverDetailAsync = async (
   customerId,
   identityId,
   driverId,
@@ -88,7 +90,7 @@ export const getCustomerDriverDetailAsync = async (
 ) => {
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url: endpoints.CUSTOMER_DRIVER_DETAIL.replace('{0}', customerId)
         .replace('{1}', identityId)
         .replace('{2}', driverId),
@@ -100,31 +102,13 @@ export const getCustomerDriverDetailAsync = async (
   }
 };
 
-export const getCustomerDriverListAsync = async (filterObject = {}, token) => {
+export const getDriversAsync = async (filterObject = {}, token) => {
   try {
     let paramString = convertObjectIntoURLString(filterObject);
 
     const response = await axios({
-      method: 'get',
-      url: `${endpoints.CUSTOMER_DRIVERS}/${paramString.replace('&', '?')}`,
-      headers: {Authorization: `Bearer ${token}`},
-    });
-    return camelize(response.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-export const getDriverListAsync = async (filterObject = {}, token) => {
-  try {
-    let paramString = convertObjectIntoURLString(filterObject);
-
-    const response = await axios({
-      method: 'get',
-      url: `${endpoints.API_V3.DRIVER_LISTING}/${paramString.replace(
-        '&',
-        '?'
-      )}`,
+      method: 'GET',
+      url: `${endpoints.API_V3.DRIVER}/${paramString.replace('&', '?')}`,
       headers: {Authorization: `Bearer ${token}`},
     });
 
@@ -134,38 +118,46 @@ export const getDriverListAsync = async (filterObject = {}, token) => {
   }
 };
 
-export const exportDriverListFileAsync = async (format, token) => {
-  // Return sample url which is using in frontend before api is finished.
-  return {
-    downloadUrl: 'http://gahp.net/wp-content/uploads/2017/09/sample.pdf',
-  };
-
-  // REVIEW remove commented, you can always find it back with git
-  // try {
-  // const response = await axios({
-  //   method: 'get',
-  //   url: `${endpoints.EXPORT_CUSTOMER_DRIVERS}?fileType=${format}`,
-  //   headers: {Authorization: `Bearer ${token}`},
-  // });
-  //
-  // return camelize(response.data);
-  // } catch (e) {
-  // return apiResponseErrorHandler(e);
-  // }
-};
-
-export const deleteCustomerDriversAsync = async (
-  driverIds,
-  customerId,
+/**
+ * Retrieve specific driver based on the search result
+ * @param {object} filterObject
+ * @param {array} searchResult
+ * @param {string} token
+ * @return {promise} reject/resolve
+ * Will return [] array if there's no drivers
+ */
+export const getDriversBasedOnSearchResult = async (
+  filterObject,
+  searchResult,
   token
 ) => {
+  try {
+    const filedName = 'driver_id';
+    const driverFilterFieldName = 'id';
+    // Manipulate the driversIds of Array Object into CSV string
+    const driverIds = getCSVStringFromArrayObject(searchResult, filedName);
+    if (!driverIds) {
+      return [];
+    }
+
+    // filter the driver with search result ids
+    filterObject[driverFilterFieldName] = driverIds;
+    const driver = await getDriversAsync(filterObject, token);
+
+    return driver;
+  } catch (e) {
+    return rejectPromise(e);
+  }
+};
+
+export const deleteDriversAsync = async (driverIds, customerId, token) => {
   // Return true which is using in frontend before api is finished.
   return {data: true};
 
   // try {
   // let paramString = driverIds.join();
   // const response = await axios({
-  //   method: 'delete',
+  //   method: 'DELETE',
   //   url: `${endpoints.CUSTOMER_DRIVERS}?driver_ids=${paramString}`,
   //   headers: {Authorization: `Bearer ${token}`},
   // });
@@ -175,7 +167,7 @@ export const deleteCustomerDriversAsync = async (
   // }
 };
 
-export const getCustomerDriversWithFiltersAsync = async (
+export const getDriversWithFiltersAsync = async (
   filterObject = {},
   customerId,
   token,
@@ -184,7 +176,7 @@ export const getCustomerDriversWithFiltersAsync = async (
   let paramString = convertObjectIntoURLString(filterObject);
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url: `${endpoints.CUSTOMER_DRIVERS.replace(
         '{0}',
         customerId
@@ -197,7 +189,7 @@ export const getCustomerDriversWithFiltersAsync = async (
   }
 };
 
-export const getCustomerDriverCountsAsync = async (
+export const getDriverCountsAsync = async (
   filterObject = {},
   customerId,
   token
@@ -205,7 +197,7 @@ export const getCustomerDriverCountsAsync = async (
   let paramString = convertObjectIntoURLString(filterObject);
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url: `${endpoints.CUSTOMER_DRIVERS.replace(
         '{0}',
         customerId
@@ -222,7 +214,7 @@ export const getCustomerDriverCountsAsync = async (
   }
 };
 
-export const updateDriverLiveData = (
+export const getUpdatedDriverLiveData = (
   originalDriverDatum,
   pubSubPayload,
   filterObject

@@ -6,7 +6,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
 export const resetPasswordRequestAsync = async (email) => {
   try {
     const response = await axios({
-      method: 'post',
+      method: 'POST',
       url: endpoints.PASSWORD_RESET,
       headers: {'Content-Type': 'application/json'},
       data: {
@@ -28,7 +28,7 @@ export const resetPasswordAsync = async (
 ) => {
   try {
     const response = await axios({
-      method: 'put',
+      method: 'PUT',
       url: endpoints.PASSWORD_RESET,
       headers: {'Content-Type': 'application/json'},
       data: {
@@ -47,7 +47,7 @@ export const resetPasswordAsync = async (
 export const validateResetPasswordTokenAsync = async (token) => {
   try {
     const response = await axios({
-      method: 'post',
+      method: 'POST',
       url: endpoints.PASSWORD_RESET_TOKEN,
       headers: {'Content-Type': 'application/json'},
       data: {
@@ -65,7 +65,7 @@ export const validateResetPasswordTokenAsync = async (token) => {
 export const getDriverJobsAsync = async (id, token, date) => {
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url: endpoints.MY_JOBS.replace('{0}', id).replace('{1}', date),
       headers: {Authorization: token},
     });
@@ -79,7 +79,7 @@ export const getDriverJobsAsync = async (id, token, date) => {
 export const getDriverLegsAsync = async (id, token, date) => {
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url: endpoints.MY_LEGS.replace('{0}', id).replace('{1}', date),
       headers: {Authorization: token},
     });

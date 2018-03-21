@@ -95,6 +95,18 @@ export const arrayReduce = (array, cb, accumulator = []) => {
 };
 
 /**
+ * Iterate the array and format by using ES 6 reduce method
+ * Javascript ES Object.entries method will convert object into key, value array.
+ * @param {object} array
+ * @param {object} cb #call back function
+ * @param {array} accumulator
+ * @return {array} reduced data array
+ */
+export const arrayMap = (array, cb) => {
+  return array.map(cb);
+};
+
+/**
  * Store key/value element into array
  * @param {array} newArray #error object
  * @param {array}} [key, value]
@@ -103,4 +115,28 @@ export const arrayReduce = (array, cb, accumulator = []) => {
 export const pushKeyAndMessageToArray = (newArray, [key, value]) => {
   newArray.push({key: key, messages: value});
   return newArray;
+};
+
+/**
+ * Manipulate the id of Array Object into CSV string
+ * @param {object} array
+ * @param {object} fieldName
+ * @return {string} comma seperated value string
+ */
+export const getCSVStringFromArrayObject = (array, fieldName) => {
+  return array
+    .map((data) => {
+      return data[fieldName];
+    })
+    .join();
+};
+
+/**
+ * Find the the same id in the object
+ * @param {array} a
+ * @param {array} b
+ * @return {boolean} true/falsea
+ */
+export const hasSameObjectId = (a, b) => {
+  return a.id === b.id;
 };

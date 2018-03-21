@@ -22,6 +22,7 @@ describe('Retrieve whitelabel', () => {
       CONFIG.fuzziness,
       CONFIG.scopes,
       CONFIG.keywords,
+      CONFIG.searchAsync,
       CONFIG.token
     );
     expect(response.data).toBeTruthy();

@@ -6,7 +6,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
 export const getTokenAsync = async (email, password, clientId, secret) => {
   try {
     const response = await axios({
-      method: 'post',
+      method: 'POST',
       url: endpoints.OAUTH,
       headers: {'Content-Type': 'application/json'},
       data: {
@@ -28,7 +28,7 @@ export const getTokenAsync = async (email, password, clientId, secret) => {
 export const refreshTokenAsync = async (refreshToken, clientId, secret) => {
   try {
     const response = await axios({
-      method: 'post',
+      method: 'POST',
       url: endpoints.OAUTH,
       headers: {'Content-Type': 'application/json'},
       data: {

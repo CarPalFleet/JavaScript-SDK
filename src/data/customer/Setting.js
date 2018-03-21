@@ -12,7 +12,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
 export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url: endpoints.TRANSACTION_GROUP_SETTING.replace('{1}', domain),
       headers: {Authorization: token},
     });
@@ -35,7 +35,7 @@ export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
 export const getCustomerSettingsAsync = async (customerId, type, token) => {
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url: `${endpoints.CUSTOMER_SETTINGS.replace(
         '{0}',
         customerId

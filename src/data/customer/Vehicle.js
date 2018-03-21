@@ -11,7 +11,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
 export const getVehicleTypesAsync = async (token) => {
   try {
     const vehicles = await axios({
-      method: 'get',
+      method: 'GET',
       url: `${endpoints.VEHICLES}/types`,
       headers: {Authorization: `bearer ${token}`},
     });

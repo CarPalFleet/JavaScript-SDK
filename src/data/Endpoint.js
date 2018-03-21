@@ -22,7 +22,6 @@ const endpoints = {
   DRIVER_LIST_ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`, // url will be updated after backend is finished
   SCHEMAS: `${urlPrefix}/schemas/{0}/{1}`,
   CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
-  EXPORT_CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
   CUSTOMER_DRIVER_DETAIL: `${urlPrefix}/customers/{0}/identities/{1}/drivers/{2}`,
   DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
   NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
@@ -38,13 +37,15 @@ const endpoints = {
     GROUPING_LOCATIONS: `${laravelUrlPrefix}/${version}/customer/grouping-location`,
     GROUPING_BATCH_PROGRESSION: `${laravelUrlPrefix}/${version}/customer/grouping-batch/show-recent-pending`,
     PICKUP_GROUP: `${laravelUrlPrefix}/${version}/customer/pickup-group`,
-    DRIVER_LISTING: `${laravelUrlPrefix}/${version}/customer/driver`,
+    DRIVER: `${laravelUrlPrefix}/${version}/customer/driver`,
     JOB: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
     RECOMMENDED_JOB: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
-    ROUTE: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
+    ROUTE: `${laravelUrlPrefix}/${version}/customers/route/{0}`,
     OPTIMIZE_ROUTE: `${laravelUrlPrefix}/${version}/customers/route/optimization`,
     ROUTE_LOCATION: `${laravelUrlPrefix}/${version}/customer/route/{0}/route-location`,
     DRIVER_SCHEDULE: `${laravelUrlPrefix}/${version}/customer/driver-schedule/{0}`,
+    EXPORT_DRIVER_LIST: `${laravelUrlPrefix}/${version}/customer/driverlist/export`, // url will be updated after backend is finished
+    EXPORT_ROUTE: `${laravelUrlPrefix}/${version}/customer/route/export`, // url will be updated after backend is finished
   },
 };
 

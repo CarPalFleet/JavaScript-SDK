@@ -1,11 +1,11 @@
 import CONFIG from './Config';
 import {getTokenAsync} from '../../account/Auth';
 import {
-  createNewDriverAsync,
-  getCustomerDriverDetailAsync,
-  getCustomerDriverListAsync,
-  getDriverListAsync,
-  updateDriverLiveData,
+  createDriverAsync,
+  getDriverDetailAsync,
+  getDriversAsync,
+  getUpdatedDriverLiveData,
+  getDriversBasedOnSearchResult,
 } from '../Driver';
 
 describe('Create new driver ', () => {
@@ -39,11 +39,7 @@ describe('Create new driver ', () => {
       vehicleColor: 'Black',
     };
 
-    const response = await createNewDriverAsync(
-      driverInfo,
-      1,
-      token.accessToken
-    );
+    const response = await createDriverAsync(driverInfo, 1, token.accessToken);
     expect('driver' in response).toBeTruthy();
     expect('id' in response.driver).toBeTruthy();
     expect('details' in response.driver).toBeTruthy();
@@ -58,12 +54,7 @@ test(`Test for retrieving detail of customer's driver`, async () => {
     CONFIG.clientSecret
   );
   const token = await result;
-  const response = await getCustomerDriverDetailAsync(
-    1,
-    5,
-    9869,
-    token.accessToken
-  );
+  const response = await getDriverDetailAsync(1, 5, 9869, token.accessToken);
   expect(response instanceof Object).toBe(true);
 });
 
@@ -80,9 +71,20 @@ test(`Test for retrieving V3 driver list`, async () => {
     page: 1,
   };
 
-  const response = await getDriverListAsync(filters, token.accessToken);
+  const response = await getDriversAsync(filters, token.accessToken);
   expect('data' in response).toBe(true);
   expect(response.data instanceof Array).toBe(true);
+});
+
+describe('Retrieve Driver based on the search result', () => {
+  it('should response specific drivers array', async () => {
+    const response = await getDriversBasedOnSearchResult(
+      CONFIG.filterObject,
+      CONFIG.searchResult,
+      CONFIG.token
+    );
+    expect('data' in response).toBeTruthy();
+  });
 });
 
 test('Test for retrieving drivers by a customer account', async () => {
@@ -100,11 +102,7 @@ test('Test for retrieving drivers by a customer account', async () => {
   );
   const token = await result;
 
-  const response = await getCustomerDriverListAsync(
-    filterObj,
-    1,
-    token.accessToken
-  );
+  const response = await getDriversAsync(filterObj, 1, token.accessToken);
 
   expect(response instanceof Array).toBe(true);
   expect(true).toBe(true);
@@ -165,7 +163,7 @@ test('Test for pubsub live data for job', async () => {
     CONFIG.clientId,
     CONFIG.clientSecret
   );
-  const response = updateDriverLiveData(
+  const response = getUpdatedDriverLiveData(
     originalDriverDatum,
     pubSubPayload,
     filterObject,
