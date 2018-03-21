@@ -18,21 +18,10 @@ import {
   getOrdersBasedOnSearchResult,
   getCSVStringFromArrayObject,
 } from '../Order';
-import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './Config';
 
 test('Retrieving single grouping location', async () => {
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
-  const response = await getOrderAsync(
-    CONFIG.groupingLocationId,
-    token.accessToken
-  );
+  const response = await getOrderAsync(CONFIG.groupingLocationId, CONFIG.token);
   expect('data' in response).toBe(true);
 });
 
@@ -100,34 +89,17 @@ describe('Convert Ids into CSV string', () => {
 
 describe('Remove order with error record', () => {
   it('should remove specific order record. If it is deleted, response data should be true', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(
-      CONFIG.temail,
-      CONFIG.tpassword,
-      CONFIG.clientId,
-      CONFIG.clientSecret
-    );
-    const token = await result;
-
-    const response = await removeOrderWithErrorAsync(27840, token.accessToken);
+    const response = await removeOrderWithErrorAsync(27840, CONFIG.token);
     expect('data' in response).toBeTruthy();
     expect(response.data).toBeTruthy();
   });
 });
 
 test('Retrieving error grouping locations from DynamoDB', async () => {
-  // Example of pickupdate format 2018-02-28
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   const response = await getErrorOrderContentsAsync(
     CONFIG.pickupDate,
     CONFIG.customerId,
-    token.accessToken
+    CONFIG.token
   );
   expect(response.data instanceof Array).toBe(true);
 });
@@ -171,153 +143,74 @@ test('Retrieving pickup group', async () => {
     withOrder: 0,
   };
 
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   const response = await getUniquePickupAddressesAsync(
     pickupGroupFilters,
-    token.accessToken
+    CONFIG.token
   );
   expect('data' in response).toBe(true);
   expect(response.data instanceof Array).toBe(true);
 });
 
 test('Create Grouping Location', async () => {
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
-  const response = await createOrderAsync(
-    CONFIG.locationObject,
-    token.accessToken
-  );
+  const response = await createOrderAsync(CONFIG.locationObject, CONFIG.token);
   expect('data' in response).toBe(true);
 });
 
 test('Edit Grouping Location', async () => {
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   const response = await editOrderAsync(
     CONFIG.groupingLocationId,
     CONFIG.locationObject,
-    token.accessToken
+    CONFIG.token
   );
   expect('data' in response).toBe(true);
 });
 
 test('Edit Multiple Grouping Locations', async () => {
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
-  const response = await editOrdersAsync(
-    CONFIG.locationDataList,
-    token.accessToken
-  );
+  const response = await editOrdersAsync(CONFIG.locationDataList, CONFIG.token);
   expect('data' in response).toBe(true);
 });
 
 test('Test for file uploading', async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  const result = getTokenAsync(
-    CONFIG.email,
-    CONFIG.password,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   let formData = {};
   const response = await fileUploadForOrderAsync(
     {groupingSpreadsheet: formData},
-    token.accessToken
+    CONFIG.token
   );
   expect('groupingBatchId' in response.data).toBe(true);
   expect(true).toBe(true);
 });
 
 test('Test for file uploading error', async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  const result = getTokenAsync(
-    CONFIG.email,
-    CONFIG.password,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   const response = await fileUploadForOrderAsync(
     {grouping_spreadsheet: 12},
-    token.accessToken
+    CONFIG.token
   );
 
   expect('error' in response).toBe(true);
 });
 
 test('Test for uploading batch order progression', async () => {
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
-  const response = await getUploadedOrderProgressionAsync(1, token.accessToken);
+  const response = await getUploadedOrderProgressionAsync(1, CONFIG.token);
   expect('data' in response).toBe(true);
 });
 
 test('Delete Grouping Location', async () => {
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   const response = await deleteOrderAsync(
     CONFIG.groupingLocationId,
-    token.accessToken
+    CONFIG.token
   );
   expect(response.data).toBe(true);
 });
 
 test('Delete Multiple Grouping Locations', async () => {
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   const response = await deleteOrdersAsync(
     CONFIG.groupingLocationIds,
-    token.accessToken
+    CONFIG.token
   );
   expect(response.data).toBe(true);
 });
 
 test('Test for creating new delivery window with product type 1', async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  const result = getTokenAsync(
-    CONFIG.email,
-    CONFIG.password,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   const response = await createDeliveryWindow(
     {
       customerId: 1,
@@ -327,33 +220,18 @@ test('Test for creating new delivery window with product type 1', async () => {
       startTime: '9:30',
       endTime: '11:30',
     },
-    token.accessToken
+    CONFIG.token
   );
   expect('id' in response).toBe(true);
 });
 
 test('Test for customer order detail', async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  const result = getTokenAsync(
-    CONFIG.email,
-    CONFIG.password,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
-  const response = await getOrderDetailAsync(1, 1, token.accessToken);
+  const response = await getOrderDetailAsync(1, 1, CONFIG.token);
   expect('data' in response).toBe(true);
   expect(true).toBe(true);
 });
 
 test('Test for creating new delivery window with product type 3 and transaction user account', async () => {
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   const response = await createDeliveryWindow(
     {
       customerId: 1,
@@ -364,7 +242,7 @@ test('Test for creating new delivery window with product type 3 and transaction 
       startTime: '9:30',
       endTime: '11:30',
     },
-    token.accessToken
+    CONFIG.token
   );
   expect('id' in response).toBe(true);
 });

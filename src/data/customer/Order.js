@@ -256,35 +256,6 @@ export const getOrdersGroupByPickUpAddressAsync = async (
   }
 };
 
-// /**
-//  * Merge Order Records
-//  * @param {array} oldValues
-//  * @param {array} newValues
-//  * @return {object} Promise resolve/reject
-//  */
-// export const mergeOldAndNewOrderRecords = (oldValues, newValues) => {
-//   try {
-//     let duplicateIndexes = oldValues.reduce(function(newArr, aJob, i) {
-//       let index = newValues.findIndex(hasSameObjectId.bind(null, aJob));
-//       if (index >= 0) {
-//         newArr.push({oldIndex: i, newIndex: index});
-//       }
-//       return newArr;
-//     }, []);
-//
-//     duplicateIndexes.map(function(data) {
-//       oldValues[data.oldIndex]['jobs'] = oldValues[data.oldIndex][
-//         'jobs'
-//       ].concat(newValues[data.newIndex]['jobs']);
-//       newValues.splice(data.newIndex, 1);
-//     });
-//
-//     return oldValues.concat(newValues);
-//   } catch (e) {
-//     return rejectPromise(e);
-//   }
-// };
-
 /**
  * Merge Order Records
  * @param {array} oldValues
