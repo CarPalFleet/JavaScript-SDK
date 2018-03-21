@@ -9,6 +9,9 @@ import {
   apiResponseErrorHandler,
   rejectPromise,
   getCSVStringFromArrayObject,
+  arrayReduce,
+  arrayMap,
+  hasSameObjectId,
 } from '../utility/Util';
 
 export const getOrdersWithFiltersAsync = async (
@@ -253,20 +256,70 @@ export const getOrdersGroupByPickUpAddressAsync = async (
   }
 };
 
+// /**
+//  * Merge Order Records
+//  * @param {array} oldValues
+//  * @param {array} newValues
+//  * @return {object} Promise resolve/reject
+//  */
+// export const mergeOldAndNewOrderRecords = (oldValues, newValues) => {
+//   try {
+//     let duplicateIndexes = oldValues.reduce(function(newArr, aJob, i) {
+//       let index = newValues.findIndex(hasSameObjectId.bind(null, aJob));
+//       if (index >= 0) {
+//         newArr.push({oldIndex: i, newIndex: index});
+//       }
+//       return newArr;
+//     }, []);
+//
+//     duplicateIndexes.map(function(data) {
+//       oldValues[data.oldIndex]['jobs'] = oldValues[data.oldIndex][
+//         'jobs'
+//       ].concat(newValues[data.newIndex]['jobs']);
+//       newValues.splice(data.newIndex, 1);
+//     });
+//
+//     return oldValues.concat(newValues);
+//   } catch (e) {
+//     return rejectPromise(e);
+//   }
+// };
+
 /**
  * Merge Order Records
- * @param {array} oldOrderRecords
- * @param {array} newOrderRecords
+ * @param {array} oldValues
+ * @param {array} newValues
  * @return {object} Promise resolve/reject
  */
-export const mergeOrderRecords = (oldOrderRecords, newOrderRecords) => {
+export const mergeOldAndNewOrderRecords = (oldValues, newValues) => {
   try {
-    newOrderRecords.map(function(order) {
-      newOrderRecords[order.pickupGroupId].push(order);
-    });
+    let duplicateIndexes = arrayReduce(
+      oldValues,
+      findDuplicateIndexes.bind(null, newValues)
+    );
+    let result = arrayMap(
+      duplicateIndexes,
+      concatDuplicateObjects.bind(null, oldValues, newValues)
+    );
+    return result.oldValues.concat(result.newValues);
   } catch (e) {
     return rejectPromise(e);
   }
+};
+
+export const concatDuplicateObjects = (oldValues, newValues, data) => {
+  oldValues[data.oldIndex]['jobs'] = oldValues[data.oldIndex]['jobs'].concat(
+    newValues[data.newIndex]['jobs']
+  );
+  newValues.splice(data.newIndex, 1);
+};
+
+export const findDuplicateIndexes = (newValues, accumulator, aJob, i) => {
+  let index = newValues.findIndex(hasSameObjectId.bind(null, aJob));
+  if (index >= 0) {
+    accumulator.push({oldIndex: i, newIndex: index});
+  }
+  return accumulator;
 };
 
 /**
