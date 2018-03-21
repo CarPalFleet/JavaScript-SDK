@@ -34,6 +34,33 @@ export const getRoutesAsync = async (filterObject, token) => {
   }
 };
 
+/**
+ * Get Routes
+ * @param {object} filterObject # pickupDate (mandatory), withAvailability, withSchedule, recommendedRorOrderId, limit, offset}
+ * pickupDate (optional)(string) = '2018-02-28'
+ * routeStatusIds (optional)(int) = 12
+ * limit = 20 (optional)(int)
+ * page = 0 (optional)(int)
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const createRouteAsync = async (filterObject, token) => {
+  try {
+    let paramString = convertObjectIntoURLString(
+      camelToSnakeCase(filterObject)
+    );
+    const routes = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.ROUTE}${paramString.replace('&', '?')}`,
+      headers: {Authorization: `Bearer ${token}`},
+    });
+
+    return camelize(routes.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
 /** Remove Route
  * @param {int} routeId
  * @param {string} token
