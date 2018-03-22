@@ -138,7 +138,7 @@ export const updateDriverAsync = async (filterObject = {}, token) => {
     let paramString = convertObjectIntoURLString(filterObject);
 
     const response = await axios({
-      method: 'GET',
+      method: 'PUT',
       url: `${endpoints.API_V3.DRIVER}/${paramString.replace('&', '?')}`,
       headers: {Authorization: `Bearer ${token}`},
     });

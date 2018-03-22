@@ -49,15 +49,15 @@ export const getRoutesAsync = async (filterObject, token) => {
  Example payload
  [
   {
-    "driver_id": 2,
-    "pickup_date": "2018-03-30",
-    "route_settings": "{}",
-    "route_locations": [
+    "driverId": 2,
+    "pickupDate": "2018-03-30",
+    "routeSettings": "{}",
+    "routeLocations": [
       {
         "sequence": 1,
-        "grouping_location_id": 1,
-        "location_type_id": 3,
-        "route_capacity": 10.5
+        "groupingLocationId": 1,
+        "locationTypeId": 3,
+        "routeCapacity": 10.5
       }
     ]
   }
