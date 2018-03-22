@@ -44,6 +44,5 @@ test('Test for comparison of schema and payload', async () => {
     driver_id: 'number',
     driver_name: 'string',
   };
-  // REVIEW use toBeFalsy()
-  expect(validate(schema, payload)).toBe(false);
+  expect(validate(schema, payload)).toBeFalsy();
 });

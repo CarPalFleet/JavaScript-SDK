@@ -11,5 +11,5 @@ test('should show the list of vehicle types, inside of array expect id and type 
   );
   const token = await result;
   const response = await getVehicleTypesAsync(token.accessToken);
-  expect('data' in response).toBe(true);
+  expect('data' in response).toBeTruthy();
 });

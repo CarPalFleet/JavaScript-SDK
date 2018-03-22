@@ -22,7 +22,7 @@ import CONFIG from './Config';
 
 test('Retrieving single grouping location', async () => {
   const response = await getOrderAsync(CONFIG.groupingLocationId, CONFIG.token);
-  expect('data' in response).toBe(true);
+  expect('data' in response).toBeTruthy();
 });
 
 test('Retrieving validated grouping locations', async () => {
@@ -39,10 +39,10 @@ test('Retrieving validated grouping locations', async () => {
     CONFIG.token
   );
 
-  expect('data' in response).toBe(true);
-  expect('totalLocationCount' in response).toBe(true);
-  expect('successLocationCount' in response).toBe(true);
-  expect('failedLocationCount' in response).toBe(true);
+  expect('data' in response).toBeTruthy();
+  expect('totalLocationCount' in response).toBeTruthy();
+  expect('successLocationCount' in response).toBeTruthy();
+  expect('failedLocationCount' in response).toBeTruthy();
 });
 
 test('Retrieving error grouping locations', async () => {
@@ -59,10 +59,10 @@ test('Retrieving error grouping locations', async () => {
     CONFIG.token
   );
 
-  expect('data' in response).toBe(true);
-  expect('totalLocationCount' in response).toBe(true);
-  expect('successLocationCount' in response).toBe(true);
-  expect('failedLocationCount' in response).toBe(true);
+  expect('data' in response).toBeTruthy();
+  expect('totalLocationCount' in response).toBeTruthy();
+  expect('successLocationCount' in response).toBeTruthy();
+  expect('failedLocationCount' in response).toBeTruthy();
 });
 
 describe('Retrieve Order Based on the search result', () => {
@@ -101,7 +101,7 @@ test('Retrieving error grouping locations from DynamoDB', async () => {
     CONFIG.customerId,
     CONFIG.token
   );
-  expect(response.data instanceof Array).toBe(true);
+  expect(response.data instanceof Array).toBeTruthy();
 });
 
 describe('Call API to update error records and Remove batch errors of order from Dynamodb', () => {
@@ -147,13 +147,13 @@ test('Retrieving pickup group', async () => {
     pickupGroupFilters,
     CONFIG.token
   );
-  expect('data' in response).toBe(true);
-  expect(response.data instanceof Array).toBe(true);
+  expect('data' in response).toBeTruthy();
+  expect(response.data instanceof Array).toBeTruthy();
 });
 
 test('Create Grouping Location', async () => {
   const response = await createOrderAsync(CONFIG.locationObject, CONFIG.token);
-  expect('data' in response).toBe(true);
+  expect('data' in response).toBeTruthy();
 });
 
 test('Edit Grouping Location', async () => {
@@ -162,12 +162,12 @@ test('Edit Grouping Location', async () => {
     CONFIG.locationObject,
     CONFIG.token
   );
-  expect('data' in response).toBe(true);
+  expect('data' in response).toBeTruthy();
 });
 
 test('Edit Multiple Grouping Locations', async () => {
   const response = await editOrdersAsync(CONFIG.locationDataList, CONFIG.token);
-  expect('data' in response).toBe(true);
+  expect('data' in response).toBeTruthy();
 });
 
 test('Test for file uploading', async () => {
@@ -176,8 +176,8 @@ test('Test for file uploading', async () => {
     {groupingSpreadsheet: formData},
     CONFIG.token
   );
-  expect('groupingBatchId' in response.data).toBe(true);
-  expect(true).toBe(true);
+  expect('groupingBatchId' in response.data).toBeTruthy();
+  expect(true).toBeTruthy();
 });
 
 test('Test for file uploading error', async () => {
@@ -186,12 +186,12 @@ test('Test for file uploading error', async () => {
     CONFIG.token
   );
 
-  expect('error' in response).toBe(true);
+  expect('error' in response).toBeTruthy();
 });
 
 test('Test for uploading batch order progression', async () => {
   const response = await getUploadedOrderProgressionAsync(1, CONFIG.token);
-  expect('data' in response).toBe(true);
+  expect('data' in response).toBeTruthy();
 });
 
 test('Delete Grouping Location', async () => {
@@ -199,7 +199,7 @@ test('Delete Grouping Location', async () => {
     CONFIG.groupingLocationId,
     CONFIG.token
   );
-  expect(response.data).toBe(true);
+  expect(response.data).toBeTruthy();
 });
 
 test('Delete Multiple Grouping Locations', async () => {
@@ -207,7 +207,7 @@ test('Delete Multiple Grouping Locations', async () => {
     CONFIG.groupingLocationIds,
     CONFIG.token
   );
-  expect(response.data).toBe(true);
+  expect(response.data).toBeTruthy();
 });
 
 test('Test for creating new delivery window with product type 1', async () => {
@@ -222,13 +222,13 @@ test('Test for creating new delivery window with product type 1', async () => {
     },
     CONFIG.token
   );
-  expect('id' in response).toBe(true);
+  expect('id' in response).toBeTruthy();
 });
 
 test('Test for customer order detail', async () => {
   const response = await getOrderDetailAsync(1, 1, CONFIG.token);
-  expect('data' in response).toBe(true);
-  expect(true).toBe(true);
+  expect('data' in response).toBeTruthy();
+  expect(true).toBeTruthy();
 });
 
 test('Test for creating new delivery window with product type 3 and transaction user account', async () => {
@@ -244,7 +244,7 @@ test('Test for creating new delivery window with product type 3 and transaction 
     },
     CONFIG.token
   );
-  expect('id' in response).toBe(true);
+  expect('id' in response).toBeTruthy();
 });
 
 /**

@@ -9,7 +9,6 @@ import isNumber from 'lodash.isnumber';
  */
 export const snakeToCamel = function(data, depth) {
   if (isObject(data) || isArray(data)) {
-    // REVIEW consider comparing to null with double ==
     if (typeof depth === 'undefined') {
       depth = 1;
     }

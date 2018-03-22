@@ -16,6 +16,6 @@ test('Creating new customer account', async () => {
     coVatNo: 'NASA123456789',
   };
   const response = await createNewCustomerAsync(customer);
-  expect(response).toBe(true);
-  expect(true).toBe(true);
+  expect(response).toBeTruthy();
+  expect(true).toBeTruthy();
 });

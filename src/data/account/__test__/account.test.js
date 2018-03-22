@@ -1,9 +1,8 @@
-// REVIEW I'm not sure those eslint disable are useful
 import {
   resetPasswordRequestAsync,
   resetPasswordAsync,
-  getDriverJobsAsync, // eslint-disable-line no-use-before-define
-  getDriverLegsAsync, // eslint-disable-line no-use-before-define
+  getDriverJobsAsync,
+  getDriverLegsAsync,
   validateResetPasswordTokenAsync,
 } from '../Account';
 import {getTokenAsync} from '../Auth';
@@ -16,7 +15,7 @@ import CONFIG from './Config';
 test('Test for reset password request', async () => {
   const response = resetPasswordRequestAsync(CONFIG.email);
   const result = await response;
-  expect(result).toBe(true);
+  expect(result).toBeTruthy();
 });
 
 test('Test for reset password', async () => {
@@ -27,7 +26,7 @@ test('Test for reset password', async () => {
     'carpaldemo'
   );
   const result = await response;
-  expect(result).toBe(true);
+  expect(result).toBeTruthy();
 });
 
 test('Test for reset password token validation', async () => {
@@ -46,9 +45,7 @@ test('Test for getting my jobs.', async () => {
   const token = await result;
   const response = getDriverJobsAsync(1, token.accessToken, CONFIG.date);
   const myJobs = await response;
-  // REVIEW (NP) you could use Array.isArray() https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array/isArray
-  // REVIEW you could also use a snapshot here because testing if the response is an array doesn't prove the result is the expected behavior
-  expect(myJobs instanceof Array).toBe(true);
+  expect(Array.isArray(myJobs)).toBeTruthy();
 });
 
 test('Test for getting my legs.', async () => {
@@ -62,8 +59,7 @@ test('Test for getting my legs.', async () => {
   const token = await result;
   const response = getDriverLegsAsync(1, token.accessToken, CONFIG.date);
   const myLegs = await response;
-  // REVIEW same as previously
-  expect(myLegs instanceof Array).toBe(true);
+  expect(Array.isArray(myLegs)).toBeTruthy();
 });
 
 /**
