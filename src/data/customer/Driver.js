@@ -6,8 +6,8 @@ import {
   apiResponseErrorHandler,
   rejectPromise,
   getCSVStringFromArrayObject,
-  camelToSnakeCase,
 } from '../utility/Util';
+import {camelToSnake} from '../utility/ChangeCase';
 
 export const createDriverAsync = async (
   {
@@ -259,7 +259,7 @@ export const getDriverCountsAsync = async (
 export const getDriverRoutesAsync = async (filterObject, token) => {
   try {
     let paramString = convertObjectIntoURLString(
-      camelToSnakeCase(filterObject)
+      camelToSnake(filterObject)
     );
     const routes = await axios({
       method: 'GET',

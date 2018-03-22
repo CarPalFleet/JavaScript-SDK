@@ -5,7 +5,7 @@ import {
   convertObjectIntoURLString,
   apiResponseErrorHandler,
 } from '../utility/Util';
-import {camelToSnakeCase} from '../data/utility/ChangeCase';
+import {camelToSnake} from '../utility/ChangeCase';
 
 /**
  * Get Routes
@@ -20,9 +20,7 @@ import {camelToSnakeCase} from '../data/utility/ChangeCase';
  */
 export const getRoutesAsync = async (filterObject, token) => {
   try {
-    let paramString = convertObjectIntoURLString(
-      camelToSnakeCase(filterObject)
-    );
+    let paramString = convertObjectIntoURLString(camelToSnake(filterObject));
     const routes = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.ROUTE}${paramString.replace('&', '?')}`,
