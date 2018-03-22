@@ -2,7 +2,7 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import FormData from 'form-data';
-import {snakeCaseDecorator} from '../decorator/CoreDecorators';
+import {camelToSnake} from '../utility/ChangeCase';
 import isEmpty from 'lodash.isempty';
 import {
   convertObjectIntoURLString,
@@ -326,7 +326,7 @@ export const getOrdersAsync = async (filterObject, token) => {
       limit = 20
       offset = 0
     */
-    let filters = snakeCaseDecorator(filterObject);
+    let filters = camelToSnake(filterObject);
     let paramString = convertObjectIntoURLString(filters);
     let response = await axios({
       method: 'GET',
@@ -447,7 +447,7 @@ export const removeOrderErrorRecordsAsync = async (errorIds = [], token) => {
 
 export const getUniquePickupAddressesAsync = async (filterObject, token) => {
   try {
-    let filters = snakeCaseDecorator(filterObject);
+    let filters = camelToSnake(filterObject);
     let paramString = convertObjectIntoURLString(filters);
     let response = await axios({
       method: 'GET',
@@ -471,7 +471,7 @@ export const getUniquePickupAddressesAsync = async (filterObject, token) => {
 
 export const createOrderAsync = async (locationObject, token) => {
   try {
-    locationObject = snakeCaseDecorator(locationObject);
+    locationObject = camelToSnake(locationObject);
     let response = await axios({
       method: 'POST',
       url: endpoints.API_V3.GROUPING_LOCATIONS,
@@ -480,7 +480,7 @@ export const createOrderAsync = async (locationObject, token) => {
         'Content-Type': 'application/json',
       },
       data: {
-        location_data: JSON.stringify(snakeCaseDecorator(locationObject)),
+        location_data: JSON.stringify(camelToSnake(locationObject)),
       },
     });
 
@@ -497,7 +497,7 @@ export const editOrderAsync = async (
 ) => {
   try {
     let updatedLocationDataObject = {
-      location_data: JSON.stringify(snakeCaseDecorator(locationObject)),
+      location_data: JSON.stringify(camelToSnake(locationObject)),
     };
 
     let response = await axios({
@@ -521,7 +521,7 @@ export const editOrdersAsync = async (locationDataList = [], token) => {
     let updatedLocationDataList = locationDataList.map((data) => {
       let tmpObject = {
         grouping_location_id: data.groupingLocationId,
-        location_data: JSON.stringify(snakeCaseDecorator(data.locationData)),
+        location_data: JSON.stringify(camelToSnake(data.locationData)),
       };
       return tmpObject;
     });
