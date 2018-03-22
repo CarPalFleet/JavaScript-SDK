@@ -9,6 +9,7 @@ import {
   updateRouteLocationAsync,
   deleteDriverScheduleAsync,
   createDriverScheduleAsync,
+  updateDriverAsync,
 } from '../Driver';
 
 describe('Create new driver ', () => {
@@ -59,6 +60,13 @@ test(`Test for retrieving detail of customer's driver`, async () => {
   const token = await result;
   const response = await getDriverDetailAsync(1, 5, 9869, token.accessToken);
   expect(response instanceof Object).toBe(true);
+});
+
+describe('Update driver', () => {
+  it('Should response data (array)', async () => {
+    const response = await updateDriverAsync(1, 5, 9869, CONFIG.token);
+    expect(response instanceof Object).toBe(true);
+  });
 });
 
 test(`Test for retrieving V3 driver list`, async () => {

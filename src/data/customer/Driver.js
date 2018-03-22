@@ -103,7 +103,37 @@ export const getDriverDetailAsync = async (
   }
 };
 
+/**
+ * Retrieve specific driver based on the search result
+ * @param {object} filterObject
+ * @param {string} token
+ * @return {promise} reject/resolve
+ * Will return [] array if there's no drivers
+ */
 export const getDriversAsync = async (filterObject = {}, token) => {
+  try {
+    let paramString = convertObjectIntoURLString(filterObject);
+
+    const response = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.DRIVER}/${paramString.replace('&', '?')}`,
+      headers: {Authorization: `Bearer ${token}`},
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Retrieve specific driver based on the search result
+ * @param {object} filterObject
+ * @param {string} token
+ * @return {promise} reject/resolve
+ * Will return [] array if there's no drivers
+ */
+export const updateDriverAsync = async (filterObject = {}, token) => {
   try {
     let paramString = convertObjectIntoURLString(filterObject);
 

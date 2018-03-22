@@ -81,15 +81,15 @@ export const storeRouteAsync = async (payload, token) => {
 };
 
 /** Remove Route
- * @param {int} routeId
+ * @param {string} routeIds # string csv
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const removeRouteAsync = async (routeId, token) => {
+export const removeRouteAsync = async (routeIds, token) => {
   try {
     await axios({
       method: 'DELETE',
-      url: `${endpoints.API_V3.ROUTE}/${routeId}`,
+      url: `${endpoints.API_V3.ROUTE}/${routeIds}`,
       headers: {Authorization: `Bearer ${token}`},
     });
 
