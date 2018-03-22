@@ -2,7 +2,7 @@ import axios from 'axios';
 import endpoints from '../data/Endpoint';
 import camelize from 'camelize';
 import {apiResponseErrorHandler} from '../data/utility/Util';
-import {camelToSnakeCase} from '../data/utility/ChangeCase';
+import {camelToSnake} from '../data/utility/ChangeCase';
 
 /**
  * Optimize route
@@ -22,7 +22,7 @@ export const optimizeRouteAsync = async (payload = {}, token) => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: camelToSnakeCase(payload),
+      body: camelToSnake(payload),
     });
 
     return camelize(response.data);

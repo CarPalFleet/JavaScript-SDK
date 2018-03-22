@@ -2,7 +2,7 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import {apiResponseErrorHandler} from '../utility/Util';
-import {camelToSnakeCase} from '../utility/ChangeCase';
+import {camelToSnake} from '../utility/ChangeCase';
 
 /** Export File
  * @param {string} type (mandatory) # driver-list or routing
@@ -18,7 +18,7 @@ export const exportFileAsync = async (type, payload, token) => {
       method: 'GET',
       url: getExportURL(type),
       headers: {Authorization: `Bearer ${token}`},
-      data: camelToSnakeCase(payload),
+      data: camelToSnake(payload),
     });
 
     return camelize(response.data);
