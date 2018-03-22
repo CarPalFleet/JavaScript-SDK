@@ -74,8 +74,8 @@ export const createDeliveryWindow = async (
       endTime,
     };
 
-    // REVIEW use ===
-    if (productTypeId == 3) {
+    const productTypeId = 3;
+    if (productTypeId === productTypeId) {
       data.transactionGroupId = transactionGroupId;
     }
     const response = await axios({
@@ -569,6 +569,8 @@ export const deleteOrdersAsync = async (groupingLocationIds = [], token) => {
 
     return {data: true};
   } catch (e) {
+    return apiResponseErrorHandler(e);
+
     // REVIEW move this line inside the if
     let errorObject;
     // REVIEW is there a reason to not use the default apiResponseErrorHandler() ?
