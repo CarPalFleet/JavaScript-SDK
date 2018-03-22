@@ -6,8 +6,8 @@ import {
   apiResponseErrorHandler,
   rejectPromise,
   getCSVStringFromArrayObject,
-  camelToSnakeCase,
 } from '../utility/Util';
+import {camelToSnakeCase} from '../data/utility/ChangeCase';
 
 export const createDriverAsync = async (
   {
