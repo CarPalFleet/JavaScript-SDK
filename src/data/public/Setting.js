@@ -3,6 +3,11 @@ import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import {apiResponseErrorHandler} from '../utility/Util';
 
+/**
+ * Retrieve Customer's public profile settings
+ * @param {string} domain
+ * @return {object} Promise resolve/reject
+ */
 export const getCustomerPublicProfileSettingsAsync = async (domain) => {
   try {
     const response = await axios({

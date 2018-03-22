@@ -27,7 +27,7 @@ export const exportFileAsync = async (type, payload, token) => {
   }
 };
 
-/** Get Export url
+/** Get export endpoint url
  * @param {string} type (mandatory)
  * @return {string} url
  */

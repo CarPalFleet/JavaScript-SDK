@@ -3,6 +3,12 @@ import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import {apiResponseErrorHandler} from '../utility/Util';
 
+/**
+ * Retrieve Schema
+ * @param {object} service
+ * @param {string} schemaName
+ * @return {object} Promise reject with statusCode and statusText
+ */
 export const getSchemaAsync = async (service, schemaName) => {
   try {
     const response = await axios.get(
@@ -14,6 +20,13 @@ export const getSchemaAsync = async (service, schemaName) => {
   }
 };
 
+/**
+ * Validate Schema
+ * Example: &limit=10&offset=20
+ * @param {object} schema
+ * @param {string} payload
+ * @return {boolean} true/false
+ */
 export const validateSchema = (schema, payload) => {
   const schemaKeys = Object.keys(schema);
   return Object.entries(payload).every(

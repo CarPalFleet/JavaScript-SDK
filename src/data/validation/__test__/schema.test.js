@@ -1,7 +1,6 @@
 import {getSchemaAsync, validate} from '../Schema';
 
 describe('Test for retrieving schema by service and schema name', () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
   const schemaTypes = [{domain: 'customer', type: 'dashboard-order'}];
   schemaTypes.forEach((element) => {
     it(`${element.domain} - ${element.type}`, async () => {
@@ -11,9 +10,8 @@ describe('Test for retrieving schema by service and schema name', () => {
   });
 });
 
-// REVIEW include those test in the describe
-test('Test for comparison of schema and payload', async () => {
-  let schema = {
+describe('Test for comparison of schema and payload', () => {
+  const schema = {
     order_id: 'number',
     order_status_id: 'number',
     pickup_date: 'string',
@@ -23,26 +21,29 @@ test('Test for comparison of schema and payload', async () => {
     driver_name: 'string',
   };
 
-  const payload = {
-    order_id: 123,
-    order_status_id: 1,
-    pickup_date: '2017-12-01',
-    latitude: '103.2340123',
-    longitude: '1.230491',
-    driver_id: 1,
-    driver_name: 'Driver A',
-  };
+  it('Should response true for correct payload', async () => {
+    const payload = {
+      order_id: 123,
+      order_status_id: 1,
+      pickup_date: '2017-12-01',
+      latitude: '103.2340123',
+      longitude: '1.230491',
+      driver_id: 1,
+      driver_name: 'Driver A',
+    };
+    expect(validate(schema, payload)).toBeTruthy();
+  });
 
-  expect(validate(schema, payload)).toBeTruthy();
-
-  schema = {
-    order_id: 'string',
-    order_status_id: 'number',
-    pickup_date: 'string',
-    latitude: undefined,
-    longitude: 'string',
-    driver_id: 'number',
-    driver_name: 'string',
-  };
-  expect(validate(schema, payload)).toBeFalsy();
+  it('Should response false for wrong payload', async () => {
+    const payload = {
+      order_id: 123,
+      order_status_id: 1,
+      pickup_date: '2017-12-01',
+      latitude: '103.2340123',
+      longitude: '1.230491',
+      driver_id: '23445',
+      driver_name: 'Driver A',
+    };
+    expect(validate(schema, payload)).toBeFalsy();
+  });
 });

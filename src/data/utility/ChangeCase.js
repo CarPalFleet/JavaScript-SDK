@@ -12,9 +12,9 @@ export const snakeToCamel = function(data, depth) {
     if (typeof depth === 'undefined') {
       depth = 1;
     }
-    return _processKeys(data, _camelize, depth);
+    return processKeys(data, camelize, depth);
   } else {
-    return _camelize(data);
+    return camelize(data);
   }
 };
 
@@ -28,7 +28,7 @@ export const camelToSnake = function(data, depth) {
     if (typeof depth === 'undefined') {
       depth = 1;
     }
-    return _processKeys(data, snakelize, depth);
+    return processKeys(data, snakelize, depth);
   } else {
     return snakelize(data);
   }
@@ -54,7 +54,7 @@ function snakelize(key) {
  * @param {int/string} key The frist number.
  * @return {string} key
  */
-function _camelize(key) {
+function camelize(key) {
   if (isNumber(key)) {
     return key;
   }
@@ -74,7 +74,7 @@ function _camelize(key) {
  * @param {int} depth
  * @return {int} result
  */
-function _processKeys(obj, processer, depth) {
+function processKeys(obj, processer, depth) {
   if (depth === 0 || !isObject(obj)) {
     return obj;
   }
@@ -84,7 +84,7 @@ function _processKeys(obj, processer, depth) {
     result = {};
     let keys = Object.keys(obj);
     for (let i = 0; i < keys.length; i++) {
-      result[processer(keys[i])] = _processKeys(
+      result[processer(keys[i])] = processKeys(
         obj[keys[i]],
         processer,
         depth - 1
@@ -93,7 +93,7 @@ function _processKeys(obj, processer, depth) {
   } else {
     result = [];
     for (let i = 0; i < obj.length; i++) {
-      result[processer(i)] = _processKeys(obj[i], processer, depth - 1);
+      result[processer(i)] = processKeys(obj[i], processer, depth - 1);
     }
   }
 

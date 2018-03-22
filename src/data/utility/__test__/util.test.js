@@ -5,19 +5,20 @@ import {
   getFormattedErrorArray,
   convertObjectIntoKeyValueArray,
   arrayReduce,
+  hasSameObjectId,
   pushKeyAndMessageToArray,
 } from '../util';
 
 describe('Convert object key/value into url string', () => {
-  it('should response string vaule', async () => {
+  it('should match the string values limit and offset', async () => {
     let data = {
       limit: 20,
       offset: 1,
     };
 
     const urlString = await convertObjectIntoURLString(data);
-    // REVIEW this test could be more useful is you would compare the urlString to a REGEX
-    expect(typeof urlString).toBe('string');
+    expect(urlString).toMatch(/limit/);
+    expect(urlString).toMatch(/offset/);
   });
 });
 
@@ -97,6 +98,15 @@ describe('Store key/value element into array', () => {
     const [key, value] = ['key', 'messages'];
 
     const result = await pushKeyAndMessageToArray([], [key, value]);
+    expect(result).toBe('array');
+  });
+});
+
+describe('Check the same object id in two params', () => {
+  it('true/false value in ', async () => {
+    const objectA = {id: 1};
+    const objectB = {id: 1};
+    const result = await hasSameObjectId(objectA, objectB);
     expect(result).toBe('array');
   });
 });

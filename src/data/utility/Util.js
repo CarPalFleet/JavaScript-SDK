@@ -1,4 +1,5 @@
 import isObject from 'lodash.isobject';
+
 /**
  * Convert Object into string as URL params
  * Example: &limit=10&offset=20

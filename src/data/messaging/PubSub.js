@@ -1,5 +1,12 @@
 import * as Ably from 'ably';
 
+/**
+ * Declare Pub/Sub (Ably)
+ * @param {string} key
+ * @param {string} channel
+ * @param {boolean} realtime
+ * @return {object} {publish, subscribe, unsubscribe, history}
+ */
 export const pubsub = (key, channel, realtime = true) => {
   let client = realtime ? new Ably.Realtime(key) : new Ably.Rest(key);
   let chan = client.channels.get(channel);

@@ -14,6 +14,19 @@ import {
   hasSameObjectId,
 } from '../utility/Util';
 
+/**
+ * Get Order with filters for Dashboard
+ * @param {object} filterObject # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
+ * @param {int} customerId # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
+ * @param {string} token # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
+ * @param {boolean} validationStatus
+ * pickupDate (optional)(string) = '2018-02-28'
+ * routeStatusIds (optional)(int) = 1,2 (csv)
+ * includeOrders (optional)(bollean) = true/false
+ * limit = 20 (optional)(int)
+ * page = 0 (optional)(int)
+ * @return {object} Promise resolve/reject
+ */
 export const getOrdersWithFiltersAsync = async (
   filterObject = {},
   customerId,
@@ -36,6 +49,16 @@ export const getOrdersWithFiltersAsync = async (
   }
 };
 
+/**
+ * Retrieve All Order Counts
+ * @param {object} filterObject # {pickupDate, limit, offset}
+ * pickupDate (optional)(string) = '2018-02-28'
+ * limit = 20 (optional)(int)
+ * offset = 0 (optional)(int)
+ * @param {int} customerId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const getOrderCountsAsync = async (filterObject, customerId, token) => {
   let paramString = convertObjectIntoURLString(filterObject);
   try {
@@ -53,6 +76,19 @@ export const getOrderCountsAsync = async (filterObject, customerId, token) => {
   }
 };
 
+/**
+ * Create delivery window
+ * @param {object} payload {customerId, identityId, productTypeId, transactionGroupId, displayName, startTime, endTime}
+ * customerId (optional)(string) = '2018-02-28'
+ * identityId (optional)(int) = 20
+ * productTypeId (optional)(int) = 20
+ * transactionGroupId (optional)(int) = 20
+ * displayName (optional)(string) = 20
+ * startTime (optional)(string) = 20
+ * endTime (optional)(string) = 0
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const createDeliveryWindow = async (
   {
     customerId,
@@ -74,8 +110,8 @@ export const createDeliveryWindow = async (
       endTime,
     };
 
-    const productTypeId = 3;
-    if (productTypeId === productTypeId) {
+    const carpalFleetProductTypeId = 3;
+    if (productTypeId === carpalFleetProductTypeId) {
       data.transactionGroupId = transactionGroupId;
     }
     const response = await axios({
@@ -90,7 +126,15 @@ export const createDeliveryWindow = async (
   }
 };
 
-/* Not Updated yet in README */
+/**
+ * Retrieve delivery window
+ * @param {int} customerId
+ * @param {int} identityId
+ * @param {int} productTypeId
+ * @param {array} transactionGroupIds
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const getDeliveryWindows = async (
   customerId,
   identityId,
@@ -114,6 +158,12 @@ export const getDeliveryWindows = async (
   }
 };
 
+/**
+ * Upload Excel file for orders
+ * @param {object} fileObject
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const fileUploadForOrderAsync = async (fileObject, token) => {
   try {
     let form = new FormData();
@@ -134,6 +184,12 @@ export const fileUploadForOrderAsync = async (fileObject, token) => {
   }
 };
 
+/**
+ * Check the progress of order file uplading process
+ * @param {int} customerId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const getUploadedOrderProgressionAsync = async (customerId, token) => {
   try {
     let response = await axios({
@@ -157,7 +213,12 @@ export const getUploadedOrderProgressionAsync = async (customerId, token) => {
   }
 };
 
-/* Function name will be changed as getOrderDetialAsync */
+/**
+ * Retrieve single order
+ * @param {object} groupingLocationId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const getOrderAsync = async (groupingLocationId, token) => {
   try {
     let response = await axios({
@@ -173,13 +234,15 @@ export const getOrderAsync = async (groupingLocationId, token) => {
 };
 
 /**
- * Retrieve specific order based on the search result
+ * Retrieve orders based on search result
  * @param {int} customerId
- * @param {object} filterObject
- * @param {array} searchResult
+ * @param {object} filterObject {pickupDate, limit, offset}
+ * pickupDate (optional)(string) = '2018-02-28'
+ * limit = 20 (optional)(int)
+ * offset = 0 (optional)(int)
+ * @param {int} searchResult
  * @param {string} token
- * @return {promise} reject/resolve
- * Will return [] array if there's no groupingLocationIds
+ * @return {object} Promise resolve/reject
  */
 export const getOrdersBasedOnSearchResult = async (
   customerId,
@@ -214,14 +277,12 @@ export const getOrdersBasedOnSearchResult = async (
 };
 
 /**
- * Get Orders
- * @param {object} filterObject # {statusIds, groupingLocationIds, pickupDate (mandatory), limit, offset}
- * StatusIds = 1/2/3/4. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
- * groupingLocationIds (string)(optional) = "27638, 27644"
- * pickupDate (mandatory) = '2018-02-28'
- * limit = 20 (int)(optional)
- * offset = 0 (int)(optional)
- * @param {customerId} customerId
+ * Retrieve All Order Counts
+ * @param {object} filterObject # {pickupDate, limit, offset}
+ * pickupDate (optional)(string) = '2018-02-28'
+ * limit = 20 (optional)(int)
+ * offset = 0 (optional)(int)
+ * @param {int} customerId
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
@@ -261,6 +322,7 @@ export const getOrdersGroupByPickUpAddressAsync = async (
  * @param {array} oldValues
  * @param {array} newValues
  * @return {object} Promise resolve/reject
+ * Response merged order object
  */
 export const mergeOldAndNewOrderRecords = (oldValues, newValues) => {
   try {
@@ -278,6 +340,12 @@ export const mergeOldAndNewOrderRecords = (oldValues, newValues) => {
   }
 };
 
+/**
+ * Merge Two Objects which has the same id
+ * @param {object} oldValues
+ * @param {object} newValues
+ * @param {object} data
+ */
 export const concatDuplicateObjects = (oldValues, newValues, data) => {
   oldValues[data.oldIndex]['jobs'] = oldValues[data.oldIndex]['jobs'].concat(
     newValues[data.newIndex]['jobs']
@@ -285,8 +353,17 @@ export const concatDuplicateObjects = (oldValues, newValues, data) => {
   newValues.splice(data.newIndex, 1);
 };
 
-export const findDuplicateIndexes = (newValues, accumulator, aJob, i) => {
-  let index = newValues.findIndex(hasSameObjectId.bind(null, aJob));
+/**
+ * Find duplicate indexes
+ * @param {object} newValues
+ * @param {array} accumulator
+ Example [{oldIndex: i, newIndex: index}]
+ * @param {object} oldValues
+ * @param {int} i # iterator
+ * @return {object} Promise resolve/reject
+ */
+export const findDuplicateIndexes = (newValues, accumulator, oldValues, i) => {
+  let index = newValues.findIndex(hasSameObjectId.bind(null, oldValues));
   if (index >= 0) {
     accumulator.push({oldIndex: i, newIndex: index});
   }
@@ -315,6 +392,15 @@ export const getRemainingOrdersAsync = async (filterObject, token) => {
   }
 };
 
+/**
+ * Get orders
+ * @param {object} filterObject # {pickupDate (mandatory), limit, offset}
+ * pickupDate (optional)(string) = '2018-02-28'
+ * limit = 20 (optional)(int)
+ * page = 0 (optional)(int)
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const getOrdersAsync = async (filterObject, token) => {
   try {
     /*
@@ -343,6 +429,14 @@ export const getOrdersAsync = async (filterObject, token) => {
   }
 };
 
+/**
+ * Get upload order's error contents from Dynamodb
+ * @param {object} pickupDate # {pickupDate (mandatory)}
+ * pickupDate (optional)(string) = '2018-02-28'
+ * @param {int} customerId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const getErrorOrderContentsAsync = async (
   pickupDate,
   customerId,
@@ -426,6 +520,7 @@ export const removeErrorOrderRecordAsync = async (
 /**
  * Remove Order Error Records (multiple records) from Dynamodb
  * @param {array} errorIds
+ Example ['56c719b7-93aa-420a-b9b1-140c4e03397b']
  * @param {string} token
  * @return {promise} reject/resolve
  * if resolve, will return {data: true}
@@ -445,6 +540,14 @@ export const removeOrderErrorRecordsAsync = async (errorIds = [], token) => {
   }
 };
 
+/**
+ * Get pickup group
+ * @param {object} filterObject # {pickupDate (mandatory), withOrder}
+ * pickupDate (optional)(string) = '2018-02-28'
+ * withOrder (optional)(int) = 0
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const getUniquePickupAddressesAsync = async (filterObject, token) => {
   try {
     let filters = camelToSnake(filterObject);
@@ -469,6 +572,21 @@ export const getUniquePickupAddressesAsync = async (filterObject, token) => {
   }
 };
 
+/**
+ * Create single order
+ * @param {object} locationObject
+ {
+   pickupLocationAddress: '22 Gim moh road',
+   deliveryAddress: 'Holland Close',
+   pickupDate: '28-02-2018',
+   pickupTimeWindow: '14:35-16:00',
+   deliveryDate: '28-02-2018',
+   deliveryTimeWindow: '17:00-17:00',
+   driverEmailId: null,
+ },
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const createOrderAsync = async (locationObject, token) => {
   try {
     locationObject = camelToSnake(locationObject);
@@ -490,6 +608,22 @@ export const createOrderAsync = async (locationObject, token) => {
   }
 };
 
+/**
+ * Edit single order
+ * @param {int} groupingLocationId
+ * @param {object} locationObject
+ {
+   pickupLocationAddress: '22 Gim moh road',
+   deliveryAddress: 'Holland Close',
+   pickupDate: '28-02-2018',
+   pickupTimeWindow: '14:35-16:00',
+   deliveryDate: '28-02-2018',
+   deliveryTimeWindow: '17:00-17:00',
+   driverEmailId: null,
+ },
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const editOrderAsync = async (
   groupingLocationId,
   locationObject,
@@ -516,6 +650,26 @@ export const editOrderAsync = async (
   }
 };
 
+/**
+ * Edit multiple orders
+ * @param {array} locationDataList
+ [
+   {
+     groupingLocationId: 27318,
+     locationData: {
+       pickupLocationAddress: '22 Gim moh road',
+       deliveryAddress: 'Holland Close',
+       pickupDate: '28-02-2018',
+       pickupTimeWindow: '14:35-16:00',
+       deliveryDate: '28-02-2018',
+       deliveryTimeWindow: '17:00-17:00',
+       driverEmailId: null,
+     },
+   },
+ ]
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const editOrdersAsync = async (locationDataList = [], token) => {
   try {
     let updatedLocationDataList = locationDataList.map((data) => {
@@ -542,6 +696,13 @@ export const editOrdersAsync = async (locationDataList = [], token) => {
   }
 };
 
+/**
+ * Delete single order
+ * @param {array} groupingLocationId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ * return {data: true} if deleting is success
+ */
 export const deleteOrderAsync = async (groupingLocationId, token) => {
   try {
     await axios({
@@ -556,6 +717,13 @@ export const deleteOrderAsync = async (groupingLocationId, token) => {
   }
 };
 
+/**
+ * Delete Multiple Orders
+ * @param {array} groupingLocationIds
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ * return {data: true} if deleting is success
+ */
 export const deleteOrdersAsync = async (groupingLocationIds = [], token) => {
   try {
     let paramString = groupingLocationIds.join();
@@ -570,24 +738,15 @@ export const deleteOrdersAsync = async (groupingLocationIds = [], token) => {
     return {data: true};
   } catch (e) {
     return apiResponseErrorHandler(e);
-
-    // REVIEW move this line inside the if
-    let errorObject;
-    // REVIEW is there a reason to not use the default apiResponseErrorHandler() ?
-    if (e.response.data instanceof Object) {
-      errorObject = {
-        statusCode: e.response.data.error.http_code,
-        statusText: e.response.data.error.message,
-      };
-    } else {
-      return apiResponseErrorHandler(e);
-    }
-
-    // REVIEW move this line inside the if
-    return Promise.reject(errorObject);
   }
 };
 
+/** API isn't ready yet
+ * Cancel Batch File Process
+ * @param {int} batchId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const cancelBatchFileProcessAsync = async (batchId, token) => {
   try {
     let response = await axios({
@@ -602,6 +761,13 @@ export const cancelBatchFileProcessAsync = async (batchId, token) => {
   }
 };
 
+/**
+ * Get Updated Job Live Data for Dashboard
+ * @param {object} originalJobDatum
+ * @param {object} pubSubPayload
+ * @param {string} filterObject {pickupDate, routeStatusIds, includeOrders, limit, offset}
+ * @return {object} Promise resolve/reject
+ */
 export const getUpdatedJobLiveData = (
   originalJobDatum,
   pubSubPayload,
@@ -653,8 +819,7 @@ export const getUpdatedJobLiveData = (
       originalJobDatum['activeStatusCounts'][
         matchedPayload.statusId
       ] -= currentStatusCounts ? 1 : 0;
-      // REVIEW same as before with the delete and splice
-      delete originalJobDatum['data'][matchedPayload.statusId].splice(
+      originalJobDatum['data'][matchedPayload.statusId].splice(
         matchedPayload.index,
         1
       );
@@ -690,7 +855,7 @@ function calculateCustomerOrderCounts(data) {
  * @param {object} orders
  * @return {object} data
  */
-function categoriesCustomerOrders(orders) {
+export const categoriesCustomerOrders = (orders) => {
   let responseData = {2: [], 5: [], 7: [], 9: []};
   return {
     data: orders['data'].reduce((data, value) => {
@@ -700,8 +865,14 @@ function categoriesCustomerOrders(orders) {
       return data;
     }, responseData),
   };
-}
+};
 
+/**
+ * Group Locations with error contents
+ * @param {object} locations
+ * @param {object} errorContents
+ * @return {object} { data: [0], groupId: [2]}
+ */
 export const groupLocations = (locations, errorContents = null) => {
   let locationsGroups = locations['data'].reduce(
     (groupAddressObject, location, index) => {

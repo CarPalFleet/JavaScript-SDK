@@ -6,9 +6,37 @@ import {
   apiResponseErrorHandler,
   rejectPromise,
   getCSVStringFromArrayObject,
+  convertObjectIntoKeyValueArray,
+  arrayReduce,
 } from '../utility/Util';
 import {camelToSnake} from '../utility/ChangeCase';
 
+/**
+ * Create Driver
+ * @param {object} driverInfo {}
+ * birthday (mandatory) (string)
+ * driverTypeIds (mandatory) (string) #csv Eg. 2,3
+ * email (mandatory) (string)
+ * existingUserEmail (optional) (boolean)
+ * firstName (mandatory) (string)
+ * identityId (mandatory) (string)
+ * isNewUser (optional) (boolean)
+ * lastName (mandatory) (string)
+ * password (mandatory) (string)
+ * phone (mandatory) (string)
+ * productTypeId (mandatory) (int)
+ * sendConfirmationSms (optional) (boolean)
+ * transactionGroupId (int) (int)
+ * vehicleBrand (optional) (string)
+ * vehicleColor (optional) (string)
+ * vehicleLicenseNumber (optional) (int)
+ * vehicleModel (optional) (string)
+ * vehicleModelYear (optional) (int)
+ * vehicleTypeId (optional) (int)
+ * @param {int} customerId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const createDriverAsync = async (
   {
     birthday,
@@ -83,6 +111,14 @@ export const createDriverAsync = async (
   }
 };
 
+/**
+ * Get Driver Detail
+ * @param {int} customerId
+ * @param {int} identityId
+ * @param {int} driverId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const getDriverDetailAsync = async (
   customerId,
   identityId,
@@ -104,8 +140,10 @@ export const getDriverDetailAsync = async (
 };
 
 /**
- * Retrieve specific driver based on the search result
- * @param {object} filterObject
+ * Get Driver List
+ * @param {object} filterObject {limit, page}
+ * limit (optional) (int)
+ * page (optional) (int) #offset, start from 1 value
  * @param {string} token
  * @return {promise} reject/resolve
  * Will return [] array if there's no drivers
@@ -127,11 +165,10 @@ export const getDriversAsync = async (filterObject = {}, token) => {
 };
 
 /**
- * Retrieve specific driver based on the search result
+ * Update Driver
  * @param {object} filterObject
  * @param {string} token
  * @return {promise} reject/resolve
- * Will return [] array if there's no drivers
  */
 export const updateDriverAsync = async (filterObject = {}, token) => {
   try {
@@ -151,7 +188,9 @@ export const updateDriverAsync = async (filterObject = {}, token) => {
 
 /**
  * Retrieve specific driver based on the search result
- * @param {object} filterObject
+ * @param {object} filterObject {limit, page}
+ * limit (optional) (int)
+ * page (optional) (int) #offset, start from 1 value
  * @param {array} searchResult
  * @param {string} token
  * @return {promise} reject/resolve
@@ -181,6 +220,14 @@ export const getDriversBasedOnSearchResult = async (
   }
 };
 
+/** API is not ready yet
+ * Retrieve specific driver based on the search result
+ * @param {object} driverIds
+ * @param {int} customerId
+ * @param {string} token
+ * @return {promise} reject/resolve
+ * Will return [] array if there's no drivers
+ */
 export const deleteDriversAsync = async (driverIds, customerId, token) => {
   // Return true which is using in frontend before api is finished.
   return {data: true};
@@ -198,6 +245,21 @@ export const deleteDriversAsync = async (driverIds, customerId, token) => {
   // }
 };
 
+/**
+ * Get Driver with filters
+ * @param {object} filterObject {orderRouteTypeIds, driverTypeIds, driverStatusId}
+ * orderRouteTypeIds (string) (optinal) 1,2 #csv string
+ * * 1 means Live, 2 means POD
+ * driverTypeIds (string) (optinal) 1 #csv string
+ * * 1 means Inhouse, 2 means Public, 3 means Service Provider
+ * driverStatusIds (string) (optinal) 1,2,3,4 #csv string
+ * * 1 means Active, 2 means With Route, 3 means Idle, 4 means Inactive driver
+ * @param {int} customerId
+ * @param {string} token
+ * @param {boolean} validationStatus (optional)
+ * @return {promise} reject/resolve
+ * Will return [] array if there's no drivers
+ */
 export const getDriversWithFiltersAsync = async (
   filterObject = {},
   customerId,
@@ -220,6 +282,20 @@ export const getDriversWithFiltersAsync = async (
   }
 };
 
+/**
+ * Get Driver Counts for Dashboard
+ * @param {object} filterObject {orderRouteTypeIds, driverTypeIds, driverStatusId}
+ * orderRouteTypeIds (string) (optinal) 1,2 #csv string
+ * * 1 means Live, 2 means POD
+ * driverTypeIds (string) (optinal) 1 #csv string
+ * * 1 means Inhouse, 2 means Public, 3 means Service Provider
+ * driverStatusIds (string) (optinal) 1,2,3,4 #csv string
+ * * 1 means Active, 2 means With Route, 3 means Idle, 4 means Inactive driver
+ * @param {string} customerId
+ * @param {boolean} token (optional)
+ * @return {promise} reject/resolve
+ * Will return [] array if there's no drivers
+ */
 export const getDriverCountsAsync = async (
   filterObject = {},
   customerId,
@@ -258,9 +334,7 @@ export const getDriverCountsAsync = async (
  */
 export const getDriverRoutesAsync = async (filterObject, token) => {
   try {
-    let paramString = convertObjectIntoURLString(
-      camelToSnake(filterObject)
-    );
+    let paramString = convertObjectIntoURLString(camelToSnake(filterObject));
     const routes = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.DRIVER_ROUTE}${paramString.replace('&', '?')}`,
@@ -273,6 +347,15 @@ export const getDriverRoutesAsync = async (filterObject, token) => {
   }
 };
 
+/**
+ * Get updated driver live data for Dashboard
+ * This function will calculate all of driver counts
+ * @param {object} originalDriverDatum
+ * @param {string} pubSubPayload
+ * @param {boolean} filterObject
+ * @return {promise} reject/resolve
+ * Will return [] array if there's no drivers
+ */
 export const getUpdatedDriverLiveData = (
   originalDriverDatum,
   pubSubPayload,
@@ -282,32 +365,23 @@ export const getUpdatedDriverLiveData = (
     pubSubPayload = camelize(pubSubPayload);
     pubSubPayload.data.driverStatusId = pubSubPayload.data.orderId > 0 ? 2 : 1;
     let payload = pubSubPayload.data;
-    // REVIEW explain what those ids refer to
     const driverStatusIds = [1, 2, 3, 4];
+    // 1 = Active Driver, 2 = With Route, 3 = Idle, 4 = Inactive driver
     const isValidStatus = driverStatusIds.includes(payload.driverStatusId);
-    // REVIEW this code is hard to understand maybe I am wrong but it seems erronous
-    // a ternary condition should look like:
-    // condition ? expr1 : expr2
-    // but here we have
-    // const isIncludeInStatusIds = filterObject.driverStatusIds ? expr1 : expr2
-    // filterObject.driverStatusIds is not a condition and looks like part of an object
-    // moreover .includes already return a boolean so I don't understand the point
-    const isIncludeInStatusIds = filterObject.driverStatusIds
-      ? filterObject.driverStatusIds.includes(payload.driverStatusId)
-      : true;
+    let isIncludeInStatusIds = true;
+    if (filterObject.driverStatusIds) {
+      isIncludeInStatusIds = filterObject.driverStatusIds.includes(
+        payload.driverStatusId
+      );
+    }
+
     let isIncludeInDriverTypeIds = true;
-    // REVIEW this is also hard to understand how is driverTypeIds a condition or boolean
-    // you are checking if there is value ?
-    // consider using filterObject.driverTypeIds != null
-    // I intentionally wrote != instead of !== check this link to understand why http://adripofjavascript.com/blog/drips/equals-equals-null-in-javascript.html
-    if (filterObject.driverTypeIds) {
+    if (filterObject.driverTypeIds != null) {
       let hasDriverTypeId = payload.driverTypeIds.find((driverTypeId) => {
         return filterObject.driverTypeIds.includes(driverTypeId);
       });
-      // REVIEW you can replace this ternary by
-      // isIncludeInDriverTypeIds = !!hasDriverTypeId
-      // you can check this link to understand the double negation https://blog.jscrambler.com/12-extremely-useful-hacks-for-javascript/
-      isIncludeInDriverTypeIds = hasDriverTypeId ? true : false;
+
+      isIncludeInDriverTypeIds = !!hasDriverTypeId;
     } else isIncludeInDriverTypeIds = true;
 
     if (!(isValidStatus && isIncludeInDriverTypeIds && isIncludeInStatusIds)) {
@@ -318,8 +392,7 @@ export const getUpdatedDriverLiveData = (
     let matchedPayload = driverStatusKeys.reduce(
       (matchedPayload, statusId) => {
         let index = originalDriverDatum['data'][statusId].findIndex((order) => {
-          // REVIEW consider converting values to the same type and use triple equal here
-          return payload.driverId == order.driverId; // orderId might be string/integer;
+          return payload.driverId === parseInt(order.driverId); // order.driverId might be string/integer;
         });
         if (index >= 0) {
           matchedPayload.isDataExist = true;
@@ -335,28 +408,20 @@ export const getUpdatedDriverLiveData = (
     if (matchedPayload.isDataExist) {
       // update activeStatusCounts
       originalDriverDatum['activeStatusCounts'][payload.driverStatusId] += 1;
-      // REVIEW you can use const here
-      let currentStatusCounts =
+      const currentStatusCounts =
         originalDriverDatum['activeStatusCounts'][matchedPayload.statusId];
 
-      // REVIEW this ternary is also hard to understand
-      // if(originalDriverDatum['activeStatusCounts'][matchedPayload.statusId] != null)  {
-      //   originalDriverDatum['activeStatusCounts'][matchedPayload.statusId] -=1
-      // }
-      originalDriverDatum['activeStatusCounts'][
-        matchedPayload.statusId
-      ] -= currentStatusCounts ? 1 : 0;
+      if (currentStatusCounts) {
+        originalDriverDatum['activeStatusCounts'][matchedPayload.statusId] -= 1;
+      }
 
-      // REVIEW remove the delete keyword, splice function already remove the items
-      // moreover this is not how delete works
-      delete originalDriverDatum['data'][matchedPayload.statusId].splice(
+      originalDriverDatum['data'][matchedPayload.statusId].splice(
         matchedPayload.index,
         1
       );
     } else {
       originalDriverDatum['totalStatusCounts'] += 1;
-      // REVIEW consider using .map or .reduce
-      filterObject.driverTypeIds.forEach((driverTypeId) => {
+      filterObject.driverTypeIds.map((driverTypeId) => {
         originalDriverDatum['driverTypeCounts'][driverTypeId] += 1;
       });
       originalDriverDatum['activeStatusCounts'][payload.driverStatusId] += 1;
@@ -368,8 +433,6 @@ export const getUpdatedDriverLiveData = (
     return {
       statusCode: '500',
       statusText: 'Error in updating job live data',
-      // REVIEW is it useful to pass e as well?
-      e,
     };
   }
 };
@@ -382,14 +445,14 @@ export const getUpdatedDriverLiveData = (
  * startTime (optional)(date_format:H:i)
  * endTime (optional)(date_format:H:i)
  * startDate (optional)(date_format:Y-m-d)
- * @param {Object} Promise resolve/reject
+ * @param {string} token {driverId, transactionGroupId, startTime, endTime, startDate}
+ * @return {Object} Promise resolve/reject
  * If resolve, return value: boolean(To indicate update successful or failed)
  * remarks: the API endpoint will return one of the following status:
  * 400: Validation Error
  * 400: Driver Schedule with same values exists
  * 200: Success
  */
-
 export const updateDriverScheduleAsync = async (
   scheduleId,
   payload = {},
@@ -410,13 +473,13 @@ export const updateDriverScheduleAsync = async (
 
 /** deleteDriverScheduleAsync
  * @param {int} scheduleId
- * @param {Object} Promise resolve/reject
+ * @param {string} token
+ * @return {object} Promise resolve/reject
  * return value: boolean(To indicate delete successful or failed)
  * remarks: the API endpoint will return one of the following status:
  * 404: Driver Schedule does not exists
  * 204: Success with no content
  */
-
 export const deleteDriverScheduleAsync = async (scheduleId, token) => {
   try {
     await axios({
@@ -463,45 +526,94 @@ export const createDriverScheduleAsync = async (payload = {}, token) => {
  * Calculate Customer Driver Counts
  * @param {object} data
  * @param {array} driverTypeIds
- * @return {object}
+ * @return {object} total count object of live driver data
  */
 function calculateCustomerDriverCounts(data, driverTypeIds) {
-  // REVIEW please be consistent using function keyword or arrow functions
-  let countData = {
+  const countData = {
     totalStatusCounts: 0,
     activeStatusCounts: {1: 0, 2: 0, 3: 0, 4: 0},
     driverTypeCounts: {1: 0, 2: 0, 3: 0},
   };
 
-  // REVIEW categoriesCustomerDriversForCount() only takes one argument
-  let drivers = categoriesCustomerDriversForCount(
-    data,
-    countData,
-    driverTypeIds
+  let drivers = categoriesCustomerDriversForCount(data);
+  return arrayReduce(
+    convertObjectIntoKeyValueArray(drivers.data),
+    iterateDriverArrays.bind(null, drivers, driverTypeIds),
+    countData
   );
-
-  // REVIEW this is extremely complicated to understand can you split it in smaller functions or steps
-  return Object.keys(drivers.data).reduce(function(counts, value) {
-    Object.keys(drivers.data[value]).forEach(function(key) {
-      let count = drivers.data[value][key].length;
-      driverTypeIds.forEach(function(driverTypeId) {
-        if (driverTypeId == value) {
-          counts.activeStatusCounts[key] += count;
-          counts.totalStatusCounts += count;
-        }
-      });
-      counts.driverTypeCounts[value] += count;
-    });
-    return counts;
-  }, countData);
 }
+
+/**
+ * Calculate Customer Driver Counts
+ * @param {object} drivers
+ * @param {array} driverTypeIds
+ * @param {object} counts #{driverTypeCounts, activeStatusCounts, totalStatusCounts}
+ driverTypeCounts: (int) 10,
+ activeStatusCounts: (object) {1: 0, 2: 1, 3: 0, 4: 2}
+ totalStatusCounts: (int) 20
+ * @param {int} value
+ * @return {object} promise reject/resolve
+ */
+export const iterateDriverArrays = (drivers, driverTypeIds, counts, value) => {
+  arrayReduce(
+    convertObjectIntoKeyValueArray(drivers.data[value]),
+    getActiveStatusCountsAndTotalCounts.bind(
+      drivers,
+      driverTypeIds,
+      value,
+      counts
+    )
+  );
+  return counts;
+};
+
+/**
+ * Categories Customer Drivers for Count
+ * @param {object} drivers
+ * @param {array} driverTypeIds # [1,2,3]
+ * @param {int} value # actual filter value 2
+ * @param {object} counts
+ This counts will be increased values
+ Example
+ driverTypeCounts: 10,
+ activeStatusCounts: {
+  1: 10,
+  2: 10,
+  3: 10,
+  4: 10,
+ }
+ totalStatusCounts: 10
+ * @param {string} key #iteration key
+*/
+export const getActiveStatusCountsAndTotalCounts = (
+  drivers,
+  driverTypeIds,
+  value,
+  counts,
+  key
+) => {
+  let count = drivers.data[value][key].length;
+  driverTypeIds.forEach(function(driverTypeId) {
+    if (driverTypeId == value) {
+      counts.activeStatusCounts[key] += count;
+      counts.totalStatusCounts += count;
+    }
+  });
+  counts.driverTypeCounts[value] += count;
+};
 
 /**
  * Categories Customer Drivers for Count
  * @param {object} drivers
  * @return {object} drivers
+ Example Response
+ {
+   1: {1: [], 2: [], 3: [], 4: []},
+   2: {1: [], 2: [], 3: [], 4: []},
+   3: {1: [], 2: [], 3: [], 4: []},
+ };
  */
-function categoriesCustomerDriversForCount(drivers) {
+export const categoriesCustomerDriversForCount = (drivers) => {
   let responseData = {
     1: {1: [], 2: [], 3: [], 4: []},
     2: {1: [], 2: [], 3: [], 4: []},
@@ -517,14 +629,18 @@ function categoriesCustomerDriversForCount(drivers) {
       return data;
     }, responseData),
   };
-}
+};
 
 /**
  * Categories Customer Drivers
  * @param {object} drivers
  * @return {object} drivers
+ Example Response
+ {
+    1: [], 2: [], 3: [], 4: []
+ };
  */
-function categoriesCustomerDrivers(drivers) {
+export const categoriesCustomerDrivers = (drivers) => {
   let responseData = {1: [], 2: [], 3: [], 4: []};
   return {
     data: drivers['data'].reduce((data, value) => {
@@ -534,4 +650,4 @@ function categoriesCustomerDrivers(drivers) {
       return data;
     }, responseData),
   };
-}
+};

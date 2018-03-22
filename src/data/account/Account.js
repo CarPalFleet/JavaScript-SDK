@@ -3,6 +3,11 @@ import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import {apiResponseErrorHandler} from '../utility/Util';
 
+/**
+ * Request reset password
+ * @param {string} email
+ * @return {object} Promise resolve/reject
+ */
 export const resetPasswordRequestAsync = async (email) => {
   try {
     const response = await axios({
@@ -20,6 +25,14 @@ export const resetPasswordRequestAsync = async (email) => {
   }
 };
 
+/**
+ * Reset password with valid refresh token
+ * @param {string} token
+ * @param {striing} email
+ * @param {striing} password
+ * @param {striing} confirmPassword
+ * @return {object} Promise resolve/reject
+ */
 export const resetPasswordAsync = async (
   token,
   email,
@@ -44,6 +57,11 @@ export const resetPasswordAsync = async (
   }
 };
 
+/**
+ * Validate Reset Password Token
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const validateResetPasswordTokenAsync = async (token) => {
   try {
     const response = await axios({
@@ -61,7 +79,14 @@ export const validateResetPasswordTokenAsync = async (token) => {
   }
 };
 
-/* Not Updated yet in README */
+/**
+ * Retrieve Driver's jobs for driver app
+ * Old code for driver app (Should move to carpal driver sdk)
+ * @param {int} id
+ * @param {string} token
+ * @param {string} date
+ * @return {object} Promise resolve/reject
+ */
 export const getDriverJobsAsync = async (id, token, date) => {
   try {
     const response = await axios({
@@ -75,7 +100,14 @@ export const getDriverJobsAsync = async (id, token, date) => {
   }
 };
 
-/* Not Updated yet in README */
+/**
+ * Retrieve Driver's legs route for driver app
+ * Old code for driver app (Should move to carpal driver sdk)
+ * @param {string} id
+ * @param {string} token
+ * @param {string} date
+ * @return {object} Promise resolve/reject
+ */
 export const getDriverLegsAsync = async (id, token, date) => {
   try {
     const response = await axios({

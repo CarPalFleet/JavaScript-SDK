@@ -1,9 +1,7 @@
-// REVIEW don't disable eslint
-// Many many errors in this file I didn't commented for all of them
-/* eslint-disable */
 import axios from 'axios';
 import endpoints from './endpoints';
-import {apiResponseErrorHandler} from '../utility/Util';
+import {rejectPromise} from '../utility/Util';
+import self from 'worker';
 
 self.onmessage = (e) => {
   let interval = new Interval(
@@ -21,66 +19,66 @@ self.onmessage = (e) => {
   }
 };
 
-function sendMessageToMainThread(e) {
+export const sendMessageToMainThread = (e) => {
   self.postMessage({errorCounts: e.data.errorCounts, event: 'finishedJob'});
-}
+};
 
-let checkConnection = async (e) => {
-  // REVIEW unused vars token and checksocket
-  let token = e.data;
-  let checkSocket = await axios({
+export const checkConnection = async (e) => {
+  await axios({
     method: 'GET',
     url: endpoints.CHECK_SOCKET_CONNECTION,
-    header: {Authorization: e.token},
+    header: {Authorization: e.data.token},
   });
-  // REVIEW missing keyword let or const
-  errorCounts = 0;
-  // REVIEW sendMessageToMainThread only takes one argument
+  e.data.errorCounts = 0;
   sendMessageToMainThread(e, true);
 };
 
 /**
  * Handle Notification Error
- * @param {error} e
+ * @param {object} e
  * @return {object} Promise.reject with statusCode and statusText
  */
-async function handlerConnectionError(e) {
+export const handlerConnectionError = async (e) => {
   // Send to Front-end and call wrapper to send message to slack
-  errorCounts++;
-  let payload = {
-    slackChannel: '',
-    channelId: channelId,
-    eventName: 'error.pubsub', // OR error.network
-    message: e.response.statusText,
-  };
+  try {
+    e.data.errorCounts += 1;
+    let payload = {
+      slackChannel: '',
+      channelId: e.data.channelId,
+      eventName: 'error.pubsub', // OR error.network
+      message: e.response.statusText,
+    };
 
-  let checkSocket = await axios({
-    method: 'GET',
-    url: endpoints.SEND_NOTI_TO_SLACK,
-    header: {Authorization: token},
-    body: payload,
-  });
-  sendMessageToMainThread(e);
-}
+    await axios({
+      method: 'GET',
+      url: endpoints.SEND_NOTI_TO_SLACK,
+      header: {Authorization: e.data.token},
+      body: payload,
+    });
+    return sendMessageToMainThread(e);
+  } catch (e) {
+    rejectPromise(e);
+  }
+};
 
 /**
  * Interval
  * @param {function} fn
  * @param {int} time
  */
-// REVIEW is this used somewhere?
-function Interval(fn, time) {
+export const Interval = (fn, time) => {
   let timer = false;
-  this.start = function() {
-    // if (!this.isRunning()) timer = setInterval(fn, time);
+
+  let start = function() {
+    if (!isRunning()) timer = setInterval(fn, time);
   };
 
-  this.stop = function() {
-    // clearInterval(timer);
+  let stop = function() {
+    clearInterval(timer);
     timer = false;
   };
 
-  this.isRunning = function() {
+  let isRunning = function() {
     return timer !== false;
   };
-}
+};

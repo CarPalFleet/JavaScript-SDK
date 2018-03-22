@@ -47,18 +47,10 @@ describe('Retreive customer setting', () => {
     const response = await getCustomerSettingsAsync(
       CONFIG.customerId,
       'routing',
-      result.accessToken
+      CONFIG.token
     );
 
-    // REVIEW this is quite complicated to process could use here something like
-    // const expected = [{setting: {}}];
-    // expect(response.data).toEqual(expected);
-    expect(response.data).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          setting: {},
-        }),
-      ])
-    );
+    const expected = [{setting: {}}];
+    expect(response.data).toEqual(expected);
   });
 });

@@ -9,7 +9,7 @@ import {camelToSnake} from '../utility/ChangeCase';
 
 /**
  * Get Routes
- * @param {object} filterObject # pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
+ * @param {object} filterObject # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
  * pickupDate (optional)(string) = '2018-02-28'
  * routeStatusIds (optional)(int) = 1,2 (csv)
  * includeOrders (optional)(bollean) = true/false
