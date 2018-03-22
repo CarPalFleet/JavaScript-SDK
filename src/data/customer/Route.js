@@ -5,7 +5,7 @@ import {
   convertObjectIntoURLString,
   apiResponseErrorHandler,
 } from '../utility/Util';
-import {camelToSnakeCase} from '../data/utility/ChangeCase';
+import {camelToSnakeCase} from '../utility/ChangeCase';
 
 /**
  * Get Routes

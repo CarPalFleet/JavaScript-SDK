@@ -2,7 +2,7 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import {apiResponseErrorHandler} from '../utility/Util';
-import {camelToSnakeCase} from '../data/utility/ChangeCase';
+import {camelToSnakeCase} from '../utility/ChangeCase';
 
 /** Export File
  * @param {string} type (mandatory) # driver-list or routing
