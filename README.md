@@ -6,7 +6,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is 0.1.75
+The current version of this SDK is 0.1.76
 
 #### Install SDK Alpha Version
 
@@ -22,9 +22,16 @@ If you were using webpack and had encountered the **_regeneratorRuntime is not d
 
 # Algo
 
-| Module                   | Method                                                          | Description                                                                                                                                                                                                           |
-| ------------------------ | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| carpal/dist/algo/Routing | optimizeRouteAsync({date, routeSettingId, routingScope}, token) | This returns a Promise object (reject/resolve). <br />Example. **date (mandatory)(string) = '2018-02-28'** <br />\*\*routeSettingId (mandatory)(integer) = 124** <br />**routingScope (mandatory)(string) = 'all'\*\* |
+| Module                   | Method                                                                       | Description                                                                                                                                                                                                           |
+| ------------------------ | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| carpal/dist/algo/Routing | getRouteSettingAsync({identityId, productTypeId, transactionGroupId}, token) | This returns a Promise object (reject/resolve). <br />Example. **identityId (mandatory)(int) = 1<br />\*\*productTypeId (mandatory)(integer) = 3** <br />\*\*transactionGroupId (mandatory)(integer) = 1\*\*          |
+| carpal/dist/algo/Routing | getRouteSettingsAsync(token)                                                 | This returns a Promise object (reject/resolve). <br />Example. **date (mandatory)(string) = '2018-02-28'** <br />\*\*routeSettingId (mandatory)(integer) = 124** <br />**routingScope (mandatory)(string) = 'all'\*\* |
+
+# Algo
+
+| Module                            | Method                                                            | Description                                                                                                                                                                                                           |
+| --------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| carpal/dist/data/customer/Routing | getRouteSettingAsync({date, routeSettingId, routingScope}, token) | This returns a Promise object (reject/resolve). <br />Example. **date (mandatory)(string) = '2018-02-28'** <br />\*\*routeSettingId (mandatory)(integer) = 124** <br />**routingScope (mandatory)(string) = 'all'\*\* |
 
 # Account
 
@@ -86,9 +93,11 @@ If you were using webpack and had encountered the **_regeneratorRuntime is not d
 
 # Routing
 
-| Module                         | Method                         | Description                                                                                                                                        |
-| ------------------------------ | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| carpal/dist/ui/routing/Routing | getRoutesAsync(filters, token) | This returns a Promise object with sns message. The liveRouteObj consists of {orderId, addressId, driverId, latitude, longitude, orderRouteTypeId} |
+| Module                            | Method                                                                                  | Description                                                                                                                                                                                                  |
+| --------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| carpal/dist/ui/routing/Routing    | getRoutesAsync(filters, token)                                                          | This returns a Promise object with sns message. The liveRouteObj consists of {orderId, addressId, driverId, latitude, longitude, orderRouteTypeId}                                                           |
+| carpal/dist/data/customer/Routing | getRouteSettingAsync(settingId, {identityId, productTypeId, transactionGroupId}, token) | This returns a Promise object (reject/resolve). <br />Example. **identityId (mandatory)(int) = 1<br />\*\*productTypeId (mandatory)(integer) = 3** <br />\*\*transactionGroupId (mandatory)(integer) = 1\*\* |
+| carpal/dist/data/customer/Routing | getRouteSettingsAsync(token)                                                            | This returns a Promise object (reject/resolve). <br />\*\*                                                                                                                                                   |
 
 # Messaging
 

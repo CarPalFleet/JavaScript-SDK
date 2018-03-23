@@ -203,3 +203,50 @@ export const removeRouteLocationsAsync = async (
     return apiResponseErrorHandler(e);
   }
 };
+
+/** Retrieving Route Setting for specific transaction group
+ * @param {Object} filterObject {identityId, productTypeId, transactionGroupId}
+ * @param {string} token
+ * @return {Promise} settingObject
+ */
+export const getRouteSettingAsync = async (settingId, filterObject, token) => {
+  try {
+    let paramString = Object.keys(filterObject).reduce(
+      (str, key) => (str += `&${key}=${filterObject[key]}`),
+      ''
+    );
+    const routeSetting = await axios({
+      method: 'GET',
+      url: `${endpoints.ROUTE_SETTING}/${settingId}`,
+      headers: {Authorization: token},
+    });
+
+    return camelize(routeSetting.data);
+  } catch (e) {
+    return Promise.reject({
+      statusCode: e.response.status,
+      statusText: e.response.statusText,
+    });
+  }
+};
+
+/** Retrieving Route Settings
+ * @param {string} token
+ * @return {Promise} settingObject
+ */
+export const getRouteSettingsAsync = async (token) => {
+  try {
+    const routeSettings = await axios({
+      method: 'GET',
+      url: endpoints.ROUTE_SETTING,
+      headers: {Authorization: token},
+    });
+
+    return camelize(routeSettings.data);
+  } catch (e) {
+    return Promise.reject({
+      statusCode: e.response.status,
+      statusText: e.response.statusText,
+    });
+  }
+};
