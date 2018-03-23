@@ -65,3 +65,30 @@ describe('Remove route location', () => {
     expect(result.data).toBeTruthy();
   });
 });
+
+describe('Retrieve route setting', () => {
+  it('should response route_settings objects', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    const result = getTokenAsync(
+      CONFIG.temail,
+      CONFIG.tpassword,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    const token = await result;
+
+    const settingFilters = {
+      identityId: 1,
+      productTypeId: 3,
+      transactionGroupId: 180,
+    };
+
+    const response = await getRouteSettingsAsync(
+      settingFilters,
+      token.accessToken
+    );
+    expect('data' in response).toBe(true);
+    expect('settingRouteSettings' in response.data).toBe(true);
+    expect('settingRouteSettings' instanceof Array).toBe(true);
+  });
+});

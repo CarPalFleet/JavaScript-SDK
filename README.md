@@ -22,9 +22,16 @@ If you were using webpack and had encountered the **_regeneratorRuntime is not d
 
 # Algo
 
-| Module                   | Method                                                          | Description                                                                                                                                                                                                           |
-| ------------------------ | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| carpal/dist/algo/Routing | optimizeRouteAsync({date, routeSettingId, routingScope}, token) | This returns a Promise object (reject/resolve). <br />Example. **date (mandatory)(string) = '2018-02-28'** <br />\*\*routeSettingId (mandatory)(integer) = 124** <br />**routingScope (mandatory)(string) = 'all'\*\* |
+| Module                   | Method                                                                       | Description                                                                                                                                                                                                           |
+| ------------------------ | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| carpal/dist/algo/Routing | getRouteSettingAsync({identityId, productTypeId, transactionGroupId}, token) | This returns a Promise object (reject/resolve). <br />Example. **identityId (mandatory)(int) = 1<br />\*\*productTypeId (mandatory)(integer) = 3** <br />\*\*transactionGroupId (mandatory)(integer) = 1\*\*          |
+| carpal/dist/algo/Routing | getRouteSettingsAsync(token)                                                 | This returns a Promise object (reject/resolve). <br />Example. **date (mandatory)(string) = '2018-02-28'** <br />\*\*routeSettingId (mandatory)(integer) = 124** <br />**routingScope (mandatory)(string) = 'all'\*\* |
+
+# Algo
+
+| Module                            | Method                                                            | Description                                                                                                                                                                                                           |
+| --------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| carpal/dist/data/customer/Routing | getRouteSettingAsync({date, routeSettingId, routingScope}, token) | This returns a Promise object (reject/resolve). <br />Example. **date (mandatory)(string) = '2018-02-28'** <br />\*\*routeSettingId (mandatory)(integer) = 124** <br />**routingScope (mandatory)(string) = 'all'\*\* |
 
 # Account
 
