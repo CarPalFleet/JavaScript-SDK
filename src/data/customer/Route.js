@@ -5,13 +5,14 @@ import {
   convertObjectIntoURLString,
   apiResponseErrorHandler,
 } from '../utility/Util';
-import {camelToSnakeCase} from '../data/utility/ChangeCase';
+import {camelToSnake} from '../utility/ChangeCase';
 
 /**
  * Get Routes
- * @param {object} filterObject # pickupDate (mandatory), withAvailability, withSchedule, recommendedRorOrderId, limit, offset}
+ * @param {object} filterObject # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
  * pickupDate (optional)(string) = '2018-02-28'
- * routeStatusIds (optional)(int) = 12
+ * routeStatusIds (optional)(int) = 1,2 (csv)
+ * includeOrders (optional)(bollean) = true/false
  * limit = 20 (optional)(int)
  * page = 0 (optional)(int)
  * @param {string} token
@@ -19,9 +20,7 @@ import {camelToSnakeCase} from '../data/utility/ChangeCase';
  */
 export const getRoutesAsync = async (filterObject, token) => {
   try {
-    let paramString = convertObjectIntoURLString(
-      camelToSnakeCase(filterObject)
-    );
+    let paramString = convertObjectIntoURLString(camelToSnake(filterObject));
     const routes = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.ROUTE}${paramString.replace('&', '?')}`,
@@ -34,16 +33,61 @@ export const getRoutesAsync = async (filterObject, token) => {
   }
 };
 
-/** Remove Route
- * @param {int} routeId
+/**
+ * Create Routes
+ * @param {object} payload
+ * pickupDate (mandatory) (string),
+ * driverId (optional) (int),
+ * routeSettings (optional) (json string),
+ * routeLocations (mandatory) (array),
+ * sequence (mandatory) (int),
+ * groupingLocationId (mandatory) (int)
+ * locationTypeId  (mandatory) (int)
+ * routeCapacity (optional) (decimal)
+ Example payload
+ [
+  {
+    "driverId": 2,
+    "pickupDate": "2018-03-30",
+    "routeSettings": "{}",
+    "routeLocations": [
+      {
+        "sequence": 1,
+        "groupingLocationId": 1,
+        "locationTypeId": 3,
+        "routeCapacity": 10.5
+      }
+    ]
+  }
+]
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const removeRouteAsync = async (routeId, token) => {
+export const storeRouteAsync = async (payload, token) => {
+  try {
+    const routes = await axios({
+      method: 'POST',
+      url: endpoints.API_V3.ROUTE,
+      headers: {Authorization: `Bearer ${token}`},
+      data: payload,
+    });
+
+    return camelize(routes.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/** Remove Route
+ * @param {string} routeIds # string csv
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const removeRouteAsync = async (routeIds, token) => {
   try {
     await axios({
       method: 'DELETE',
-      url: `${endpoints.API_V3.ROUTE}/${routeId}`,
+      url: `${endpoints.API_V3.ROUTE}/${routeIds}`,
       headers: {Authorization: `Bearer ${token}`},
     });
 
@@ -59,6 +103,14 @@ export const removeRouteAsync = async (routeId, token) => {
  * sequence (mandatory)(int)
  * groupingLocationId (optional)(int) eg. 1
  * locationTypeId (optional)(int) 2 for Delivery Location, 3 for Pickup Location
+ * Exaple payload
+ [
+  {
+    "sequence": 1,
+    "groupingLocationId": 1,
+    "locationTypeId": 3
+  }
+ ]
  * @param {string} token
  * @return {Object} Promise resolve/reject
  */
@@ -107,7 +159,7 @@ export const createRouteLocationAsync = async (
  */
 export const updateRouteLocationAsync = async (
   routeId,
-  payload = {},
+  payload = [],
   token
 ) => {
   try {

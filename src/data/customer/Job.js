@@ -69,23 +69,3 @@ export const getRecommendedJobsAsync = async (filterObject = {}, token) => {
     return apiResponseErrorHandler(e);
   }
 };
-
-/**
- * Remove Job
- * @param {int} jobId
- * @param {string} token
- * @return {object} Promise resolve/reject
- */
-export const removeJobAsync = async (jobId, token) => {
-  try {
-    const jobSummary = await axios({
-      method: 'DELETE',
-      url: `${endpoints.API_V3.JOB}/${jobId}`,
-      headers: {Authorization: `Bearer ${token}`},
-    });
-
-    return camelize(jobSummary.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};

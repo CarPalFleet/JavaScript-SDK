@@ -38,6 +38,7 @@ const endpoints = {
     GROUPING_BATCH_PROGRESSION: `${laravelUrlPrefix}/${version}/customer/grouping-batch/show-recent-pending`,
     PICKUP_GROUP: `${laravelUrlPrefix}/${version}/customer/pickup-group`,
     DRIVER: `${laravelUrlPrefix}/${version}/customer/driver`,
+    DRIVER_ROUTE: `${laravelUrlPrefix}/${version}/customer/driver-route`,
     JOB: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
     RECOMMENDED_JOB: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
     ROUTE: `${laravelUrlPrefix}/${version}/customers/route/{0}`,

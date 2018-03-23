@@ -4,7 +4,7 @@ import camelize from 'camelize';
 import {apiResponseErrorHandler} from '../utility/Util';
 
 /**
- * Get Vehicles
+ * Get Vehicles Types
  * @param {string} token
  * @return {object} Promise resolve/reject
  */

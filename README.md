@@ -6,7 +6,7 @@ The JavaScript SDK for developers(including third party developers/vendors) to c
 
 The SDK is under active development, we will release the latest version to npm as soon as we have new services ready.
 
-The current version of this SDK is 0.1.70
+The current version of this SDK is 0.1.75
 
 #### Install SDK Alpha Version
 
@@ -102,6 +102,12 @@ If you were using webpack and had encountered the **_regeneratorRuntime is not d
 | ------------------------------------------ | ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
 | carpal/dist/data/notification/Notification | getNotificationsAsync(all = true/false, userId, token) | This returns a Promise object with notifications. Param **all=true/false** to indicate if show only unread or all notification messages |
 | carpal/dist/data/notification/Notification | deleteNotificationAsync(notificationId, userId, token) | This returns true if requested notificationId is deleted.                                                                               |
+
+# Export
+
+| Module                               | Method                                                     | Description                                                                                                                                                            |
+| ------------------------------------ | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| carpal/dist/data/notification/Export | exportFileAsync(type, {recipientEmail, pickupDate}, token) | This returns a Promise object. There will be two value for type param. 1. 'driver-list', 2. 'routing'. if the type is 'driver-list', no need to pass pickupDate param. |
 
 # Data validation
 

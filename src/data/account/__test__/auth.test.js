@@ -26,19 +26,4 @@ describe('Auth integration test', () => {
       expect(error).toEqual(expected);
     }
   });
-
-  // TODO convert this old test to a unit and integration
-  // test('test for refresh token', async () => {
-  //   jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  //   let result = getTokenAsync(
-  //     CONFIG.temail,
-  //     CONFIG.tpassword,
-  //     CONFIG.clientId,
-  //     CONFIG.clientSecret
-  //   );
-  //   let token = await result;
-  //   result = refreshTokenAsync(token.refreshToken, CONFIG.clientId, CONFIG.token);
-  //   token = await result;
-  //   expect(token).toBeTruthy();
-  // });
 });

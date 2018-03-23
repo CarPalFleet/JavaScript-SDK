@@ -3,6 +3,14 @@ import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import {apiResponseErrorHandler} from '../utility/Util';
 
+/**
+ * Get Notification
+ * @param {boolean} all true/false
+ * true mean retrieve all notifications
+ * @param {string} customerId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const getNotificationsAsync = async (all = false, customerId, token) => {
   try {
     let response = await axios({
@@ -17,6 +25,13 @@ export const getNotificationsAsync = async (all = false, customerId, token) => {
   }
 };
 
+/**
+ * Delete Notification
+ * @param {int} notificationId
+ * @param {string} customerId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const deleteNotificationAsync = async (
   notificationId,
   customerId,

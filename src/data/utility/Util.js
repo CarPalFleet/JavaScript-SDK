@@ -1,4 +1,5 @@
 import isObject from 'lodash.isobject';
+
 /**
  * Convert Object into string as URL params
  * Example: &limit=10&offset=20
@@ -23,7 +24,7 @@ export const apiResponseErrorHandler = (e) => {
     rejectObj = {
       statusCode: e.response.status,
       statusText: e.response.statusText,
-      errorMessage: getFormattedErrorArray(e.response.data.message),
+      errorMessage: getFormattedErrorArray(e.response.data['Message']),
     };
   } else {
     /* Catch error of e.response

@@ -12,8 +12,8 @@ describe('Retrieve whitelabel', () => {
     );
     const token = await result;
     const response = await getJobDetailAsync(CONFIG.orderId, token.accessToken);
-    expect('data' in response).toBe(true);
-    expect(true).toBe(true);
+    expect('data' in response).toBeTruthy();
+    expect(true).toBeTruthy();
   });
 });
 
@@ -30,8 +30,8 @@ describe('Retrieve whitelabel', () => {
       CONFIG.orderId,
       token.accessToken
     );
-    expect('data' in response).toBe(true);
-    expect(true).toBe(true);
+    expect('data' in response).toBeTruthy();
+    expect(true).toBeTruthy();
   });
 });
 

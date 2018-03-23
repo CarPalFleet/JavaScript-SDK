@@ -1,8 +1,4 @@
 export default {
-  dpassword: 'password_value',
-  demail: 'email@email.com',
-  tpassword: 'password_value',
-  temail: 'email@email.com',
-  clientId: '2',
-  clientSecret: '8iQwaS8mJLvrW5KrGUrjDZ90bTrwk7frv4ygk7qt',
+  refreshToken:
+    'af56e63633f278c59c15e5ebc55427ccf9d79da3698362d3c59c29bf6a257879',
 };
