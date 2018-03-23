@@ -28,9 +28,9 @@ export const resetPasswordRequestAsync = async (email) => {
 /**
  * Reset password with valid refresh token
  * @param {string} token
- * @param {striing} email
- * @param {striing} password
- * @param {striing} confirmPassword
+ * @param {string} email
+ * @param {string} password
+ * @param {string} confirmPassword
  * @return {object} Promise resolve/reject
  */
 export const resetPasswordAsync = async (
