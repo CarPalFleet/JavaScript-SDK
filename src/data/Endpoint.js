@@ -32,7 +32,7 @@ const endpoints = {
   BATCH_ORDER_WITH_ERRORS: `${urlPrefix}/grouping-location-errors`,
   VEHICLES: `${urlPrefix}/vehicles`,
   CUSTOMER_SETTINGS: `${urlPrefix}/customers/{0}/settings`,
-  ROUTE_SETTING: `${urlPrefix}/customers/{0}/settings`,
+  ROUTE_SETTING: `${urlPrefix}/settings`,
   API_V3: {
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
     GROUPING_LOCATIONS: `${laravelUrlPrefix}/${version}/customer/grouping-location`,

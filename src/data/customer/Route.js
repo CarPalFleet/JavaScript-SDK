@@ -209,7 +209,7 @@ export const removeRouteLocationsAsync = async (
  * @param {string} token
  * @return {Promise} settingObject
  */
-export const getRouteSettingAsync = async (filterObject, token) => {
+export const getRouteSettingAsync = async (settingId, filterObject, token) => {
   try {
     let paramString = Object.keys(filterObject).reduce(
       (str, key) => (str += `&${key}=${filterObject[key]}`),
@@ -217,7 +217,7 @@ export const getRouteSettingAsync = async (filterObject, token) => {
     );
     const routeSetting = await axios({
       method: 'GET',
-      url: `${endpoints.ROUTE_SETTING}/show?${paramString}`,
+      url: `${endpoints.ROUTE_SETTING}/${settingId}`,
       headers: {Authorization: token},
     });
 
