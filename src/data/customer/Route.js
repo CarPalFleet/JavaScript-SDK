@@ -67,7 +67,7 @@ export const storeRouteAsync = async (payload, token) => {
   try {
     const routes = await axios({
       method: 'POST',
-      url: endpoints.API_V3.ROUTE,
+      url: endpoints.API_V3.STORE_ROUTE,
       headers: {Authorization: `Bearer ${token}`},
       data: payload,
     });
