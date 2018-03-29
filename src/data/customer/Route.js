@@ -69,7 +69,7 @@ export const storeRouteAsync = async (payload, token) => {
       method: 'POST',
       url: endpoints.API_V3.STORE_ROUTE,
       headers: {Authorization: `Bearer ${token}`},
-      data: payload,
+      data: camelToSnake(payload),
     });
 
     return camelize(routes.data);
