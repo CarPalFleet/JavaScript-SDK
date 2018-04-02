@@ -90,7 +90,7 @@ export const removeRouteAsync = async (routeIds, token) => {
   try {
     await axios({
       method: 'DELETE',
-      url: `${endpoints.API_V3.ROUTE}/${routeIds}`,
+      url: `${endpoints.API_V3.ROUTE.replace('{0}', routeIds)}`,
       headers: {Authorization: `Bearer ${token}`},
     });
 
