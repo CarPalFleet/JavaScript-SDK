@@ -12,7 +12,7 @@ describe('Auth integration test', () => {
     expect(response).toMatchSnapshot();
   });
 
-  it('test for account alpha.test@carpal.me with wrong tpassword', async () => {
+  it('test for account alpha.test@carpal.me with wrong password', async () => {
     try {
       const response = await getTokenAsync(
         config.temail,

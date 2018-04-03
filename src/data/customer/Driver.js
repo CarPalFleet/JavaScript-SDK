@@ -543,7 +543,7 @@ function calculateCustomerDriverCounts(data, driverTypeIds) {
   );
 }
 
-/** Dependcies function of calculateCustomerDriverCounts
+/** Dependency function of calculateCustomerDriverCounts
  * Calculate Customer Driver Counts
  * @param {object} drivers
  * @param {array} driverTypeIds
@@ -567,7 +567,7 @@ export const iterateDriverArrays = (drivers, driverTypeIds, counts, value) => {
   return counts;
 };
 
-/** Dependcies function of calculateCustomerDriverCounts
+/** Dependency function of calculateCustomerDriverCounts
  * Categories Customer Drivers for Count
  * @param {object} drivers
  * @param {array} driverTypeIds # [1,2,3]
@@ -602,7 +602,7 @@ export const getActiveStatusCountsAndTotalCounts = (
   counts.driverTypeCounts[value] += count;
 };
 
-/** Dependcies function of calculateCustomerDriverCounts
+/** Dependency function of calculateCustomerDriverCounts
  * Categories Customer Drivers for Count
  * @param {object} drivers
  * @return {object} drivers
@@ -631,7 +631,7 @@ export const categoriesCustomerDriversForCount = (drivers) => {
   };
 };
 
-/** Dependcies function of calculateCustomerDriverCounts
+/** Dependency function of calculateCustomerDriverCounts
  * Categories Customer Drivers
  * @param {object} drivers
  * @return {object} drivers
