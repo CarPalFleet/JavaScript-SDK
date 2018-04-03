@@ -86,7 +86,6 @@ export const validateResetPasswordTokenAsync = async (token) => {
  * @param {string} token
  * @param {string} date
  * @return {object} Promise resolve/reject
- * @deprecated since version 0.1.77
  */
 export const getDriverJobsAsync = async (id, token, date) => {
   try {
@@ -108,7 +107,6 @@ export const getDriverJobsAsync = async (id, token, date) => {
  * @param {string} token
  * @param {string} date
  * @return {object} Promise resolve/reject
- * @deprecated since version 0.1.77
  */
 export const getDriverLegsAsync = async (id, token, date) => {
   try {
