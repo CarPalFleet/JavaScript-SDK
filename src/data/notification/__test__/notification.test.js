@@ -16,7 +16,7 @@ test('Test for retrieving all notifications', async () => {
     CONFIG.userId,
     token.accessToken
   );
-  expect('data' in response).toBe(true);
+  expect('data' in response).toBeTruthy();
 });
 
 test('Test for delet ing specific notification', async () => {
@@ -33,6 +33,6 @@ test('Test for delet ing specific notification', async () => {
     CONFIG.userId,
     token.accessToken
   );
-  expect('data' in response.data).toBe(true);
-  expect(true).toBe(true);
+  expect('data' in response.data).toBeTruthy();
+  expect(true).toBeTruthy();
 });

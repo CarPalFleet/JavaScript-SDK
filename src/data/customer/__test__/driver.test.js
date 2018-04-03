@@ -1,11 +1,15 @@
 import CONFIG from './Config';
 import {getTokenAsync} from '../../account/Auth';
 import {
-  createNewDriverAsync,
-  getCustomerDriverDetailAsync,
-  getCustomerDriverListAsync,
-  getDriverListAsync,
-  updateDriverLiveData,
+  createDriverAsync,
+  getDriverDetailAsync,
+  getDriversAsync,
+  getUpdatedDriverLiveData,
+  getDriversBasedOnSearchResult,
+  updateRouteLocationAsync,
+  deleteDriverScheduleAsync,
+  createDriverScheduleAsync,
+  updateDriverAsync,
 } from '../Driver';
 
 describe('Create new driver ', () => {
@@ -39,11 +43,7 @@ describe('Create new driver ', () => {
       vehicleColor: 'Black',
     };
 
-    const response = await createNewDriverAsync(
-      driverInfo,
-      1,
-      token.accessToken
-    );
+    const response = await createDriverAsync(driverInfo, 1, token.accessToken);
     expect('driver' in response).toBeTruthy();
     expect('id' in response.driver).toBeTruthy();
     expect('details' in response.driver).toBeTruthy();
@@ -58,13 +58,15 @@ test(`Test for retrieving detail of customer's driver`, async () => {
     CONFIG.clientSecret
   );
   const token = await result;
-  const response = await getCustomerDriverDetailAsync(
-    1,
-    5,
-    9869,
-    token.accessToken
-  );
-  expect(response instanceof Object).toBe(true);
+  const response = await getDriverDetailAsync(1, 5, 9869, token.accessToken);
+  expect(response instanceof Object).toBeTruthy();
+});
+
+describe('Update driver', () => {
+  it('Should response data (array)', async () => {
+    const response = await updateDriverAsync(1, 5, 9869, CONFIG.token);
+    expect(response instanceof Object).toBeTruthy();
+  });
 });
 
 test(`Test for retrieving V3 driver list`, async () => {
@@ -80,9 +82,20 @@ test(`Test for retrieving V3 driver list`, async () => {
     page: 1,
   };
 
-  const response = await getDriverListAsync(filters, token.accessToken);
-  expect('data' in response).toBe(true);
-  expect(response.data instanceof Array).toBe(true);
+  const response = await getDriversAsync(filters, token.accessToken);
+  expect('data' in response).toBeTruthy();
+  expect(response.data instanceof Array).toBeTruthy();
+});
+
+describe('Retrieve Driver based on the search result', () => {
+  it('should response specific drivers array', async () => {
+    const response = await getDriversBasedOnSearchResult(
+      CONFIG.filterObject,
+      CONFIG.searchResult,
+      CONFIG.token
+    );
+    expect('data' in response).toBeTruthy();
+  });
 });
 
 test('Test for retrieving drivers by a customer account', async () => {
@@ -100,14 +113,10 @@ test('Test for retrieving drivers by a customer account', async () => {
   );
   const token = await result;
 
-  const response = await getCustomerDriverListAsync(
-    filterObj,
-    1,
-    token.accessToken
-  );
+  const response = await getDriversAsync(filterObj, 1, token.accessToken);
 
-  expect(response instanceof Array).toBe(true);
-  expect(true).toBe(true);
+  expect(response instanceof Array).toBeTruthy();
+  expect(true).toBeTruthy();
 });
 
 test('Test for pubsub live data for job', async () => {
@@ -165,13 +174,72 @@ test('Test for pubsub live data for job', async () => {
     CONFIG.clientId,
     CONFIG.clientSecret
   );
-  const response = updateDriverLiveData(
+  const response = getUpdatedDriverLiveData(
     originalDriverDatum,
     pubSubPayload,
     filterObject,
     result.accessToken
   );
-  expect(response instanceof Object).toBe(true);
+  expect(response instanceof Object).toBeTruthy();
+});
+
+test(`Test for update driver schedule`, async () => {
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const playload = {
+    driverId: 25148,
+    transactionGroupId: 180,
+    startTime: '10:01',
+    endTime: '13:02',
+    startAt: '2018-03-01',
+  };
+  const scheduleId = CONFIG.scheduleId;
+  const response = await updateRouteLocationAsync(
+    scheduleId,
+    playload,
+    token.accessToken
+  );
+  expect(response.status).toBe(200);
+});
+
+test(`Test for delete driver schedule`, async () => {
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const scheduleId = CONFIG.scheduleId;
+  const response = await deleteDriverScheduleAsync(
+    scheduleId,
+    token.accessToken
+  );
+  expect(response.status).toBe(204);
+});
+
+test(`Test for create driver schedule`, async () => {
+  const result = getTokenAsync(
+    CONFIG.temail,
+    CONFIG.tpassword,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+  const playload = {
+    driverId: 25148,
+    transactionGroupId: 180,
+    startTime: '10:01',
+    endTime: '13:02',
+    startAt: '2018-03-01',
+  };
+  const response = await createDriverScheduleAsync(playload, token.accessToken);
+  expect(response.status).toBe(200);
 });
 
 /**

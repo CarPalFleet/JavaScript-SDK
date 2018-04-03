@@ -1,21 +1,36 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../../utility/Util';
+import {
+  apiResponseErrorHandler,
+  convertObjectIntoURLString,
+} from '../utility/Util';
 
+/** Elastic Search
+ * @param {string} keyword
+ * @param {object} scope
+ * @param {int} fuzzy
+ * @param {int} fuzziness
+ * @param {string} token
+ * @return {object} Promise (resolve/reject)
+ */
 export const searchAsync = async (
-  keywords,
+  keyword,
   scope,
   fuzzy = true,
   fuzziness = 1,
   token
 ) => {
   try {
+    const paramString = convertObjectIntoURLString({
+      keyword,
+      fuzzy,
+      fuzziness,
+      scope,
+    });
     const response = await axios({
-      method: 'get',
-      url: `${
-        endpoints.ELASTICSEARCH
-      }?keyword=${keywords}&fuzzy=${fuzzy}&fuzziness=${fuzziness}&scope=${scope}`,
+      method: 'GET',
+      url: `${endpoints.ELASTIC_SEARCH}${paramString.replace('&', '?')}`,
       headers: {Authorization: token},
     });
     return camelize(response.data.data);
@@ -24,43 +39,48 @@ export const searchAsync = async (
   }
 };
 
-export const myOrderSearchAsync = async (
-  keywords,
-  scope,
-  fuzzy = true,
+/** General Search
+ * @param {int} customerId
+ * @param {boolean} fuzzy
+ * @param {int} fuzziness
+ * @param {string} keywords
+ * @param {object} scopes
+ * There are 3 scopes # drivers, jobs, orders.
+ * Can search any of these scope
+ * Example of scopes object
+   scopes = {
+       "drivers" : ["driverId","driverName"],
+       "jobs" : ["orderId"],
+       "orders" : ["groupingLocationId"]
+   }
+ * @param {string} pickupDate (optional) # yyyy-mm-dd
+ * @param {string} token
+ * @return {object} response
+ */
+export const generalSearch = async (
+  customerId,
+  fuzzy = false,
   fuzziness = 1,
+  keywords,
+  scopes,
+  pickupDate = '',
   token
 ) => {
   try {
     const response = await axios({
-      method: 'get',
-      url: `${
-        endpoints.MY_ORDER_ELASTICSEARCH
-      }?keyword=${keywords}&fuzzy=${fuzzy}&fuzziness=${fuzziness}&scope=${scope}`,
+      method: 'POST',
+      url: endpoints.GENERAL_SEARCH,
       headers: {Authorization: token},
+      data: {
+        customerId,
+        fuzzy,
+        fuzziness,
+        keywords,
+        scopes,
+        pickupDate,
+      },
     });
-    return camelize(response.data.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-export const myOrderDriverListSearchAsync = async (
-  keywords,
-  scope,
-  fuzzy = true,
-  fuzziness = 1,
-  token
-) => {
-  try {
-    const response = await axios({
-      method: 'get',
-      url: `${
-        endpoints.DRIVER_LIST_ELASTICSEARCH
-      }?keyword=${keywords}&fuzzy=${fuzzy}&fuzziness=${fuzziness}&scope=${scope}`,
-      headers: {Authorization: token},
-    });
-    return camelize(response.data.data);
+    return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }

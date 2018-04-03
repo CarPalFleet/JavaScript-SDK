@@ -1,17 +1,17 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../../utility/Util';
+import {apiResponseErrorHandler} from '../utility/Util';
 
 /**
- * Get Vehicles
+ * Get Vehicles Types
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
 export const getVehicleTypesAsync = async (token) => {
   try {
     const vehicles = await axios({
-      method: 'get',
+      method: 'GET',
       url: `${endpoints.VEHICLES}/types`,
       headers: {Authorization: `bearer ${token}`},
     });
