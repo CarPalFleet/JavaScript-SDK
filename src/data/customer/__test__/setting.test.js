@@ -1,7 +1,7 @@
 import {getTokenAsync} from '../../account/Auth';
 import {
   getCustomerPreferenceSettingsAsync,
-  getCustomerSettingsAsync,
+  getUserSettingsAsync,
 } from '../Setting';
 import CONFIG from './Config';
 
@@ -42,10 +42,10 @@ describe('Retrieve whitelabel with invalid domain', () => {
   });
 });
 
-describe('Retreive customer setting', () => {
-  it('should get the array of settings. ', async () => {
-    const response = await getCustomerSettingsAsync(
-      CONFIG.customerId,
+describe('Retrieve user settings', () => {
+  it('should get an array of settings. ', async () => {
+    const response = await getUserSettingsAsync(
+      CONFIG.userId,
       'routing',
       CONFIG.token
     );

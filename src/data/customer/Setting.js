@@ -3,11 +3,12 @@ import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import {apiResponseErrorHandler} from '../utility/Util';
 
-/** Retriving whiteLabel (Logo and Background)
- * Return transaction customer's logo and Background if it is existed in database
+/** Retrieve Customer's (Logo and Background)
+ * Return customer's logo and background image if it exists in database
  * @param {integer} domain # customer's webside domain name
  * @param {string} token
  * @return {object} promise (resolve/reject)
+ * @deprecated since version 0.1.77
  */
 export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
   try {
@@ -22,23 +23,25 @@ export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
   }
 };
 
-/** Retriving Customer's settings
+/** Retrieve User's settings
  * There're 3 setting types in the setting table
  * 1. routing, 2. my-order, 3. driver-list
- * In routing type, it includes customer time line setting (15 min, 30 min, 45 min etc.)
+ * In routing type, it includes user time line setting (15 min, 30 min, 45 min etc.)
  * Retrieve table settings from my-order type OR driver-list.
- * @param {integer} customerId
+ * @param {integer} userId
  * @param {string} type # routing, my-order, driver-list
  * @param {string} token
  * @return {object} promise (resolve/reject)
  */
-export const getCustomerSettingsAsync = async (customerId, type, token) => {
+ //TODO: this function should be moved to a /User directory
+export const getUserSettingsAsync = async (customerId, type, token) => {
   try {
     const response = await axios({
       method: 'GET',
-      url: `${endpoints.CUSTOMER_SETTINGS.replace(
+      url: `${endpoints.USER_SETTINGS.replace(
         '{0}',
-        customerId
+        //TODO: change customerId to userId on API wrapper
+        userId
       )}?type=${type}`,
       headers: {Authorization: token},
     });
@@ -53,6 +56,7 @@ export const getCustomerSettingsAsync = async (customerId, type, token) => {
  * @param {Object} filterObject {identityId, productTypeId, transactionGroupId}
  * @param {string} token
  * @return {Promise} settingObject
+ * @deprecated since version 0.1.77
  */
 export const getSettingAsync = async (settingId, filterObject, token) => {
   try {
@@ -75,19 +79,19 @@ export const getSettingAsync = async (settingId, filterObject, token) => {
   }
 };
 
-/** Retrieving User Settings
+/** Retrieve Customer's Settings
  * @param {string} token
  * @return {Promise} settingObject
  */
-export const getSettingsAsync = async (token) => {
+export const getCustomerSettingsAsync = async (token) => {
   try {
-    const routeSettings = await axios({
+    const CustomerSettings = await axios({
       method: 'GET',
-      url: endpoints.ROUTE_SETTING,
+      url: endpoints.CUSTOMER_SETTINGS,
       headers: {Authorization: token},
     });
 
-    return camelize(routeSettings.data);
+    return camelize(CustomerSettings.data);
   } catch (e) {
     return Promise.reject({
       statusCode: e.response.status,

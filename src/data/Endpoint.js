@@ -31,8 +31,9 @@ const endpoints = {
   ORDER_WITH_ERRORS: `${urlPrefix}/grouping-location-error`,
   BATCH_ORDER_WITH_ERRORS: `${urlPrefix}/grouping-location-errors`,
   VEHICLES: `${urlPrefix}/vehicles`,
-  CUSTOMER_SETTINGS: `${urlPrefix}/customers/{0}/settings`,
-  ROUTE_SETTING: `${urlPrefix}/settings`,
+  //TODO: the URL should be changed to /users on the API wrapper and below
+  USER_SETTINGS: `${urlPrefix}/customers/{0}/settings`,
+  CUSTOMER_SETTINGS: `${urlPrefix}/settings`,
   API_V3: {
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
     GROUPING_LOCATIONS: `${laravelUrlPrefix}/${version}/customer/grouping-location`,
