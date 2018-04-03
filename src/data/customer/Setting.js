@@ -33,14 +33,14 @@ export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
  * @param {string} token
  * @return {object} promise (resolve/reject)
  */
- //TODO: this function should be moved to a /User directory
-export const getUserSettingsAsync = async (customerId, type, token) => {
+ // TODO: this function should be moved to a /User directory
+export const getUserSettingsAsync = async (userId, type, token) => {
   try {
     const response = await axios({
       method: 'GET',
       url: `${endpoints.USER_SETTINGS.replace(
         '{0}',
-        //TODO: change customerId to userId on API wrapper
+        // TODO: change customerId to userId on API wrapper
         userId
       )}?type=${type}`,
       headers: {Authorization: token},
