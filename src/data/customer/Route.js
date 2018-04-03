@@ -197,7 +197,7 @@ export const removeRouteLocationsAsync = async (
       url: `${endpoints.API_V3.ROUTE_LOCATION.replace(
         '{0}',
         routeId
-      )}?route_location_ids={routeLocationIds}`,
+      )}?route_location_ids=${routeLocationIds}`,
       headers: {Authorization: `Bearer ${token}`},
     });
 
