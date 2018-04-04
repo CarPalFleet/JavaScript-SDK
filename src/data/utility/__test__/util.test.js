@@ -7,7 +7,7 @@ import {
   arrayReduce,
   hasSameObjectId,
   pushKeyAndMessageToArray,
-} from '../util';
+} from '../Util';
 
 describe('Convert object key/value into url string', () => {
   it('should match the string values limit and offset', async () => {
