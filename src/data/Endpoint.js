@@ -31,8 +31,7 @@ const endpoints = {
   ORDER_WITH_ERRORS: `${urlPrefix}/grouping-location-error`,
   BATCH_ORDER_WITH_ERRORS: `${urlPrefix}/grouping-location-errors`,
   VEHICLES: `${urlPrefix}/vehicles`,
-  //TODO: the URL should be changed to /users on the API wrapper and below
-  USER_SETTINGS: `${urlPrefix}/customers/{0}/settings`,
+  USER_SETTINGS: `${urlPrefix}/users/{0}/settings`,
   CUSTOMER_SETTINGS: `${urlPrefix}/settings`,
   API_V3: {
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
@@ -48,7 +47,7 @@ const endpoints = {
     OPTIMIZE_ROUTE: `${laravelUrlPrefix}/${version}/customer/route/optimization`,
     ROUTE_LOCATION: `${laravelUrlPrefix}/${version}/customer/route/{0}/route-location`,
     DRIVER_SCHEDULE: `${laravelUrlPrefix}/${version}/customer/driver-schedule/{0}`,
-    EXPORT_DRIVER_LIST: `${laravelUrlPrefix}/${version}/customer/driverlist/export`, // url will be updated after backend is finished
+    EXPORT_DRIVER_LIST: `${laravelUrlPrefix}/${version}/customer/routes-export`,
     EXPORT_ROUTE: `${laravelUrlPrefix}/${version}/customer/route/export`, // url will be updated after backend is finished
   },
 };
