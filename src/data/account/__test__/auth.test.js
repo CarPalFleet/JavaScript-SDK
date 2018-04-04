@@ -1,5 +1,5 @@
 import {getTokenAsync} from '../Auth';
-import config from './config';
+import config from './Config';
 
 describe('Auth integration test', () => {
   it('verifies that the token data matches the snapshot', async () => {

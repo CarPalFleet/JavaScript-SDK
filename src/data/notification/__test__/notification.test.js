@@ -1,6 +1,6 @@
 import {getNotificationsAsync, deleteNotificationAsync} from '../Notification';
 import {getTokenAsync} from '../../account/Auth';
-import CONFIG from './Config';
+import CONFIG from './onfig';
 
 test('Test for retrieving all notifications', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
