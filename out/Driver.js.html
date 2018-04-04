@@ -489,7 +489,7 @@ export const updateDriverScheduleAsync = async (
   try {
     const result = await axios({
       method: 'put',
-      url: `${endpoints.API_V3.DIRVER_SCHEDULE.replace('{0}', scheduleId)}`,
+      url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', scheduleId)}`,
       headers: {Authorization: `Bearer ${token}`},
       data: payload,
     });
@@ -512,7 +512,7 @@ export const deleteDriverScheduleAsync = async (scheduleId, token) => {
   try {
     await axios({
       method: 'delete',
-      url: `${endpoints.API_V3.DIRVER_SCHEDULE.replace('{0}', scheduleId)}`,
+      url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', scheduleId)}`,
       headers: {Authorization: `Bearer ${token}`},
     });
     return {data: true};
@@ -540,7 +540,7 @@ export const createDriverScheduleAsync = async (payload = {}, token) => {
   try {
     const result = await axios({
       method: 'post',
-      url: `${endpoints.API_V3.DIRVER_SCHEDULE.replace('{0}', '')}`,
+      url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', '')}`,
       headers: {Authorization: `Bearer ${token}`},
       data: payload,
     });
