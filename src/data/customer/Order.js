@@ -88,6 +88,7 @@ export const getOrderCountsAsync = async (filterObject, customerId, token) => {
  * endTime (optional)(string) = 0
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * @deprecated since version 0.1.77
  */
 export const createDeliveryWindow = async (
   {
@@ -134,6 +135,7 @@ export const createDeliveryWindow = async (
  * @param {array} transactionGroupIds
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * @deprecated since version 0.1.77
  */
 export const getDeliveryWindows = async (
   customerId,
@@ -185,7 +187,7 @@ export const fileUploadForOrderAsync = async (fileObject, token) => {
 };
 
 /**
- * Check the progress of order file uplading process
+ * Check the progress of order file uploading process
  * @param {int} customerId
  * @param {string} token
  * @return {object} Promise resolve/reject
@@ -371,7 +373,7 @@ export const findDuplicateIndexes = (newValues, accumulator, oldValues, i) => {
 };
 
 /**
- * Get Remanining Orders
+ * Get Remaining Orders
  * @param {object} filterObject # {statusIds, pickupDate (mandatory), withOrder, withDriver, withRoute, sort, limit, offset}
  * StatusIds = 1/2/3/4. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
  * pickupDate (mandatory) = '2018-02-28'
@@ -746,6 +748,7 @@ export const deleteOrdersAsync = async (groupingLocationIds = [], token) => {
  * @param {int} batchId
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * @deprecated since version 0.1.77
  */
 export const cancelBatchFileProcessAsync = async (batchId, token) => {
   try {
