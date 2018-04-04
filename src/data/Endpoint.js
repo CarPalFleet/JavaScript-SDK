@@ -42,8 +42,9 @@ const endpoints = {
     DRIVER_ROUTE: `${laravelUrlPrefix}/${version}/customer/driver-route`,
     JOB: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
     RECOMMENDED_JOB: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
-    ROUTE: `${laravelUrlPrefix}/${version}/customers/route/{0}`,
-    OPTIMIZE_ROUTE: `${laravelUrlPrefix}/${version}/customers/route/optimization`,
+    ROUTE: `${laravelUrlPrefix}/${version}/customer/route/{0}`,
+    STORE_ROUTE: `${laravelUrlPrefix}/${version}/customer/route`,
+    OPTIMIZE_ROUTE: `${laravelUrlPrefix}/${version}/customer/route/optimization`,
     ROUTE_LOCATION: `${laravelUrlPrefix}/${version}/customer/route/{0}/route-location`,
     DRIVER_SCHEDULE: `${laravelUrlPrefix}/${version}/customer/driver-schedule/{0}`,
     EXPORT_DRIVER_LIST: `${laravelUrlPrefix}/${version}/customer/driverlist/export`, // url will be updated after backend is finished

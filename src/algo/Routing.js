@@ -17,12 +17,12 @@ export const optimizeRouteAsync = async (payload = {}, token) => {
   try {
     const response = await axios({
       method: 'POST',
-      url: endpoints.OPTIMIZE_ROUTE,
+      url: endpoints.API_V3.OPTIMIZE_ROUTE,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: camelToSnake(payload),
+      data: camelToSnake(payload),
     });
 
     return camelize(response.data);

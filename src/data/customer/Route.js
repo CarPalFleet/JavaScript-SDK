@@ -9,7 +9,7 @@ import {camelToSnake} from '../utility/ChangeCase';
 
 /**
  * Get Routes
- * @param {object} filterObject # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
+ * @param {object} filterObject # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, page}
  * pickupDate (optional)(string) = '2018-02-28'
  * routeStatusIds (optional)(int) = 1,2 (csv)
  * includeOrders (optional)(bollean) = true/false
@@ -65,11 +65,14 @@ export const getRoutesAsync = async (filterObject, token) => {
  */
 export const storeRouteAsync = async (payload, token) => {
   try {
+    const snakeCaseLocations = payload.routeLocations.map((l) => camelToSnake(l));
+    payload.routeLocations = snakeCaseLocations;
+
     const routes = await axios({
       method: 'POST',
-      url: endpoints.API_V3.ROUTE,
+      url: endpoints.API_V3.STORE_ROUTE,
       headers: {Authorization: `Bearer ${token}`},
-      data: payload,
+      data: [camelToSnake(payload)],
     });
 
     return camelize(routes.data);
@@ -87,7 +90,7 @@ export const removeRouteAsync = async (routeIds, token) => {
   try {
     await axios({
       method: 'DELETE',
-      url: `${endpoints.API_V3.ROUTE}/${routeIds}`,
+      url: `${endpoints.API_V3.ROUTE.replace('{0}', routeIds)}`,
       headers: {Authorization: `Bearer ${token}`},
     });
 
@@ -194,59 +197,12 @@ export const removeRouteLocationsAsync = async (
       url: `${endpoints.API_V3.ROUTE_LOCATION.replace(
         '{0}',
         routeId
-      )}?route_location_ids={routeLocationIds}`,
+      )}?route_location_ids=${routeLocationIds}`,
       headers: {Authorization: `Bearer ${token}`},
     });
 
     return {data: true};
   } catch (e) {
     return apiResponseErrorHandler(e);
-  }
-};
-
-/** Retrieving Route Setting for specific transaction group
- * @param {Object} filterObject {identityId, productTypeId, transactionGroupId}
- * @param {string} token
- * @return {Promise} settingObject
- */
-export const getRouteSettingAsync = async (settingId, filterObject, token) => {
-  try {
-    let paramString = Object.keys(filterObject).reduce(
-      (str, key) => (str += `&${key}=${filterObject[key]}`),
-      ''
-    );
-    const routeSetting = await axios({
-      method: 'GET',
-      url: `${endpoints.ROUTE_SETTING}/${settingId}`,
-      headers: {Authorization: token},
-    });
-
-    return camelize(routeSetting.data);
-  } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
-  }
-};
-
-/** Retrieving Route Settings
- * @param {string} token
- * @return {Promise} settingObject
- */
-export const getRouteSettingsAsync = async (token) => {
-  try {
-    const routeSettings = await axios({
-      method: 'GET',
-      url: endpoints.ROUTE_SETTING,
-      headers: {Authorization: token},
-    });
-
-    return camelize(routeSettings.data);
-  } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
   }
 };
