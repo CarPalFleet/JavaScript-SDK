@@ -6,6 +6,7 @@ import {
   apiResponseErrorHandler,
 } from '../utility/Util';
 import {camelToSnake} from '../utility/ChangeCase';
+import toArray from 'lodash.toarray';
 
 /**
  * Get Routes
@@ -127,7 +128,7 @@ export const createRouteLocationAsync = async (
       method: 'POST',
       url: `${endpoints.API_V3.ROUTE_LOCATION.replace('{0}', routeId)}`,
       headers: {Authorization: `Bearer ${token}`},
-      data: camelToSnake(payload),
+      data: toArray(camelToSnake(payload, 2)),
     });
 
     return camelize(result.data);
@@ -170,7 +171,7 @@ export const updateRouteLocationAsync = async (
       method: 'PUT',
       url: `${endpoints.API_V3.ROUTE_LOCATION.replace('{0}', routeId)}`,
       headers: {Authorization: `Bearer ${token}`},
-      data: camelToSnake(payload),
+      data: toArray(camelToSnake(payload, 2)),
     });
 
     return camelize(result.data);
