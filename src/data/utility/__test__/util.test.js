@@ -23,10 +23,10 @@ describe('Convert object key/value into url string', () => {
 });
 
 describe('Handle API Error', () => {
-  it('should return promise (reject) object with stausCode, statusText and errorMessage', async () => {
+  it('should return promise (reject) object with statusCode, statusText and errorMessage', async () => {
     const errors = {
       response: {
-        status: 400,
+        statusCode: 400,
         statusText: 'Bad Request',
         errorMessage: {
           email: ['Duplicate Email'],
@@ -34,6 +34,7 @@ describe('Handle API Error', () => {
       },
     };
     const result = await apiResponseErrorHandler(errors);
+    
     expect('statusCode' in result).toBeTruthy();
     expect('statusText' in result).toBeTruthy();
     expect('errorMessage' in result).toBeTruthy();

@@ -4,14 +4,16 @@ import camelize from 'camelize';
 import {apiResponseErrorHandler} from '../utility/Util';
 import {camelToSnake} from '../utility/ChangeCase';
 
+
 /** Export File
  * @param {string} type (mandatory) # driver-list or routing
- * @param {string} payload {recipientEmail, pickupDate}
+ * @param {string} payload {transactionGroupId, recipientEmail, pickupDate}
  * recipientEmail (mandatory) (string)
  * pickupDate (optional) (string) #Pickupdate is need if type is routing
  * @param {string} token
  * @return {object} promist (reject/resolve)
  */
+ //TODO: function needs to be tested when API is ready
 export const exportFileAsync = async (type, payload, token) => {
   try {
     const response = await axios({
