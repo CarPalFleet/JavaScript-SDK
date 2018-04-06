@@ -2,27 +2,27 @@ import {getTokenAsync} from '../Auth';
 import config from './Config';
 
 describe('Auth integration test', () => {
-  it('verifies that the token data matches the snapshot', async () => {
+  it('verifies a successful accessToken in the return object', async () => {
     const response = await getTokenAsync(
-      config.temail,
-      config.tpassword,
+      config.email,
+      config.password,
       config.clientId,
       config.clientSecret
     );
-    expect(response).toMatchSnapshot();
+    expect(response).toHaveProperty('accessToken');
   });
 
   it('test for account alpha.test@carpal.me with wrong password', async () => {
     try {
       const response = await getTokenAsync(
-        config.temail,
+        config.email,
         'wrong-password',
         config.clientId,
         config.clientSecret
       );
       expect(response).toBeNull(); // Should not trigger, only if is there is no exception which is not expected behavior
     } catch (error) {
-      const expected = {statusCode: 403, statusText: 'Forbidden'};
+      const expected = {"errorMessage": [{"key": null, "messages": ["The user credentials were incorrect."]}], "statusCode": 401, "statusText": "Unauthorized"};
       expect(error).toEqual(expected);
     }
   });
