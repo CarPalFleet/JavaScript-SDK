@@ -13,11 +13,11 @@ import {
 } from '../Driver';
 
 describe('Create new driver ', () => {
-  it('should response new driver object including id and details', async () => {
+  it('should repsond new driver object including id and details', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const result = getTokenAsync(
-      CONFIG.temail,
-      CONFIG.tpassword,
+      CONFIG.email,
+      CONFIG.password,
       CONFIG.clientId,
       CONFIG.clientSecret
     );
@@ -52,18 +52,20 @@ describe('Create new driver ', () => {
 
 test(`Test for retrieving detail of customer's driver`, async () => {
   const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
+    CONFIG.email,
+    CONFIG.password,
     CONFIG.clientId,
     CONFIG.clientSecret
   );
   const token = await result;
+  //TODO: ids cannot be hardcoded else we will receive a 400
   const response = await getDriverDetailAsync(1, 5, 9869, token.accessToken);
   expect(response instanceof Object).toBeTruthy();
 });
 
 describe('Update driver', () => {
-  it('Should response data (array)', async () => {
+  it('Should respond data (array)', async () => {
+    //TODO: ids cannot be hardcoded else we will receive a 400
     const response = await updateDriverAsync(1, 5, 9869, CONFIG.token);
     expect(response instanceof Object).toBeTruthy();
   });
@@ -71,8 +73,8 @@ describe('Update driver', () => {
 
 test(`Test for retrieving V3 driver list`, async () => {
   const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
+    CONFIG.email,
+    CONFIG.password,
     CONFIG.clientId,
     CONFIG.clientSecret
   );
@@ -185,8 +187,8 @@ test('Test for pubsub live data for job', async () => {
 
 test(`Test for update driver schedule`, async () => {
   const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
+    CONFIG.email,
+    CONFIG.password,
     CONFIG.clientId,
     CONFIG.clientSecret
   );
@@ -199,6 +201,7 @@ test(`Test for update driver schedule`, async () => {
     startAt: '2018-03-01',
   };
   const scheduleId = CONFIG.scheduleId;
+  //TODO: this seems the incorrect function?
   const response = await updateRouteLocationAsync(
     scheduleId,
     playload,
@@ -209,8 +212,8 @@ test(`Test for update driver schedule`, async () => {
 
 test(`Test for delete driver schedule`, async () => {
   const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
+    CONFIG.email,
+    CONFIG.password,
     CONFIG.clientId,
     CONFIG.clientSecret
   );
@@ -225,8 +228,8 @@ test(`Test for delete driver schedule`, async () => {
 
 test(`Test for create driver schedule`, async () => {
   const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
+    CONFIG.email,
+    CONFIG.password,
     CONFIG.clientId,
     CONFIG.clientSecret
   );
