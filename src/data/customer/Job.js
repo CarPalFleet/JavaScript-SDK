@@ -52,6 +52,7 @@ export const getJobSummaryAsync = async (jobId, token) => {
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
+ //TODO: needs unit testing
 export const getRecommendedJobsAsync = async (filterObject = {}, token) => {
   try {
     let paramString = convertObjectIntoURLString(filterObject);

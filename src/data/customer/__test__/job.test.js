@@ -2,11 +2,11 @@ import {getJobDetailAsync, getJobSummaryAsync} from '../Job';
 import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './Config';
 
-describe('Retrieve whitelabel', () => {
-  it('Should get driver details', async () => {
+describe('Show job', () => {
+  it('Should get job details', async () => {
     const result = getTokenAsync(
-      CONFIG.temail,
-      CONFIG.tpassword,
+      CONFIG.email,
+      CONFIG.password,
       CONFIG.clientId,
       CONFIG.clientSecret
     );
@@ -17,11 +17,11 @@ describe('Retrieve whitelabel', () => {
   });
 });
 
-describe('Retrieve whitelabel', () => {
-  it('Should get driver submmary', async () => {
+describe('Show Jobs', () => {
+  it('Should get Job summary', async () => {
     const result = getTokenAsync(
-      CONFIG.temail,
-      CONFIG.tpassword,
+      CONFIG.email,
+      CONFIG.password,
       CONFIG.clientId,
       CONFIG.clientSecret
     );
@@ -32,24 +32,5 @@ describe('Retrieve whitelabel', () => {
     );
     expect('data' in response).toBeTruthy();
     expect(true).toBeTruthy();
-  });
-});
-
-describe('Retrieve whitelabel', () => {
-  it('should response object including whitelabel info', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(
-      CONFIG.email,
-      CONFIG.password,
-      CONFIG.clientId,
-      CONFIG.clientSecret
-    );
-    const token = await result;
-    const response = getCustomerPreferenceSettingsAsync(
-      CONFIG.domain,
-      token.accessToken
-    );
-    const whiteLabel = await response;
-    await expect(whiteLabel).rejects.toHaveProperty('statusCode', 404);
   });
 });
