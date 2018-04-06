@@ -72,7 +72,7 @@ export const storeRouteAsync = async (payload, token) => {
       method: 'POST',
       url: endpoints.API_V3.STORE_ROUTE,
       headers: {Authorization: `Bearer ${token}`},
-      data: [camelToSnake(payload)],
+      data: {routes: camelToSnake(payload), replace_all_existing: false},
     });
 
     return camelize(routes.data);
@@ -127,7 +127,7 @@ export const createRouteLocationAsync = async (
       method: 'POST',
       url: `${endpoints.API_V3.ROUTE_LOCATION.replace('{0}', routeId)}`,
       headers: {Authorization: `Bearer ${token}`},
-      data: payload,
+      data: camelToSnake(payload),
     });
 
     return camelize(result.data);
@@ -170,7 +170,7 @@ export const updateRouteLocationAsync = async (
       method: 'PUT',
       url: `${endpoints.API_V3.ROUTE_LOCATION.replace('{0}', routeId)}`,
       headers: {Authorization: `Bearer ${token}`},
-      data: payload,
+      data: camelToSnake(payload),
     });
 
     return camelize(result.data);
