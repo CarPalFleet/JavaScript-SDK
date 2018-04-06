@@ -63,7 +63,7 @@ export const getRoutesAsync = async (filterObject, token) => {
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const storeRouteAsync = async (payload, token, replaceAllExisting = false) => {
+export const storeRouteAsync = async (payload, token) => {
   try {
     const snakeCaseLocations = payload.routeLocations.map((l) => camelToSnake(l));
     payload.routeLocations = snakeCaseLocations;
@@ -72,7 +72,7 @@ export const storeRouteAsync = async (payload, token, replaceAllExisting = false
       method: 'POST',
       url: endpoints.API_V3.STORE_ROUTE,
       headers: {Authorization: `Bearer ${token}`},
-      data: {routes: camelToSnake(payload), replace_all_existing: replaceAllExisting},
+      data: [camelToSnake(payload)],
     });
 
     return camelize(routes.data);
