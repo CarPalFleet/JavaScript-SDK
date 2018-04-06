@@ -4,8 +4,8 @@ import CONFIG from './Config';
 
 test('should show the list of vehicle types, inside of array expect id and type ', async () => {
   const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
+    CONFIG.email,
+    CONFIG.password,
     CONFIG.clientId,
     CONFIG.clientSecret
   );

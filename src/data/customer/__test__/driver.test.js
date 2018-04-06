@@ -13,7 +13,7 @@ import {
 } from '../Driver';
 
 describe('Create new driver ', () => {
-  it('should repsond new driver object including id and details', async () => {
+  it('should respond new driver object including id and details', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const result = getTokenAsync(
       CONFIG.email,
