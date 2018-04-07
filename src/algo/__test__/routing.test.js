@@ -19,8 +19,6 @@ describe('Call route optimization endpoints', () => {
       routingScope: 'all',
     };
     const response = await optimizeRouteAsync(payload, token.accessToken);
-
-    console.log(response);
     await expect('data' in response).toBeTruthy();
   });
 });
