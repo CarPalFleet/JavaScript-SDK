@@ -12,12 +12,15 @@ describe('Call route optimization endpoints', () => {
       CONFIG.clientSecret
     );
     const token = await result;
+    //TODO: unit tests will fail in the future because of hardcoded ids
     let payload = {
       date: '2018-02-28',
       routeSettingId: 28,
       routingScope: 'all',
     };
     const response = await optimizeRouteAsync(payload, token.accessToken);
+
+    console.log(response);
     await expect('data' in response).toBeTruthy();
   });
 });
