@@ -8,6 +8,7 @@ import {camelToSnake} from '../utility/ChangeCase';
 /** Export File
  * @param {string} type (mandatory) # driver-list or routing
  * @param {string} payload {transactionGroupId, recipientEmail, pickupDate}
+ * transactionGroupId (mandatory) (integer)
  * recipientEmail (mandatory) (string)
  * pickupDate (optional) (string) #Pickupdate is need if type is routing
  * @param {string} token
