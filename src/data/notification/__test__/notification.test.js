@@ -34,7 +34,7 @@ test('Test for delet ing specific notification', async () => {
     12121212,
     token.accessToken
   );
-  
+
   //TODO: since there is a non-existing userId being passed, I expect a false return but the API wrapper is returning 200
   expect('data' in response.data).toBeTruthy();
   expect(true).toBeTruthy();

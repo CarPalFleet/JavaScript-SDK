@@ -25,8 +25,6 @@ const endpoints = {
   CUSTOMER_DRIVER_DETAIL: `${urlPrefix}/customers/{0}/identities/{1}/drivers/{2}`,
   DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
   NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
-  ROUTE_OPTIMIZE_SETTINGS: `${urlPrefix}/customers/{0}/routes`,
-  STATUSES: `${urlPrefix}/dashboard/types`,
   GROUPING_LOCATIONS_ERRORS: `${urlPrefix}/customers/{0}/location/errors`,
   ORDER_WITH_ERRORS: `${urlPrefix}/grouping-location-error`,
   BATCH_ORDER_WITH_ERRORS: `${urlPrefix}/grouping-location-errors`,
