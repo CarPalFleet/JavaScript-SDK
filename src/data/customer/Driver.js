@@ -169,7 +169,8 @@ export const getDriversAsync = async (filterObject = {}, token) => {
  * @param {object} filterObject
  * @param {string} token
  * @return {promise} reject/resolve
- */
+ * @deprecated since version 0.1.77
+*/
 export const updateDriverAsync = async (filterObject = {}, token) => {
   try {
     let paramString = convertObjectIntoURLString(filterObject);
