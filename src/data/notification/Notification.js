@@ -1,5 +1,5 @@
 /**
- * @fileoverview This file contains all notification Customer related functions that are triggered by a User
+ * @fileoverview This file contains all notification related functions that are triggered by a User
  */
 
 import axios from 'axios';
