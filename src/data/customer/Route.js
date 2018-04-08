@@ -41,30 +41,35 @@ export const getRoutesAsync = async (filterObject, token) => {
 /**
  * Create Routes
  * @param {object} payload
- * pickupDate (mandatory) (string),
+ * pickupDate: required | date_format: Y-m-d (mandatory) (string),
  * driverId (optional) (int),
  * routeSettings (optional) (json string),
  * routeLocations (mandatory) (array),
  * sequence (mandatory) (int),
  * groupingLocationId (mandatory) (int)
- * locationTypeId  (mandatory) (int)
+ * locationTypeId  (mandatory) (int) (2 for Delivery Location or 3 for Pickup Location)
  * routeCapacity (optional) (decimal)
+ * replaceAllExisting (boolean) (optional)
  Example payload
- [
-  {
-    "driverId": 2,
-    "pickupDate": "2018-03-30",
-    "routeSettings": "{}",
-    "routeLocations": [
-      {
-        "sequence": 1,
-        "groupingLocationId": 1,
-        "locationTypeId": 3,
-        "routeCapacity": 10.5
-      }
-    ]
-  }
-]
+{
+   "routes": [
+    {
+      "driverId": 2,
+      "pickupDate": "2018-03-30",
+      "routeSettings": "{}",
+      "routeLocations": [
+        {
+          "sequence": 1,
+          "groupingLocationId": 1,
+          "locationTypeId": 3,
+          "routeCapacity": 10.5
+        }
+      ]
+    }
+  ],
+  "replaceAllExisting": true
+}
+//TODO: needs unit testing
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
