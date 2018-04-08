@@ -57,6 +57,7 @@ export const getJobSummaryAsync = async (jobId, token) => {
  * @return {object} Promise resolve/reject
  */
  //TODO: needs unit testing
+ //TODO: there no such thing as Recommended Jobs? Should be deprecated?
 export const getRecommendedJobsAsync = async (filterObject = {}, token) => {
   try {
     let paramString = convertObjectIntoURLString(filterObject);
