@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains all authentication related functions that are triggered by a User
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';

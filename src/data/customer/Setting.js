@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains all Settings related functions that are triggered by a Customer
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';

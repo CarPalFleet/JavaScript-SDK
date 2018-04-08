@@ -1,9 +1,14 @@
+/**
+ * @fileoverview This file contains all Export related functions that are triggered by a Customer
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import {apiResponseErrorHandler} from '../utility/Util';
 import {camelToSnake} from '../utility/ChangeCase';
 
+//TODO: this file should be moved to /Customer since they are always triggered by a Customer
 
 /** Export File
  * @param {string} type (mandatory) # driver-list or routing
