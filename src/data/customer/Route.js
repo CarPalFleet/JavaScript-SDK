@@ -41,7 +41,7 @@ export const getRoutesAsync = async (filterObject, token) => {
 /**
  * Create Routes
  * @param {object} payload
- * pickupDate: required | date_format: Y-m-d (mandatory) (string),
+ * pickupDate (mandatory) (string),
  * driverId (optional) (int),
  * routeSettings (optional) (json string),
  * routeLocations (mandatory) (array),
