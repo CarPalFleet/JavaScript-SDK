@@ -68,7 +68,6 @@ export const resetPasswordAsync = async (
  * @return {object} Promise resolve/reject
  */
 export const validateResetPasswordTokenAsync = async (token) => {
-  //TODO: we need to rename this function as it's not related to the ResetPasswordToken but the validate the AccessToken
   try {
     const response = await axios({
       method: 'POST',
