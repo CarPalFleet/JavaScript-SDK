@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains all general Utility functions
+ */
+
 import isObject from 'lodash.isobject';
 
 /**

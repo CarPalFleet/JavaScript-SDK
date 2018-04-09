@@ -1,4 +1,4 @@
-import {createNewCustomerAsync} from '../Driver';
+import {createNewCustomerAsync} from '../Customer';
 
 describe('Creating new customer account', () => {
   it('Response should be true if new customer is created', async () => {

@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains all Order related functions that are triggered by a Customer
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
@@ -27,6 +31,7 @@ import {
  * page = 0 (optional)(int)
  * @return {object} Promise resolve/reject
  */
+ //TODO: should be called Jobs, as the dashboard does not have Orders and should be moved to Job.js
 export const getOrdersWithFiltersAsync = async (
   filterObject = {},
   customerId,
@@ -59,6 +64,7 @@ export const getOrdersWithFiltersAsync = async (
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
+ //TODO: should be called Jobs, as the dashboard does not have Orders and should be moved to Job.js
 export const getOrderCountsAsync = async (filterObject, customerId, token) => {
   let paramString = convertObjectIntoURLString(filterObject);
   try {
@@ -320,6 +326,7 @@ export const getOrdersGroupByPickUpAddressAsync = async (
 };
 
 /**
+//TODO: description is vague
  * Merge Order Records
  * @param {array} oldValues
  * @param {array} newValues
@@ -343,6 +350,7 @@ export const mergeOldAndNewOrderRecords = (oldValues, newValues) => {
 };
 
 /**
+//TODO: description is vague
  * Merge Two Objects which has the same id
  * @param {object} oldValues
  * @param {object} newValues
@@ -356,6 +364,7 @@ export const concatDuplicateObjects = (oldValues, newValues, data) => {
 };
 
 /**
+//TODO: description is vague
  * Find duplicate indexes
  * @param {object} newValues
  * @param {array} accumulator
@@ -771,6 +780,7 @@ export const cancelBatchFileProcessAsync = async (batchId, token) => {
  * @param {string} filterObject {pickupDate, routeStatusIds, includeOrders, limit, offset}
  * @return {object} Promise resolve/reject
  */
+ //TODO: function should be moved to file customer/Job.js
 export const getUpdatedJobLiveData = (
   originalJobDatum,
   pubSubPayload,

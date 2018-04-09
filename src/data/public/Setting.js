@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains all Settings related functions that are triggered by a (public) User
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
@@ -8,6 +12,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
  * @param {string} domain
  * @return {object} Promise resolve/reject
  */
+//TODO: needs unit testing
 export const getCustomerPublicProfileSettingsAsync = async (domain) => {
   try {
     const response = await axios({

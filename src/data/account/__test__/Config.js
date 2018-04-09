@@ -1,4 +1,6 @@
 export default {
-  refreshToken:
-    'af56e63633f278c59c15e5ebc55427ccf9d79da3698362d3c59c29bf6a257879',
+    email: "alpha.test@carpal.me",
+    password: "123456",
+    clientId: "2",
+    clientSecret: "8iQwaS8mJLvrW5KrGUrjDZ90bTrwk7frv4ygk7qt",
 };

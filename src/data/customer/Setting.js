@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains all Settings related functions that are triggered by a Customer
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
@@ -33,7 +37,7 @@ export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
  * @param {string} token
  * @return {object} promise (resolve/reject)
  */
- // TODO: this function should be moved to a /User directory
+ // TODO: this function should be moved to /account directory as it us a user setting not customer
 export const getUserSettingsAsync = async (userId, type, token) => {
   try {
     const response = await axios({

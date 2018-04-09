@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains all notification related functions that are triggered by a User
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
@@ -11,6 +15,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
+ //TODO: this notification function should work based on userId not customerId
 export const getNotificationsAsync = async (all = false, customerId, token) => {
   try {
     let response = await axios({
@@ -21,6 +26,7 @@ export const getNotificationsAsync = async (all = false, customerId, token) => {
 
     return camelize(response.data);
   } catch (e) {
+
     return apiResponseErrorHandler(e);
   }
 };
@@ -32,6 +38,7 @@ export const getNotificationsAsync = async (all = false, customerId, token) => {
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
+ //TODO: this notification function should work based on userId not customerId
 export const deleteNotificationAsync = async (
   notificationId,
   customerId,

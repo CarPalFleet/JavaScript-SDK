@@ -9,6 +9,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
  * @param {string} schemaName
  * @return {object} Promise reject with statusCode and statusText
  */
+ //TODO: needs testing, also not being triggered on front-end so not sure why we have this here
 export const getSchemaAsync = async (service, schemaName) => {
   try {
     const response = await axios.get(

@@ -8,6 +8,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
+//TODO: we should move this to Customer/Driver.js as it is a Driver related function and delete this file
 export const getVehicleTypesAsync = async (token) => {
   try {
     const vehicles = await axios({

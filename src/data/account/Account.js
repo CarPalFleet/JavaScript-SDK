@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains all account related functions that are triggered by a User
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
@@ -44,6 +48,7 @@ export const resetPasswordAsync = async (
       method: 'PUT',
       url: endpoints.PASSWORD_RESET,
       headers: {'Content-Type': 'application/json'},
+//TODO: API is expecting a token, but API works fine without passing token
       data: {
         token,
         email,
@@ -63,6 +68,7 @@ export const resetPasswordAsync = async (
  * @return {object} Promise resolve/reject
  */
 export const validateResetPasswordTokenAsync = async (token) => {
+  //TODO: we need to rename this function as it's not related to the ResetPasswordToken but the validate the AccessToken
   try {
     const response = await axios({
       method: 'POST',
