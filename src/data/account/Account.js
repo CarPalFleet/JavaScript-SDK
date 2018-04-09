@@ -49,7 +49,7 @@ export const resetPasswordAsync = async (
       method: 'PUT',
       url: endpoints.PASSWORD_RESET,
       headers: {'Content-Type': 'application/json'},
-//TODO: API is expecting a token, but API works fine without passing token
+//TODO: API is expecting a token, but API works fine without passing token probably because the token is 'undefined'
       data: {
         token,
         email,
