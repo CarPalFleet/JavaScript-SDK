@@ -1,6 +1,6 @@
 {
   "name": "carpal",
-  "version": "0.1.93",
+  "version": "0.1.94",
   "description": "The SDK for CarPal fleet solution development.",
   "main": "dist/build.js",
   "scripts": {

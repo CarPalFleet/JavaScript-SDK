@@ -70,12 +70,11 @@ export const getRoutesAsync = async (filterObject, token) => {
  */
 export const storeRouteAsync = async (payload, token) => {
   try {
-
-    const routes = await axios({
+      const routes = await axios({
       method: 'POST',
       url: endpoints.API_V3.STORE_ROUTE,
       headers: {Authorization: `Bearer ${token}`},
-      data: toArray(camelToSnake(payload, 2)),
+      data: camelToSnake(payload, 5),
     });
 
     return camelize(routes.data);
