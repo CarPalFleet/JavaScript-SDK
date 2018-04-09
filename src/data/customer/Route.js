@@ -43,37 +43,39 @@ export const getRoutesAsync = async (filterObject, token) => {
  * routeLocations (mandatory) (array),
  * sequence (mandatory) (int),
  * groupingLocationId (mandatory) (int)
- * locationTypeId  (mandatory) (int)
+ * locationTypeId  (mandatory) (int) (2 for Delivery Location or 3 for Pickup Location)
  * routeCapacity (optional) (decimal)
  Example payload
- [
-  {
-    "driverId": 2,
-    "pickupDate": "2018-03-30",
-    "routeSettings": "{}",
-    "routeLocations": [
-      {
-        "sequence": 1,
-        "groupingLocationId": 1,
-        "locationTypeId": 3,
-        "routeCapacity": 10.5
-      }
-    ]
-  }
-]
+ {
+    "routes": [
+    {
+       "driverId": 2,
+       "pickupDate": "2018-03-30",
+       "routeSettings": "{}",
+       "routeLocations": [
+         {
+           "sequence": 1,
+           "groupingLocationId": 1,
+           "locationTypeId": 3,
+           "routeCapacity": 10.5
+         }
+       ]
+     }
+   ],
+   "replaceAllExisting": true
+ }
+//TODO: needs unit testing
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
 export const storeRouteAsync = async (payload, token) => {
   try {
-    const snakeCaseLocations = payload.routeLocations.map((l) => camelToSnake(l));
-    payload.routeLocations = snakeCaseLocations;
 
     const routes = await axios({
       method: 'POST',
       url: endpoints.API_V3.STORE_ROUTE,
       headers: {Authorization: `Bearer ${token}`},
-      data: [camelToSnake(payload)],
+      data: toArray(camelToSnake(payload, 2)),
     });
 
     return camelize(routes.data);
