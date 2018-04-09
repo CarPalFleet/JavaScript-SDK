@@ -8,8 +8,8 @@ import {apiResponseErrorHandler} from '../utility/Util';
  * @param {object} service
  * @param {string} schemaName
  * @return {object} Promise reject with statusCode and statusText
+ * @deprecated since version 0.1.77
  */
- //TODO: needs testing, also not being triggered on front-end so not sure why we have this here
 export const getSchemaAsync = async (service, schemaName) => {
   try {
     const response = await axios.get(
@@ -27,6 +27,7 @@ export const getSchemaAsync = async (service, schemaName) => {
  * @param {object} schema
  * @param {string} payload
  * @return {boolean} true/false
+ * @deprecated since version 0.1.77
  */
 export const validateSchema = (schema, payload) => {
   const schemaKeys = Object.keys(schema);
