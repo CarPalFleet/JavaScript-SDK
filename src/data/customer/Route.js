@@ -6,6 +6,7 @@ import {
   apiResponseErrorHandler,
 } from '../utility/Util';
 import {camelToSnake} from '../utility/ChangeCase';
+import toArray from 'lodash.toarray';
 
 /**
  * Get Routes
@@ -42,38 +43,39 @@ export const getRoutesAsync = async (filterObject, token) => {
  * routeLocations (mandatory) (array),
  * sequence (mandatory) (int),
  * groupingLocationId (mandatory) (int)
- * locationTypeId  (mandatory) (int)
+ * locationTypeId  (mandatory) (int) (2 for Delivery Location or 3 for Pickup Location)
  * routeCapacity (optional) (decimal)
  Example payload
- [
-  {
-    "driverId": 2,
-    "pickupDate": "2018-03-30",
-    "routeSettings": "{}",
-    "routeLocations": [
-      {
-        "sequence": 1,
-        "groupingLocationId": 1,
-        "locationTypeId": 3,
-        "routeCapacity": 10.5
-      }
-    ]
-  }
-]
+ {
+    "routes": [
+    {
+       "driverId": 2,
+       "pickupDate": "2018-03-30",
+       "routeSettings": "{}",
+       "routeLocations": [
+         {
+           "sequence": 1,
+           "groupingLocationId": 1,
+           "locationTypeId": 3,
+           "routeCapacity": 10.5
+         }
+       ]
+     }
+   ],
+   "replaceAllExisting": true
+ }
+//TODO: needs unit testing
  * @param {string} token
  * @param {boolean} replaceAllExisting default is false
  * @return {object} Promise resolve/reject
  */
-export const storeRouteAsync = async (payload, token, replaceAllExisting = false) => {
+export const storeRouteAsync = async (payload, token) => {
   try {
-    const snakeCaseLocations = payload.routeLocations.map((l) => camelToSnake(l));
-    payload.routeLocations = snakeCaseLocations;
-
-    const routes = await axios({
+      const routes = await axios({
       method: 'POST',
       url: endpoints.API_V3.STORE_ROUTE,
       headers: {Authorization: `Bearer ${token}`},
-      data: {routes: camelToSnake(payload), replace_all_existing: replaceAllExisting},
+      data: camelToSnake(payload, 5),
     });
 
     return camelize(routes.data);
@@ -128,7 +130,7 @@ export const createRouteLocationAsync = async (
       method: 'POST',
       url: `${endpoints.API_V3.ROUTE_LOCATION.replace('{0}', routeId)}`,
       headers: {Authorization: `Bearer ${token}`},
-      data: payload,
+      data: toArray(camelToSnake(payload, 2)),
     });
 
     return camelize(result.data);
@@ -171,7 +173,7 @@ export const updateRouteLocationAsync = async (
       method: 'PUT',
       url: `${endpoints.API_V3.ROUTE_LOCATION.replace('{0}', routeId)}`,
       headers: {Authorization: `Bearer ${token}`},
-      data: payload,
+      data: toArray(camelToSnake(payload, 2)),
     });
 
     return camelize(result.data);
