@@ -66,7 +66,6 @@ export const getRoutesAsync = async (filterObject, token) => {
  }
 //TODO: needs unit testing
  * @param {string} token
- * @param {boolean} replaceAllExisting default is false
  * @return {object} Promise resolve/reject
  */
 export const storeRouteAsync = async (payload, token) => {
