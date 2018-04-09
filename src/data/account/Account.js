@@ -12,6 +12,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
  * @param {string} email
  * @return {object} Promise resolve/reject
  */
+ //TODO: should call API V3 directly and not API wrapper
 export const resetPasswordRequestAsync = async (email) => {
   try {
     const response = await axios({
