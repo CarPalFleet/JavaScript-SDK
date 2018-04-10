@@ -55,6 +55,7 @@ export const getJobSummaryAsync = async (jobId, token) => {
  * @param {object} filterObject #{driverId, pickupDate, limit, offset}
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * @deprecated since version 0.1.77
  */
  //TODO: needs unit testing
  //TODO: there no such thing as Recommended Jobs? Should be deprecated?
