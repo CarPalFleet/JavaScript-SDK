@@ -1,7 +1,7 @@
 /**
  * @fileoverview This file contains all Driver related functions that are triggered by a Customer
  */
- 
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
@@ -54,6 +54,7 @@ export const createDriverAsync = async (
     password,
     phone,
     productTypeId,
+    //TODO: where is the sendConfirmationEmail?
     sendConfirmationSms = false,
     transactionGroupId,
     vehicleBrand,
