@@ -17,6 +17,6 @@ describe('Get Routes with filters', () => {
       recipientEmail: 'alpha.test@carpal.me',
     };
     const response = await exportFileAsync(type, payload, result.accessToken);
-    expect(response).toBeTruthy();
+    expect(response).toHaveProperty('status', 202);
   });
 });
