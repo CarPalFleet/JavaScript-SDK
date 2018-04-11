@@ -1,7 +1,6 @@
 import {getTokenAsync} from '../../account/Auth';
 import {
   getCustomerPreferenceSettingsAsync,
-  getUserSettingsAsync,
 } from '../Setting';
 import CONFIG from './Config';
 
@@ -39,18 +38,5 @@ describe('Retrieve whitelabel with invalid domain', () => {
       token.accessToken
     );
     await expect(response).rejects.toHaveProperty('statusCode', 404);
-  });
-});
-
-describe('Retrieve user settings', () => {
-  it('should get an array of settings. ', async () => {
-    const response = await getUserSettingsAsync(
-      CONFIG.userId,
-      'routing',
-      CONFIG.token
-    );
-
-    const expected = [{setting: {}}];
-    expect(response.data).toEqual(expected);
   });
 });
