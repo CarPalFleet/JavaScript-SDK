@@ -1,5 +1,5 @@
 /**
- * @fileoverview This file contains all Settings related functions that are triggered by a USer
+ * @fileoverview This file contains all Settings related functions that are triggered by a User
  */
 
 import axios from 'axios';
