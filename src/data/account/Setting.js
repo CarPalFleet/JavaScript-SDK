@@ -23,7 +23,6 @@ export const getUserSettingsAsync = async (userId, type, token) => {
       method: 'GET',
       url: `${endpoints.USER_SETTINGS.replace(
         '{0}',
-        // TODO: change customerId to userId on API wrapper
         userId
       )}?type=${type}`,
       headers: {Authorization: token},
