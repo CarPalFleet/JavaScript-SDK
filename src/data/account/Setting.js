@@ -30,7 +30,7 @@ export const getUserSettingsAsync = async (userId, type, token) => {
 
     return camelize(response.data);
   } catch (e) {
-    console.log(e);
+
     return apiResponseErrorHandler(e);
   }
 };
