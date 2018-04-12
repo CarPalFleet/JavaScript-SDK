@@ -586,6 +586,7 @@ export const getUniquePickupAddressesAsync = async (filterObject, token) => {
 /**
  * Create single order
  * @param {object} locationObject
+ //TODO: this object is not complete, an order can have much more parameters
  {
    pickupLocationAddress: '22 Gim moh road',
    deliveryAddress: 'Holland Close',
@@ -594,6 +595,7 @@ export const getUniquePickupAddressesAsync = async (filterObject, token) => {
    deliveryDate: '28-02-2018',
    deliveryTimeWindow: '17:00-17:00',
    driverEmailId: null,
+   capacity: 10,
  },
  * @param {string} token
  * @return {object} Promise resolve/reject
@@ -623,6 +625,7 @@ export const createOrderAsync = async (locationObject, token) => {
  * Edit single order
  * @param {int} groupingLocationId
  * @param {object} locationObject
+ //TODO: this object is not complete, an order can have much more parameters
  {
    pickupLocationAddress: '22 Gim moh road',
    deliveryAddress: 'Holland Close',
@@ -631,6 +634,7 @@ export const createOrderAsync = async (locationObject, token) => {
    deliveryDate: '28-02-2018',
    deliveryTimeWindow: '17:00-17:00',
    driverEmailId: null,
+   capacity: 10,
  },
  * @param {string} token
  * @return {object} Promise resolve/reject
@@ -664,6 +668,7 @@ export const editOrderAsync = async (
 /**
  * Edit multiple orders
  * @param {array} locationDataList
+ //TODO: this object is not complete, an order can have much more parameters
  [
    {
      groupingLocationId: 27318,
@@ -675,6 +680,7 @@ export const editOrderAsync = async (
        deliveryDate: '28-02-2018',
        deliveryTimeWindow: '17:00-17:00',
        driverEmailId: null,
+       capacity: 10,
      },
    },
  ]
