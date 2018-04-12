@@ -201,8 +201,7 @@ test(`Test for update driver schedule`, async () => {
     startAt: '2018-03-01',
   };
   const scheduleId = CONFIG.scheduleId;
-  //TODO: this seems the incorrect function?
-  const response = await updateRouteLocationAsync(
+  const response = await updateDriverScheduleAsync(
     scheduleId,
     playload,
     token.accessToken

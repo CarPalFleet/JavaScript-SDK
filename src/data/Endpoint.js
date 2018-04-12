@@ -27,7 +27,6 @@ const endpoints = {
   NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
   GROUPING_LOCATIONS_ERRORS: `${urlPrefix}/customers/{0}/location/errors`,
   ORDER_WITH_ERRORS: `${urlPrefix}/grouping-location-error`,
-  STATUSES: `${urlPrefix}/dashboard/types`, //TODO: can't find this endpoint anywhere in the codebase, are we using it?
   BATCH_ORDER_WITH_ERRORS: `${urlPrefix}/grouping-location-errors`,
   VEHICLES: `${urlPrefix}/vehicles`,
   USER_SETTINGS: `${urlPrefix}/users/{0}/settings`,
