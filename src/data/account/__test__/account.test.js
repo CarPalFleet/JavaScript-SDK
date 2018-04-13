@@ -28,8 +28,11 @@ describe('Reset password', () => {
 
 describe('Test for reset password token validation', () => {
   test('reject with statusCode 404 if the reset password is invalid', async () => {
-    const result = await validateResetPasswordTokenAsync(makeid(32));
-    await expect(result).rejects.toHaveProperty('statusCode', 404);
+    try {
+      const result = await validateResetPasswordTokenAsync(makeid(32));
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 404);
+    }
   });
 });
 
