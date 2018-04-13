@@ -28,10 +28,10 @@ export const apiResponseErrorHandler = (e) => {
     rejectObj = {
       statusCode: e.response.status,
       statusText: e.response.statusText,
-      errorMessage: getFormattedErrorArray(e.response.data['Message']),
+      errorMessage: getFormattedErrorArray(e.response.data['message']),
     };
   } else {
-    
+
     /* Catch error of e.response
     That will be undefined when status code is 403 Forbidden */
     rejectObj = {statusCode: 403, statusText: 'Forbidden', errorMessage: []};
