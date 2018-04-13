@@ -1,4 +1,5 @@
 import * as Ably from 'ably';
+import camelize from 'camelize';
 
 /**
  * Declare Pub/Sub (Ably)
@@ -12,7 +13,7 @@ export const pubsub = (key, channel, realtime = true) => {
   let chan = client.channels.get(channel);
   return {
     publish: (event, message) => {
-      chan.publish(event, message);
+      chan.publish(event, camelize(message));
     },
 
     subscribe: (event, callback) => {
