@@ -447,7 +447,7 @@ export const updateDriverScheduleAsync = async (
       method: 'put',
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', scheduleId)}`,
       headers: {Authorization: `Bearer ${token}`},
-      data: payload,
+      data: camelToSnake(payload),
     });
     return camelize(result.data);
   } catch (e) {
@@ -498,7 +498,7 @@ export const createDriverScheduleAsync = async (payload = {}, token) => {
       method: 'post',
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', '')}`,
       headers: {Authorization: `Bearer ${token}`},
-      data: payload,
+      data: camelToSnake(payload),
     });
     return camelize(result.data);
   } catch (e) {

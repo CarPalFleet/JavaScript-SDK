@@ -2,7 +2,6 @@ import {exportFileAsync} from '../ExportFile';
 import CONFIG from './Config';
 import {getTokenAsync} from '../../account/Auth';
 
-
 describe('Get Routes with filters', () => {
   it('should get true value for export file', async () => {
     const type = 'routing';

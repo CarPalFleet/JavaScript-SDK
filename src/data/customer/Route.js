@@ -51,35 +51,35 @@ export const getRoutesAsync = async (filterObject, token) => {
  * routeCapacity (optional) (decimal)
  * replaceAllExisting (boolean) (optional)
  Example payload
-{
-   "routes": [
+ {
+    "routes": [
     {
-      "driverId": 2,
-      "pickupDate": "2018-03-30",
-      "routeSettings": "{}",
-      "routeLocations": [
-        {
-          "sequence": 1,
-          "groupingLocationId": 1,
-          "locationTypeId": 3,
-          "routeCapacity": 10.5
-        }
-      ]
-    }
-  ],
-  "replaceAllExisting": true
-}
+       "driverId": 2,
+       "pickupDate": "2018-03-30",
+       "routeSettings": "{}",
+       "routeLocations": [
+         {
+           "sequence": 1,
+           "groupingLocationId": 1,
+           "locationTypeId": 3,
+           "routeCapacity": 10.5
+         }
+       ]
+     }
+   ],
+   "replaceAllExisting": true
+ }
 //TODO: needs unit testing
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
 export const storeRouteAsync = async (payload, token) => {
   try {
-    const routes = await axios({
+      const routes = await axios({
       method: 'POST',
       url: endpoints.API_V3.STORE_ROUTE,
       headers: {Authorization: `Bearer ${token}`},
-      data: toArray(camelToSnake(payload, 2)),
+      data: camelToSnake(payload, 5),
     });
 
     return camelize(routes.data);
