@@ -24,11 +24,15 @@ export const convertObjectIntoURLString = (filters) => {
  */
 export const apiResponseErrorHandler = (e) => {
   let rejectObj = {};
+  let messages = null;
   if (e.response) {
+    if (e.response.data.error && e.response.data.error.message) {
+      messages = e.response.data.error.message.split(',');
+    }
     rejectObj = {
       statusCode: e.response.status,
       statusText: e.response.statusText,
-      errorMessage: getFormattedErrorArray(e.response.data['message']),
+      errorMessage: getFormattedErrorArray( messages || e.response.data['Message']),
     };
   } else {
 
