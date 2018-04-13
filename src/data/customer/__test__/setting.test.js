@@ -1,12 +1,12 @@
 import {getTokenAsync} from '../../account/Auth';
 import {
   getCustomerPreferenceSettingsAsync,
-  getUserSettingsAsync,
+  getCustomerSettingsAsync,
 } from '../Setting';
 import CONFIG from './Config';
 
-describe('Retrieve whitelabel', () => {
-  it('should response object including whitelabel info', async () => {
+describe('Retrieve Customer settings', () => {
+  it('should response object including customer settings', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const result = getTokenAsync(
       CONFIG.email,
@@ -15,12 +15,11 @@ describe('Retrieve whitelabel', () => {
       CONFIG.clientSecret
     );
     const token = await result;
-    const response = getCustomerPreferenceSettingsAsync(
-      CONFIG.domain,
+    const response = getCustomerSettingsAsync(
       token.accessToken
     );
-    const whiteLabel = await response;
-    await expect(whiteLabel).rejects.toHaveProperty('statusCode', 404);
+    const settings = await response;
+    expect('data' in settings).toBeTruthy();
   });
 });
 
@@ -39,18 +38,5 @@ describe('Retrieve whitelabel with invalid domain', () => {
       token.accessToken
     );
     await expect(response).rejects.toHaveProperty('statusCode', 404);
-  });
-});
-
-describe('Retrieve user settings', () => {
-  it('should get an array of settings. ', async () => {
-    const response = await getUserSettingsAsync(
-      CONFIG.userId,
-      'routing',
-      CONFIG.token
-    );
-
-    const expected = [{setting: {}}];
-    expect(response.data).toEqual(expected);
   });
 });

@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains all general ChangeCasing functions
+ */
+
 import isObject from 'lodash.isobject';
 import isArray from 'lodash.isarray';
 import isNumber from 'lodash.isnumber';

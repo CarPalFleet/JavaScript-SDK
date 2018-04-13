@@ -3,6 +3,9 @@ import endpoints from './endpoints';
 import {rejectPromise} from '../utility/Util';
 import self from 'worker';
 
+//TODO: consider deprecating all functions below as they are not implemented properly
+//TODO: there are no unit tests
+
 self.onmessage = (e) => {
   let interval = new Interval(
     checkConnection.bind(null, e),
@@ -26,6 +29,7 @@ export const sendMessageToMainThread = (e) => {
 export const checkConnection = async (e) => {
   await axios({
     method: 'GET',
+    //TODO: endpoint does not exist
     url: endpoints.CHECK_SOCKET_CONNECTION,
     header: {Authorization: e.data.token},
   });
@@ -51,6 +55,7 @@ export const handlerConnectionError = async (e) => {
 
     await axios({
       method: 'GET',
+      //TODO: endpoint does not exist
       url: endpoints.SEND_NOTI_TO_SLACK,
       header: {Authorization: e.data.token},
       body: payload,

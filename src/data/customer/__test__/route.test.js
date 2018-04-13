@@ -45,6 +45,7 @@ describe('Create new route location', () => {
 
 describe('Store route location', () => {
   it('should return true value in data', async () => {
+    //TODO: function doesn't exist
     const result = await storeRouteLocationAsync(
       CONFIG.createRoutePayload,
       CONFIG.token
@@ -82,7 +83,7 @@ describe('Retrieve route setting', () => {
       productTypeId: 3,
       transactionGroupId: 180,
     };
-
+    //TODO: function does not exist
     const response = await getRouteSettingsAsync(
       settingFilters,
       token.accessToken

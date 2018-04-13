@@ -8,6 +8,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
  * @param {object} service
  * @param {string} schemaName
  * @return {object} Promise reject with statusCode and statusText
+ * @deprecated since version 0.1.77
  */
 export const getSchemaAsync = async (service, schemaName) => {
   try {
@@ -26,6 +27,7 @@ export const getSchemaAsync = async (service, schemaName) => {
  * @param {object} schema
  * @param {string} payload
  * @return {boolean} true/false
+ * @deprecated since version 0.1.77
  */
 export const validateSchema = (schema, payload) => {
   const schemaKeys = Object.keys(schema);

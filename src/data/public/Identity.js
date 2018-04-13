@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains all Identity related functions that are triggered by a (public) User
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
