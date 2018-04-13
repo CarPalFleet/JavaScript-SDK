@@ -9,11 +9,11 @@ import {
   updateRouteLocationAsync,
   deleteDriverScheduleAsync,
   createDriverScheduleAsync,
-  updateDriverAsync,
+  updateDriverScheduleAsync,
 } from '../Driver';
 
 describe('Create new driver ', () => {
-  it('should respond new driver object including id and details', async () => {
+  it('should respond new driver object including id details and perform a show request on that driver', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const result = getTokenAsync(
       CONFIG.email,
@@ -47,27 +47,9 @@ describe('Create new driver ', () => {
     expect('driver' in response).toBeTruthy();
     expect('id' in response.driver).toBeTruthy();
     expect('details' in response.driver).toBeTruthy();
-  });
-});
 
-test(`Test for retrieving detail of customer's driver`, async () => {
-  const result = getTokenAsync(
-    CONFIG.email,
-    CONFIG.password,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
-  //TODO: ids cannot be hardcoded else we will receive a 400
-  const response = await getDriverDetailAsync(1, 5, 9869, token.accessToken);
-  expect(response instanceof Object).toBeTruthy();
-});
-
-describe('Update driver', () => {
-  it('Should respond data (array)', async () => {
-    //TODO: ids cannot be hardcoded else we will receive a 400
-    const response = await updateDriverAsync(1, 5, 9869, CONFIG.token);
-    expect(response instanceof Object).toBeTruthy();
+    const responseDriverDetail = await getDriverDetailAsync(1, 1, response.driver.id, token.accessToken);
+    expect('data' in responseDriverDetail).toBeTruthy();
   });
 });
 
@@ -89,7 +71,7 @@ test(`Test for retrieving V3 driver list`, async () => {
   expect(response.data instanceof Array).toBeTruthy();
 });
 
-describe('Retrieve Driver based on the search result', () => {
+/*describe('Retrieve Driver based on the search result', () => {
   it('should response specific drivers array', async () => {
     const response = await getDriversBasedOnSearchResult(
       CONFIG.filterObject,
@@ -98,28 +80,7 @@ describe('Retrieve Driver based on the search result', () => {
     );
     expect('data' in response).toBeTruthy();
   });
-});
-
-test('Test for retrieving drivers by a customer account', async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  const filterObj = {
-    driverStatusIds: [2],
-    orderRouteTypeIds: [1, 2],
-    driverTypeIds: [1, 2, 3],
-  };
-  const result = getTokenAsync(
-    CONFIG.email,
-    CONFIG.password,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
-
-  const response = await getDriversAsync(filterObj, 1, token.accessToken);
-
-  expect(response instanceof Array).toBeTruthy();
-  expect(true).toBeTruthy();
-});
+});*/
 
 test('Test for pubsub live data for job', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
@@ -185,7 +146,7 @@ test('Test for pubsub live data for job', async () => {
   expect(response instanceof Object).toBeTruthy();
 });
 
-test(`Test for update driver schedule`, async () => {
+test(`Test for create, delete and update driver schedule`, async () => {
   const result = getTokenAsync(
     CONFIG.email,
     CONFIG.password,
@@ -193,36 +154,55 @@ test(`Test for update driver schedule`, async () => {
     CONFIG.clientSecret
   );
   const token = await result;
-  const playload = {
-    driverId: 25148,
+
+  const driverInfo = {
+    identityId: 1,
+    productTypeId: 3,
+    transactionGroupId: [180],
+    firstName: 'User',
+    lastName: generateDisplayName(10),
+    email: `${generateDisplayName(10)}@example.com`,
+    password: '123456',
+    birthday: '1980-01-01',
+    phone: '+6592341092',
+    isNewUser: true,
+    sendConfirmationSms: false,
+    vehicleTypeId: 1,
+    vehicleBrand: 'Scooter',
+    vehicleModel: '12456',
+    vehicleLicenseNumber: '12456',
+    vehicleModelYear: 2018,
+    vehicleColor: 'Black',
+  };
+
+  const responseCreatedriver = await createDriverAsync(driverInfo, 1, token.accessToken);
+  expect('driver' in responseCreatedriver).toBeTruthy();
+
+  const payload = {
+    driverId: responseCreatedriver.driver.id,
     transactionGroupId: 180,
     startTime: '10:01',
     endTime: '13:02',
-    startAt: '2018-03-01',
+    startAt: '2020-03-01',
   };
-  const scheduleId = CONFIG.scheduleId;
-  const response = await updateDriverScheduleAsync(
-    scheduleId,
-    playload,
-    token.accessToken
-  );
-  expect(response.status).toBe(200);
-});
+  const responseCreateSchedule = await createDriverScheduleAsync(payload, token.accessToken);
+  expect('data' in responseCreateSchedule).toBeTruthy();
 
-test(`Test for delete driver schedule`, async () => {
-  const result = getTokenAsync(
-    CONFIG.email,
-    CONFIG.password,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   const scheduleId = CONFIG.scheduleId;
-  const response = await deleteDriverScheduleAsync(
-    scheduleId,
+  const responseUpdateSchedule = await updateDriverScheduleAsync(
+    responseCreateSchedule.data.id,
+    payload,
     token.accessToken
   );
-  expect(response.status).toBe(204);
+
+  expect('data' in responseUpdateSchedule).toBeTruthy();
+
+  const responseDelete = await deleteDriverScheduleAsync(
+    responseCreateSchedule.data.id,
+    token.accessToken
+  );
+
+  expect('data' in responseUpdateSchedule).toBeTruthy();
 });
 
 test(`Test for create driver schedule with with driver that does not belong to requestor`, async () => {
