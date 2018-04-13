@@ -25,14 +25,11 @@ const endpoints = {
   CUSTOMER_DRIVER_DETAIL: `${urlPrefix}/customers/{0}/identities/{1}/drivers/{2}`,
   DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
   NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
-  ROUTE_OPTIMIZE_SETTINGS: `${urlPrefix}/customers/{0}/routes`,
-  STATUSES: `${urlPrefix}/dashboard/types`,
   GROUPING_LOCATIONS_ERRORS: `${urlPrefix}/customers/{0}/location/errors`,
   ORDER_WITH_ERRORS: `${urlPrefix}/grouping-location-error`,
   BATCH_ORDER_WITH_ERRORS: `${urlPrefix}/grouping-location-errors`,
   VEHICLES: `${urlPrefix}/vehicles`,
-  //TODO: the URL should be changed to /users on the API wrapper and below
-  USER_SETTINGS: `${urlPrefix}/customers/{0}/settings`,
+  USER_SETTINGS: `${urlPrefix}/users/{0}/settings`,
   CUSTOMER_SETTINGS: `${urlPrefix}/settings`,
   API_V3: {
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
@@ -42,7 +39,6 @@ const endpoints = {
     DRIVER: `${laravelUrlPrefix}/${version}/customer/driver`,
     DRIVER_ROUTE: `${laravelUrlPrefix}/${version}/customer/driver-route`,
     JOB: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
-    RECOMMENDED_JOB: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
     ROUTE: `${laravelUrlPrefix}/${version}/customer/route/{0}`,
     STORE_ROUTE: `${laravelUrlPrefix}/${version}/customer/route`,
     OPTIMIZE_ROUTE: `${laravelUrlPrefix}/${version}/customer/route/optimization`,

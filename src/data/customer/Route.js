@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains all Routes related functions that are triggered by a Customer
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
@@ -45,6 +49,7 @@ export const getRoutesAsync = async (filterObject, token) => {
  * groupingLocationId (mandatory) (int)
  * locationTypeId  (mandatory) (int) (2 for Delivery Location or 3 for Pickup Location)
  * routeCapacity (optional) (decimal)
+ * replaceAllExisting (boolean) (optional)
  Example payload
  {
     "routes": [

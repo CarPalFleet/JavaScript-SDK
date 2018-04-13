@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains all Job related functions that are triggered by a Customer
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
@@ -51,7 +55,10 @@ export const getJobSummaryAsync = async (jobId, token) => {
  * @param {object} filterObject #{driverId, pickupDate, limit, offset}
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * @deprecated since version 0.1.77
  */
+ //TODO: needs unit testing
+ //TODO: there no such thing as Recommended Jobs? Should be deprecated?
 export const getRecommendedJobsAsync = async (filterObject = {}, token) => {
   try {
     let paramString = convertObjectIntoURLString(filterObject);

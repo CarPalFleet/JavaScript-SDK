@@ -1,3 +1,6 @@
+//TODO: not sure what the purpose of below class is, we should consider deprecating it.
+
+
 /**
  * Default Error class that can throw error
  */

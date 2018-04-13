@@ -1,3 +1,9 @@
+/**
+ * @fileoverview This file contains all Routing related functions that are triggered by a User
+ */
+
+ //TODO: this file should be part of a seprate routing package in the future.
+
 import axios from 'axios';
 import endpoints from '../data/Endpoint';
 import camelize from 'camelize';

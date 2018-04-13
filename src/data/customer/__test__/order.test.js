@@ -210,41 +210,10 @@ test('Delete Multiple Grouping Locations', async () => {
   expect(response.data).toBeTruthy();
 });
 
-test('Test for creating new delivery window with product type 1', async () => {
-  const response = await createDeliveryWindow(
-    {
-      customerId: 1,
-      identityId: 1,
-      productTypeId: 1,
-      displayName: generateDisplayName(),
-      startTime: '9:30',
-      endTime: '11:30',
-    },
-    CONFIG.token
-  );
-  expect('id' in response).toBeTruthy();
-});
-
 test('Test for customer order detail', async () => {
   const response = await getOrderDetailAsync(1, 1, CONFIG.token);
   expect('data' in response).toBeTruthy();
   expect(true).toBeTruthy();
-});
-
-test('Test for creating new delivery window with product type 3 and transaction user account', async () => {
-  const response = await createDeliveryWindow(
-    {
-      customerId: 1,
-      identityId: 1,
-      productTypeId: 3,
-      transactionGroupId: 1,
-      displayName: generateDisplayName(),
-      startTime: '9:30',
-      endTime: '11:30',
-    },
-    CONFIG.token
-  );
-  expect('id' in response).toBeTruthy();
 });
 
 /**

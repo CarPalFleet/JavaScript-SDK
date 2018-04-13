@@ -13,9 +13,10 @@ test('Test for retrieving all notifications', async () => {
   const token = await result;
   const response = await getNotificationsAsync(
     false,
-    CONFIG.userId,
+    12121212,
     token.accessToken
   );
+  //TODO: since there is a non-existing userId being passed, I expect a false return but the API wrapper is returning 200
   expect('data' in response).toBeTruthy();
 });
 
@@ -30,9 +31,11 @@ test('Test for delet ing specific notification', async () => {
   const token = await result;
   const response = await deleteNotificationAsync(
     1,
-    CONFIG.userId,
+    12121212,
     token.accessToken
   );
+
+  //TODO: since there is a non-existing userId being passed, I expect a false return but the API wrapper is returning 200
   expect('data' in response.data).toBeTruthy();
   expect(true).toBeTruthy();
 });
