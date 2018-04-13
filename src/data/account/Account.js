@@ -81,7 +81,7 @@ export const validateResetPasswordTokenAsync = async (token) => {
 
     return camelize(response.data.data);
   } catch (e) {
-    return console.log(apiResponseErrorHandler(e));
+    return apiResponseErrorHandler(e);
   }
 };
 

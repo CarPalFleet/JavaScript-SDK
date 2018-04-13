@@ -20,7 +20,6 @@ describe('Auth integration test', () => {
         config.clientId,
         config.clientSecret
       );
-      console.log(response);
       expect(response).toBeNull(); // Should not trigger, only if is there is no exception which is not expected behavior
     } catch (error) {
       const expected = {"errorMessage": [{"key": null, "messages": ["The user credentials were incorrect."]}], "statusCode": 401, "statusText": "Unauthorized"};
