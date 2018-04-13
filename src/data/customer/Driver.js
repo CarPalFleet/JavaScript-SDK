@@ -502,6 +502,7 @@ export const createDriverScheduleAsync = async (payload = {}, token) => {
     });
     return camelize(result.data);
   } catch (e) {
+
     return apiResponseErrorHandler(e);
   }
 };

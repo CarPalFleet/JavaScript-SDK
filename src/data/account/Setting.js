@@ -17,6 +17,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
  * @param {string} token
  * @return {object} promise (resolve/reject)
  */
+ //TODO: create unit test when endpoint is up - this function has not been tested
 export const getUserSettingsAsync = async (userId, type, token) => {
   try {
     const response = await axios({
@@ -27,7 +28,6 @@ export const getUserSettingsAsync = async (userId, type, token) => {
       )}?type=${type}`,
       headers: {Authorization: token},
     });
-
     return camelize(response.data);
   } catch (e) {
 

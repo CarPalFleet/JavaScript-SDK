@@ -225,7 +225,7 @@ test(`Test for delete driver schedule`, async () => {
   expect(response.status).toBe(204);
 });
 
-test(`Test for create driver schedule`, async () => {
+test(`Test for create driver schedule with with driver that does not belong to requestor`, async () => {
   const result = getTokenAsync(
     CONFIG.email,
     CONFIG.password,
@@ -234,14 +234,23 @@ test(`Test for create driver schedule`, async () => {
   );
   const token = await result;
   const playload = {
-    driverId: 25148,
+    driverId: 99999999999912,
     transactionGroupId: 180,
     startTime: '10:01',
     endTime: '13:02',
     startAt: '2018-03-01',
   };
-  const response = await createDriverScheduleAsync(playload, token.accessToken);
-  expect(response.status).toBe(200);
+  try {
+    const response = await createDriverScheduleAsync(playload, token.accessToken);
+  } catch (error) {
+
+    expect(error).toHaveProperty('statusCode', 400);
+    expect(error).toHaveProperty('errorMessage',
+    [ { key: '0', messages: 'Driver does not belong to you' },
+      { key: '1',
+      messages: ' Driver does not match Transaction Group' } ]);
+  }
+
 });
 
 /**
