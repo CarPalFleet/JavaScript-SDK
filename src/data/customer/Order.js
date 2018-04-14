@@ -81,7 +81,7 @@ export const getRemainingOrderCountAsync = async (filterObject, token) => {
 };
 
 /**
- * Retrieve All Order Counts
+ * Retrieve All Order Counts (to be renamed to Retrieve All Jobs Counts)
  * @param {object} filterObject # {pickupDate, limit, offset}
  * pickupDate (optional)(string) = '2018-02-28'
  * limit = 20 (optional)(int)
