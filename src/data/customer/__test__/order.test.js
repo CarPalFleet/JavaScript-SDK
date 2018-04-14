@@ -17,7 +17,7 @@ import {
   removeOrderErrorRecordsAsync,
   getOrdersBasedOnSearchResult,
   getCSVStringFromArrayObject,
-  getRemainingOrderCountAsync,
+  getRemainingOrdersCountAsync,
 } from '../Order';
 import {getTokenAsync} from '../../account/Auth';
 
@@ -84,7 +84,7 @@ test('Retrieving Remaining Order Count', async () => {
     );
     const token = await result;
 
-    const responseCount = await getRemainingOrderCountAsync(
+    const responseCount = await getRemainingOrdersCountAsync(
       filterObject,
       token.accessToken
     );

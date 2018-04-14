@@ -55,7 +55,7 @@ export const getOrdersWithFiltersAsync = async (
 };
 
 /**
- * Retrieve Remaining Order Count
+ * Retrieve Remaining Orders Count
  * @param {object} filterObject # {pickupDate, withOrder}
  * pickupDate (mandatory)(string) = '2018-02-28'
  * withOrder (optional)(boolean) = true
@@ -63,7 +63,7 @@ export const getOrdersWithFiltersAsync = async (
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const getRemainingOrderCountAsync = async (filterObject, token) => {
+export const getRemainingOrdersCountAsync = async (filterObject, token) => {
 
   let paramString = convertObjectIntoURLString(camelToSnake(filterObject));
   try {
@@ -311,7 +311,7 @@ export const getOrdersBasedOnSearchResult = async (
 };
 
 /**
- * Retrieve All Order Counts
+ * Retrieve All Order Counts //TODO: is this description correct?
  * @param {object} filterObject # {pickupDate, limit, offset}
  * pickupDate (optional)(string) = '2018-02-28'
  * limit = 20 (optional)(int)
