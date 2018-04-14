@@ -58,7 +58,7 @@ export const getOrdersWithFiltersAsync = async (
  * Retrieve Remaining Orders Count
  * @param {object} filterObject # {pickupDate, withOrder}
  * pickupDate (mandatory)(string) = '2018-02-28'
- * withOrder (optional)(boolean) = true
+ * withOrder (optional)(boolean) //TODO: should be renamed to jobs after API is updated
  * @param {int} customerId
  * @param {string} token
  * @return {object} Promise resolve/reject
