@@ -68,10 +68,10 @@ test('Retrieving error grouping locations', async () => {
   expect('failedLocationCount' in response).toBeTruthy();
 });
 
-test('Retrieving count grouping locations', async () => {
+test('Retrieving Remaining Order Count', async () => {
 
   const filterObject = {
-    pickupDate: '2018-02-28',
+    pickupDate: '2018-04-15',
   };
 
   try {
@@ -88,7 +88,6 @@ test('Retrieving count grouping locations', async () => {
       filterObject,
       token.accessToken
     );
-
     expect('totalCount' in responseCount).toBeTruthy();
 
     } catch (error) {
