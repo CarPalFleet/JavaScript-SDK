@@ -55,6 +55,32 @@ export const getOrdersWithFiltersAsync = async (
 };
 
 /**
+ * Retrieve Remaining Order Count
+ * @param {object} filterObject # {pickupDate, withOrder}
+ * pickupDate (mandatory)(string) = '2018-02-28'
+ * withOrder (optional)(boolean) = true
+ * @param {int} customerId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getRemainingOrderCountAsync = async (filterObject, token) => {
+
+  let paramString = convertObjectIntoURLString(camelToSnake(filterObject));
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.GROUPING_LOCATION_COUNT}${paramString.replace('&', '?')}`,
+      headers: {Authorization: `Bearer ${token}`},
+    });
+    return camelize(response.data);
+
+  } catch (e) {
+
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
  * Retrieve All Order Counts
  * @param {object} filterObject # {pickupDate, limit, offset}
  * pickupDate (optional)(string) = '2018-02-28'
