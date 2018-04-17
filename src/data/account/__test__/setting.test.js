@@ -5,7 +5,7 @@ import {
 import CONFIG from './Config';
 
 describe('Retrieve user settings for routing page', () => {
-  it('should object with Data. ', async () => {
+  it('should return object with Data. ', async () => {
     const result = getTokenAsync(
       CONFIG.email,
       CONFIG.password,
