@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tests showCustomerSettingsAsync function should get customer settings 1`] = `
+Object {
+  "data": Object {
+    "capacityUnitSetting": Object {
+      "capacityUnit": Object {
+        "abbreviation": "Location",
+        "createdAt": "2018-04-12 03:38:34",
+        "id": 1,
+        "unitOfMeasure": "Location",
+        "updatedAt": "2018-04-12 03:38:34",
+      },
+      "capacityUnitId": 1,
+      "createdAt": "2018-04-12 04:16:50",
+      "deletedAt": null,
+      "id": 879,
+      "updatedAt": "2018-04-12 04:16:50",
+    },
+    "capacityUnitSettingId": 879,
+    "createdAt": "2018-02-26 10:08:47",
+    "customerId": null,
+    "id": 63,
+    "identityId": 1,
+    "orderCreationSettingId": null,
+    "orderCreationSettings": null,
+    "orderSmsSetting": null,
+    "orderSmsSettingsId": null,
+    "orderUpdateTransactionSubcustomersSetting": null,
+    "orderUpdateTransactionSubcustomersSettingId": null,
+    "productTypeId": 3,
+    "settingRouteSettings": Array [
+      Object {
+        "createdAt": "2018-02-26 10:11:22",
+        "deletedAt": null,
+        "id": 1,
+        "routeSetting": Object {
+          "assignTaggedDrivers": 0,
+          "autoDispatch": 1,
+          "considerAverageTimePerDropOff": 1,
+          "considerDeliveryWindows": 1,
+          "considerVehicleMaxCapacity": 1,
+          "createdAt": "2018-02-26 10:10:50",
+          "deletedAt": null,
+          "groupRouteSettingType": Object {
+            "createdAt": "2018-02-26 10:10:18",
+            "customerId": null,
+            "deletedAt": null,
+            "displayName": "Automatic",
+            "id": 3,
+            "identityId": 1,
+            "transactionGroupId": 180,
+            "updatedAt": "2018-02-26 10:10:18",
+          },
+          "groupRouteSettingTypeId": 3,
+          "id": 1,
+          "includeAverageSpeedOfVehicle": 1,
+          "includeDriverAvailability": 1,
+          "serviceTimeInSeconds": 1800,
+          "updatedAt": "2018-02-27 04:13:10",
+          "useGeofence": 0,
+        },
+        "routeSettingId": 1,
+        "settingId": 63,
+        "updatedAt": "2018-02-26 10:11:22",
+      },
+    ],
+    "transactionGroupId": 180,
+    "updatedAt": "2018-04-12 04:16:50",
+  },
+}
+`;

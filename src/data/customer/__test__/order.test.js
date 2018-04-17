@@ -17,7 +17,10 @@ import {
   removeOrderErrorRecordsAsync,
   getOrdersBasedOnSearchResult,
   getCSVStringFromArrayObject,
+  getRemainingOrdersCountAsync,
 } from '../Order';
+import {getTokenAsync} from '../../account/Auth';
+
 import CONFIG from './Config';
 
 test('Retrieving single grouping location', async () => {
@@ -63,6 +66,34 @@ test('Retrieving error grouping locations', async () => {
   expect('totalLocationCount' in response).toBeTruthy();
   expect('successLocationCount' in response).toBeTruthy();
   expect('failedLocationCount' in response).toBeTruthy();
+});
+
+test('Retrieving Remaining Order Count', async () => {
+
+  const filterObject = {
+    pickupDate: '2018-04-15',
+    withOrder: 0,
+  };
+
+  try {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    const result = getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    const token = await result;
+
+    const responseCount = await getRemainingOrdersCountAsync(
+      filterObject,
+      token.accessToken
+    );
+    expect('totalCount' in responseCount).toBeTruthy();
+
+    } catch (error) {
+      await expect(error).rejects.toHaveProperty('statusCode', 400);
+  }
 });
 
 describe('Retrieve Order Based on the search result', () => {

@@ -55,7 +55,34 @@ export const getOrdersWithFiltersAsync = async (
 };
 
 /**
- * Retrieve All Order Counts
+ * Retrieve Remaining Orders Count
+ * @param {object} filterObject # {pickupDate, withOrder}
+ * pickupDate (mandatory)(string) = '2018-02-28'
+ * withOrder (optional)(int) //TODO: should be renamed to jobs after API is updated
+ * @param {int} customerId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getRemainingOrdersCountAsync = async (filterObject, token) => {
+
+  let paramString = convertObjectIntoURLString(camelToSnake(filterObject));
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.GROUPING_LOCATION_COUNT}${paramString.replace('&', '?')}`,
+      headers: {Authorization: `Bearer ${token}`},
+    });
+
+    return camelize(response.data);
+
+  } catch (e) {
+
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Retrieve All Order Counts (to be renamed to Retrieve All Jobs Counts)
  * @param {object} filterObject # {pickupDate, limit, offset}
  * pickupDate (optional)(string) = '2018-02-28'
  * limit = 20 (optional)(int)
@@ -285,7 +312,7 @@ export const getOrdersBasedOnSearchResult = async (
 };
 
 /**
- * Retrieve All Order Counts
+ * Retrieve All Order Counts //TODO: is this description correct?
  * @param {object} filterObject # {pickupDate, limit, offset}
  * pickupDate (optional)(string) = '2018-02-28'
  * limit = 20 (optional)(int)
