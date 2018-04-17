@@ -2,7 +2,7 @@ import {getNotificationsAsync, deleteNotificationAsync} from '../Notification';
 import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './Config';
 
-test('Test for retrieving all notifications', async () => {
+test('Test for retrieving all notifications, not found', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
   const result = getTokenAsync(
     CONFIG.email,
@@ -11,16 +11,18 @@ test('Test for retrieving all notifications', async () => {
     CONFIG.clientSecret
   );
   const token = await result;
-  const response = await getNotificationsAsync(
-    false,
-    12121212,
-    token.accessToken
-  );
-  //TODO: since there is a non-existing userId being passed, I expect a false return but the API wrapper is returning 200
-  expect('data' in response).toBeTruthy();
+
+  try {
+    const response = await getNotificationsAsync(
+      false,
+      12121212,
+      token.accessToken
+    );  } catch (error) {
+      expect(error).toHaveProperty('statusCode', 404);
+  }
 });
 
-test('Test for delet ing specific notification', async () => {
+test('Test for deletion of specific notification', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
   const result = getTokenAsync(
     CONFIG.email,
