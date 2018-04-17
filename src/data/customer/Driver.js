@@ -203,9 +203,8 @@ export const updateDriverAsync = async (filterObject = {}, token) => {
  * @param {string} token
  * @return {promise} reject/resolve
  * Will return [] array if there's no drivers
+ * @deprecated since version 0.1.77
  */
- //TODO: shall we deprate this or do we need in somewhere in the dashboard?
- //TODO: needs unit testing to be fixed
 export const getDriversBasedOnSearchResult = async (
   filterObject,
   searchResult,
