@@ -58,7 +58,7 @@ export const getOrdersWithFiltersAsync = async (
  * Retrieve Remaining Orders Count
  * @param {object} filterObject # {pickupDate, withOrder}
  * pickupDate (mandatory)(string) = '2018-02-28'
- * withOrder (optional)(boolean) //TODO: should be renamed to jobs after API is updated
+ * withOrder (optional)(int) //TODO: should be renamed to jobs after API is updated
  * @param {int} customerId
  * @param {string} token
  * @return {object} Promise resolve/reject
@@ -72,6 +72,7 @@ export const getRemainingOrdersCountAsync = async (filterObject, token) => {
       url: `${endpoints.API_V3.GROUPING_LOCATION_COUNT}${paramString.replace('&', '?')}`,
       headers: {Authorization: `Bearer ${token}`},
     });
+
     return camelize(response.data);
 
   } catch (e) {

@@ -72,6 +72,7 @@ test('Retrieving Remaining Order Count', async () => {
 
   const filterObject = {
     pickupDate: '2018-04-15',
+    withOrder: 0,
   };
 
   try {
