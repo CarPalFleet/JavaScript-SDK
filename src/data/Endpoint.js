@@ -31,9 +31,11 @@ const endpoints = {
   VEHICLES: `${urlPrefix}/vehicles`,
   USER_SETTINGS: `${urlPrefix}/users/{0}/settings`,
   CUSTOMER_SETTINGS: `${urlPrefix}/settings`,
+  CUSTOMER_SETTINGS_SHOW: `${urlPrefix}/settings/{0}`,
   API_V3: {
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
     GROUPING_LOCATIONS: `${laravelUrlPrefix}/${version}/customer/grouping-location`,
+    GROUPING_LOCATION_COUNT: `${laravelUrlPrefix}/${version}/customer/grouping-location/total`,
     GROUPING_BATCH_PROGRESSION: `${laravelUrlPrefix}/${version}/customer/grouping-batch/show-recent-pending`,
     PICKUP_GROUP: `${laravelUrlPrefix}/${version}/customer/pickup-group`,
     DRIVER: `${laravelUrlPrefix}/${version}/customer/driver`,
