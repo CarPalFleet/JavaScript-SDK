@@ -4,6 +4,7 @@ import {
   validateResetPasswordTokenAsync,
 } from '../Account';
 import CONFIG from './Config';
+import {customError, apiResponseErrorHandler} from '../../utility/Util';
 
 describe('Request reset password', () => {
   it('should repond true', async () => {
@@ -23,6 +24,20 @@ describe('Reset password', () => {
     );
     const result = await response;
     expect(result).toBeTruthy();
+  });
+
+  test('resetPasswordAsync throw error', async () => {
+    const error = {
+      statusCode: 401,
+      statusText: 'Unauthorized',
+    };
+    const obj = customError(error);
+    try {
+      resetPasswordAsync(undefined, CONFIG.email, 'carpaldemo', 'carpaldemo');
+    } catch (error) {
+      const errorObject = await apiResponseErrorHandler(obj);
+      expect(error).toMatchObject(errorObject);
+    }
   });
 });
 
