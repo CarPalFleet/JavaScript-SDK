@@ -25,7 +25,6 @@ export const getNotificationsAsync = async (all = false, userId, token) => {
 
     return camelize(response.data);
   } catch (e) {
-
     return apiResponseErrorHandler(e);
   }
 };
