@@ -125,6 +125,7 @@ export const createDriverAsync = async (
  * @return {object} Promise resolve/reject
  */
 export const getDriverDetailAsync = async (
+  //TODO: customerId is not required?
   customerId,
   identityId,
   driverId,
@@ -165,6 +166,7 @@ export const getDriversAsync = async (filterObject = {}, token) => {
 
     return camelize(response.data);
   } catch (e) {
+
     return apiResponseErrorHandler(e);
   }
 };
@@ -201,6 +203,7 @@ export const updateDriverAsync = async (filterObject = {}, token) => {
  * @param {string} token
  * @return {promise} reject/resolve
  * Will return [] array if there's no drivers
+ * @deprecated since version 0.1.77
  */
 export const getDriversBasedOnSearchResult = async (
   filterObject,
@@ -222,6 +225,7 @@ export const getDriversBasedOnSearchResult = async (
 
     return driver;
   } catch (e) {
+
     return rejectPromise(e);
   }
 };
@@ -502,6 +506,7 @@ export const createDriverScheduleAsync = async (payload = {}, token) => {
     });
     return camelize(result.data);
   } catch (e) {
+
     return apiResponseErrorHandler(e);
   }
 };
@@ -512,6 +517,7 @@ export const createDriverScheduleAsync = async (payload = {}, token) => {
  * @param {array} driverTypeIds
  * @return {object} total count object of live driver data
  */
+ //TODO: needs unit testing
 function calculateCustomerDriverCounts(data, driverTypeIds) {
   const countData = {
     totalStatusCounts: 0,

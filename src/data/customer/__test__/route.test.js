@@ -5,6 +5,8 @@ import {
   storeRouteLocationAsync,
   removeRouteLocationsAsync,
 } from '../Route';
+import {getTokenAsync} from '../../account/Auth';
+
 import CONFIG from './Config.js';
 
 describe('Get Routes with filters', () => {

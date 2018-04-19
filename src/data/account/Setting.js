@@ -27,7 +27,6 @@ export const getUserSettingsAsync = async (userId, type, token) => {
       )}?type=${type}`,
       headers: {Authorization: token},
     });
-
     return camelize(response.data);
   } catch (e) {
 
