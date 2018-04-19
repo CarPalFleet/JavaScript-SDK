@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js test -- src/data/notification/__test__/notification.test.js
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js test -t Test for getCustomerPublicProfileSettingsAsync function
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -16,7 +16,7 @@ Platform:
 npm manifest: 
   {
     "name": "carpal",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "The SDK for CarPal fleet solution development.",
     "main": "dist/build.js",
     "scripts": {
@@ -102,7 +102,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c jest --testPathIgnorePatterns=__integration__ src/data/notification/__test__/notification.test.js
+  Arguments: -c jest --testPathIgnorePatterns=__integration__ -t 'Test for getCustomerPublicProfileSettingsAsync function'
   Directory: /Users/vitalii/Documents/projects/carpal/JavaScript-SDK
   Output:
   
