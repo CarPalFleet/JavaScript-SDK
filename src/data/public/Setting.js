@@ -12,7 +12,6 @@ import {apiResponseErrorHandler} from '../utility/Util';
  * @param {string} domain
  * @return {object} Promise resolve/reject
  */
-//TODO: needs unit testing
 export const getCustomerPublicProfileSettingsAsync = async (domain) => {
   try {
     const response = await axios({
