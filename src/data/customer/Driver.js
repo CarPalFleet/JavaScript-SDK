@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains all Driver related functions that are triggered by a Customer
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
@@ -49,6 +53,7 @@ export const createDriverAsync = async (
     password,
     phone,
     productTypeId,
+    //TODO: where is the sendConfirmationEmail?
     sendConfirmationSms = false,
     transactionGroupId,
     vehicleBrand,
@@ -170,7 +175,8 @@ export const getDriversAsync = async (filterObject = {}, token) => {
  * @param {object} filterObject
  * @param {string} token
  * @return {promise} reject/resolve
- */
+ * @deprecated since version 0.1.77
+*/
 export const updateDriverAsync = async (filterObject = {}, token) => {
   try {
     let paramString = convertObjectIntoURLString(filterObject);
@@ -223,31 +229,6 @@ export const getDriversBasedOnSearchResult = async (
   }
 };
 
-/** API is not ready yet
- * Retrieve specific driver based on the search result
- * @param {object} driverIds
- * @param {int} customerId
- * @param {string} token
- * @return {promise} reject/resolve
- * Will return [] array if there's no drivers
- */
-export const deleteDriversAsync = async (driverIds, customerId, token) => {
-  // Return true which is using in frontend before api is finished.
-  return {data: true};
-
-  // try {
-  // let paramString = driverIds.join();
-  // const response = await axios({
-  //   method: 'DELETE',
-  //   url: `${endpoints.CUSTOMER_DRIVERS}?driver_ids=${paramString}`,
-  //   headers: {Authorization: `Bearer ${token}`},
-  // });
-  // return camelize(response.data);
-  // } catch (e) {
-  // return apiResponseErrorHandler(e);
-  // }
-};
-
 /**
  * Get Driver with filters
  * @param {object} filterObject {orderRouteTypeIds, driverTypeIds, driverStatusId}
@@ -263,6 +244,7 @@ export const deleteDriversAsync = async (driverIds, customerId, token) => {
  * @return {promise} reject/resolve
  * Will return [] array if there's no drivers
  */
+ //TODO: needs unit testing
 export const getDriversWithFiltersAsync = async (
   filterObject = {},
   customerId,
@@ -299,6 +281,7 @@ export const getDriversWithFiltersAsync = async (
  * @return {promise} reject/resolve
  * Will return [] array if there's no drivers
  */
+ //TODO: needs unit testing
 export const getDriverCountsAsync = async (
   filterObject = {},
   customerId,
@@ -325,7 +308,7 @@ export const getDriverCountsAsync = async (
 };
 
 /**
- * Get Routes
+ * Get the Driver Routes
  * @param {object} filterObject # {pickupDate (mandatory), withAvailability, withSchedule, limit, offset}
  * pickupDate (optional)(string) = '2018-02-28'
  * withAvailability (optional)(int) = 1/0
@@ -335,6 +318,7 @@ export const getDriverCountsAsync = async (
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
+ //TODO: needs unit testing
 export const getDriverRoutesAsync = async (filterObject, token) => {
   try {
     let paramString = convertObjectIntoURLString(camelToSnake(filterObject));
