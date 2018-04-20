@@ -31,12 +31,15 @@ describe('Reset password', () => {
       statusCode: 401,
       statusText: 'Unauthorized',
     };
-    const obj = customError(error);
     try {
-      resetPasswordAsync(undefined, CONFIG.email, 'carpaldemo', 'carpaldemo');
+      await resetPasswordAsync(
+        undefined,
+        CONFIG.email,
+        'carpaldemo',
+        'carpaldemo'
+      );
     } catch (error) {
-      const errorObject = await apiResponseErrorHandler(obj);
-      expect(error).toMatchObject(errorObject);
+      expect(error).toHaveProperty('statusCode', 401);
     }
   });
 });
