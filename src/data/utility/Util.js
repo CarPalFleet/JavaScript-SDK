@@ -85,12 +85,12 @@ export const getFormattedErrorArray = (errorMessage) => {
 
 /**
  * Convert Object into key/value array.
- * ES6 Object.entries method will convert object into key, value array.
+ * ES6 Object.keys method will convert object into key, value array.
  * @param {object} object
- * @return {array} [key, value]
+ * @return {array} [keys]
  */
 export const convertObjectIntoKeyValueArray = (object) => {
-  return Object.entries(object);
+  return Object.keys(object);
 };
 
 /**
