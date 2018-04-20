@@ -10,7 +10,9 @@ import {
   deleteDriverScheduleAsync,
   createDriverScheduleAsync,
   updateDriverScheduleAsync,
+  getDriversWithFiltersAsync,
   getDriverCountsAsync,
+  getDriverRoutesAsync,
 } from '../Driver';
 
 describe('Create new driver ', () => {
@@ -250,7 +252,43 @@ test(`Test for create driver schedule with with driver that does not belong to r
   }
 });
 
-describe('test getDriverCountsAsync', async () => {
+describe('Test getDriversWithFiltersAsync', async () => {
+  const filterObject = {
+    driverStatusIds: [2],
+    orderRouteTypeIds: 1,
+    driverTypeIds: [1],
+  };
+  const customerId = 14445;
+  it('should get getDriversWithFiltersAsync success response', async () => {
+    const result = getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    const token = await result;
+
+    try {
+      const response = await getDriversWithFiltersAsync(
+        filterObject,
+        customerId,
+        token.accessToken
+      );
+      expect(response).toMatchSnapshot();
+    } catch (error) {
+      console.log('error', error);
+    }
+  });
+  it('should throw getDriversWithFiltersAsync 401 error status', async () => {
+    try {
+      await getDriverCountsAsync();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 401);
+    }
+  });
+});
+
+describe('Test getDriverCountsAsync', async () => {
   const filterObject = {
     driverStatusIds: [2],
     orderRouteTypeIds: 1,
@@ -277,7 +315,7 @@ describe('test getDriverCountsAsync', async () => {
       console.log('error', error);
     }
   });
-  it('should throw 401 error status', async () => {
+  it('should throw getDriverCountsAsync 401 error status', async () => {
     try {
       await getDriverCountsAsync();
     } catch (error) {
@@ -285,6 +323,65 @@ describe('test getDriverCountsAsync', async () => {
     }
   });
 });
+
+describe('Test getDriverRoutesAsync', async () => {
+  const filterObject = {
+    pickupDate: '2018-02-28',
+    withRoute: 0,
+    sort: 'pickup_window,asc',
+    limit: 1,
+    offset: 1,
+    include: 'pickup_group,delivery_address',
+    statusIds: 2, // 2 is for validated records
+    recommendedForDriverId: 20,
+  };
+  it('should get getDriverRoutesAsync success response', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    const result = getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    const token = await result;
+
+    try {
+      const response = await getDriverRoutesAsync(
+        filterObject,
+        token.accessToken
+      );
+      expect(typeof response.data).toBe('object');
+      const dataObj = response.data[`${Object.keys(response.data)[0]}`];
+      expect(dataObj).toHaveProperty('id');
+      expect(dataObj).toHaveProperty('driverDetailsId');
+      expect(dataObj).toHaveProperty('userId');
+      expect(dataObj).toHaveProperty('driverStatusId');
+      expect(dataObj).toHaveProperty('driverStatusName');
+      expect(dataObj).toHaveProperty('avatar');
+      expect(dataObj).toHaveProperty('activatedAt');
+      expect(dataObj).toHaveProperty('createdAt');
+      expect(dataObj).toHaveProperty('updatedAt');
+      expect(dataObj).toHaveProperty('user');
+      expect(dataObj).toHaveProperty('vehicle');
+      expect(dataObj).toHaveProperty('driverTypes');
+      expect(dataObj).toHaveProperty('driverGeofences');
+      expect(dataObj).toHaveProperty('driverSchedules');
+      expect(dataObj).toHaveProperty('driverAssignments');
+      expect(dataObj).toHaveProperty('routes');
+    } catch (error) {
+      console.log('error', error);
+    }
+  });
+
+  it('should throw getDriverRoutesAsync 401 error status', async () => {
+    try {
+      await getDriverCountsAsync();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 401);
+    }
+  });
+});
+
 /**
  * Generate a display name
  * @param {int} size

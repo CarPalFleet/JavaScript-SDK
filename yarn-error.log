@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js test -t should reponse success
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js test -t Test getDriverRoutesAsync
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -16,7 +16,7 @@ Platform:
 npm manifest: 
   {
     "name": "carpal",
-    "version": "0.2.2",
+    "version": "0.2.4",
     "description": "The SDK for CarPal fleet solution development.",
     "main": "dist/build.js",
     "scripts": {
@@ -24,8 +24,7 @@ npm manifest:
       "lint": "node_modules/.bin/eslint src",
       "precommit": "lint-staged",
       "precommit:lint": "node_modules/.bin/eslint",
-      "precommit:prettier":
-        "node_modules/.bin/prettier --single-quote --trailing-comma es5 --arrow-parens always --write",
+      "precommit:prettier": "node_modules/.bin/prettier --single-quote --trailing-comma es5 --arrow-parens always --write",
       "prepublish": "npm run build",
       "test": "jest --testPathIgnorePatterns=__integration__",
       "test:watch": "jest --testPathIgnorePatterns=__integration__  --watch",
@@ -38,7 +37,10 @@ npm manifest:
         "npm run precommit:lint",
         "git add"
       ],
-      "*.{json,css,md}": ["npm run precommit:prettier", "git add"]
+      "*.{json,css,md}": [
+        "npm run precommit:prettier",
+        "git add"
+      ]
     },
     "repository": {
       "type": "git",
@@ -102,7 +104,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c jest --testPathIgnorePatterns=__integration__ -t 'should reponse success'
+  Arguments: -c jest --testPathIgnorePatterns=__integration__ -t 'Test getDriverRoutesAsync'
   Directory: /Users/vitalii/Documents/projects/carpal/JavaScript-SDK
   Output:
   
