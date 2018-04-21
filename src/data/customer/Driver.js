@@ -10,7 +10,6 @@ import {
   apiResponseErrorHandler,
   rejectPromise,
   getCSVStringFromArrayObject,
-  convertObjectIntoKeyValueArray,
   arrayReduce,
 } from '../utility/Util';
 import {camelToSnake} from '../utility/ChangeCase';
@@ -527,7 +526,7 @@ function calculateCustomerDriverCounts(data, driverTypeIds) {
 
   let drivers = categoriesCustomerDriversForCount(data);
   return arrayReduce(
-    convertObjectIntoKeyValueArray(drivers.data),
+    Object.keys(drivers.data),
     iterateDriverArrays.bind(null, drivers, driverTypeIds),
     countData
   );
@@ -546,8 +545,9 @@ function calculateCustomerDriverCounts(data, driverTypeIds) {
  */
 export const iterateDriverArrays = (drivers, driverTypeIds, counts, value) => {
   arrayReduce(
-    convertObjectIntoKeyValueArray(drivers.data[value]),
+    Object.keys(drivers.data[value]),
     getActiveStatusCountsAndTotalCounts.bind(
+      null,
       drivers,
       driverTypeIds,
       value,
@@ -563,6 +563,7 @@ export const iterateDriverArrays = (drivers, driverTypeIds, counts, value) => {
  * @param {array} driverTypeIds # [1,2,3]
  * @param {int} value # actual filter value 2
  * @param {object} counts
+ * @param {int} currentVal passed from reducers function
  This counts will be increased values
  Example
  driverTypeCounts: 10,
@@ -580,6 +581,7 @@ export const getActiveStatusCountsAndTotalCounts = (
   driverTypeIds,
   value,
   counts,
+  currentVal,
   key
 ) => {
   let count = drivers.data[value][key].length;
