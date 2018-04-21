@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Return error object from simple object should create error object  1`] = `
+Object {
+  "response": Object {
+    "data": Object {},
+    "status": 401,
+    "statusText": "Unauthorized",
+  },
+}
+`;
