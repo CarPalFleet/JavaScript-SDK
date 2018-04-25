@@ -7,6 +7,7 @@ import {
   arrayReduce,
   hasSameObjectId,
   pushKeyAndMessageToArray,
+  customError,
 } from '../Util';
 
 describe('Convert object key/value into url string', () => {
@@ -34,7 +35,7 @@ describe('Handle API Error', () => {
       },
     };
     const result = await apiResponseErrorHandler(errors);
-    
+
     expect('statusCode' in result).toBeTruthy();
     expect('statusText' in result).toBeTruthy();
     expect('errorMessage' in result).toBeTruthy();
@@ -109,5 +110,13 @@ describe('Check the same object id in two params', () => {
     const objectB = {id: 1};
     const result = await hasSameObjectId(objectA, objectB);
     expect(result).toBe('array');
+  });
+});
+
+describe('Return error object from simple object', () => {
+  it('should create error object ', () => {
+    const object = {statusCode: 401, statusText: 'Unauthorized'};
+    const result = customError(object);
+    expect(result).toMatchSnapshot();
   });
 });

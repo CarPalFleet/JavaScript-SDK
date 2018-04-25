@@ -5,14 +5,14 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../utility/Util';
+import {apiResponseErrorHandler, customError} from '../utility/Util';
 
 /**
  * Request reset password
  * @param {string} email
  * @return {object} Promise resolve/reject
  */
- //TODO: should call API V3 directly and not API wrapper
+// TODO: should call API V3 directly and not API wrapper
 export const resetPasswordRequestAsync = async (email) => {
   try {
     const response = await axios({
@@ -45,11 +45,16 @@ export const resetPasswordAsync = async (
   confirmPassword
 ) => {
   try {
+    if (token === undefined) {
+      throw customError({
+        statusCode: 401,
+        statusText: 'Unauthorized',
+      });
+    }
     const response = await axios({
       method: 'PUT',
       url: endpoints.PASSWORD_RESET,
       headers: {'Content-Type': 'application/json'},
-//TODO: API is expecting a token, but API works fine without passing token probably because the token is 'undefined'
       data: {
         token,
         email,
