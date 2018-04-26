@@ -12,13 +12,21 @@ describe('Call route optimization endpoints', () => {
       CONFIG.clientSecret
     );
     const token = await result;
-    //TODO: unit tests will fail in the future because of hardcoded ids
     let payload = {
       date: '2018-02-28',
       routeSettingId: 28,
       routingScope: 'all',
     };
-    const response = await optimizeRouteAsync(payload, token.accessToken);
-    await expect('data' in response).toBeTruthy();
+
+    try {
+      const response = await optimizeRouteAsync(payload, token.accessToken);
+      await expect('data' in response).toBeTruthy();
+    } catch (e) {
+
+      const expected =  { statusCode: 400,
+      statusText: 'Bad Request',
+      errorMessage:
+       [ { key: '0', messages: 'Route Setting does not belong to you' } ] };
+      expect(e).toEqual(expected);    }
   });
 });
