@@ -15,37 +15,44 @@ import {
   updateAndTruncateOrderErrorsAsync,
   removeOrderErrorRecordsAsync,
   getOrdersBasedOnSearchResult,
-  getCSVStringFromArrayObject,
   getRemainingOrdersCountAsync,
 } from '../Order';
+import {getCSVStringFromArrayObject} from '../../utility/Util';
 import {getTokenAsync} from '../../account/Auth';
 
 import CONFIG from './Config';
 
 test('Retrieving single grouping location', async () => {
-  const response = await getOrderAsync(CONFIG.groupingLocationId, CONFIG.token);
-  expect('data' in response).toBeTruthy();
-});
+  try {
+    const response = await getOrderAsync(CONFIG.groupingLocationId, CONFIG.token);
+    expect('data' in response).toBeTruthy();
+  } catch (error) {
+    console.log('error', error);
+  }
+}); 
 
 test('Retrieving validated grouping locations', async () => {
-  const filterObject = {
-    statusIds: 2, // 2 = validated records, 4 = errors
-    pickupDate: '2018-02-28',
-    limit: 30,
-    offset: 0,
-  };
-
-  const response = await getOrdersGroupByPickUpAddressAsync(
-    filterObject,
-    CONFIG.customerId,
-    CONFIG.token
-  );
-
-  expect('data' in response).toBeTruthy();
-  expect('totalLocationCount' in response).toBeTruthy();
-  expect('successLocationCount' in response).toBeTruthy();
-  expect('failedLocationCount' in response).toBeTruthy();
-});
+    const filterObject = {
+      statusIds: 2, // 2 = validated records, 4 = errors
+      pickupDate: '2018-02-28',
+      limit: 30,
+      offset: 0,
+    };
+    try {
+      const response = await getOrdersGroupByPickUpAddressAsync(
+        filterObject,
+        CONFIG.customerId,
+        CONFIG.token
+      );
+      expect('data' in response).toBeTruthy();
+      expect('totalLocationCount' in response).toBeTruthy();
+      expect('successLocationCount' in response).toBeTruthy();
+      expect('failedLocationCount' in response).toBeTruthy();
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
+);
 
 test('Retrieving error grouping locations', async () => {
   const filterObject = {
@@ -54,17 +61,20 @@ test('Retrieving error grouping locations', async () => {
     limit: 30,
     offset: 0,
   };
+  try {
+    const response = await getOrdersGroupByPickUpAddressAsync(
+      filterObject,
+      CONFIG.customerId,
+      CONFIG.token
+    );
+    expect('data' in response).toBeTruthy();
+    expect('totalLocationCount' in response).toBeTruthy();
+    expect('successLocationCount' in response).toBeTruthy();
+    expect('failedLocationCount' in response).toBeTruthy();
+  } catch (error) {
+    console.log('error', error)
+  }
 
-  const response = await getOrdersGroupByPickUpAddressAsync(
-    filterObject,
-    CONFIG.customerId,
-    CONFIG.token
-  );
-
-  expect('data' in response).toBeTruthy();
-  expect('totalLocationCount' in response).toBeTruthy();
-  expect('successLocationCount' in response).toBeTruthy();
-  expect('failedLocationCount' in response).toBeTruthy();
 });
 
 test('Retrieving Remaining Order Count', async () => {
@@ -126,12 +136,16 @@ describe('Remove order with error record', () => {
 });
 
 test('Retrieving error grouping locations from DynamoDB', async () => {
-  const response = await getErrorOrderContentsAsync(
-    CONFIG.pickupDate,
-    CONFIG.customerId,
-    CONFIG.token
-  );
-  expect(response.data instanceof Array).toBeTruthy();
+  try {
+    const response = await getErrorOrderContentsAsync(
+      CONFIG.pickupDate,
+      CONFIG.customerId,
+      CONFIG.token
+    );
+    expect(response.data instanceof Array).toBeTruthy();
+  } catch (error) {
+    console.log('error', error);
+  }
 });
 
 describe('Call API to update error records and Remove batch errors of order from Dynamodb', () => {
@@ -182,62 +196,135 @@ test('Retrieving pickup group', async () => {
 });
 
 test('Create Grouping Location', async () => {
-  const response = await createOrderAsync(CONFIG.locationObject, CONFIG.token);
-  expect('data' in response).toBeTruthy();
+  try {
+    const {accessToken} = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    const response = await createOrderAsync(CONFIG.locationObject, accessToken);
+    expect('data' in response).toBeTruthy();  
+  } catch (error) {
+    console.log('error',error)
+  }
 });
 
 test('Edit Grouping Location', async () => {
-  const response = await editOrderAsync(
-    CONFIG.groupingLocationId,
-    CONFIG.locationObject,
-    CONFIG.token
-  );
-  expect('data' in response).toBeTruthy();
+  try {
+    const response = await editOrderAsync(
+      CONFIG.groupingLocationId,
+      CONFIG.locationObject,
+      CONFIG.token
+    );
+    expect('data' in response).toBeTruthy();
+  } catch (error) {
+    console.log('error',error)
+  }
 });
 
 test('Edit Multiple Grouping Locations', async () => {
-  const response = await editOrdersAsync(CONFIG.locationDataList, CONFIG.token);
-  expect('data' in response).toBeTruthy();
+  try {
+    const {accessToken} = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+
+    const response = await editOrdersAsync(CONFIG.locationDataList, accessToken);
+    expect('data' in response).toBeTruthy();    
+  } catch (error) {
+    console.log('error',error)
+  }
 });
 
 test('Test for file uploading', async () => {
   let formData = {};
+
+  const {accessToken} = await getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
   const response = await fileUploadForOrderAsync(
     {groupingSpreadsheet: formData},
-    CONFIG.token
+    accessToken
   );
   expect('groupingBatchId' in response.data).toBeTruthy();
   expect(true).toBeTruthy();
 });
 
 test('Test for file uploading error', async () => {
-  const response = await fileUploadForOrderAsync(
-    {grouping_spreadsheet: 12},
-    CONFIG.token
-  );
+  try {
+    const {accessToken} = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    const response = await fileUploadForOrderAsync(
+      {grouping_spreadsheet: 12},
+      CONFIG.token
+    );
+    expect('error' in response).toBeTruthy();
+  } catch (error) {
+    console.log('upload object error', error);
+  }
 
-  expect('error' in response).toBeTruthy();
 });
 
 test('Test for uploading batch order progression', async () => {
-  const response = await getUploadedOrderProgressionAsync(1, CONFIG.token);
-  expect('data' in response).toBeTruthy();
+  try {
+    const {accessToken} = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    const response = await getUploadedOrderProgressionAsync(1, accessToken);
+    expect('data' in response).toBeTruthy();
+  } catch (error) {
+    console.log('error', error);
+  }
 });
 
 test('Delete Grouping Location', async () => {
-  const response = await deleteOrderAsync(
-    CONFIG.groupingLocationId,
-    CONFIG.token
-  );
-  expect(response.data).toBeTruthy();
+  try {
+    const {accessToken} = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    const response = await deleteOrderAsync(
+      CONFIG.groupingLocationId,
+      accessToken
+    );
+    expect(response.data).toBeTruthy();    
+  } catch (error) {
+    console.log('error', error);
+  }
 });
 
 test('Delete Multiple Grouping Locations', async () => {
-  const response = await deleteOrdersAsync(
-    CONFIG.groupingLocationIds,
-    CONFIG.token
-  );
-  expect(response.data).toBeTruthy();
+
+  try {
+    const {accessToken} = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    const response = await deleteOrdersAsync(
+      CONFIG.groupingLocationIds,
+      accessToken
+    );
+    expect(response.data).toBeTruthy();
+  } catch (error) {
+    console.log('error', error);
+  }
 });
 
 test('Test for customer order detail', async () => {

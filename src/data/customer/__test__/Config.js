@@ -70,10 +70,10 @@ const CONFIG = {
   locationObject: {
     pickupLocationAddress: '22 Gim moh road',
     deliveryAddress: 'Holland Close',
-    pickupDate: '28-02-2018',
+    pickupDate: '25-11-2018',
     pickupTimeWindow: '14:35-16:00',
-    deliveryDate: '28-02-2018',
-    deliveryTimeWindow: '17:00-17:00',
+    deliveryDate: '28-12-2018',
+    deliveryTimeWindow: '16:00-17:00',
     driverEmailId: null,
   },
   locationDataList: [
