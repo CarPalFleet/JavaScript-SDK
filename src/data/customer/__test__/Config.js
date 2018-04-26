@@ -345,7 +345,7 @@ const CONFIG = {
     vehicleLicenseNumber: '12456',
     vehicleModelYear: 2018,
     vehicleColor: 'Black',
-  };
+  },
 };
 
 export default CONFIG;

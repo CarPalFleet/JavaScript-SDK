@@ -102,7 +102,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c jest --testPathIgnorePatterns=__integration__ -u -t 'Test storeRouteAsync function'
+  Arguments: -c jest --testPathIgnorePatterns=__integration__ -t 'Test storeRouteAsync'
   Directory: /Users/vitalii/Documents/projects/carpal/JavaScript-SDK
   Output:
   

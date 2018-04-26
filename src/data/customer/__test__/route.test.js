@@ -2,7 +2,6 @@ import {
   getRoutesAsync,
   removeRouteAsync,
   createRouteLocationAsync,
-  storeRouteLocationAsync,
   removeRouteLocationsAsync,
   storeRouteAsync,
 } from '../Route';
@@ -48,7 +47,7 @@ describe('Create new route location', () => {
   });
 });
 
-describe('Store route location', () => {
+/*describe('Store route location', () => {
   it('should return true value in data', async () => {
     // TODO: function doesn't exist
     const result = await storeRouteLocationAsync(
@@ -58,7 +57,7 @@ describe('Store route location', () => {
     expect('data' in result).toBeTruthy();
     expect(result.data).toBeTruthy();
   });
-});
+});*/
 
 describe('Remove route location', () => {
   it('should return true value in data', async () => {
@@ -72,32 +71,32 @@ describe('Remove route location', () => {
   });
 });
 
-describe('Retrieve route setting', () => {
-  it('should response route_settings objects', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(
-      CONFIG.email,
-      CONFIG.password,
-      CONFIG.clientId,
-      CONFIG.clientSecret
-    );
-    const token = await result;
+// describe('Retrieve route setting', () => {
+//   it('should response route_settings objects', async () => {
+//     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+//     const result = getTokenAsync(
+//       CONFIG.email,
+//       CONFIG.password,
+//       CONFIG.clientId,
+//       CONFIG.clientSecret
+//     );
+//     const token = await result;
 
-    const settingFilters = {
-      identityId: 1,
-      productTypeId: 3,
-      transactionGroupId: 180,
-    };
-    // TODO: function does not exist
-    const response = await getRouteSettingsAsync(
-      settingFilters,
-      token.accessToken
-    );
-    expect('data' in response).toBe(true);
-    expect('settingRouteSettings' in response.data).toBe(true);
-    expect('settingRouteSettings' instanceof Array).toBe(true);
-  });
-});
+//     const settingFilters = {
+//       identityId: 1,
+//       productTypeId: 3,
+//       transactionGroupId: 180,
+//     };
+//     // TODO: function does not exist
+//     const response = await getRouteSettingsAsync(
+//       settingFilters,
+//       token.accessToken
+//     );
+//     expect('data' in response).toBe(true);
+//     expect('settingRouteSettings' in response.data).toBe(true);
+//     expect('settingRouteSettings' instanceof Array).toBe(true);
+//   });
+// });
 
 describe('Test storeRouteAsync function', async () => {
   const payload = {
@@ -107,28 +106,49 @@ describe('Test storeRouteAsync function', async () => {
 
   it('should test storeRouteAsync success response', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const token = await getTokenAsync(
+    const { accessToken } = await getTokenAsync(
       CONFIG.email,
       CONFIG.password,
       CONFIG.clientId,
       CONFIG.clientSecret
     );
-    const result = await storeRouteAsync(payload, token.accessToken);
-    expect(result).toMatchSnapshot();
+    const driver = await createDriverAsync(CONFIG.driverInfo, 1, accessToken);
+    const newPayload = {
+      ...payload,
+      routes: [
+        {
+          ...payload.routes[0],
+          driverId: driver.id,
+        },
+      ],
+    };
+    const result = await storeRouteAsync(newPayload, accessToken);
     expect('data' in result).toBeTruthy();
     expect(result.data).toBeTruthy();
+    expect(result.data[0]).toHaveProperty('createdAt')
+    expect(result.data[0]).toHaveProperty('creatorUserId');
+    expect(result.data[0]).toHaveProperty('customerId');
+    expect(result.data[0]).toHaveProperty('driverId');
+    expect(result.data[0]).toHaveProperty('id');
+    expect(result.data[0]).toHaveProperty('orderId');
+    expect(result.data[0]).toHaveProperty('pickupDate');
+    expect(result.data[0]).toHaveProperty('routeLocations');
+    expect(result.data[0]).toHaveProperty('routeSettings');
+    expect(result.data[0]).toHaveProperty('routeStatusId');
+    expect(result.data[0]).toHaveProperty('routeStatusName');
+    expect(result.data[0]).toHaveProperty('updatedAt');
   });
 
   it('should test storeRouteAsync get statusCode 400', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const token = await getTokenAsync(
+    const { accessToken } = await getTokenAsync(
       CONFIG.email,
       CONFIG.password,
       CONFIG.clientId,
       CONFIG.clientSecret
     );
     try {
-      await storeRouteAsync({}, token.accessToken);
+      await storeRouteAsync({}, accessToken);
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 400);
     }
