@@ -23,7 +23,8 @@ describe('Call route optimization endpoints', () => {
       await expect('data' in response).toBeTruthy();
     } catch (e) {
 
-      const expected =  { statusCode: 400,
+      const expected =  {
+      statusCode: 400,
       statusText: 'Bad Request',
       errorMessage:
        [ { key: '0', messages: 'Route Setting does not belong to you' } ] };
