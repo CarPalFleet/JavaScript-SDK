@@ -14,7 +14,6 @@ import {apiResponseErrorHandler} from '../utility/Util';
  */
 export const getCustomerPublicProfileSettingsAsync = async (domain) => {
   try {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const response = await axios({
       method: 'GET',
       url: endpoints.TRANSACTION_GROUP_SETTING.replace('{1}', domain),

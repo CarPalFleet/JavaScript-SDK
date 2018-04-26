@@ -13,7 +13,6 @@ import {apiResponseErrorHandler} from '../utility/Util';
  */
 export const getLanguagesAsync = async () => {
   try {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const response = await axios.get(endpoints.LANGUAGES);
     return camelize(response.data.data);
   } catch (e) {
