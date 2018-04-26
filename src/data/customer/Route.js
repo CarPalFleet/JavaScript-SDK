@@ -69,7 +69,6 @@ export const getRoutesAsync = async (filterObject, token) => {
    ],
    "replaceAllExisting": true
  }
-//TODO: needs unit testing
  * @param {string} token
  * @return {object} Promise resolve/reject
  */

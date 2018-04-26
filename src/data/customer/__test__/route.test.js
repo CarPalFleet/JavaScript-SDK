@@ -2,7 +2,6 @@ import {
   getRoutesAsync,
   removeRouteAsync,
   createRouteLocationAsync,
-  storeRouteLocationAsync,
   removeRouteLocationsAsync,
   storeRouteAsync,
 } from '../Route';
@@ -46,7 +45,7 @@ describe('Create new route location', () => {
   });
 });
 
-describe('Store route location', () => {
+/*describe('Store route location', () => {
   it('should return true value in data', async () => {
     // TODO: function doesn't exist
     const result = await storeRouteLocationAsync(
@@ -56,7 +55,7 @@ describe('Store route location', () => {
     expect('data' in result).toBeTruthy();
     expect(result.data).toBeTruthy();
   });
-});
+});*/
 
 describe('Remove route location', () => {
   it('should return true value in data', async () => {
