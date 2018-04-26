@@ -32,7 +32,9 @@ export const apiResponseErrorHandler = (e) => {
     rejectObj = {
       statusCode: e.response.status,
       statusText: e.response.statusText,
-      errorMessage: getFormattedErrorArray( messages || e.response.data['Message']),
+      errorMessage: getFormattedErrorArray(
+        messages || e.response.data['Message']
+      ),
     };
   } else {
     /* Catch error of e.response
@@ -148,4 +150,19 @@ export const getCSVStringFromArrayObject = (array, fieldName) => {
  */
 export const hasSameObjectId = (a, b) => {
   return a.id === b.id;
+};
+
+/**
+ * It creates error response from object
+ * @param {Object} error {statusCode, status}
+ * @return {Object} error object for errorHandler
+ */
+export const customError = (error) => {
+  return {
+    response: {
+      status: error.statusCode,
+      statusText: error.statusText,
+      data: {},
+    },
+  };
 };
