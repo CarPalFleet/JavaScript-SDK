@@ -12,6 +12,8 @@ import {
   updateDriverScheduleAsync,
 } from '../Driver';
 
+import { generateDisplayName } from '../../utility/Util'
+
 describe('Create new driver ', () => {
   it('should respond new driver object including id details and perform a show request on that driver', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
@@ -155,27 +157,7 @@ test(`Test for create, delete and update driver schedule`, async () => {
   );
   const token = await result;
 
-  const driverInfo = {
-    identityId: 1,
-    productTypeId: 3,
-    transactionGroupId: [180],
-    firstName: 'User',
-    lastName: generateDisplayName(10),
-    email: `${generateDisplayName(10)}@example.com`,
-    password: '123456',
-    birthday: '1980-01-01',
-    phone: '+6592341092',
-    isNewUser: true,
-    sendConfirmationSms: false,
-    vehicleTypeId: 1,
-    vehicleBrand: 'Scooter',
-    vehicleModel: '12456',
-    vehicleLicenseNumber: '12456',
-    vehicleModelYear: 2018,
-    vehicleColor: 'Black',
-  };
-
-  const responseCreatedriver = await createDriverAsync(driverInfo, 1, token.accessToken);
+  const responseCreatedriver = await createDriverAsync(CONFIG.driverInfo, 1, token.accessToken);
   expect('driver' in responseCreatedriver).toBeTruthy();
 
   const payload = {
@@ -232,20 +214,3 @@ test(`Test for create driver schedule with with driver that does not belong to r
   }
 
 });
-
-/**
- * Generate a display name
- * @param {int} size
- * @return {string} text
- */
-function generateDisplayName(size) {
-  let text = '';
-  let possible =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  for (let i = 0; i < size; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-
-  return text;
-}

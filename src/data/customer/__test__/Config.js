@@ -1,3 +1,5 @@
+import { generateDisplayName } from '../../utility/Util'
+
 const CONFIG = {
   email: 'alpha.test@carpal.me',
   password: '123456',
@@ -39,7 +41,7 @@ const CONFIG = {
       route_locations: [
         {
           sequence: 1,
-          grouping_location_id: 1,
+          grouping_location_id: 27638,
           location_type_id: 3,
           route_capacity: 10.5,
         },
@@ -325,6 +327,26 @@ const CONFIG = {
       },
     ],
   },
+  driverInfo: {
+    identityId: 1,
+    productTypeId: 3,
+    transactionGroupId: [180],
+    firstName: 'User',
+    lastName: generateDisplayName(10),
+    email: `${generateDisplayName(10)}@example.com`,
+    password: '123456',
+    birthday: '1980-01-01',
+    phone: '+6592341092',
+    isNewUser: true,
+    sendConfirmationSms: false,
+    vehicleTypeId: 1,
+    vehicleBrand: 'Scooter',
+    vehicleModel: '12456',
+    vehicleLicenseNumber: '12456',
+    vehicleModelYear: 2018,
+    vehicleColor: 'Black',
+  };
 };
 
 export default CONFIG;
+

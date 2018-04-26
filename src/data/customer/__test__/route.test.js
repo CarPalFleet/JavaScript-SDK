@@ -6,6 +6,8 @@ import {
   removeRouteLocationsAsync,
   storeRouteAsync,
 } from '../Route';
+
+import { createDriverAsync } from '../Driver';
 import {getTokenAsync} from '../../account/Auth';
 
 import CONFIG from './Config.js';
@@ -97,9 +99,9 @@ describe('Retrieve route setting', () => {
   });
 });
 
-describe('Test storeRouteAsync function', () => {
+describe('Test storeRouteAsync function', async () => {
   const payload = {
-    routes: [CONFIG.createRoutePayload],
+    routes: CONFIG.createRoutePayload,
     replaceAllExisting: true,
   };
 
@@ -111,14 +113,10 @@ describe('Test storeRouteAsync function', () => {
       CONFIG.clientId,
       CONFIG.clientSecret
     );
-    try {
-      const result = await storeRouteAsync(payload, token.accessToken);
-      expect(result).toMatchSnapshot();
-      expect('data' in result).toBeTruthy();
-      expect(result.data).toBeTruthy();
-    } catch (error) {
-      console.log('error', error);
-    }
+    const result = await storeRouteAsync(payload, token.accessToken);
+    expect(result).toMatchSnapshot();
+    expect('data' in result).toBeTruthy();
+    expect(result.data).toBeTruthy();
   });
 
   it('should test storeRouteAsync get statusCode 400', async () => {
