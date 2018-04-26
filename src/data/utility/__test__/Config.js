@@ -1,4 +1,4 @@
-const CONFIG = {
+export default {
   email: 'alpha.test@carpal.me',
   password: '123456',
   clientId: 2,
