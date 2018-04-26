@@ -10,6 +10,9 @@ import {
   deleteDriverScheduleAsync,
   createDriverScheduleAsync,
   updateDriverScheduleAsync,
+  getDriversWithFiltersAsync,
+  getDriverCountsAsync,
+  getDriverRoutesAsync,
 } from '../Driver';
 
 describe('Create new driver ', () => {
@@ -48,7 +51,12 @@ describe('Create new driver ', () => {
     expect('id' in response.driver).toBeTruthy();
     expect('details' in response.driver).toBeTruthy();
 
-    const responseDriverDetail = await getDriverDetailAsync(1, 1, response.driver.id, token.accessToken);
+    const responseDriverDetail = await getDriverDetailAsync(
+      1,
+      1,
+      response.driver.id,
+      token.accessToken
+    );
     expect('data' in responseDriverDetail).toBeTruthy();
   });
 });
@@ -71,7 +79,7 @@ test(`Test for retrieving V3 driver list`, async () => {
   expect(response.data instanceof Array).toBeTruthy();
 });
 
-/*describe('Retrieve Driver based on the search result', () => {
+/* describe('Retrieve Driver based on the search result', () => {
   it('should response specific drivers array', async () => {
     const response = await getDriversBasedOnSearchResult(
       CONFIG.filterObject,
@@ -175,7 +183,11 @@ test(`Test for create, delete and update driver schedule`, async () => {
     vehicleColor: 'Black',
   };
 
-  const responseCreatedriver = await createDriverAsync(driverInfo, 1, token.accessToken);
+  const responseCreatedriver = await createDriverAsync(
+    driverInfo,
+    1,
+    token.accessToken
+  );
   expect('driver' in responseCreatedriver).toBeTruthy();
 
   const payload = {
@@ -185,7 +197,10 @@ test(`Test for create, delete and update driver schedule`, async () => {
     endTime: '13:02',
     startAt: '2020-03-01',
   };
-  const responseCreateSchedule = await createDriverScheduleAsync(payload, token.accessToken);
+  const responseCreateSchedule = await createDriverScheduleAsync(
+    payload,
+    token.accessToken
+  );
   expect('data' in responseCreateSchedule).toBeTruthy();
 
   const scheduleId = CONFIG.scheduleId;
@@ -221,16 +236,150 @@ test(`Test for create driver schedule with with driver that does not belong to r
     startAt: '2018-03-01',
   };
   try {
-    const response = await createDriverScheduleAsync(playload, token.accessToken);
+    const response = await createDriverScheduleAsync(
+      playload,
+      token.accessToken
+    );
   } catch (error) {
-
     expect(error).toHaveProperty('statusCode', 400);
-    expect(error).toHaveProperty('errorMessage',
-    [ { key: '0', messages: 'Driver does not belong to you' },
-      { key: '1',
-      messages: ' Driver does not match Transaction Group' } ]);
+    expect(error).toHaveProperty('errorMessage', [
+      {key: '0', messages: 'Driver does not belong to you'},
+      {
+        key: '1',
+        messages: ' Driver does not match Transaction Group',
+      },
+    ]);
   }
+});
 
+describe('Test getDriversWithFiltersAsync', async () => {
+  const filterObject = {
+    driverStatusIds: [2],
+    orderRouteTypeIds: 1,
+    driverTypeIds: [1],
+  };
+  const customerId = 14445;
+  it('should get getDriversWithFiltersAsync success response', async () => {
+    const result = getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    const token = await result;
+
+    try {
+      const response = await getDriversWithFiltersAsync(
+        filterObject,
+        customerId,
+        token.accessToken
+      );
+      expect(response).toMatchSnapshot();
+    } catch (error) {
+      console.log('error', error);
+    }
+  });
+  it('should throw getDriversWithFiltersAsync 401 error status', async () => {
+    try {
+      await getDriverCountsAsync();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 401);
+    }
+  });
+});
+
+describe('Test getDriverCountsAsync', async () => {
+  const filterObject = {
+    driverStatusIds: [2],
+    orderRouteTypeIds: 1,
+    driverTypeIds: [1],
+  };
+  const customerId = 14445;
+  it('should get getDriverCountsAsync success response', async () => {
+    const result = getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    const token = await result;
+
+    try {
+      const response = await getDriverCountsAsync(
+        filterObject,
+        customerId,
+        token.accessToken
+      );
+      expect(response).toMatchSnapshot();
+    } catch (error) {
+      console.log('error', error);
+    }
+  });
+  it('should throw getDriverCountsAsync 401 error status', async () => {
+    try {
+      await getDriverCountsAsync();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 401);
+    }
+  });
+});
+
+describe('Test getDriverRoutesAsync', async () => {
+  const filterObject = {
+    pickupDate: '2018-02-28',
+    withRoute: 0,
+    sort: 'pickup_window,asc',
+    limit: 1,
+    offset: 1,
+    include: 'pickup_group,delivery_address',
+    statusIds: 2, // 2 is for validated records
+    recommendedForDriverId: 20,
+  };
+  it('should get getDriverRoutesAsync success response', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    const result = getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    const token = await result;
+
+    try {
+      const response = await getDriverRoutesAsync(
+        filterObject,
+        token.accessToken
+      );
+      expect(typeof response.data).toBe('object');
+      const dataObj = response.data[`${Object.keys(response.data)[0]}`];
+      expect(dataObj).toHaveProperty('id');
+      expect(dataObj).toHaveProperty('driverDetailsId');
+      expect(dataObj).toHaveProperty('userId');
+      expect(dataObj).toHaveProperty('driverStatusId');
+      expect(dataObj).toHaveProperty('driverStatusName');
+      expect(dataObj).toHaveProperty('avatar');
+      expect(dataObj).toHaveProperty('activatedAt');
+      expect(dataObj).toHaveProperty('createdAt');
+      expect(dataObj).toHaveProperty('updatedAt');
+      expect(dataObj).toHaveProperty('user');
+      expect(dataObj).toHaveProperty('vehicle');
+      expect(dataObj).toHaveProperty('driverTypes');
+      expect(dataObj).toHaveProperty('driverGeofences');
+      expect(dataObj).toHaveProperty('driverSchedules');
+      expect(dataObj).toHaveProperty('driverAssignments');
+      expect(dataObj).toHaveProperty('routes');
+    } catch (error) {
+      console.log('error', error);
+    }
+  });
+
+  it('should throw getDriverRoutesAsync 401 error status', async () => {
+    try {
+      await getDriverCountsAsync();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 401);
+    }
+  });
 });
 
 /**

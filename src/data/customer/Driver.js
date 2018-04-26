@@ -10,7 +10,6 @@ import {
   apiResponseErrorHandler,
   rejectPromise,
   getCSVStringFromArrayObject,
-  convertObjectIntoKeyValueArray,
   arrayReduce,
 } from '../utility/Util';
 import {camelToSnake} from '../utility/ChangeCase';
@@ -54,7 +53,7 @@ export const createDriverAsync = async (
     password,
     phone,
     productTypeId,
-    //TODO: where is the sendConfirmationEmail?
+    // TODO: where is the sendConfirmationEmail?
     sendConfirmationSms = false,
     transactionGroupId,
     vehicleBrand,
@@ -125,7 +124,7 @@ export const createDriverAsync = async (
  * @return {object} Promise resolve/reject
  */
 export const getDriverDetailAsync = async (
-  //TODO: customerId is not required?
+  // TODO: customerId is not required?
   customerId,
   identityId,
   driverId,
@@ -166,7 +165,6 @@ export const getDriversAsync = async (filterObject = {}, token) => {
 
     return camelize(response.data);
   } catch (e) {
-
     return apiResponseErrorHandler(e);
   }
 };
@@ -177,7 +175,7 @@ export const getDriversAsync = async (filterObject = {}, token) => {
  * @param {string} token
  * @return {promise} reject/resolve
  * @deprecated since version 0.1.77
-*/
+ */
 export const updateDriverAsync = async (filterObject = {}, token) => {
   try {
     let paramString = convertObjectIntoURLString(filterObject);
@@ -225,7 +223,6 @@ export const getDriversBasedOnSearchResult = async (
 
     return driver;
   } catch (e) {
-
     return rejectPromise(e);
   }
 };
@@ -245,7 +242,7 @@ export const getDriversBasedOnSearchResult = async (
  * @return {promise} reject/resolve
  * Will return [] array if there's no drivers
  */
- //TODO: needs unit testing
+// TODO: needs unit testing
 export const getDriversWithFiltersAsync = async (
   filterObject = {},
   customerId,
@@ -273,7 +270,7 @@ export const getDriversWithFiltersAsync = async (
  * @param {object} filterObject {orderRouteTypeIds, driverTypeIds, driverStatusId}
  * orderRouteTypeIds (string) (optinal) 1,2 #csv string
  * * 1 means Live, 2 means POD
- * driverTypeIds (string) (optinal) 1 #csv string
+ * driverTypeIds (array) (optinal) [1] #csv string
  * * 1 means Inhouse, 2 means Public, 3 means Service Provider
  * driverStatusIds (string) (optinal) 1,2,3,4 #csv string
  * * 1 means Active, 2 means With Route, 3 means Idle, 4 means Inactive driver
@@ -282,7 +279,7 @@ export const getDriversWithFiltersAsync = async (
  * @return {promise} reject/resolve
  * Will return [] array if there's no drivers
  */
- //TODO: needs unit testing
+// TODO: needs unit testing
 export const getDriverCountsAsync = async (
   filterObject = {},
   customerId,
@@ -319,7 +316,7 @@ export const getDriverCountsAsync = async (
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
- //TODO: needs unit testing
+// TODO: needs unit testing
 export const getDriverRoutesAsync = async (filterObject, token) => {
   try {
     let paramString = convertObjectIntoURLString(camelToSnake(filterObject));
@@ -506,7 +503,6 @@ export const createDriverScheduleAsync = async (payload = {}, token) => {
     });
     return camelize(result.data);
   } catch (e) {
-
     return apiResponseErrorHandler(e);
   }
 };
@@ -517,7 +513,7 @@ export const createDriverScheduleAsync = async (payload = {}, token) => {
  * @param {array} driverTypeIds
  * @return {object} total count object of live driver data
  */
- //TODO: needs unit testing
+// TODO: needs unit testing
 function calculateCustomerDriverCounts(data, driverTypeIds) {
   const countData = {
     totalStatusCounts: 0,
@@ -527,7 +523,7 @@ function calculateCustomerDriverCounts(data, driverTypeIds) {
 
   let drivers = categoriesCustomerDriversForCount(data);
   return arrayReduce(
-    convertObjectIntoKeyValueArray(drivers.data),
+    Object.keys(drivers.data),
     iterateDriverArrays.bind(null, drivers, driverTypeIds),
     countData
   );
@@ -546,8 +542,9 @@ function calculateCustomerDriverCounts(data, driverTypeIds) {
  */
 export const iterateDriverArrays = (drivers, driverTypeIds, counts, value) => {
   arrayReduce(
-    convertObjectIntoKeyValueArray(drivers.data[value]),
+    Object.keys(drivers.data[value]),
     getActiveStatusCountsAndTotalCounts.bind(
+      null,
       drivers,
       driverTypeIds,
       value,
@@ -563,6 +560,7 @@ export const iterateDriverArrays = (drivers, driverTypeIds, counts, value) => {
  * @param {array} driverTypeIds # [1,2,3]
  * @param {int} value # actual filter value 2
  * @param {object} counts
+ * @param {int} currentVal passed from reducers function
  This counts will be increased values
  Example
  driverTypeCounts: 10,
@@ -580,6 +578,7 @@ export const getActiveStatusCountsAndTotalCounts = (
   driverTypeIds,
   value,
   counts,
+  currentVal,
   key
 ) => {
   let count = drivers.data[value][key].length;
