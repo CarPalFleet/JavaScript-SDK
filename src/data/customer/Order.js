@@ -31,7 +31,7 @@ import {
  * page = 0 (optional)(int)
  * @return {object} Promise resolve/reject
  */
- //TODO: should be called Jobs, as the dashboard does not have Orders and should be moved to Job.js
+ //TODO: should be called Jobs, as the dashboard does not have Orders and should be moved to Job.js + needs unit test
 export const getOrdersWithFiltersAsync = async (
   filterObject = {},
   customerId,
@@ -91,7 +91,7 @@ export const getRemainingOrdersCountAsync = async (filterObject, token) => {
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
- //TODO: should be called Jobs, as the dashboard does not have Orders and should be moved to Job.js
+ //TODO: should be called Jobs, as the dashboard does not have Orders and should be moved to Job.js and needs unit testing
 export const getOrderCountsAsync = async (filterObject, customerId, token) => {
   let paramString = convertObjectIntoURLString(filterObject);
   try {
@@ -420,6 +420,7 @@ export const findDuplicateIndexes = (newValues, accumulator, oldValues, i) => {
  * offset = 0 (optional)
  * @param {string} token
  * @return {object} Promise resolve/reject
+ //TODO: not sure if this function is still used by admin?
  */
 export const getRemainingOrdersAsync = async (filterObject, token) => {
   try {
@@ -438,6 +439,7 @@ export const getRemainingOrdersAsync = async (filterObject, token) => {
  * page = 0 (optional)(int)
  * @param {string} token
  * @return {object} Promise resolve/reject
+ //TODO: is this function still used by admin?
  */
 export const getOrdersAsync = async (filterObject, token) => {
   try {
@@ -537,6 +539,7 @@ export const updateAndTruncateOrderErrorsAsync = async (
  * @param {string} token
  * @return {promise} reject/resolve
  * if resolve, will return {data: true}
+ TODO: needs unit testing, is this function used?
  */
 export const removeErrorOrderRecordAsync = async (
   groupingLocationId,

@@ -1,6 +1,5 @@
 import {
   getOrderDetailAsync,
-  createDeliveryWindow,
   fileUploadForOrderAsync,
   getUploadedOrderProgressionAsync,
   getErrorOrderContentsAsync,
