@@ -13,6 +13,7 @@ import {
   getDriversWithFiltersAsync,
   getDriverCountsAsync,
   getDriverRoutesAsync,
+  updateDriverAsync,
 } from '../Driver';
 
 
@@ -407,3 +408,69 @@ function generateDisplayName(size) {
 
   return text;
 }
+
+//TODO updateDriverAsync tests
+describe('Test updateDriverAsync function', () => {
+  let token;
+  let id = 1; // valid driver id to edit
+  const driver = CONFIG.driverEdit;
+  beforeEach(async () => {
+    let { accessToken } = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    token = accessToken;
+  });
+
+  it('should return success driver response', async () => {
+    // TODO returns statusCode 403
+    const response = await updateDriverAsync(
+      id,
+      driver,
+      token
+    );
+    expect(response).toMatchSnapshot();
+  })
+
+  it('should return validation error statusCode 400', async () => {
+    // TODO returns statusCode 400, at this moment returns statusCode 403  
+    try {
+      const response = await updateDriverAsync(
+        id,
+        {
+          ...driver,
+          vehicle: {
+            ...driver.vehicle,
+            vehicleTypeId: null,
+          }
+        },
+        token
+      );
+    } catch (error) {
+    // TODO returns statusCode 400, at this moment returns statusCode 403        
+      expect(error).toHaveProperty('statusCode', 400);
+    }
+  })
+
+  it('should return vehicle type error statusCode 400', async () => {
+    try {
+      await updateDriverAsync(
+        id,
+        {
+          ...driver,
+          vehicle: {
+            ...driver.vehicle,
+            vehicleTypeId: null,
+          }
+        },
+        token
+      );
+    } catch (error) {
+    // TODO returns statusCode 400, at this moment returns statusCode 403        
+      expect(error).toHaveProperty('statusCode', 400);
+    }
+  })
+
+})

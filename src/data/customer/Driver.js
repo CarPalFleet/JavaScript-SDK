@@ -13,6 +13,7 @@ import {
   arrayReduce,
 } from '../utility/Util';
 import {camelToSnake} from '../utility/ChangeCase';
+import { integer } from 'aws-sdk/clients/lightsail';
 
 /**
  * Create Driver
@@ -163,21 +164,19 @@ export const getDriversAsync = async (filterObject = {}, token) => {
 
 /**
  * Update Driver
- * @param {object} filterObject
+ * @param {int} id
+ * @param {object} driver
  * @param {string} token
- * @return {promise} reject/resolve
- * @deprecated since version 0.1.77
+ * @return {object} driver object
  */
-export const updateDriverAsync = async (filterObject = {}, token) => {
+export const updateDriverAsync = async (id, driver, token) => {
   try {
-    let paramString = convertObjectIntoURLString(filterObject);
-
     const response = await axios({
       method: 'PUT',
-      url: `${endpoints.API_V3.DRIVER}/${paramString.replace('&', '?')}`,
+      url: endpoints.API_V3.DRIVER_UPDATE.replace('{0}', id),
       headers: {Authorization: `Bearer ${token}`},
+      data: driver,
     });
-
     return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
