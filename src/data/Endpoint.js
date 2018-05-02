@@ -1,5 +1,5 @@
 const urlPrefix =
-  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/prod';
+  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/alpha';
 const laravelUrlPrefix = 'https://alpha-api.carpal.me';
 const version = 'v3';
 
