@@ -1,15 +1,38 @@
+/**
+ * @fileoverview This file contains all Order related functions that are triggered by a Customer
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {snakeCaseDecorator} from '../decorator/CoreDecorators';
+import FormData from 'form-data';
+import {camelToSnake} from '../utility/ChangeCase';
 import isEmpty from 'lodash.isempty';
 import {
   convertObjectIntoURLString,
   apiResponseErrorHandler,
   rejectPromise,
+  getCSVStringFromArrayObject,
+  arrayReduce,
+  arrayMap,
+  hasSameObjectId,
 } from '../utility/Util';
 
-export const getCustomerOrdersWithFiltersAsync = async (
+/**
+ * Get Order with filters for Dashboard
+ * @param {object} filterObject # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
+ * @param {int} customerId # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
+ * @param {string} token # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
+ * @param {boolean} validationStatus
+ * pickupDate (optional)(string) = '2018-02-28'
+ * routeStatusIds (optional)(int) = 1,2 (csv)
+ * includeOrders (optional)(bollean) = true/false
+ * limit = 20 (optional)(int)
+ * page = 0 (optional)(int)
+ * @return {object} Promise resolve/reject
+ */
+ //TODO: should be called Jobs, as the dashboard does not have Orders and should be moved to Job.js + needs unit test
+export const getOrdersWithFiltersAsync = async (
   filterObject = {},
   customerId,
   token,
@@ -18,12 +41,11 @@ export const getCustomerOrdersWithFiltersAsync = async (
   let paramString = convertObjectIntoURLString(filterObject);
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url: `${endpoints.CUSTOMER_ORDERS.replace(
         '{0}',
         customerId
       )}${paramString.replace('&', '?')}`,
-      // REVIEW: missing Bearer maybe?
       headers: {Authorization: token},
     });
     return camelize(categoriesCustomerOrders(response.data));
@@ -32,19 +54,53 @@ export const getCustomerOrdersWithFiltersAsync = async (
   }
 };
 
-export const getCustomerOrderCountsAsync = async (
-  filterObject,
-  customerId,
-  token
-) => {
+/**
+ * Retrieve Remaining Orders Count
+ * @param {object} filterObject # {pickupDate, withOrder}
+ * pickupDate (mandatory)(string) = '2018-02-28'
+ * withOrder (optional)(int) //TODO: should be renamed to jobs after API is updated
+ * @param {int} customerId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getRemainingOrdersCountAsync = async (filterObject, token) => {
+
+  let paramString = convertObjectIntoURLString(camelToSnake(filterObject));
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.GROUPING_LOCATION_COUNT}${paramString.replace('&', '?')}`,
+      headers: {Authorization: `Bearer ${token}`},
+    });
+
+    return camelize(response.data);
+
+  } catch (e) {
+
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Retrieve All Order Counts (to be renamed to Retrieve All Jobs Counts)
+ * @param {object} filterObject # {pickupDate, limit, offset}
+ * pickupDate (optional)(string) = '2018-02-28'
+ * limit = 20 (optional)(int)
+ * offset = 0 (optional)(int)
+ * @param {int} customerId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+ //TODO: should be called Jobs, as the dashboard does not have Orders and should be moved to Job.js and needs unit testing
+export const getOrderCountsAsync = async (filterObject, customerId, token) => {
   let paramString = convertObjectIntoURLString(filterObject);
   try {
     const response = await axios({
-      method: 'get',
-      url:
-        // REVIEW use template string
-        endpoints.CUSTOMER_ORDERS.replace('{0}', customerId) +
-        `?${paramString}`,
+      method: 'GET',
+      url: `${endpoints.CUSTOMER_ORDERS.replace(
+        '{0}',
+        customerId
+      )}${paramString.replace('&', '?')}`,
       headers: {Authorization: token},
     });
     return calculateCustomerOrderCounts(response.data);
@@ -53,7 +109,21 @@ export const getCustomerOrderCountsAsync = async (
   }
 };
 
-export const createNewDeliveryWindow = async (
+/**
+ * Create delivery window
+ * @param {object} payload {customerId, identityId, productTypeId, transactionGroupId, displayName, startTime, endTime}
+ * customerId (optional)(string) = '2018-02-28'
+ * identityId (optional)(int) = 20
+ * productTypeId (optional)(int) = 20
+ * transactionGroupId (optional)(int) = 20
+ * displayName (optional)(string) = 20
+ * startTime (optional)(string) = 20
+ * endTime (optional)(string) = 0
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ * @deprecated since version 0.1.77
+ */
+export const createDeliveryWindow = async (
   {
     customerId,
     identityId,
@@ -74,12 +144,12 @@ export const createNewDeliveryWindow = async (
       endTime,
     };
 
-    // REVIEW use ===
-    if (productTypeId == 3) {
+    const carpalFleetProductTypeId = 3;
+    if (productTypeId === carpalFleetProductTypeId) {
       data.transactionGroupId = transactionGroupId;
     }
     const response = await axios({
-      method: 'post',
+      method: 'POST',
       url: endpoints.DELIVERY_WINDOW.replace('{0}', customerId),
       headers: {Authorization: token},
       data,
@@ -90,7 +160,16 @@ export const createNewDeliveryWindow = async (
   }
 };
 
-/* Not Updated yet in README */
+/**
+ * Retrieve delivery window
+ * @param {int} customerId
+ * @param {int} identityId
+ * @param {int} productTypeId
+ * @param {array} transactionGroupIds
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ * @deprecated since version 0.1.77
+ */
 export const getDeliveryWindows = async (
   customerId,
   identityId,
@@ -100,7 +179,7 @@ export const getDeliveryWindows = async (
 ) => {
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url: `${endpoints.DELIVERY_WINDOW.replace(
         '{0}',
         customerId
@@ -114,7 +193,39 @@ export const getDeliveryWindows = async (
   }
 };
 
-export const getBatchOrderProgressAsync = async (customerId, token) => {
+/**
+ * Upload Excel file for orders
+ * @param {object} fileObject
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const fileUploadForOrderAsync = async (fileObject, token) => {
+  try {
+    let form = new FormData();
+    form.append('grouping_spreadsheet', fileObject);
+
+    let response = await axios(endpoints.API_V3.BATCH_FILE_UPLOAD, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+      data: form,
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Check the progress of order file uploading process
+ * @param {int} customerId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getUploadedOrderProgressionAsync = async (customerId, token) => {
   try {
     let response = await axios({
       method: 'GET',
@@ -137,8 +248,13 @@ export const getBatchOrderProgressAsync = async (customerId, token) => {
   }
 };
 
-/* Function name will be changed as getOrderDetialAsync */
-export const getGroupingLocationAsync = async (groupingLocationId, token) => {
+/**
+ * Retrieve single order
+ * @param {object} groupingLocationId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getOrderAsync = async (groupingLocationId, token) => {
   try {
     let response = await axios({
       method: 'GET',
@@ -153,13 +269,15 @@ export const getGroupingLocationAsync = async (groupingLocationId, token) => {
 };
 
 /**
- * Retrieve specific order based on the search result
+ * Retrieve orders based on search result
  * @param {int} customerId
- * @param {object} filterObject
- * @param {array} searchResult
+ * @param {object} filterObject {pickupDate, limit, offset}
+ * pickupDate (optional)(string) = '2018-02-28'
+ * limit = 20 (optional)(int)
+ * offset = 0 (optional)(int)
+ * @param {int} searchResult
  * @param {string} token
- * @return {promise} reject/resolve
- * Will return [] array if there's no groupingLocationIds
+ * @return {object} Promise resolve/reject
  */
 export const getOrdersBasedOnSearchResult = async (
   customerId,
@@ -168,7 +286,8 @@ export const getOrdersBasedOnSearchResult = async (
   token
 ) => {
   try {
-    const filedName = 'groupingLocationIds';
+    const filedName = 'groupingLocationId';
+    const orderFilterFieldName = 'groupingLocationIds';
     // Manipulate the groupingLocationIds of Array Object into CSV string
     const groupingLocationIds = getCSVStringFromArrayObject(
       searchResult,
@@ -178,33 +297,31 @@ export const getOrdersBasedOnSearchResult = async (
       return [];
     }
 
-    filterObject[filedName] = groupingLocationIds;
-    const groupingLocation = await getGroupingLocationsAsync(
+    // filter the order with groupingLocationIds
+    filterObject[orderFilterFieldName] = groupingLocationIds;
+    const order = await getOrdersGroupByPickUpAddressAsync(
       filterObject,
       customerId,
       token
     );
 
-    return groupingLocation;
+    return order;
   } catch (e) {
     return rejectPromise(e);
   }
 };
 
-/* Function name will be changed as getOrdersAsync */
 /**
- * Get Orders
- * @param {object} filterObject # {statusIds, groupingLocationIds, pickupDate (mandatory), limit, offset}
- * StatusIds = 1/2/3/4. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
- * groupingLocationIds (string)(optional) = "27638, 27644"
- * pickupDate (mandatory) = '2018-02-28'
- * limit = 20 (int)(optional)
- * offset = 0 (int)(optional)
- * @param {customerId} customerId
+ * Retrieve All Order Counts //TODO: is this description correct?
+ * @param {object} filterObject # {pickupDate, limit, offset}
+ * pickupDate (optional)(string) = '2018-02-28'
+ * limit = 20 (optional)(int)
+ * offset = 0 (optional)(int)
+ * @param {int} customerId
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const getGroupingLocationsAsync = async (
+export const getOrdersGroupByPickUpAddressAsync = async (
   filterObject,
   customerId,
   token
@@ -214,14 +331,14 @@ export const getGroupingLocationsAsync = async (
     * Use 2 as default. It means validated orders
     */
     let statusId = filterObject.statusIds || 2;
-    let locations = await fetchAllGroupingLocationsAsync(filterObject, token);
+    let locations = await getOrdersAsync(filterObject, token);
     let errorContents;
 
     /* Check statusId whethere 4 or not
     * If statusId is 4, need to combine the response with error contents
     */
     if (statusId === 4) {
-      errorContents = await fetchBatchLocationsErrorAsync(
+      errorContents = await getErrorOrderContentsAsync(
         filterObject.pickupDate,
         customerId,
         token
@@ -236,7 +353,63 @@ export const getGroupingLocationsAsync = async (
 };
 
 /**
- * Get Remanining Orders
+//TODO: description is vague
+ * Merge Order Records
+ * @param {array} oldValues
+ * @param {array} newValues
+ * @return {object} Promise resolve/reject
+ * Response merged order object
+ */
+export const mergeOldAndNewOrderRecords = (oldValues, newValues) => {
+  try {
+    let duplicateIndexes = arrayReduce(
+      oldValues,
+      findDuplicateIndexes.bind(null, newValues)
+    );
+    let result = arrayMap(
+      duplicateIndexes,
+      concatDuplicateObjects.bind(null, oldValues, newValues)
+    );
+    return result.oldValues.concat(result.newValues);
+  } catch (e) {
+    return rejectPromise(e);
+  }
+};
+
+/**
+//TODO: description is vague
+ * Merge Two Objects which has the same id
+ * @param {object} oldValues
+ * @param {object} newValues
+ * @param {object} data
+ */
+export const concatDuplicateObjects = (oldValues, newValues, data) => {
+  oldValues[data.oldIndex]['jobs'] = oldValues[data.oldIndex]['jobs'].concat(
+    newValues[data.newIndex]['jobs']
+  );
+  newValues.splice(data.newIndex, 1);
+};
+
+/**
+//TODO: description is vague
+ * Find duplicate indexes
+ * @param {object} newValues
+ * @param {array} accumulator
+ Example [{oldIndex: i, newIndex: index}]
+ * @param {object} oldValues
+ * @param {int} i # iterator
+ * @return {object} Promise resolve/reject
+ */
+export const findDuplicateIndexes = (newValues, accumulator, oldValues, i) => {
+  let index = newValues.findIndex(hasSameObjectId.bind(null, oldValues));
+  if (index >= 0) {
+    accumulator.push({oldIndex: i, newIndex: index});
+  }
+  return accumulator;
+};
+
+/**
+ * Get Remaining Orders
  * @param {object} filterObject # {statusIds, pickupDate (mandatory), withOrder, withDriver, withRoute, sort, limit, offset}
  * StatusIds = 1/2/3/4. 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
  * pickupDate (mandatory) = '2018-02-28'
@@ -247,18 +420,28 @@ export const getGroupingLocationsAsync = async (
  * offset = 0 (optional)
  * @param {string} token
  * @return {object} Promise resolve/reject
+ //TODO: not sure if this function is still used by admin?
  */
 export const getRemainingOrdersAsync = async (filterObject, token) => {
   try {
-    let locations = await fetchAllGroupingLocationsAsync(filterObject, token);
+    let locations = await getOrdersAsync(filterObject, token);
     return groupLocations(locations);
   } catch (e) {
     return rejectPromise(e);
   }
 };
 
-/* Function name will be changed as getOrdersAsync */
-export const fetchAllGroupingLocationsAsync = async (filterObject, token) => {
+/**
+ * Get orders
+ * @param {object} filterObject # {pickupDate (mandatory), limit, offset}
+ * pickupDate (optional)(string) = '2018-02-28'
+ * limit = 20 (optional)(int)
+ * page = 0 (optional)(int)
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ //TODO: is this function still used by admin?
+ */
+export const getOrdersAsync = async (filterObject, token) => {
   try {
     /*
       Add following filter for remaining order
@@ -269,7 +452,7 @@ export const fetchAllGroupingLocationsAsync = async (filterObject, token) => {
       limit = 20
       offset = 0
     */
-    let filters = snakeCaseDecorator(filterObject);
+    let filters = camelToSnake(filterObject);
     let paramString = convertObjectIntoURLString(filters);
     let response = await axios({
       method: 'GET',
@@ -286,7 +469,15 @@ export const fetchAllGroupingLocationsAsync = async (filterObject, token) => {
   }
 };
 
-export const fetchBatchLocationsErrorAsync = async (
+/**
+ * Get upload order's error contents from Dynamodb
+ * @param {object} pickupDate # {pickupDate (mandatory)}
+ * pickupDate (optional)(string) = '2018-02-28'
+ * @param {int} customerId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getErrorOrderContentsAsync = async (
   pickupDate,
   customerId,
   token
@@ -311,7 +502,7 @@ export const fetchBatchLocationsErrorAsync = async (
  * Fixed error records in RDS
   and Truncate existing error records from Dynamodb
  * This function call 2 API endpoints one after another
- * Call editGroupingLocationsAsync to edit the error grouping locations
+ * Call editOrdersAsync to edit the error grouping locations
  * if it's success, call removeOrderErrorRecordsAsync to truncate records from Dynamodb
  * if both API call is success, it will return isUpdatedOrder and isTruncateErrorReords as true
  * @param {array} errorIds
@@ -329,10 +520,7 @@ export const updateAndTruncateOrderErrorsAsync = async (
   token
 ) => {
   try {
-    let editResponse = await editGroupingLocationsAsync(
-      locationDataList,
-      token
-    );
+    let editResponse = await editOrdersAsync(locationDataList, token);
     await removeOrderErrorRecordsAsync(errorIds, token);
 
     return {
@@ -351,8 +539,9 @@ export const updateAndTruncateOrderErrorsAsync = async (
  * @param {string} token
  * @return {promise} reject/resolve
  * if resolve, will return {data: true}
+ TODO: needs unit testing, is this function used?
  */
-export const removeOrderErrorRecordAsync = async (
+export const removeErrorOrderRecordAsync = async (
   groupingLocationId,
   token
 ) => {
@@ -372,6 +561,7 @@ export const removeOrderErrorRecordAsync = async (
 /**
  * Remove Order Error Records (multiple records) from Dynamodb
  * @param {array} errorIds
+ Example ['56c719b7-93aa-420a-b9b1-140c4e03397b']
  * @param {string} token
  * @return {promise} reject/resolve
  * if resolve, will return {data: true}
@@ -391,9 +581,17 @@ export const removeOrderErrorRecordsAsync = async (errorIds = [], token) => {
   }
 };
 
+/**
+ * Get pickup group
+ * @param {object} filterObject # {pickupDate (mandatory), withOrder}
+ * pickupDate (optional)(string) = '2018-02-28'
+ * withOrder (optional)(int) = 0
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
 export const getUniquePickupAddressesAsync = async (filterObject, token) => {
   try {
-    let filters = snakeCaseDecorator(filterObject);
+    let filters = camelToSnake(filterObject);
     let paramString = convertObjectIntoURLString(filters);
     let response = await axios({
       method: 'GET',
@@ -415,9 +613,26 @@ export const getUniquePickupAddressesAsync = async (filterObject, token) => {
   }
 };
 
-export const createGroupingLocationAsync = async (locationObject, token) => {
+/**
+ * Create single order
+ * @param {object} locationObject
+ //TODO: this object is not complete, an order can have much more parameters
+ {
+   pickupLocationAddress: '22 Gim moh road',
+   deliveryAddress: 'Holland Close',
+   pickupDate: '28-02-2018',
+   pickupTimeWindow: '14:35-16:00',
+   deliveryDate: '28-02-2018',
+   deliveryTimeWindow: '17:00-17:00',
+   driverEmailId: null,
+   capacity: 10,
+ },
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const createOrderAsync = async (locationObject, token) => {
   try {
-    locationObject = snakeCaseDecorator(locationObject);
+    locationObject = camelToSnake(locationObject);
     let response = await axios({
       method: 'POST',
       url: endpoints.API_V3.GROUPING_LOCATIONS,
@@ -426,7 +641,7 @@ export const createGroupingLocationAsync = async (locationObject, token) => {
         'Content-Type': 'application/json',
       },
       data: {
-        location_data: JSON.stringify(snakeCaseDecorator(locationObject)),
+        location_data: JSON.stringify(camelToSnake(locationObject)),
       },
     });
 
@@ -436,14 +651,32 @@ export const createGroupingLocationAsync = async (locationObject, token) => {
   }
 };
 
-export const editGroupingLocationAsync = async (
+/**
+ * Edit single order
+ * @param {int} groupingLocationId
+ * @param {object} locationObject
+ //TODO: this object is not complete, an order can have much more parameters
+ {
+   pickupLocationAddress: '22 Gim moh road',
+   deliveryAddress: 'Holland Close',
+   pickupDate: '28-02-2018',
+   pickupTimeWindow: '14:35-16:00',
+   deliveryDate: '28-02-2018',
+   deliveryTimeWindow: '17:00-17:00',
+   driverEmailId: null,
+   capacity: 10,
+ },
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const editOrderAsync = async (
   groupingLocationId,
   locationObject,
   token
 ) => {
   try {
     let updatedLocationDataObject = {
-      location_data: JSON.stringify(snakeCaseDecorator(locationObject)),
+      location_data: JSON.stringify(camelToSnake(locationObject)),
     };
 
     let response = await axios({
@@ -462,15 +695,34 @@ export const editGroupingLocationAsync = async (
   }
 };
 
-export const editGroupingLocationsAsync = async (
-  locationDataList = [],
-  token
-) => {
+/**
+ * Edit multiple orders
+ * @param {array} locationDataList
+ //TODO: this object is not complete, an order can have much more parameters
+ [
+   {
+     groupingLocationId: 27318,
+     locationData: {
+       pickupLocationAddress: '22 Gim moh road',
+       deliveryAddress: 'Holland Close',
+       pickupDate: '28-02-2018',
+       pickupTimeWindow: '14:35-16:00',
+       deliveryDate: '28-02-2018',
+       deliveryTimeWindow: '17:00-17:00',
+       driverEmailId: null,
+       capacity: 10,
+     },
+   },
+ ]
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const editOrdersAsync = async (locationDataList = [], token) => {
   try {
     let updatedLocationDataList = locationDataList.map((data) => {
       let tmpObject = {
         grouping_location_id: data.groupingLocationId,
-        location_data: JSON.stringify(snakeCaseDecorator(data.locationData)),
+        location_data: JSON.stringify(camelToSnake(data.locationData)),
       };
       return tmpObject;
     });
@@ -491,10 +743,14 @@ export const editGroupingLocationsAsync = async (
   }
 };
 
-export const deleteGroupingLocationAsync = async (
-  groupingLocationId,
-  token
-) => {
+/**
+ * Delete single order
+ * @param {array} groupingLocationId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ * return {data: true} if deleting is success
+ */
+export const deleteOrderAsync = async (groupingLocationId, token) => {
   try {
     await axios({
       method: 'DELETE',
@@ -508,10 +764,14 @@ export const deleteGroupingLocationAsync = async (
   }
 };
 
-export const deleteGroupingLocationsAsync = async (
-  groupingLocationIds = [],
-  token
-) => {
+/**
+ * Delete Multiple Orders
+ * @param {array} groupingLocationIds
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ * return {data: true} if deleting is success
+ */
+export const deleteOrdersAsync = async (groupingLocationIds = [], token) => {
   try {
     let paramString = groupingLocationIds.join();
     await axios({
@@ -524,23 +784,17 @@ export const deleteGroupingLocationsAsync = async (
 
     return {data: true};
   } catch (e) {
-    // REVIEW move this line inside the if
-    let errorObject;
-    // REVIEW is there a reason to not use the default apiResponseErrorHandler() ?
-    if (e.response.data instanceof Object) {
-      errorObject = {
-        statusCode: e.response.data.error.http_code,
-        statusText: e.response.data.error.message,
-      };
-    } else {
-      return apiResponseErrorHandler(e);
-    }
-
-    // REVIEW move this line inside the if
-    return Promise.reject(errorObject);
+    return apiResponseErrorHandler(e);
   }
 };
 
+/** API isn't ready yet
+ * Cancel Batch File Process
+ * @param {int} batchId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ * @deprecated since version 0.1.77
+ */
 export const cancelBatchFileProcessAsync = async (batchId, token) => {
   try {
     let response = await axios({
@@ -555,7 +809,15 @@ export const cancelBatchFileProcessAsync = async (batchId, token) => {
   }
 };
 
-export const updateJobLiveData = (
+/**
+ * Get Updated Job Live Data for Dashboard
+ * @param {object} originalJobDatum
+ * @param {object} pubSubPayload
+ * @param {string} filterObject {pickupDate, routeStatusIds, includeOrders, limit, offset}
+ * @return {object} Promise resolve/reject
+ */
+ //TODO: function should be moved to file customer/Job.js
+export const getUpdatedJobLiveData = (
   originalJobDatum,
   pubSubPayload,
   filterObject
@@ -606,8 +868,7 @@ export const updateJobLiveData = (
       originalJobDatum['activeStatusCounts'][
         matchedPayload.statusId
       ] -= currentStatusCounts ? 1 : 0;
-      // REVIEW same as before with the delete and splice
-      delete originalJobDatum['data'][matchedPayload.statusId].splice(
+      originalJobDatum['data'][matchedPayload.statusId].splice(
         matchedPayload.index,
         1
       );
@@ -643,7 +904,7 @@ function calculateCustomerOrderCounts(data) {
  * @param {object} orders
  * @return {object} data
  */
-function categoriesCustomerOrders(orders) {
+export const categoriesCustomerOrders = (orders) => {
   let responseData = {2: [], 5: [], 7: [], 9: []};
   return {
     data: orders['data'].reduce((data, value) => {
@@ -653,8 +914,14 @@ function categoriesCustomerOrders(orders) {
       return data;
     }, responseData),
   };
-}
+};
 
+/**
+ * Group Locations with error contents
+ * @param {object} locations
+ * @param {object} errorContents
+ * @return {object} { data: [0], groupId: [2]}
+ */
 export const groupLocations = (locations, errorContents = null) => {
   let locationsGroups = locations['data'].reduce(
     (groupAddressObject, location, index) => {
@@ -757,18 +1024,4 @@ export const mergeLocationDataWithErrors = (errorContents, location) => {
 
   /* Response empty array if there's no error from dynamodb */
   return [];
-};
-
-/**
- * Manipulate the id of Array Object into CSV string
- * @param {object} array
- * @param {object} fieldName
- * @return {string} comma seperated value string
- */
-export const getCSVStringFromArrayObject = (array, fieldName) => {
-  return array
-    .map((data) => {
-      return data[fieldName];
-    })
-    .join();
 };

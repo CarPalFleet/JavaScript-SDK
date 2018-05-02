@@ -1,30 +1,85 @@
+/**
+ * @fileoverview This file contains all Routes related functions that are triggered by a Customer
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../utility/Util';
+import {
+  convertObjectIntoURLString,
+  apiResponseErrorHandler,
+} from '../utility/Util';
+import {camelToSnake} from '../utility/ChangeCase';
+import toArray from 'lodash.toarray';
 
 /**
  * Get Routes
- * @param {object} filterObject # pickupDate (mandatory), withAvailability, withSchedule, recommendedRorOrderId, limit, offset}
- * pickupDate (mandatory)(string) = '2018-02-28'
- * withAvailability (optional)(int) = 1 OR 0 (1 means return all drivers with availabiliy, 0 means unavailable drivers; optional)
- * withSchedule (optional)(int) = 1 OR 0 (1 means return all drivers with schedule, 0 means drivers without schedule; optional)
- * recommendedRorOrderId (optional)(int) = 123 (orderId)
+ * @param {object} filterObject # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, page}
+ * pickupDate (optional)(string) = '2018-02-28'
+ * routeStatusIds (optional)(int) = 1,2 (csv)
+ * includeOrders (optional)(bollean) = true/false
  * limit = 20 (optional)(int)
- * offset = 0 (optional)(int)
+ * page = 0 (optional)(int)
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const getRouteAsync = async (filterObject, token) => {
+export const getRoutesAsync = async (filterObject, token) => {
   try {
-    // REVIEW undefined functions convertObjectIntoURLString and snakeCaseDecorator
-    let paramString = convertObjectIntoURLString(
-      snakeCaseDecorator(filterObject)
-    );
+    let paramString = convertObjectIntoURLString(camelToSnake(filterObject));
     const routes = await axios({
-      method: 'get',
+      method: 'GET',
       url: `${endpoints.API_V3.ROUTE}${paramString.replace('&', '?')}`,
-      headers: {Authorization: `bearer ${token}`},
+      headers: {Authorization: `Bearer ${token}`},
+    });
+
+    return camelize(routes.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Create Routes
+ * @param {object} payload
+ * pickupDate (mandatory) (string),
+ * driverId (optional) (int),
+ * routeSettings (optional) (json string),
+ * routeLocations (mandatory) (array),
+ * sequence (mandatory) (int),
+ * groupingLocationId (mandatory) (int)
+ * locationTypeId  (mandatory) (int) (2 for Delivery Location or 3 for Pickup Location)
+ * routeCapacity (optional) (decimal)
+ * replaceAllExisting (boolean) (optional)
+ Example payload
+ {
+    "routes": [
+    {
+       "driverId": 2,
+       "pickupDate": "2018-03-30",
+       "routeSettings": "{}",
+       "routeLocations": [
+         {
+           "sequence": 1,
+           "groupingLocationId": 1,
+           "locationTypeId": 3,
+           "routeCapacity": 10.5
+         }
+       ]
+     }
+   ],
+   "replaceAllExisting": true
+ }
+//TODO: needs unit testing
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const storeRouteAsync = async (payload, token) => {
+  try {
+      const routes = await axios({
+      method: 'POST',
+      url: endpoints.API_V3.STORE_ROUTE,
+      headers: {Authorization: `Bearer ${token}`},
+      data: camelToSnake(payload, 5),
     });
 
     return camelize(routes.data);
@@ -34,16 +89,16 @@ export const getRouteAsync = async (filterObject, token) => {
 };
 
 /** Remove Route
- * @param {int} routeId
- * @param {Object} true
+ * @param {string} routeIds # string csv
+ * @param {string} token
+ * @return {object} Promise resolve/reject
  */
-export const removeRouteAsync = async (routeId, token) => {
+export const removeRouteAsync = async (routeIds, token) => {
   try {
-    // REVIEW result is not used
-    const result = await axios({
-      method: 'delete',
-      url: `${endpoints.API_V3.ROUTE}/${routeId}`,
-      headers: {Authorization: `bearer ${token}`},
+    await axios({
+      method: 'DELETE',
+      url: `${endpoints.API_V3.ROUTE.replace('{0}', routeIds)}`,
+      headers: {Authorization: `Bearer ${token}`},
     });
 
     return {data: true};
@@ -58,7 +113,16 @@ export const removeRouteAsync = async (routeId, token) => {
  * sequence (mandatory)(int)
  * groupingLocationId (optional)(int) eg. 1
  * locationTypeId (optional)(int) 2 for Delivery Location, 3 for Pickup Location
- * @param {Object} Promise resolve/reject
+ * Exaple payload
+ [
+  {
+    "sequence": 1,
+    "groupingLocationId": 1,
+    "locationTypeId": 3
+  }
+ ]
+ * @param {string} token
+ * @return {Object} Promise resolve/reject
  */
 export const createRouteLocationAsync = async (
   routeId,
@@ -67,10 +131,10 @@ export const createRouteLocationAsync = async (
 ) => {
   try {
     const result = await axios({
-      method: 'put',
-      url: endpoints.API_V3.ROUTE_LOCATION,
-      headers: {Authorization: `bearer ${token}`},
-      data: payload,
+      method: 'POST',
+      url: `${endpoints.API_V3.ROUTE_LOCATION.replace('{0}', routeId)}`,
+      headers: {Authorization: `Bearer ${token}`},
+      data: toArray(camelToSnake(payload, 2)),
     });
 
     return camelize(result.data);
@@ -81,25 +145,39 @@ export const createRouteLocationAsync = async (
 
 /** Update Route Location
  * @param {int} routeId
- * @param {object} payload {routeLocationId, sequence, locationTypeId, pickupWindowStart, pickupWindowEnd}
+ * @param {array} payload
+ * Example of palyload
+ [
+    {
+        "routeLocationId": 4,
+        "pickupWindowStart": "09:00",
+        "pickupWindowEnd": "19:00"
+    },
+    {
+        "routeLocationId": 8,
+        "deliveryWindowStart": "09:00",
+        "deliveryWindowEnd": "12:00"
+    }
+]
  * routeLocationId (mandatory)(int)
- * sequence (optional)(int) eg. 1
- * locationTypeId (optional)(int) 2 for Delivery Location, 3 for Pickup Location
- * pickupWindowStart (optional)(string)
- * pickupWindowEnd (optional)(string)
- * @param {Object} Promise resolve/reject
+ * pickupWindowStart (mandatory)(string)
+ * pickupWindowEnd (mandatory)(string)
+ * deliveryWindowStart (mandatory)(string)
+ * deliveryWindowEnd (mandatory)(string)
+ * @param {string} token
+ * @return {Object} Promise resolve/reject
  */
 export const updateRouteLocationAsync = async (
   routeId,
-  payload = {},
+  payload = [],
   token
 ) => {
   try {
     const result = await axios({
-      method: 'post',
+      method: 'PUT',
       url: `${endpoints.API_V3.ROUTE_LOCATION.replace('{0}', routeId)}`,
-      headers: {Authorization: `bearer ${token}`},
-      data: payload,
+      headers: {Authorization: `Bearer ${token}`},
+      data: toArray(camelToSnake(payload, 2)),
     });
 
     return camelize(result.data);
@@ -110,9 +188,9 @@ export const updateRouteLocationAsync = async (
 
 /** Remove route schedule from driver
  * @param {int} routeId
- * @param {int} routeLocationIds # csv eg. 1,2,3
+ * @param {string} routeLocationIds # csv eg. 1,2,3
  * @param {string} token
- * @param {Object} Promise resolve/reject
+ * @return {Object} Promise resolve/reject
  * If resolve, return { data: true }
  */
 export const removeRouteLocationsAsync = async (
@@ -121,14 +199,13 @@ export const removeRouteLocationsAsync = async (
   token
 ) => {
   try {
-    // REVIEW result is not used
-    const result = await axios({
-      method: 'delete',
+    await axios({
+      method: 'DELETE',
       url: `${endpoints.API_V3.ROUTE_LOCATION.replace(
         '{0}',
-        routeLocationId
+        routeId
       )}?route_location_ids=${routeLocationIds}`,
-      headers: {Authorization: `bearer ${token}`},
+      headers: {Authorization: `Bearer ${token}`},
     });
 
     return {data: true};

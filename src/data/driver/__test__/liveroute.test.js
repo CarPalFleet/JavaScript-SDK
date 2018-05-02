@@ -1,26 +1,24 @@
 import {sendLiveRouteDataAsync} from '../LiveRoute';
-import {getDriverTokenAsync} from './Auth';
-import {getTokenAsync} from '../../account/Auth';
-import CONFIG from './config';
+import CONFIG from './Config';
 
-test('Test for new live route', async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  const result = getDriverTokenAsync(CONFIG.driverEmail, CONFIG.driverPassword);
-  const data = await result;
-  const response = await sendLiveRouteDataAsync(CONFIG.liveRoute, data.token);
+describe('Send driver location Lat/lng records to Dynamodb', () => {
+  test('Expect response 404 because of missing driverid', async () => {
 
-  expect(response).toBeTruthy();
-  expect(true).toBeTruthy();
-});
+    try {
+      const response = await sendLiveRouteDataAsync(
+        CONFIG.liveRoute,
+        CONFIG.token
+      );
+      expect(response.data).toBeTruthy();
+        } catch (error) {
 
-test('Test for merging driver location and live route data', async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.token
-  );
-  const token = await result;
-  expect(token).toBeTruthy();
+         const expected =  {
+           statusCode: 404,
+           statusText: 'Not Found',
+           errorMessage: [ { key: null, messages: ["NotFoundError: Invalid driver ID",] } ]
+         };
+
+          expect(error).toEqual(expected);
+      }
+  });
 });

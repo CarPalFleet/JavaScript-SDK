@@ -11,4 +11,3 @@ branches:
 script:
   - "npm test"
 repo: https://github.com/CarPalFleet/Javascript-SDK
-# REVIEW you should consider adding an ESLint validation during the CI/CD process

@@ -1,6 +1,6 @@
 {
   "name": "carpal",
-  "version": "0.1.61",
+  "version": "0.2.9",
   "description": "The SDK for CarPal fleet solution development.",
   "main": "dist/build.js",
   "scripts": {
@@ -50,6 +50,7 @@
     "eslint-plugin-jest": "^21.12.2",
     "husky": "^0.14.3",
     "jest": "^21.2.1",
+    "jsdoc": "^3.5.5",
     "lint-staged": "^7.0.0",
     "prettier": "1.11.1",
     "webpack": "^2.7.0"
@@ -61,11 +62,13 @@
     "camelize": "^1.0.0",
     "dotenv": "^5.0.1",
     "form-data": "^2.3.1",
+    "jsdoc-to-markdown": "^4.0.1",
     "lodash.isarray": "^4.0.0",
     "lodash.isempty": "^4.4.0",
     "lodash.isequal": "^4.5.0",
     "lodash.isnumber": "^3.0.3",
     "lodash.isobject": "^3.0.2",
+    "lodash.toarray": "^4.4.0",
     "workerjs": "^0.1.1"
   },
   "jest": {

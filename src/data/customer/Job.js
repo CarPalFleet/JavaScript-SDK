@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains all Job related functions that are triggered by a Customer
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
@@ -15,10 +19,9 @@ import {
 export const getJobDetailAsync = async (jobId, token) => {
   try {
     const jobDetail = await axios({
-      method: 'get',
+      method: 'GET',
       url: endpoints.API_V3.JOB.replace('{0}', jobId),
-      // REVIEW is there an error here bearer instead of Bearer?
-      headers: {Authorization: `bearer ${token}`},
+      headers: {Authorization: `Bearer ${token}`},
     });
 
     return camelize(jobDetail.data);
@@ -36,9 +39,9 @@ export const getJobDetailAsync = async (jobId, token) => {
 export const getJobSummaryAsync = async (jobId, token) => {
   try {
     const jobSummary = await axios({
-      method: 'get',
+      method: 'GET',
       url: `${endpoints.API_V3.JOB.replace('{0}', jobId)}/summary`,
-      headers: {Authorization: `bearer ${token}`},
+      headers: {Authorization: `Bearer ${token}`},
     });
 
     return camelize(jobSummary.data);
@@ -52,37 +55,20 @@ export const getJobSummaryAsync = async (jobId, token) => {
  * @param {object} filterObject #{driverId, pickupDate, limit, offset}
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * @deprecated since version 0.1.77
  */
+ //TODO: needs unit testing
+ //TODO: there no such thing as Recommended Jobs? Should be deprecated?
 export const getRecommendedJobsAsync = async (filterObject = {}, token) => {
   try {
     let paramString = convertObjectIntoURLString(filterObject);
     const jobSummary = await axios({
-      method: 'get',
+      method: 'GET',
       url: `${endpoints.API_V3.RECOMMENDED_JOB}${paramString.replace(
         '&',
         '?'
       )}`,
-      headers: {Authorization: `bearer ${token}`},
-    });
-
-    return camelize(jobSummary.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-/**
- * Remove Job
- * @param {int} jobId
- * @param {string} token
- * @return {object} Promise resolve/reject
- */
-export const removeJobAsync = async (jobId, token) => {
-  try {
-    const jobSummary = await axios({
-      method: 'delete',
-      url: `${endpoints.API_V3.JOB}/${jobId}`,
-      headers: {Authorization: `bearer ${token}`},
+      headers: {Authorization: `Bearer ${token}`},
     });
 
     return camelize(jobSummary.data);

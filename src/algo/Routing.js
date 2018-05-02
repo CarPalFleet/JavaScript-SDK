@@ -1,8 +1,14 @@
+/**
+ * @fileoverview This file contains all Routing related functions that are triggered by a User
+ */
+
+ //TODO: this file should be part of a seprate routing package in the future.
+
 import axios from 'axios';
 import endpoints from '../data/Endpoint';
 import camelize from 'camelize';
 import {apiResponseErrorHandler} from '../data/utility/Util';
-import {camelToSnakeCase} from '../data/utility/ChangeCase';
+import {camelToSnake} from '../data/utility/ChangeCase';
 
 /**
  * Optimize route
@@ -16,13 +22,13 @@ import {camelToSnakeCase} from '../data/utility/ChangeCase';
 export const optimizeRouteAsync = async (payload = {}, token) => {
   try {
     const response = await axios({
-      method: 'post',
-      url: endpoints.OPTIMIZE_ROUTE,
+      method: 'POST',
+      url: endpoints.API_V3.OPTIMIZE_ROUTE,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: camelToSnakeCase(payload),
+      data: camelToSnake(payload),
     });
 
     return camelize(response.data);
