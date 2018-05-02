@@ -33,6 +33,7 @@ const endpoints = {
   CUSTOMER_SETTINGS: `${urlPrefix}/settings`,
   CUSTOMER_SETTINGS_SHOW: `${urlPrefix}/settings/{0}`,
   API_V3: {
+    OAUTH: `${laravelUrlPrefix}/${version}/authentication`,    
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
     GROUPING_LOCATIONS: `${laravelUrlPrefix}/${version}/customer/grouping-location`,
     GROUPING_LOCATION_COUNT: `${laravelUrlPrefix}/${version}/customer/grouping-location/total`,
@@ -48,6 +49,7 @@ const endpoints = {
     DRIVER_SCHEDULE: `${laravelUrlPrefix}/${version}/customer/driver-schedule/{0}`,
     EXPORT_DRIVER_LIST: `${laravelUrlPrefix}/${version}/customer/driverlist/export`, // url will be updated after backend is finished
     EXPORT_ROUTE: `${laravelUrlPrefix}/${version}/customer/report/routes-export`,
+    CUSTOMER_DRIVER: `${laravelUrlPrefix}/${version}/customer/driver`,
   },
 };
 
