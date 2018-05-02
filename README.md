@@ -9,7 +9,7 @@ The SDK is under active development, we will release the latest version to npm a
 #### Use npm tag for publishing.
 
 Example. npm publish --tag dev OR alpha
-The current version of this SDK is 0.1.77
+The current version of this SDK is 0.2.9
 
 #### Install SDK Alpha Version
 
