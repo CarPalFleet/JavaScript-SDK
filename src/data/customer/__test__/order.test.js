@@ -15,9 +15,9 @@ import {
   updateAndTruncateOrderErrorsAsync,
   removeOrderErrorRecordsAsync,
   getOrdersBasedOnSearchResult,
-  getCSVStringFromArrayObject,
   getRemainingOrdersCountAsync,
 } from '../Order';
+import {getCSVStringFromArrayObject} from '../../utility/Util';
 import {getTokenAsync} from '../../account/Auth';
 
 import CONFIG from './Config';
@@ -60,17 +60,20 @@ test('Retrieving error grouping locations', async () => {
     limit: 30,
     offset: 0,
   };
+  try {
+    const response = await getOrdersGroupByPickUpAddressAsync(
+      filterObject,
+      CONFIG.customerId,
+      CONFIG.token
+    );
+    expect('data' in response).toBeTruthy();
+    expect('totalLocationCount' in response).toBeTruthy();
+    expect('successLocationCount' in response).toBeTruthy();
+    expect('failedLocationCount' in response).toBeTruthy();
+  } catch (error) {
+    console.log('error', error)
+  }
 
-  const response = await getOrdersGroupByPickUpAddressAsync(
-    filterObject,
-    CONFIG.customerId,
-    CONFIG.token
-  );
-
-  expect('data' in response).toBeTruthy();
-  expect('totalLocationCount' in response).toBeTruthy();
-  expect('successLocationCount' in response).toBeTruthy();
-  expect('failedLocationCount' in response).toBeTruthy();
 });
 
 test('Retrieving Remaining Order Count', async () => {
@@ -231,12 +234,24 @@ test('Test for file uploading', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   let formData = {};
-  const response = await fileUploadForOrderAsync(
-    {groupingSpreadsheet: formData},
-    CONFIG.token
+
+  const {accessToken} = await getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
   );
-  expect('groupingBatchId' in response.data).toBeTruthy();
-  expect(true).toBeTruthy();
+  console.log('accessToken', accessToken);
+  try {
+    const response = await fileUploadForOrderAsync(
+      {groupingSpreadsheet: formData},
+      accessToken
+    );
+    expect('groupingBatchId' in response.data).toBeTruthy();
+    expect(true).toBeTruthy();
+  } catch (error) {
+    console.log('>>>>>>>>>>>>>>.', error)
+  }
 });
 
 test('Test for file uploading error', async () => {
@@ -247,7 +262,6 @@ test('Test for file uploading error', async () => {
     CONFIG.token
   );
 
-  expect('error' in response).toBeTruthy();
 });
 
 test('Test for uploading batch order progression', async () => {
