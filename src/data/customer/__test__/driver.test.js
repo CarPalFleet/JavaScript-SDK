@@ -25,12 +25,11 @@ describe('Create new driver API V3', () => {
       CONFIG.clientSecret
     );
     const token = await result;
-
     const driverInfo = {
-      transactionGroupId: [180],
+      transactionGroupIds: [180],
       sendConfirmationSms: false,
       sendConfirmationEmail: false,
-      driverTypeIds: [2,3],
+      driverTypeIds: [2, 3],
       firstName: 'User',
       lastName: generateDisplayName(10),
       email: `${generateDisplayName(10)}@example.com`,
@@ -51,7 +50,6 @@ describe('Create new driver API V3', () => {
     expect('driver' in response).toBeTruthy();
     expect('id' in response.driver).toBeTruthy();
     expect('details' in response.driver).toBeTruthy();
-
 
     const responseDriverDetail = await getDriverDetailAsync(
       1,

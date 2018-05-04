@@ -163,7 +163,6 @@ export const createDriverAsync = async (
     vehicleModel,
     vehicleTypeId,
   },
-  // customerId, // where it should be added
   token,
 ) => {
   try {
@@ -194,7 +193,7 @@ export const createDriverAsync = async (
       method: 'POST',
       url: endpoints.API_V3.CUSTOMER_DRIVER,
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       data,
