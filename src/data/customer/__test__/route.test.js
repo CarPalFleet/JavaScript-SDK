@@ -4,6 +4,7 @@ import {
   createRouteLocationAsync,
   storeRouteLocationAsync,
   removeRouteLocationsAsync,
+  storeRouteAsync,
 } from '../Route';
 import {getTokenAsync} from '../../account/Auth';
 
@@ -95,3 +96,16 @@ describe('Retrieve route setting', () => {
     expect('settingRouteSettings' instanceof Array).toBe(true);
   });
 });
+
+it('should test storeRouteAsync get statusCode 401', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    const payload = {
+    routes: CONFIG.createRoutePayload,
+    replaceAllExisting: true,
+  };
+    try {
+      await storeRouteAsync(payload, '');
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 401);
+    }
+  });
