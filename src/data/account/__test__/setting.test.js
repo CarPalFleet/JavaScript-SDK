@@ -6,6 +6,8 @@ import CONFIG from './Config';
 
 describe('Retrieve user settings for routing page', () => {
   it('should return false user_id and 403 statusCode', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
     const result = getTokenAsync(
       CONFIG.email,
       CONFIG.password,
@@ -27,6 +29,8 @@ describe('Retrieve user settings for routing page', () => {
   });
 
   it('should return Data', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
     const result = getTokenAsync(
       CONFIG.email,
       CONFIG.password,
