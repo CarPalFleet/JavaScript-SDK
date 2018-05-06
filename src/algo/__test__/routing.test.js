@@ -4,7 +4,7 @@ import CONFIG from './Config';
 
 describe('Call route optimization endpoints', () => {
   it('should response true value', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    jest.setTimeout(20000);
     const result = getTokenAsync(
       CONFIG.email,
       CONFIG.password,
