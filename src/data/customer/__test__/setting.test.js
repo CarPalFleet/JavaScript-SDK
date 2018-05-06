@@ -8,7 +8,7 @@ import CONFIG from './Config';
 
 describe('Retrieve Customer settings', () => {
   it('should response object including customer settings', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    jest.setTimeout(20000);
     const result = getTokenAsync(
       CONFIG.email,
       CONFIG.password,
@@ -24,7 +24,7 @@ describe('Retrieve Customer settings', () => {
 
 describe('Retrieve whitelabel with invalid domain', () => {
   it('should get error statusCode', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    jest.setTimeout(20000);
     const result = getTokenAsync(
       CONFIG.email,
       CONFIG.password,
@@ -49,7 +49,7 @@ describe('Tests showCustomerSettingsAsync function', async () => {
   };
 
   beforeEach(async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    jest.setTimeout(20000);
     token = await getTokenAsync(
       CONFIG.email,
       CONFIG.password,
@@ -59,6 +59,8 @@ describe('Tests showCustomerSettingsAsync function', async () => {
   });
 
   it('should return customer settings status 200', async () => {
+    jest.setTimeout(20000);
+
     const response = await showCustomerSettingsAsync(
       token.accessToken,
       customerId,
@@ -68,6 +70,8 @@ describe('Tests showCustomerSettingsAsync function', async () => {
   });
 
   it('should get customer settings', async () => {
+    jest.setTimeout(20000);
+
     const response = await showCustomerSettingsAsync(
       token.accessToken,
       customerId,
@@ -77,6 +81,8 @@ describe('Tests showCustomerSettingsAsync function', async () => {
   });
 
   it('should get error customer statusCode 400', async () => {
+    jest.setTimeout(20000);
+
     try {
       await showCustomerSettingsAsync('');
     } catch (error) {
@@ -85,6 +91,8 @@ describe('Tests showCustomerSettingsAsync function', async () => {
   });
 
   it('should get error customer statusCode 401', async () => {
+    jest.setTimeout(20000);
+
     try {
       await showCustomerSettingsAsync(token.accessToken, customerId, payload);
     } catch (error) {
@@ -93,6 +101,8 @@ describe('Tests showCustomerSettingsAsync function', async () => {
   });
 
   it('should get error customer statusCode 403', async () => {
+    jest.setTimeout(20000);
+
     try {
       await showCustomerSettingsAsync(token.accessToken, '', payload);
     } catch (error) {

@@ -4,6 +4,8 @@ import CONFIG from './Config';
 
 describe('Show job', () => {
   it('Should get job details and expect job not found', async () => {
+    jest.setTimeout(20000);
+
     const result = getTokenAsync(
       CONFIG.email,
       CONFIG.password,
@@ -25,6 +27,8 @@ describe('Show job', () => {
 
 describe('Show Jobs', () => {
   it('Should get Job summary and expect job not found', async () => {
+    jest.setTimeout(20000);
+
     const result = getTokenAsync(
       CONFIG.email,
       CONFIG.password,

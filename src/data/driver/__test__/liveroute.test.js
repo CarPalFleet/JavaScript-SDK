@@ -3,6 +3,7 @@ import CONFIG from './Config';
 
 describe('Send driver location Lat/lng records to Dynamodb', () => {
   test('Expect response 404 because of missing driverid', async () => {
+    jest.setTimeout(20000);
 
     try {
       const response = await sendLiveRouteDataAsync(
