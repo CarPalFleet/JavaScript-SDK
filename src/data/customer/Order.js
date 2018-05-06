@@ -253,6 +253,7 @@ export const getUploadedOrderProgressionAsync = async (customerId, token) => {
  * @param {object} groupingLocationId
  * @param {string} token
  * @return {object} Promise resolve/reject
+ //TODO: needs more extensive unit testing
  */
 export const getOrderAsync = async (groupingLocationId, token) => {
   try {

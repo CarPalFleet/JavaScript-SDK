@@ -22,11 +22,15 @@ import {getTokenAsync} from '../../account/Auth';
 
 import CONFIG from './Config';
 
-test('Retrieving single grouping location', async () => {
+test('Retrieving single grouping location, expect 401', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-  const response = await getOrderAsync(CONFIG.groupingLocationId, CONFIG.token);
-  expect('data' in response).toBeTruthy();
+  try {
+    const response = await getOrderAsync(CONFIG.groupingLocationId, CONFIG.token);
+    expect('data' in response).toBeTruthy();
+  } catch (error) {
+    expect(error).toHaveProperty('statusCode', 401);
+  }
 });
 
 test('Retrieving validated grouping locations', async () => {
@@ -39,38 +43,64 @@ test('Retrieving validated grouping locations', async () => {
     offset: 0,
   };
 
-  const response = await getOrdersGroupByPickUpAddressAsync(
-    filterObject,
-    CONFIG.customerId,
-    CONFIG.token
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  const result = getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
   );
+  const token = await result;
 
-  expect('data' in response).toBeTruthy();
-  expect('totalLocationCount' in response).toBeTruthy();
-  expect('successLocationCount' in response).toBeTruthy();
-  expect('failedLocationCount' in response).toBeTruthy();
+      try {
+        const response = await getOrdersGroupByPickUpAddressAsync(
+          filterObject,
+          CONFIG.customerId,
+          token.accessToken
+        );
+        expect('data' in response).toBeTruthy();
+        expect('totalLocationCount' in response).toBeTruthy();
+        expect('successLocationCount' in response).toBeTruthy();
+        expect('failedLocationCount' in response).toBeTruthy();
+      } catch (error) {
+        console.log(error);
+      }
 });
 
-test('Retrieving error grouping locations', async () => {
+test('Retrieving grouping locations empty batch', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const filterObject = {
     statusIds: 4,
-    pickupDate: '2018-02-28',
+    pickupDate: '2010-02-28',
     limit: 30,
     offset: 0,
   };
 
+  const result = getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+
   const response = await getOrdersGroupByPickUpAddressAsync(
     filterObject,
     CONFIG.customerId,
-    CONFIG.token
+    token.accessToken
   );
 
-  expect('data' in response).toBeTruthy();
-  expect('totalLocationCount' in response).toBeTruthy();
-  expect('successLocationCount' in response).toBeTruthy();
-  expect('failedLocationCount' in response).toBeTruthy();
+  try {
+    expect('data' in response).toBeTruthy();
+    expect('totalLocationCount' in response).toBeTruthy();
+    expect('successLocationCount' in response).toBeTruthy();
+    expect('failedLocationCount' in response).toBeTruthy();
+    expect(response).toHaveProperty('totalLocationCount', 0);
+
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 test('Retrieving Remaining Order Count', async () => {
