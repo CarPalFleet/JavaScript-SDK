@@ -1,7 +1,7 @@
 import {getCountriesAsync} from '../Country';
 
 test('test for countries', async () => {
-  jest.setTimeout(10000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const result = await getCountriesAsync();
   expect(result.length).toBeTruthy();

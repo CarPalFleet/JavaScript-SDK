@@ -3,7 +3,7 @@ import config from './Config';
 
 describe('Auth integration test', () => {
   it('verifies a successful accessToken in the return object', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const response = await getTokenAsync(
       config.email,
@@ -15,7 +15,7 @@ describe('Auth integration test', () => {
   });
 
   it('test for account alpha.test@carpal.me with wrong password', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
       const response = await getTokenAsync(

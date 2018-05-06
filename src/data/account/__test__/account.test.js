@@ -8,7 +8,7 @@ import {customError, apiResponseErrorHandler} from '../../utility/Util';
 
 describe('Request reset password', () => {
   it('should repond true', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const response = resetPasswordRequestAsync(CONFIG.email);
     const result = await response;
@@ -18,7 +18,7 @@ describe('Request reset password', () => {
 
 describe('Reset password', () => {
   test('result should be true if the the token is correct', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const response = resetPasswordAsync(
       CONFIG.refreshToken,
@@ -31,7 +31,7 @@ describe('Reset password', () => {
   });
 
   test('resetPasswordAsync throw error', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const error = {
       statusCode: 401,
@@ -52,7 +52,7 @@ describe('Reset password', () => {
 
 describe('Test for reset password token validation', () => {
   test('reject with statusCode 404 if the reset password is invalid', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
       const result = await validateResetPasswordTokenAsync(makeid(32));

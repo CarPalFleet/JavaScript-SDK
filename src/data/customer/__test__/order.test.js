@@ -23,14 +23,14 @@ import {getTokenAsync} from '../../account/Auth';
 import CONFIG from './Config';
 
 test('Retrieving single grouping location', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const response = await getOrderAsync(CONFIG.groupingLocationId, CONFIG.token);
   expect('data' in response).toBeTruthy();
 });
 
 test('Retrieving validated grouping locations', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const filterObject = {
     statusIds: 2, // 2 = validated records, 4 = errors
@@ -52,7 +52,7 @@ test('Retrieving validated grouping locations', async () => {
 });
 
 test('Retrieving error grouping locations', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const filterObject = {
     statusIds: 4,
@@ -74,7 +74,7 @@ test('Retrieving error grouping locations', async () => {
 });
 
 test('Retrieving Remaining Order Count', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const filterObject = {
     pickupDate: '2018-04-15',
@@ -103,7 +103,7 @@ test('Retrieving Remaining Order Count', async () => {
 
 describe('Retrieve Order Based on the search result', () => {
   it('should response specific orders array', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const response = await getOrdersBasedOnSearchResult(
       CONFIG.customerId,
@@ -117,7 +117,7 @@ describe('Retrieve Order Based on the search result', () => {
 
 describe('Convert Ids into CSV string', () => {
   it('should response string', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const response = await getCSVStringFromArrayObject(
       CONFIG.searchResult,
@@ -129,7 +129,7 @@ describe('Convert Ids into CSV string', () => {
 
 describe('Remove order with error record', () => {
   it('should remove specific order record. If it is deleted, response data should be true', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const response = await removeOrderWithErrorAsync(27840, CONFIG.token);
     expect('data' in response).toBeTruthy();
@@ -138,7 +138,7 @@ describe('Remove order with error record', () => {
 });
 
 test('Retrieving error grouping locations from DynamoDB', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const response = await getErrorOrderContentsAsync(
     CONFIG.pickupDate,
@@ -150,7 +150,7 @@ test('Retrieving error grouping locations from DynamoDB', async () => {
 
 describe('Call API to update error records and Remove batch errors of order from Dynamodb', () => {
   it('Should return {data: {}, isUpdatedOrder: true, isTruncateErrorReords: true}', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const response = await updateAndTruncateOrderErrorsAsync(
       CONFIG.orderWithErrorIds,
@@ -163,7 +163,7 @@ describe('Call API to update error records and Remove batch errors of order from
 
 describe('Remove batch errors of order from Dynamodb', () => {
   it('Should response an object and data should be true.', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const response = await removeOrderErrorRecordsAsync(
       CONFIG.orderWithErrorIds,
@@ -176,7 +176,7 @@ describe('Remove batch errors of order from Dynamodb', () => {
 
 describe('Remove one error record of order from Dynamodb', () => {
   it('Should response an object and data should be true.', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const response = await removeOrderErrorRecordsAsync(
       CONFIG.groupingBatchId,
@@ -192,7 +192,7 @@ test('Retrieving pickup group', async () => {
     pickupDate: '2018-02-05',
     withOrder: 0,
   };
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const response = await getUniquePickupAddressesAsync(
     pickupGroupFilters,
@@ -203,14 +203,14 @@ test('Retrieving pickup group', async () => {
 });
 
 test('Create Grouping Location', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const response = await createOrderAsync(CONFIG.locationObject, CONFIG.token);
   expect('data' in response).toBeTruthy();
 });
 
 test('Edit Grouping Location', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const response = await editOrderAsync(
     CONFIG.groupingLocationId,
@@ -221,14 +221,14 @@ test('Edit Grouping Location', async () => {
 });
 
 test('Edit Multiple Grouping Locations', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const response = await editOrdersAsync(CONFIG.locationDataList, CONFIG.token);
   expect('data' in response).toBeTruthy();
 });
 
 test('Test for file uploading', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   let formData = {};
   const response = await fileUploadForOrderAsync(
@@ -240,7 +240,7 @@ test('Test for file uploading', async () => {
 });
 
 test('Test for file uploading error', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const response = await fileUploadForOrderAsync(
     {grouping_spreadsheet: 12},
@@ -251,14 +251,14 @@ test('Test for file uploading error', async () => {
 });
 
 test('Test for uploading batch order progression', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const response = await getUploadedOrderProgressionAsync(1, CONFIG.token);
   expect('data' in response).toBeTruthy();
 });
 
 test('Delete Grouping Location', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const response = await deleteOrderAsync(
     CONFIG.groupingLocationId,
@@ -268,7 +268,7 @@ test('Delete Grouping Location', async () => {
 });
 
 test('Delete Multiple Grouping Locations', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const response = await deleteOrdersAsync(
     CONFIG.groupingLocationIds,
@@ -278,7 +278,7 @@ test('Delete Multiple Grouping Locations', async () => {
 });
 
 test('Test for customer order detail', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const response = await getOrderDetailAsync(1, 1, CONFIG.token);
   expect('data' in response).toBeTruthy();

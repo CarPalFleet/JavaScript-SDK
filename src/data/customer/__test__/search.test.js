@@ -3,7 +3,7 @@ import CONFIG from './Config';
 
 describe('Elastic Search', () => {
   it('Should response the search result array', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
 //TODO: needs to be resolved
     try {
@@ -24,7 +24,7 @@ describe('Elastic Search', () => {
 
 describe('Retrieve whitelabel', () => {
   it('Should response the object which is related to keywords and scope', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
 //TODO: needs to be resolved
 

@@ -4,7 +4,7 @@ import CONFIG from './Config';
 
 describe('Show job', () => {
   it('Should get job details and expect job not found', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const result = getTokenAsync(
       CONFIG.email,
@@ -27,7 +27,7 @@ describe('Show job', () => {
 
 describe('Show Jobs', () => {
   it('Should get Job summary and expect job not found', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const result = getTokenAsync(
       CONFIG.email,

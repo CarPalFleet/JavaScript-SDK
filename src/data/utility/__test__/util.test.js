@@ -12,7 +12,7 @@ import {
 
 describe('Convert object key/value into url string', () => {
   it('should match the string values limit and offset', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     let data = {
       limit: 20,
@@ -27,7 +27,7 @@ describe('Convert object key/value into url string', () => {
 
 describe('Handle API Error', () => {
   it('should return promise (reject) object with statusCode, statusText and errorMessage', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const errors = {
       response: {
@@ -49,7 +49,7 @@ describe('Handle API Error', () => {
 
 describe('Response Promise Reject', () => {
   it('should return promise (reject) object with stausCode, statusText and errorMessage', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const errors = {
       response: {
@@ -67,7 +67,7 @@ describe('Response Promise Reject', () => {
 });
 
 describe('Format error messages into key value objects inside of array', () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const errorMessage = {
     email: ['Duplicate Email'],
@@ -81,7 +81,7 @@ describe('Format error messages into key value objects inside of array', () => {
 });
 
 describe('Convert Object into key/value array.', () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const errorMessage = {
     email: ['Duplicate Email'],
@@ -95,7 +95,7 @@ describe('Convert Object into key/value array.', () => {
 });
 
 describe('Iterate the array and format by using ES 6 reduce method', () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const data = [1, 2, 3];
 
@@ -108,7 +108,7 @@ describe('Iterate the array and format by using ES 6 reduce method', () => {
 });
 
 describe('Store key/value element into array', () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   it('should response new array with key/value elements', async () => {
     const [key, value] = ['key', 'messages'];
@@ -119,7 +119,7 @@ describe('Store key/value element into array', () => {
 });
 
 describe('Check the same object id in two params', () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   it('true/false value in ', async () => {
     const objectA = {id: 1};
@@ -130,7 +130,7 @@ describe('Check the same object id in two params', () => {
 });
 
 describe('Return error object from simple object', () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   it('should create error object ', () => {
     const object = {statusCode: 401, statusText: 'Unauthorized'};

@@ -4,7 +4,7 @@ import CONFIG from './Config';
 
 describe('Test for retrieving all notifications', () => {
   it('should return all notifications', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
     const result = getTokenAsync(
       CONFIG.email,
       CONFIG.password,
@@ -21,7 +21,7 @@ describe('Test for retrieving all notifications', () => {
 
 describe('Test for deleting specific notification', () => {
   it('should delete notification of user', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
     const deleteResponse = {data: true};
     const result = getTokenAsync(
       CONFIG.email,

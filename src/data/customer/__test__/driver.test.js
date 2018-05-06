@@ -17,7 +17,7 @@ import {
 
 describe('Create new driver ', () => {
   it('should respond new driver object including id details and perform a show request on that driver', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
     const result = getTokenAsync(
       CONFIG.email,
       CONFIG.password,
@@ -62,7 +62,7 @@ describe('Create new driver ', () => {
 });
 
 test(`Test for retrieving V3 driver list`, async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const result = getTokenAsync(
     CONFIG.email,
@@ -93,7 +93,7 @@ test(`Test for retrieving V3 driver list`, async () => {
 });*/
 
 test('Test for pubsub live data for job', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
   const originalDriverDatum = {
     activeStatusCounts: {'1': 0, '2': 0, '3': 0, '4': 0},
     driverTypeCounts: {'1': 1, '2': 3, '3': 4},
@@ -157,7 +157,7 @@ test('Test for pubsub live data for job', async () => {
 });
 
 test(`Test for create, delete and update driver schedule`, async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const result = getTokenAsync(
     CONFIG.email,
@@ -225,7 +225,7 @@ test(`Test for create, delete and update driver schedule`, async () => {
 });
 
 test(`Test for create driver schedule with with driver that does not belong to requestor`, async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const result = getTokenAsync(
     CONFIG.email,
@@ -259,7 +259,7 @@ test(`Test for create driver schedule with with driver that does not belong to r
 });
 
 describe('Test getDriversWithFiltersAsync', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const filterObject = {
     driverStatusIds: [2],
@@ -305,7 +305,7 @@ describe('Test getDriverCountsAsync', async () => {
   };
   const customerId = 14445;
   it('should get getDriverCountsAsync success response', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const result = getTokenAsync(
       CONFIG.email,
@@ -327,7 +327,7 @@ describe('Test getDriverCountsAsync', async () => {
     }
   });
   it('should throw getDriverCountsAsync 401 error status', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
       await getDriverCountsAsync();
@@ -338,7 +338,7 @@ describe('Test getDriverCountsAsync', async () => {
 });
 
 describe('Test getDriverRoutesAsync', async () => {
-  jest.setTimeout(20000);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const filterObject = {
     pickupDate: '2018-02-28',
@@ -351,7 +351,6 @@ describe('Test getDriverRoutesAsync', async () => {
     recommendedForDriverId: 20,
   };
   it('should get getDriverRoutesAsync success response', async () => {
-    jest.setTimeout(20000);
     const result = getTokenAsync(
       CONFIG.email,
       CONFIG.password,
@@ -389,7 +388,7 @@ describe('Test getDriverRoutesAsync', async () => {
   });
 
   it('should throw getDriverRoutesAsync 401 error status', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
       await getDriverCountsAsync();

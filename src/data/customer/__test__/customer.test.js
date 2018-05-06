@@ -2,7 +2,7 @@ import {createNewCustomerAsync} from '../Customer';
 
 describe('Creating new customer account', () => {
   it('Response should be true if new customer is created', async () => {
-    jest.setTimeout(20000);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const random = Date.now();
     const customer = {
