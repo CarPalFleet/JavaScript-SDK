@@ -109,3 +109,18 @@ it('should test storeRouteAsync get statusCode 401', async () => {
       expect(error).toHaveProperty('statusCode', 401);
     }
   });
+
+it('should test storeRouteAsync get statusCode 400', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    const { accessToken } = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+     );
+    try {
+      await storeRouteAsync({}, accessToken);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 400);
+    }
+  });
