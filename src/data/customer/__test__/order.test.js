@@ -1,5 +1,4 @@
 import {
-  getOrderDetailAsync,
   fileUploadForOrderAsync,
   getUploadedOrderProgressionAsync,
   getErrorOrderContentsAsync,
@@ -11,14 +10,13 @@ import {
   editOrdersAsync,
   deleteOrderAsync,
   deleteOrdersAsync,
-  removeOrderWithErrorAsync,
   updateAndTruncateOrderErrorsAsync,
   removeOrderErrorRecordsAsync,
   getOrdersBasedOnSearchResult,
-  getCSVStringFromArrayObject,
   getRemainingOrdersCountAsync,
 } from '../Order';
 import {getTokenAsync} from '../../account/Auth';
+import {getCSVStringFromArrayObject} from '../../utility/Util';
 
 import CONFIG from './Config';
 
@@ -154,16 +152,6 @@ describe('Convert Ids into CSV string', () => {
       CONFIG.fieldName
     );
     expect.stringContaining(response);
-  });
-});
-
-describe('Remove order with error record', () => {
-  it('should remove specific order record. If it is deleted, response data should be true', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-
-    const response = await removeOrderWithErrorAsync(27840, CONFIG.token);
-    expect('data' in response).toBeTruthy();
-    expect(response.data).toBeTruthy();
   });
 });
 
@@ -305,14 +293,6 @@ test('Delete Multiple Grouping Locations', async () => {
     CONFIG.token
   );
   expect(response.data).toBeTruthy();
-});
-
-test('Test for customer order detail', async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-
-  const response = await getOrderDetailAsync(1, 1, CONFIG.token);
-  expect('data' in response).toBeTruthy();
-  expect(true).toBeTruthy();
 });
 
 /**
