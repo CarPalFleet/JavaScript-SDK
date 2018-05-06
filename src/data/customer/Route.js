@@ -22,6 +22,7 @@ import toArray from 'lodash.toarray';
  * page = 0 (optional)(int)
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * @deprecated since version 0.3.1
  */
 export const getRoutesAsync = async (filterObject, token) => {
   try {
@@ -122,6 +123,7 @@ export const removeRouteAsync = async (routeIds, token) => {
  ]
  * @param {string} token
  * @return {Object} Promise resolve/reject
+ //TODO: needs unit testing
  */
 export const createRouteLocationAsync = async (
   routeId,
@@ -165,6 +167,7 @@ export const createRouteLocationAsync = async (
  * deliveryWindowEnd (mandatory)(string)
  * @param {string} token
  * @return {Object} Promise resolve/reject
+ //TODO: needs unit testing
  */
 export const updateRouteLocationAsync = async (
   routeId,
@@ -191,6 +194,7 @@ export const updateRouteLocationAsync = async (
  * @param {string} token
  * @return {Object} Promise resolve/reject
  * If resolve, return { data: true }
+ //TODO: needs unit testing
  */
 export const removeRouteLocationsAsync = async (
   routeId,
