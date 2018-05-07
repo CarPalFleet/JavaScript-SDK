@@ -16,7 +16,7 @@ Platform:
 npm manifest: 
   {
     "name": "carpal",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "description": "The SDK for CarPal fleet solution development.",
     "main": "dist/build.js",
     "scripts": {
@@ -24,8 +24,7 @@ npm manifest:
       "lint": "node_modules/.bin/eslint src",
       "precommit": "lint-staged",
       "precommit:lint": "node_modules/.bin/eslint",
-      "precommit:prettier":
-        "node_modules/.bin/prettier --single-quote --trailing-comma es5 --arrow-parens always --write",
+      "precommit:prettier": "node_modules/.bin/prettier --single-quote --trailing-comma es5 --arrow-parens always --write",
       "prepublish": "npm run build",
       "test": "jest --testPathIgnorePatterns=__integration__",
       "test:watch": "jest --testPathIgnorePatterns=__integration__  --watch",
@@ -38,7 +37,10 @@ npm manifest:
         "npm run precommit:lint",
         "git add"
       ],
-      "*.{json,css,md}": ["npm run precommit:prettier", "git add"]
+      "*.{json,css,md}": [
+        "npm run precommit:prettier",
+        "git add"
+      ]
     },
     "repository": {
       "type": "git",

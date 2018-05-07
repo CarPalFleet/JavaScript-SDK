@@ -130,8 +130,8 @@ export const createDriverAsync_OLD = async (
  * phone (mandatory) (string)
  * vehicle (array) contains vehicle info
  * vehicle.vehicleColor (optional) (string)
- * vehicle.vehicleAverageSpeed (int) (string)
- * vehicle.vehicleMaximumCapacity (int) (string)
+ * vehicle.averageSpeed (int) (string)
+ * vehicle.maximumCapacity (int) number
  * vehicle.vehicleModelYear (optional) (int)
  * vehicle.vehicleLicenseNumber (optional) (int)
  * vehicle.vehicleBrand (optional) (string)
@@ -155,8 +155,8 @@ export const createDriverAsync = async (
     birthday,
     phone,
     vehicleColor,
-    vehicleAverageSpeed,
-    vehicleMaximumCapacity,
+    averageSpeed,
+    maximumCapacity,
     vehicleModelYear,
     vehicleLicenseNumber,
     vehicleBrand,
@@ -177,17 +177,28 @@ export const createDriverAsync = async (
       password,
       birthday,
       phone,
-      vehicle: {
-        vehicleColor,
-        vehicleAverageSpeed,
-        vehicleMaximumCapacity,
-        vehicleModelYear,
-        vehicleLicenseNumber,
-        vehicleBrand,
-        vehicleModel,
-        vehicleTypeId,
-      },
+      vehicle: [],
     };
+
+    // data.vehicle[camelToSnake('vehicleColor')] = vehicleColor;
+    // data.vehicle[camelToSnake('averageSpeed')] = averageSpeed;
+    // data.vehicle[camelToSnake('maximumCapacity')] = maximumCapacity;
+    // data.vehicle[camelToSnake('vehicleModelYear')] = vehicleModelYear;
+    // data.vehicle[camelToSnake('vehicleLicenseNumber')] = vehicleLicenseNumber;
+    // data.vehicle[camelToSnake('vehicleBrand')] = vehicleBrand;
+    // data.vehicle[camelToSnake('vehicleModel')] = vehicleModel;
+    // data.vehicle[camelToSnake('vehicleTypeId')] = vehicleTypeId;
+
+    data[camelToSnake('vehicle.vehicleColor')] = vehicleColor;
+    data[camelToSnake('vehicle.averageSpeed')] = averageSpeed;
+    data[camelToSnake('vehicle.maximumCapacity')] = maximumCapacity;
+    data[camelToSnake('vehicle.vehicleModelYear')] = vehicleModelYear;
+    data[camelToSnake('vehicle.vehicleLicenseNumber')] = vehicleLicenseNumber;
+    data[camelToSnake('vehicle.vehicleBrand')] = vehicleBrand;
+    data[camelToSnake('vehicle.vehicleModel')] = vehicleModel;
+    data[camelToSnake('vehicle.vehicleTypeId')] = vehicleTypeId;
+
+    const driver = camelToSnake(data);
 
     const response = await axios({
       method: 'POST',
@@ -196,7 +207,7 @@ export const createDriverAsync = async (
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      data,
+      data: driver,
     });
 
     return camelize(response.data.data);
