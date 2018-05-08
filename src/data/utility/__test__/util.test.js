@@ -51,18 +51,25 @@ describe('Response Promise Reject', () => {
   it('should return promise (reject) object with stausCode, statusText and errorMessage', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-    const errors = {
-      response: {
-        status: 400,
-        statusText: 'Bad Request',
-        errorMessage: 'Errror String',
-      },
-    };
+    try {
+      const errors = {
+        response: {
+          status: 400,
+          statusText: 'Bad Request',
+          errorMessage: 'Errror String',
+        },
+      };
 
-    const result = await rejectPromise(errors);
-    expect('statusCode' in result).toBeTruthy();
-    expect('statusText' in result).toBeTruthy();
-    expect('errorMessage' in result).toBeTruthy();
+      const result = await rejectPromise(errors);
+      console.log(result);
+
+      expect('statusCode' in result).toBeTruthy();
+      expect('statusText' in result).toBeTruthy();
+      expect('errorMessage' in result).toBeTruthy();
+      } catch (error) {
+      console.log(error);
+      await expect(error).rejects.toHaveProperty('statusCode', 400);
+    }
   });
 });
 
@@ -86,7 +93,7 @@ describe('Convert Object into key/value array.', () => {
   const errorMessage = {
     email: ['Duplicate Email'],
   };
-  const expected = ['email', ['Duplicate Email']];
+  const expected = [["email", ["Duplicate Email"]]];
 
   it('matches if the actual object contains expected key: value pairs', async () => {
     const result = convertObjectIntoKeyValueArray(errorMessage);
