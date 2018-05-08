@@ -247,11 +247,43 @@ test('Retrieving pickup group', async () => {
 
 });
 
-test('Create Grouping Location', async () => {
+test('Create Grouping Location with date in the past', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-  const response = await createOrderAsync(CONFIG.locationObject, CONFIG.token);
-  expect('data' in response).toBeTruthy();
+    const result = getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    const token = await result;
+
+  try {
+    const response = await createOrderAsync(CONFIG.locationObject,token.accessToken);
+
+  } catch (error) {
+    const expected = {"errorMessage": [{"key": "0", "messages": "The pickup date should be after or equal current date."}], "statusCode": 400, "statusText": "Bad Request"};
+    expect(error).toEqual(expected);
+  }
+});
+
+test('Create Grouping Location with date in the future', async () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
+    const result = getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+    const token = await result;
+
+  try {
+    const response = await createOrderAsync(CONFIG.locationObjectFutureDate,token.accessToken);
+    expect('data' in response).toBeTruthy();
+  } catch (error) {
+    expect(error).toHaveProperty('statusCode', 401);
+  }
 });
 
 test('Edit Grouping Location', async () => {
@@ -259,7 +291,7 @@ test('Edit Grouping Location', async () => {
 
   const response = await editOrderAsync(
     CONFIG.groupingLocationId,
-    CONFIG.locationObject,
+    CONFIG.locationObjectlocationObjectFutureDate,
     CONFIG.token
   );
   expect('data' in response).toBeTruthy();
@@ -275,13 +307,28 @@ test('Edit Multiple Grouping Locations', async () => {
 test('Test for file uploading', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-  let formData = {};
-  const response = await fileUploadForOrderAsync(
-    {groupingSpreadsheet: formData},
-    CONFIG.token
+  const result = getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
   );
-  expect('groupingBatchId' in response.data).toBeTruthy();
-  expect(true).toBeTruthy();
+  const token = await result;
+
+  try {
+    let formData = {};
+    const response = await fileUploadForOrderAsync(
+      {groupingSpreadsheet: formData},
+      token.accessToken
+    );
+
+    expect('groupingBatchId' in response.data).toBeTruthy();
+    expect(true).toBeTruthy();
+    console.log(response);
+  } catch (error) {
+      console.log(error);
+      expect(error).toHaveProperty('statusCode', 401);
+  }
 });
 
 test('Test for file uploading error', async () => {
