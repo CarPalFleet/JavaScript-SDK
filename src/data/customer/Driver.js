@@ -165,9 +165,40 @@ export const getDriversAsync = async (filterObject = {}, token) => {
 /**
  * Update Driver
  * @param {int} id
- * @param {object} driver
+ * @param {boolean} isActive
+ * @param {array} languageIds
+ * @param {array} transactionGroupIds
+ * @param {array} driverTypeIds
+ * @param {object} interviewDetails {}
+ * hasCriminalRecord (boolean)
+ * isAProfessionalDriver (boolean)
+ * hasWorkAsDriver (boolean)
+ * hasWorkedForSameCompany (boolean)
+ * referredFrom (string)
+ * drivingReason (string)
+ * remarks (string)
+ * @param {object} user {}
+ * firstName (string)
+ * lastName (string)
+ * phone (string|regex:/^(00|\+)\d{1,4}\d{4,11}$/)
+ * password (string)
+ * passwordConfirmation (string)
+ * @param {object} vehicle {}
+ * modelYear (optional) (int)
+ * averageSpeed (optional) (int) min: 0
+ * maximumCapacity (optional) (int) min: 0
+ * typeId (optional) (int)
+ * model (optional) (string)
+ * brand (optional) (string)
+ * licenseNumber (optional) (string)
+ * color (optional) (string)
+ * @param {object} bank {}
+ * branchCode (optional) (string)
+ * code (optional) (string)
+ * name (optional) (string)
+ * accountNumber (optional) (string)
  * @param {string} token
- * @return {object} driver object
+ * @return {object} Promise resolve/reject
  */
 export const updateDriverAsync = async (id, driver, token) => {
   try {
