@@ -33,7 +33,6 @@ const endpoints = {
   CUSTOMER_SETTINGS: `${urlPrefix}/settings`,
   CUSTOMER_SETTINGS_SHOW: `${urlPrefix}/settings/{0}`,
   API_V3: {
-    OAUTH: `${laravelUrlPrefix}/${version}/authentication`,    
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
     GROUPING_LOCATIONS: `${laravelUrlPrefix}/${version}/customer/grouping-location`,
     GROUPING_LOCATION_COUNT: `${laravelUrlPrefix}/${version}/customer/grouping-location/total`,

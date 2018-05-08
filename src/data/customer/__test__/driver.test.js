@@ -47,22 +47,10 @@ describe('Create new driver API V3', () => {
       vehicleTypeId: 1,
     };
 
-    try {
-      const response = await createDriverAsync(driverInfo, token.accessToken);
-      expect('id' in response).toBeTruthy();
-      expect('driverTypes' in response).toBeTruthy();
-      const responseDriverDetail = await getDriverDetailAsync(
-        1,
-        1,
-        response.id,
-        token.accessToken
-      );
-      expect('data' in responseDriverDetail).toBeTruthy();
-    } catch (error) {
-      console.log(error);
-    }
-
-
+    const response = await createDriverAsync(driverInfo, token.accessToken);
+    expect('id' in response).toBeTruthy();
+    expect('vehicle' in response).toBeTruthy();
+    expect('driverTypes' in response).toBeTruthy();
   });
 });
 

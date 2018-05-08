@@ -16,108 +16,6 @@ import {camelToSnake} from '../utility/ChangeCase';
 
 /**
  * Create Driver
- * @param {object} driverInfo {}
- * birthday (mandatory) (string)
- * driverTypeIds (mandatory) (string) #csv Eg. 2,3
- * email (mandatory) (string)
- * existingUserEmail (optional) (boolean)
- * firstName (mandatory) (string)
- * identityId (mandatory) (string)
- * isNewUser (optional) (boolean)
- * lastName (mandatory) (string)
- * password (mandatory) (string)
- * phone (mandatory) (string)
- * productTypeId (mandatory) (int)
- * sendConfirmationSms (optional) (boolean)
- * transactionGroupId (int) (int)
- * vehicleBrand (optional) (string)
- * vehicleColor (optional) (string)
- * vehicleLicenseNumber (optional) (int)
- * vehicleModel (optional) (string)
- * vehicleModelYear (optional) (int)
- * vehicleTypeId (optional) (int)
- * @param {int} customerId
- * @param {string} token
- * @return {object} Promise resolve/reject
- * deprecated since verion 0.1.77
- */
-export const createDriverAsync_OLD = async (
-  {
-    birthday,
-    driverTypeIds,
-    email,
-    existingUserEmail = false,
-    firstName,
-    identityId,
-    isNewUser,
-    lastName,
-    password,
-    phone,
-    productTypeId,
-    // TODO: where is the sendConfirmationEmail?
-    sendConfirmationSms = false,
-    transactionGroupId,
-    vehicleBrand,
-    vehicleColor,
-    vehicleLicenseNumber,
-    vehicleModel,
-    vehicleModelYear,
-    vehicleTypeId,
-  },
-  customerId,
-  token
-) => {
-  try {
-    const defaultPayload = {
-      driverTypeIds,
-      identityId,
-      isNewUser,
-      productTypeId,
-      sendConfirmationSms,
-      transactionGroupId,
-      vehicle: {
-        vehicleBrand,
-        vehicleColor,
-        vehicleLicenseNumber,
-        vehicleModel,
-        vehicleModelYear,
-        vehicleTypeId,
-      },
-    };
-
-    let newPayload;
-
-    if (isNewUser) {
-      newPayload = {
-        ...defaultPayload,
-        birthday: birthday || '',
-        email,
-        firstName,
-        lastName,
-        password,
-        phone: phone || '',
-      };
-    } else {
-      newPayload = {...defaultPayload, existingUserEmail};
-    }
-    const response = await axios({
-      method: 'POST',
-      url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),
-      headers: {
-        Authorization: token,
-        'Content-Type': 'application/json',
-      },
-      data: newPayload,
-    });
-
-    return camelize(response.data.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-/**
- * Create Driver
  * transactionGroupIds (mandatory) (array)
  * sendConfirmationSms (optional) (boolean)
  * sendConfirmationEmail (optional) (boolean)
@@ -140,7 +38,6 @@ export const createDriverAsync_OLD = async (
  * @param {object} driverInfo {}
  * @param {string} token
  * @return {object} Promise resolve/reject
- * deprecated since verion 0.1.77
  */
 export const createDriverAsync = async (
   {
@@ -177,28 +74,22 @@ export const createDriverAsync = async (
       password,
       birthday,
       phone,
-      vehicle: [],
+      vehicle: {
+        vehicleColor,
+        averageSpeed,
+        maximumCapacity,
+        vehicleModelYear,
+        vehicleLicenseNumber,
+        vehicleBrand,
+        vehicleModel,
+        vehicleTypeId,
+      },
     };
 
-    // data.vehicle[camelToSnake('vehicleColor')] = vehicleColor;
-    // data.vehicle[camelToSnake('averageSpeed')] = averageSpeed;
-    // data.vehicle[camelToSnake('maximumCapacity')] = maximumCapacity;
-    // data.vehicle[camelToSnake('vehicleModelYear')] = vehicleModelYear;
-    // data.vehicle[camelToSnake('vehicleLicenseNumber')] = vehicleLicenseNumber;
-    // data.vehicle[camelToSnake('vehicleBrand')] = vehicleBrand;
-    // data.vehicle[camelToSnake('vehicleModel')] = vehicleModel;
-    // data.vehicle[camelToSnake('vehicleTypeId')] = vehicleTypeId;
-
-    data[camelToSnake('vehicle.vehicleColor')] = vehicleColor;
-    data[camelToSnake('vehicle.averageSpeed')] = averageSpeed;
-    data[camelToSnake('vehicle.maximumCapacity')] = maximumCapacity;
-    data[camelToSnake('vehicle.vehicleModelYear')] = vehicleModelYear;
-    data[camelToSnake('vehicle.vehicleLicenseNumber')] = vehicleLicenseNumber;
-    data[camelToSnake('vehicle.vehicleBrand')] = vehicleBrand;
-    data[camelToSnake('vehicle.vehicleModel')] = vehicleModel;
-    data[camelToSnake('vehicle.vehicleTypeId')] = vehicleTypeId;
-
-    const driver = camelToSnake(data);
+    const driver = camelToSnake({
+      ...data,
+      vehicle: camelToSnake(data.vehicle),
+    });
 
     const response = await axios({
       method: 'POST',
