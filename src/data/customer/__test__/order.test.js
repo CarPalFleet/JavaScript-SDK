@@ -61,7 +61,7 @@ test('Retrieving validated grouping locations', async () => {
         expect('successLocationCount' in response).toBeTruthy();
         expect('failedLocationCount' in response).toBeTruthy();
       } catch (error) {
-        console.log(error);
+        expect(error).toHaveProperty('statusCode', 401);
       }
 });
 
@@ -97,7 +97,7 @@ test('Retrieving grouping locations empty batch', async () => {
     expect(response).toHaveProperty('totalLocationCount', 0);
 
   } catch (error) {
-    console.log(error);
+    expect(error).toHaveProperty('statusCode', 401);
   }
 });
 
@@ -127,24 +127,6 @@ test('Retrieving Remaining Order Count', async () => {
     } catch (error) {
       await expect(error).rejects.toHaveProperty('statusCode', 400);
   }
-});
-
-describe('Retrieve Order Based on the search result', () => {
-  it('should response specific orders array', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-//TODO: needs to be fixed
-    try {
-      const response = await getOrdersBasedOnSearchResult(
-        CONFIG.customerId,
-        CONFIG.filterObject,
-        CONFIG.searchResult,
-        CONFIG.token
-      );
-      expect('data' in response).toBeTruthy();
-    } catch (error) {
-      expect(error).toHaveProperty('statusCode', 401);
-    }
-  });
 });
 
 describe('Convert Ids into CSV string', () => {
@@ -186,12 +168,26 @@ describe('Call API to update error records and Remove batch errors of order from
   it('Should return {data: {}, isUpdatedOrder: true, isTruncateErrorReords: true}', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-    const response = await updateAndTruncateOrderErrorsAsync(
-      CONFIG.orderWithErrorIds,
-      CONFIG.locationDataList,
-      CONFIG.token
+    const result = getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
     );
-    expect('data' in response).toBeTruthy();
+    const token = await result;
+
+    try {
+      const response = await updateAndTruncateOrderErrorsAsync(
+        CONFIG.orderWithErrorIds,
+        CONFIG.locationDataList,
+        token.accessToken
+      );
+      console.log(response);
+      expect('data' in response).toBeTruthy();
+
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 401);
+    }
   });
 });
 
@@ -228,12 +224,27 @@ test('Retrieving pickup group', async () => {
   };
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-  const response = await getUniquePickupAddressesAsync(
-    pickupGroupFilters,
-    CONFIG.token
+  const result = getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
   );
-  expect('data' in response).toBeTruthy();
-  expect(response.data instanceof Array).toBeTruthy();
+  const token = await result;
+
+
+  try {
+    const response = await getUniquePickupAddressesAsync(
+      pickupGroupFilters,
+      token.accessToken
+    );
+    expect('data' in response).toBeTruthy();
+    expect(response.data instanceof Array).toBeTruthy();
+
+  } catch (error) {
+    expect(error).toHaveProperty('statusCode', 401);
+  }
+
 });
 
 test('Create Grouping Location', async () => {

@@ -279,6 +279,7 @@ export const getOrderAsync = async (groupingLocationId, token) => {
  * @param {int} searchResult
  * @param {string} token
  * @return {object} Promise resolve/reject
+ //TODO: deprecated not being used on front-end?
  */
 export const getOrdersBasedOnSearchResult = async (
   customerId,
