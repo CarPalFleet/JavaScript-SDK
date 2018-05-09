@@ -22,7 +22,7 @@ export const pubsub = (key, channel, realtime = true) => {
 
     subscribe: (event, callback) => {
       chan.subscribe(event, (message) => {
-        camelize(JSON.parse(message.data));
+        callback(camelize(JSON.parse(message.data)));
       });
     },
 
