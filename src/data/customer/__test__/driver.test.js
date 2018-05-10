@@ -409,68 +409,63 @@ function generateDisplayName(size) {
   return text;
 }
 
-//TODO updateDriverAsync tests
+// TODO check updateDriverAsync tests
+/**
+ * won't work until new createDriverAsync function would be merged
+ */
 describe('Test updateDriverAsync function', () => {
   let token;
-  let id = 1; // valid driver id to edit
-  const driver = CONFIG.driverEdit;
+  let driver;
+  const driverInfo = {
+    transactionGroupIds: [180],
+    sendConfirmationSms: false,
+    sendConfirmationEmail: false,
+    driverTypeIds: [2, 3],
+    firstName: 'User',
+    lastName: generateDisplayName(10),
+    email: `${generateDisplayName(10)}@example.com`,
+    password: '123456',
+    birthday: '1980-01-01',
+    phone: '+6592341092',
+    vehicleColor: 'Red',
+    averageSpeed: 60,
+    maximumCapacity: 100,
+    vehicleModelYear: 2018,
+    vehicleLicenseNumber: '12456',
+    vehicleBrand: 'Scooter',
+    vehicleModel: '12456',
+    vehicleTypeId: 1,
+  };
+
   beforeEach(async () => {
-    let { accessToken } = await getTokenAsync(
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    let result = await getTokenAsync(
       CONFIG.email,
       CONFIG.password,
       CONFIG.clientId,
       CONFIG.clientSecret
     );
-    token = accessToken;
+    token = result.accessToken;
+    const newDriver = await createDriverAsync(driverInfo, token);
+    driver = {
+      ...newDriver,
+      isActive: true,
+      transactionGroupIds: driverInfo.transactionGroupIds,
+      driverTypeIds: driverInfo.driverTypeIds,
+      languageIds: [1], // not sure about this parameter
+    }
   });
 
   it('should return success driver response', async () => {
-    // TODO returns statusCode 403
-    const response = await updateDriverAsync(
-      id,
-      driver,
-      token
-    );
+    const response = await updateDriverAsync(driver, token);
     expect(response).toMatchSnapshot();
   })
 
   it('should return validation error statusCode 400', async () => {
-    // TODO returns statusCode 400, at this moment returns statusCode 403  
     try {
-      const response = await updateDriverAsync(
-        id,
-        {
-          ...driver,
-          vehicle: {
-            ...driver.vehicle,
-            vehicleTypeId: null,
-          }
-        },
-        token
-      );
+      await updateDriverAsync({}, token);
     } catch (error) {
-    // TODO returns statusCode 400, at this moment returns statusCode 403        
       expect(error).toHaveProperty('statusCode', 400);
     }
-  })
-
-  it('should return vehicle type error statusCode 400', async () => {
-    try {
-      await updateDriverAsync(
-        id,
-        {
-          ...driver,
-          vehicle: {
-            ...driver.vehicle,
-            vehicleTypeId: null,
-          }
-        },
-        token
-      );
-    } catch (error) {
-    // TODO returns statusCode 400, at this moment returns statusCode 403        
-      expect(error).toHaveProperty('statusCode', 400);
-    }
-  })
-
-})
+  });
+});

@@ -164,50 +164,122 @@ export const getDriversAsync = async (filterObject = {}, token) => {
 
 /**
  * Update Driver
- * @param {int} id
- * @param {boolean} isActive
- * @param {array} languageIds
- * @param {array} transactionGroupIds
- * @param {array} driverTypeIds
- * @param {object} interviewDetails {}
- * hasCriminalRecord (boolean)
- * isAProfessionalDriver (boolean)
- * hasWorkAsDriver (boolean)
- * hasWorkedForSameCompany (boolean)
- * referredFrom (string)
- * drivingReason (string)
- * remarks (string)
- * @param {object} user {}
- * firstName (string)
- * lastName (string)
- * phone (string|regex:/^(00|\+)\d{1,4}\d{4,11}$/)
- * password (string)
- * passwordConfirmation (string)
- * @param {object} vehicle {}
- * modelYear (optional) (int)
- * averageSpeed (optional) (int) min: 0
- * maximumCapacity (optional) (int) min: 0
- * typeId (optional) (int)
- * model (optional) (string)
- * brand (optional) (string)
- * licenseNumber (optional) (string)
- * color (optional) (string)
- * @param {object} bank {}
- * branchCode (optional) (string)
- * code (optional) (string)
- * name (optional) (string)
- * accountNumber (optional) (string)
+ * @param {object} driverDetailsInfo {} 
+ * id (int)
+ * isActive (boolean)
+ * languageIds (array)
+ * transactionGroupIds (array)
+ * driverTypeIds (array)
+ * interviewDetails (object)
+ * interviewDetails.hasCriminalRecord (boolean)
+ * interviewDetails.isAProfessionalDriver (boolean)
+ * interviewDetails.hasWorkAsDriver (boolean)
+ * interviewDetails.hasWorkedForSameCompany (boolean)
+ * interviewDetails.referredFrom (string)
+ * interviewDetails.drivingReason (string)
+ * interviewDetails.remarks (string)
+ * user (object)
+ * user.firstName (string)
+ * user.lastName (string)
+ * user.phone (string|regex:/^(00|\+)\d{1,4}\d{4,11}$/)
+ * user.password (string)
+ * user.passwordConfirmation (string)
+ * vehicle (object)
+ * vehicle.modelYear (optional) (int)
+ * vehicle.averageSpeed (optional) (int) min: 0
+ * vehicle.maximumCapacity (optional) (int) min: 0
+ * vehicle.typeId (optional) (int)
+ * vehicle.model (optional) (string)
+ * vehicle.brand (optional) (string)
+ * vehicle.licenseNumber (optional) (string)
+ * vehicle.color (optional) (string)
+ * bank (object)
+ * bank.branchCode (optional) (string)
+ * bank.code (optional) (string)
+ * bank.name (optional) (string)
+ * bank.accountNumber (optional) (string)
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const updateDriverAsync = async (id, driver, token) => {
+export const updateDriverAsync = async ({
+  id,
+  isActive,
+  languageIds,
+  transactionGroupIds,
+  driverTypeIds,
+  hasCriminalRecord,
+  isAProfessionalDriver,
+  hasWorkAsDriver,
+  hasWorkedForSameCompany,
+  referredFrom,
+  drivingReason,
+  remarks,
+  firstName,
+  lastName,
+  phone,
+  password,
+  passwordConfirmation,
+  modelYear,
+  averageSpeed,
+  maximumCapacity,
+  typeId,
+  model,
+  brand,
+  licenseNumber,
+  color,
+  branchCode,
+  code,
+  name,
+  accountNumber,
+}, token) => {
   try {
+    const driverInfo = {
+      id,
+      isActive,
+      languageIds,
+      transactionGroupIds,
+      driverTypeIds,
+      interviewDetails: {
+        hasCriminalRecord,
+        isAProfessionalDriver,
+        hasWorkAsDriver,
+        hasWorkedForSameCompany,
+        referredFrom,
+        drivingReason,
+        remarks,
+      },
+      user: {
+        firstName,
+        lastName,
+        phone,
+        password,
+        passwordConfirmation,
+      },
+      vehicle: {
+        modelYear,
+        averageSpeed,
+        maximumCapacity,
+        typeId,
+        model,
+        brand,
+        licenseNumber,
+        color,
+      },
+      bank: {
+        branchCode,
+        code,
+        name,
+        accountNumber,
+      },
+    };
+    // TODO check if camelToSnake doesn't not apply to array
     const response = await axios({
       method: 'PUT',
       url: endpoints.API_V3.DRIVER_UPDATE.replace('{0}', id),
       headers: {Authorization: `Bearer ${token}`},
-      data: driver,
+      data: camelToSnake(driverInfo, 2),
     });
+
     return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
