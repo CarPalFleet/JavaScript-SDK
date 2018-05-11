@@ -13,7 +13,6 @@ import {
   arrayReduce,
 } from '../utility/Util';
 import {camelToSnake} from '../utility/ChangeCase';
-import { integer } from 'aws-sdk/clients/lightsail';
 
 /**
  * Create Driver
@@ -233,13 +232,13 @@ export const updateDriverAsync = async ({
   accountNumber,
 }, token) => {
   try {
-    const driverInfo = {
+    const driverInfo = camelToSnake({
       id,
       isActive,
       languageIds,
       transactionGroupIds,
       driverTypeIds,
-      interviewDetails: {
+      interviewDetails: camelToSnake({
         hasCriminalRecord,
         isAProfessionalDriver,
         hasWorkAsDriver,
@@ -247,15 +246,15 @@ export const updateDriverAsync = async ({
         referredFrom,
         drivingReason,
         remarks,
-      },
-      user: {
+      }),
+      user: camelToSnake({
         firstName,
         lastName,
         phone,
         password,
         passwordConfirmation,
-      },
-      vehicle: {
+      }),
+      vehicle: camelToSnake({
         modelYear,
         averageSpeed,
         maximumCapacity,
@@ -264,22 +263,20 @@ export const updateDriverAsync = async ({
         brand,
         licenseNumber,
         color,
-      },
-      bank: {
+      }),
+      bank: camelToSnake({
         branchCode,
         code,
         name,
         accountNumber,
-      },
-    };
-    // TODO check if camelToSnake doesn't not apply to array
+      }),
+    });
     const response = await axios({
       method: 'PUT',
       url: endpoints.API_V3.DRIVER_UPDATE.replace('{0}', id),
       headers: {Authorization: `Bearer ${token}`},
-      data: camelToSnake(driverInfo, 2),
+      data: driverInfo,
     });
-
     return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
