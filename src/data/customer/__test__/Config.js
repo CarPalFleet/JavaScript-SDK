@@ -76,6 +76,15 @@ const CONFIG = {
     deliveryTimeWindow: '17:00-17:00',
     driverEmailId: null,
   },
+  locationObjectFutureDate: {
+    pickupLocationAddress: '22 Gim moh road',
+    deliveryAddress: 'Holland Close',
+    pickupDate: '28-02-2050',
+    pickupTimeWindow: '14:35-16:00',
+    deliveryDate: '28-02-2050',
+    deliveryTimeWindow: '17:00-17:00',
+    driverEmailId: null,
+  },
   locationDataList: [
     {
       groupingLocationId: 27318,
