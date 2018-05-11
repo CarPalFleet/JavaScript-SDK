@@ -286,22 +286,50 @@ test('Create Grouping Location with date in the future', async () => {
   }
 });
 
-test('Edit Grouping Location', async () => {
+test('Edit Grouping Location not found', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-  const response = await editOrderAsync(
-    CONFIG.groupingLocationId,
-    CONFIG.locationObjectlocationObjectFutureDate,
-    CONFIG.token
+  const result = getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
   );
-  expect('data' in response).toBeTruthy();
+  const token = await result;
+
+  try {
+    const response = await editOrderAsync(
+      1,
+      '28-02-2018',
+      token.accessToken
+    );
+
+    expect('data' in response).toBeTruthy();
+  } catch (error) {
+    const expected = {"errorMessage": [{"key": "0", "messages": "Grouping Location not found"}], "statusCode": 400, "statusText": "Bad Request"};
+    expect(error).toEqual(expected);
+  }
 });
 
-test('Edit Multiple Grouping Locations', async () => {
+test('Edit Multiple Grouping Locations not found', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-  const response = await editOrdersAsync(CONFIG.locationDataList, CONFIG.token);
-  expect('data' in response).toBeTruthy();
+  const result = getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+
+  try {
+     const response = await editOrdersAsync(1,token.accessToken);
+     expect('data' in response).toBeTruthy();
+  } catch (error) {
+console.log(error);
+    const expected = {"errorMessage": [{"key": "0", "messages": "Grouping Location not found"}], "statusCode": 400, "statusText": "Bad Request"};
+    expect(error).toEqual(expected);
+  }
 });
 
 test('Test for file uploading', async () => {
@@ -349,25 +377,57 @@ test('Test for uploading batch order progression', async () => {
   expect('data' in response).toBeTruthy();
 });
 
-test('Delete Grouping Location', async () => {
+test('Delete Grouping Location not found', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-  const response = await deleteOrderAsync(
-    CONFIG.groupingLocationId,
-    CONFIG.token
+  const result = getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
   );
-  expect(response.data).toBeTruthy();
+  const token = await result;
+
+  try {
+    const response = await deleteOrderAsync(
+      1,
+      token.accessToken
+    );
+    expect(response.data).toBeTruthy();
+
+  } catch (error) {
+      const expected = { statusCode: 400,
+      statusText: 'Bad Request',
+      errorMessage: [ { key: '0', messages: 'Grouping Location not found' } ] };
+      expect(error).toEqual(expected);
+    }
 });
 
-test('Delete Multiple Grouping Locations', async () => {
+test('Delete Multiple Grouping Locations not found', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-  const response = await deleteOrdersAsync(
-    CONFIG.groupingLocationIds,
-    CONFIG.token
+  const result = getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
   );
-  expect(response.data).toBeTruthy();
+  const token = await result;
+
+  try {
+    const response = await deleteOrdersAsync(
+      CONFIG.groupingLocationIds,
+      token.accessToken
+    );
+    expect(response.data).toBeTruthy();
+  } catch (error) {
+      const expected = { statusCode: 400,
+      statusText: 'Bad Request',
+      errorMessage: [ { key: '0', messages: 'Grouping Location not found' } ] };
+      expect(error).toEqual(expected);
+    }
 });
+
 
 /**
  * Generate a name
