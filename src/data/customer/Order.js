@@ -58,7 +58,8 @@ export const getOrdersWithFiltersAsync = async (
  * Retrieve Remaining Orders Count
  * @param {object} filterObject # {pickupDate, withOrder}
  * pickupDate (mandatory)(string) = '2018-02-28'
- * withOrder (optional)(int) //TODO: should be renamed to jobs after API is updated
+ * withOrder (optional)(int)
+ //TODO: should be renamed to jobs after API is refactored
  * @param {int} customerId
  * @param {string} token
  * @return {object} Promise resolve/reject
@@ -279,7 +280,7 @@ export const getOrderAsync = async (groupingLocationId, token) => {
  * @param {int} searchResult
  * @param {string} token
  * @return {object} Promise resolve/reject
- //TODO: deprecated not being used on front-end?
+ //TODO: deprecated not being used on front-end? If not, needs unit test
  */
 export const getOrdersBasedOnSearchResult = async (
   customerId,
@@ -355,7 +356,7 @@ export const getOrdersGroupByPickUpAddressAsync = async (
 };
 
 /**
-//TODO: description is vague
+//TODO: description is vague and not unit testing
  * Merge Order Records
  * @param {array} oldValues
  * @param {array} newValues
@@ -379,7 +380,7 @@ export const mergeOldAndNewOrderRecords = (oldValues, newValues) => {
 };
 
 /**
-//TODO: description is vague
+//TODO: description is vague and no unit tests
  * Merge Two Objects which has the same id
  * @param {object} oldValues
  * @param {object} newValues
@@ -393,7 +394,7 @@ export const concatDuplicateObjects = (oldValues, newValues, data) => {
 };
 
 /**
-//TODO: description is vague
+//TODO: description is vague and no unit test
  * Find duplicate indexes
  * @param {object} newValues
  * @param {array} accumulator
@@ -422,7 +423,7 @@ export const findDuplicateIndexes = (newValues, accumulator, oldValues, i) => {
  * offset = 0 (optional)
  * @param {string} token
  * @return {object} Promise resolve/reject
- //TODO: not sure if this function is still used by admin?
+ //TODO: not sure if this function is still used by admin? / no unit tests
  */
 export const getRemainingOrdersAsync = async (filterObject, token) => {
   try {
@@ -441,7 +442,6 @@ export const getRemainingOrdersAsync = async (filterObject, token) => {
  * page = 0 (optional)(int)
  * @param {string} token
  * @return {object} Promise resolve/reject
- //TODO: is this function still used by admin?
  */
 export const getOrdersAsync = async (filterObject, token) => {
   try {
@@ -818,7 +818,7 @@ export const cancelBatchFileProcessAsync = async (batchId, token) => {
  * @param {string} filterObject {pickupDate, routeStatusIds, includeOrders, limit, offset}
  * @return {object} Promise resolve/reject
  */
- //TODO: function should be moved to file customer/Job.js
+ //TODO: function should be moved to file customer/Job.js + needs unit testing
 export const getUpdatedJobLiveData = (
   originalJobDatum,
   pubSubPayload,
@@ -890,6 +890,7 @@ export const getUpdatedJobLiveData = (
  * Calculate Customer Order Counts
  * @param {object} data
  * @return {object} data # retrun count of data object
+ //TODO: needs unit testing
  */
 function calculateCustomerOrderCounts(data) {
   let orders = categoriesCustomerOrders(data);
