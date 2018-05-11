@@ -373,8 +373,21 @@ test('Test for file uploading error', async () => {
 test('Test for uploading batch order progression', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-  const response = await getUploadedOrderProgressionAsync(1, CONFIG.token);
-  expect('data' in response).toBeTruthy();
+  const result = getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  const token = await result;
+
+  try {
+    const response = await getUploadedOrderProgressionAsync(1, token.accessToken);
+    expect('data' in response).toBeTruthy();
+
+  } catch (error) {
+    expect(error).toHaveProperty('statusCode', 401);
+  }
 });
 
 test('Delete Grouping Location not found', async () => {
