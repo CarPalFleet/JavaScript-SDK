@@ -1,13 +1,12 @@
 language: node_js
 node_js:
-  - "7"
-  - "6"
-  - "5"
-install: "npm install"
+ - 8.10.0
 branches:
   only:
     - dev
     - edge
+install:
+  - npm install
 script:
-  - "npm test"
+  - npm test
 repo: https://github.com/CarPalFleet/Javascript-SDK
