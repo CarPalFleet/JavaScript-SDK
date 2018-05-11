@@ -21,7 +21,9 @@ export const pubsub = (key, channel, realtime = true) => {
     },
 
     subscribe: (event, callback) => {
-      chan.subscribe(event, callback);
+      chan.subscribe(event, (message) => {
+        callback(camelize(JSON.parse(message.data)));
+      });
     },
 
     unsubscribe: (event, listener) => {
