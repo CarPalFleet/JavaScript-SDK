@@ -9,5 +9,5 @@ branches:
     - dev
     - edge
 script:
-  - "npm test"
+  - "jest -u"
 repo: https://github.com/CarPalFleet/Javascript-SDK
