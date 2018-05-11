@@ -39,9 +39,8 @@ import {camelToSnake} from '../utility/ChangeCase';
  * @param {int} customerId
  * @param {string} token
  * @return {object} Promise resolve/reject
- * deprecated since verion 0.1.77
  */
-export const createDriverAsync_OLD = async (
+export const createDriverAsync = async (
   {
     birthday,
     driverTypeIds,
@@ -108,96 +107,6 @@ export const createDriverAsync_OLD = async (
         'Content-Type': 'application/json',
       },
       data: newPayload,
-    });
-
-    return camelize(response.data.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-/**
- * Create Driver
- * transactionGroupIds (mandatory) (array)
- * sendConfirmationSms (optional) (boolean)
- * sendConfirmationEmail (optional) (boolean)
- * driverTypeIds (mandatory) (array) #csv Eg. [2,3]
- * firstName (mandatory) (string)
- * lastName (mandatory) (string)
- * email (mandatory) (string)
- * password (mandatory) (string)
- * birthday (mandatory) (string) (Y-m-d)
- * phone (mandatory) (string)
- * vehicle (array) contains vehicle info
- * vehicle.vehicleColor (optional) (string)
- * vehicle.vehicleAverageSpeed (int) (string)
- * vehicle.vehicleMaximumCapacity (int) (string)
- * vehicle.vehicleModelYear (optional) (int)
- * vehicle.vehicleLicenseNumber (optional) (int)
- * vehicle.vehicleBrand (optional) (string)
- * vehicle.vehicleModel (optional) (string)
- * vehicle.vehicleTypeId (optional) (int)
- * @param {object} driverInfo {}
- * @param {string} token
- * @return {object} Promise resolve/reject
- * deprecated since verion 0.1.77
- */
-export const createDriverAsync = async (
-  {
-    transactionGroupIds,
-    sendConfirmationSms = false,
-    sendConfirmationEmail = false,
-    driverTypeIds,
-    firstName,
-    lastName,
-    email,
-    password,
-    birthday,
-    phone,
-    vehicleColor,
-    vehicleAverageSpeed,
-    vehicleMaximumCapacity,
-    vehicleModelYear,
-    vehicleLicenseNumber,
-    vehicleBrand,
-    vehicleModel,
-    vehicleTypeId,
-  },
-  // customerId, // where it should be added
-  token,
-) => {
-  try {
-    const data = {
-      transactionGroupIds,
-      sendConfirmationSms,
-      sendConfirmationEmail,
-      driverTypeIds,
-      firstName,
-      lastName,
-      email,
-      password,
-      birthday,
-      phone,
-      vehicle: {
-        vehicleColor,
-        vehicleAverageSpeed,
-        vehicleMaximumCapacity,
-        vehicleModelYear,
-        vehicleLicenseNumber,
-        vehicleBrand,
-        vehicleModel,
-        vehicleTypeId,
-      },
-    };
-
-    const response = await axios({
-      method: 'POST',
-      url: endpoints.API_V3.CUSTOMER_DRIVER,
-      headers: {
-        Authorization: token,
-        'Content-Type': 'application/json',
-      },
-      data,
     });
 
     return camelize(response.data.data);
