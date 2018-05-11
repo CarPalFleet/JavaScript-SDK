@@ -15,16 +15,20 @@ import {
   getDriverRoutesAsync,
 } from '../Driver';
 
-describe('Create new driver ', () => {
-  it('should respond new driver object including id details and perform a show request on that driver', async () => {
+describe('Create new driver ', async () => {
+  let token;
+  beforeAll(async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-    const result = getTokenAsync(
+    token = await getTokenAsync(
       CONFIG.email,
       CONFIG.password,
       CONFIG.clientId,
       CONFIG.clientSecret
     );
-    const token = await result;
+  });
+
+  it('should respond new driver object including id details and perform a show request on that driver', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const driverInfo = {
       identityId: 1,
@@ -59,18 +63,11 @@ describe('Create new driver ', () => {
     );
     expect('data' in responseDriverDetail).toBeTruthy();
   });
-});
 
-test(`Test for retrieving V3 driver list`, async () => {
+
+  it(`Test for retrieving V3 driver list`, async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-  const result = getTokenAsync(
-    CONFIG.email,
-    CONFIG.password,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   const filters = {
     limit: 2,
     page: 1,
@@ -81,18 +78,8 @@ test(`Test for retrieving V3 driver list`, async () => {
   expect(response.data instanceof Array).toBeTruthy();
 });
 
-/* describe('Retrieve Driver based on the search result', () => {
-  it('should response specific drivers array', async () => {
-    const response = await getDriversBasedOnSearchResult(
-      CONFIG.filterObject,
-      CONFIG.searchResult,
-      CONFIG.token
-    );
-    expect('data' in response).toBeTruthy();
-  });
-});*/
 
-test('Test for pubsub live data for job', async () => {
+  it('Test for pubsub live data for job', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
   const originalDriverDatum = {
     activeStatusCounts: {'1': 0, '2': 0, '3': 0, '4': 0},
@@ -141,31 +128,18 @@ test('Test for pubsub live data for job', async () => {
     orderRouteTypeIds: 1,
     driverTypeIds: [1],
   };
-  const result = getTokenAsync(
-    CONFIG.email,
-    CONFIG.password,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
+
   const response = getUpdatedDriverLiveData(
     originalDriverDatum,
     pubSubPayload,
     filterObject,
-    result.accessToken
+    token.accessToken
   );
   expect(response instanceof Object).toBeTruthy();
 });
 
-test(`Test for create, delete and update driver schedule`, async () => {
+it(`Test for create, delete and update driver schedule`, async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-
-  const result = getTokenAsync(
-    CONFIG.email,
-    CONFIG.password,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
 
   const driverInfo = {
     identityId: 1,
@@ -224,16 +198,9 @@ test(`Test for create, delete and update driver schedule`, async () => {
   expect('data' in responseUpdateSchedule).toBeTruthy();
 });
 
-test(`Test for create driver schedule with with driver that does not belong to requestor`, async () => {
+it(`Test for create driver schedule with with driver that does not belong to requestor`, async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-  const result = getTokenAsync(
-    CONFIG.email,
-    CONFIG.password,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
   const playload = {
     driverId: 99999999999912,
     transactionGroupId: 180,
@@ -257,9 +224,21 @@ test(`Test for create driver schedule with with driver that does not belong to r
     ]);
   }
 });
+});
 
 describe('Test getDriversWithFiltersAsync', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
+  let token;
+  beforeAll(async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    token = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+  });
 
   const filterObject = {
     driverStatusIds: [2],
@@ -267,14 +246,8 @@ describe('Test getDriversWithFiltersAsync', async () => {
     driverTypeIds: [1],
   };
   const customerId = 14445;
-  it('should get getDriversWithFiltersAsync success response', async () => {
-    const result = getTokenAsync(
-      CONFIG.email,
-      CONFIG.password,
-      CONFIG.clientId,
-      CONFIG.clientSecret
-    );
-    const token = await result;
+
+it('should get getDriversWithFiltersAsync success response', async () => {
 
     try {
       const response = await getDriversWithFiltersAsync(
@@ -287,7 +260,7 @@ describe('Test getDriversWithFiltersAsync', async () => {
       console.log('error', error);
     }
   });
-  it('should throw getDriversWithFiltersAsync 401 error status', async () => {
+it('should throw getDriversWithFiltersAsync 401 error status', async () => {
     try {
       await getDriverCountsAsync();
     } catch (error) {
@@ -297,6 +270,16 @@ describe('Test getDriversWithFiltersAsync', async () => {
 });
 
 describe('Test getDriverCountsAsync', async () => {
+  let token;
+  beforeAll(async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    token = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+  });
 
   const filterObject = {
     driverStatusIds: [2],
@@ -306,14 +289,6 @@ describe('Test getDriverCountsAsync', async () => {
   const customerId = 14445;
   it('should get getDriverCountsAsync success response', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-
-    const result = getTokenAsync(
-      CONFIG.email,
-      CONFIG.password,
-      CONFIG.clientId,
-      CONFIG.clientSecret
-    );
-    const token = await result;
 
     try {
       const response = await getDriverCountsAsync(
@@ -338,6 +313,16 @@ describe('Test getDriverCountsAsync', async () => {
 });
 
 describe('Test getDriverRoutesAsync', async () => {
+  let token;
+  beforeAll(async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    token = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+  });
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const filterObject = {
@@ -351,13 +336,6 @@ describe('Test getDriverRoutesAsync', async () => {
     recommendedForDriverId: 20,
   };
   it('should get getDriverRoutesAsync success response', async () => {
-    const result = getTokenAsync(
-      CONFIG.email,
-      CONFIG.password,
-      CONFIG.clientId,
-      CONFIG.clientSecret
-    );
-    const token = await result;
 
     try {
       const response = await getDriverRoutesAsync(
