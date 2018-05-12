@@ -16,97 +16,89 @@ import { camelToSnake } from '../utility/ChangeCase';
 
 /**
  * Create Driver
- * @param {object} driverInfo {}
- * birthday (mandatory) (string)
- * driverTypeIds (mandatory) (string) #csv Eg. 2,3
- * email (mandatory) (string)
- * existingUserEmail (optional) (boolean)
- * firstName (mandatory) (string)
- * identityId (mandatory) (string)
- * isNewUser (optional) (boolean)
- * lastName (mandatory) (string)
- * password (mandatory) (string)
- * phone (mandatory) (string)
- * productTypeId (mandatory) (int)
+ * transactionGroupIds (mandatory) (array)
  * sendConfirmationSms (optional) (boolean)
- * transactionGroupId (int) (int)
- * vehicleBrand (optional) (string)
- * vehicleColor (optional) (string)
- * vehicleLicenseNumber (optional) (int)
- * vehicleModel (optional) (string)
- * vehicleModelYear (optional) (int)
- * vehicleTypeId (optional) (int)
- * @param {int} customerId
+ * sendConfirmationEmail (optional) (boolean)
+ * driverTypeIds (mandatory) (array) #csv Eg. [2,3]
+ * firstName (mandatory) (string)
+ * lastName (mandatory) (string)
+ * email (mandatory) (string)
+ * password (mandatory) (string)
+ * birthday (mandatory) (string) (Y-m-d)
+ * phone (mandatory) (string)
+ * vehicle (array) contains vehicle info
+ * vehicle.vehicleColor (optional) (string)
+ * vehicle.averageSpeed (int) (string)
+ * vehicle.maximumCapacity (int) number
+ * vehicle.vehicleModelYear (optional) (int)
+ * vehicle.vehicleLicenseNumber (optional) (int)
+ * vehicle.vehicleBrand (optional) (string)
+ * vehicle.vehicleModel (optional) (string)
+ * vehicle.vehicleTypeId (optional) (int)
+ * @param {object} driverInfo {}
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
 export const createDriverAsync = async (
   {
-    birthday,
-    driverTypeIds,
-    email,
-    existingUserEmail = false,
-    firstName,
-    identityId,
-    isNewUser,
-    lastName,
-    password,
-    phone,
-    productTypeId,
-    // TODO: where is the sendConfirmationEmail?
+    transactionGroupIds,
     sendConfirmationSms = false,
-    transactionGroupId,
-    vehicleBrand,
+    sendConfirmationEmail = false,
+    driverTypeIds,
+    firstName,
+    lastName,
+    email,
+    password,
+    birthday,
+    phone,
     vehicleColor,
-    vehicleLicenseNumber,
-    vehicleModel,
+    averageSpeed,
+    maximumCapacity,
     vehicleModelYear,
+    vehicleLicenseNumber,
+    vehicleBrand,
+    vehicleModel,
     vehicleTypeId,
   },
-  customerId,
-  token
+  token,
 ) => {
   try {
-    const defaultPayload = {
-      driverTypeIds,
-      identityId,
-      isNewUser,
-      productTypeId,
+    const data = {
+      transactionGroupIds,
       sendConfirmationSms,
-      transactionGroupId,
+      sendConfirmationEmail,
+      driverTypeIds,
+      firstName,
+      lastName,
+      email,
+      password,
+      birthday,
+      phone,
       vehicle: {
-        vehicleBrand,
         vehicleColor,
-        vehicleLicenseNumber,
-        vehicleModel,
+        averageSpeed,
+        maximumCapacity,
         vehicleModelYear,
+        vehicleLicenseNumber,
+        vehicleBrand,
+        vehicleModel,
         vehicleTypeId,
       },
     };
 
-    let newPayload;
+    const driver = camelToSnake({
+      ...data,
+      vehicle: camelToSnake(data.vehicle),
+    });
 
-    if (isNewUser) {
-      newPayload = {
-        ...defaultPayload,
-        birthday: birthday || '',
-        email,
-        firstName,
-        lastName,
-        password,
-        phone: phone || '',
-      };
-    } else {
-      newPayload = { ...defaultPayload, existingUserEmail };
-    }
     const response = await axios({
       method: 'POST',
-      url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),
+      url: endpoints.API_V3.CUSTOMER_DRIVER,
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      data: newPayload,
+      data: driver,
     });
 
     return camelize(response.data.data);

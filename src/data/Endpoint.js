@@ -48,6 +48,7 @@ const endpoints = {
     DRIVER_SCHEDULE: `${laravelUrlPrefix}/${version}/customer/driver-schedule/{0}`,
     EXPORT_DRIVER_LIST: `${laravelUrlPrefix}/${version}/customer/driverlist/export`, // url will be updated after backend is finished
     EXPORT_ROUTE: `${laravelUrlPrefix}/${version}/customer/report/routes-export`,
+    CUSTOMER_DRIVER: `${laravelUrlPrefix}/${version}/customer/driver`,
   },
 };
 

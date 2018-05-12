@@ -26,40 +26,31 @@ describe('Create new driver ', async () => {
   });
 
   it('should respond new driver object including id details and perform a show request on that driver', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-
     const driverInfo = {
-      identityId: 1,
-      productTypeId: 3,
-      transactionGroupId: [180],
+      transactionGroupIds: [180],
+      sendConfirmationSms: false,
+      sendConfirmationEmail: false,
+      driverTypeIds: [2, 3],
       firstName: 'User',
       lastName: generateDisplayName(10),
       email: `${generateDisplayName(10)}@example.com`,
       password: '123456',
       birthday: '1980-01-01',
       phone: '+6592341092',
-      isNewUser: true,
-      sendConfirmationSms: false,
-      vehicleTypeId: 1,
+      vehicleColor: 'Red',
+      averageSpeed: 60,
+      maximumCapacity: 100,
+      vehicleModelYear: 2018,
+      vehicleLicenseNumber: '12456',
       vehicleBrand: 'Scooter',
       vehicleModel: '12456',
-      vehicleLicenseNumber: '12456',
-      vehicleModelYear: 2018,
-      vehicleColor: 'Black',
+      vehicleTypeId: 1,
     };
 
-    const response = await createDriverAsync(driverInfo, 1, token.accessToken);
-    expect('driver' in response).toBeTruthy();
-    expect('id' in response.driver).toBeTruthy();
-    expect('details' in response.driver).toBeTruthy();
-
-    const responseDriverDetail = await getDriverDetailAsync(
-      1,
-      1,
-      response.driver.id,
-      token.accessToken
-    );
-    expect('data' in responseDriverDetail).toBeTruthy();
+    const response = await createDriverAsync(driverInfo, token.accessToken);
+    expect('id' in response).toBeTruthy();
+    expect('vehicle' in response).toBeTruthy();
+    expect('driverTypes' in response).toBeTruthy();
   });
 
   it('Test for retrieving V3 driver list', async () => {
@@ -125,57 +116,48 @@ describe('Create new driver ', async () => {
       driverTypeIds: [1],
     };
 
-    const response = getUpdatedDriverLiveData(
-      originalDriverDatum,
-      pubSubPayload,
-      filterObject,
-      token.accessToken
-    );
-    expect(response instanceof Object).toBeTruthy();
-  });
+  const driverInfo = {
+    transactionGroupIds: [180],
+    sendConfirmationSms: false,
+    sendConfirmationEmail: false,
+    driverTypeIds: [2, 3],
+    firstName: 'User',
+    lastName: generateDisplayName(10),
+    email: `${generateDisplayName(10)}@example.com`,
+    password: '123456',
+    birthday: '1980-01-01',
+    phone: '+6592341092',
+    vehicleColor: 'Red',
+    averageSpeed: 60,
+    maximumCapacity: 100,
+    vehicleModelYear: 2018,
+    vehicleLicenseNumber: '12456',
+    vehicleBrand: 'Scooter',
+    vehicleModel: '12456',
+    vehicleTypeId: 1,
+  };
 
-  it('Test for create, delete and update driver schedule', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-
-    const driverInfo = {
-      identityId: 1,
-      productTypeId: 3,
-      transactionGroupId: [180],
-      firstName: 'User',
-      lastName: generateDisplayName(10),
-      email: `${generateDisplayName(10)}@example.com`,
-      password: '123456',
-      birthday: '1980-01-01',
-      phone: '+6592341092',
-      isNewUser: true,
-      sendConfirmationSms: false,
-      vehicleTypeId: 1,
-      vehicleBrand: 'Scooter',
-      vehicleModel: '12456',
-      vehicleLicenseNumber: '12456',
-      vehicleModelYear: 2018,
-      vehicleColor: 'Black',
-    };
-
+  try {
     const responseCreatedriver = await createDriverAsync(
       driverInfo,
-      1,
       token.accessToken
     );
-    expect('driver' in responseCreatedriver).toBeTruthy();
+    expect('id' in responseCreatedriver).toBeTruthy();
 
     const payload = {
-      driverId: responseCreatedriver.driver.id,
+      driverId: responseCreatedriver.id,
       transactionGroupId: 180,
       startTime: '10:01',
       endTime: '13:02',
       startAt: '2020-03-01',
+      vehicleTypeId: 1,
     };
     const responseCreateSchedule = await createDriverScheduleAsync(
       payload,
       token.accessToken
     );
     expect('data' in responseCreateSchedule).toBeTruthy();
+
     const responseUpdateSchedule = await updateDriverScheduleAsync(
       responseCreateSchedule.data.id,
       payload,
@@ -190,7 +172,10 @@ describe('Create new driver ', async () => {
     );
 
     expect('data' in responseDelete).toBeTruthy();
-  });
+  } catch (error) {
+    expect(error).toHaveProperty('statusCode', 401);
+  }
+});
 
   it('Test for create driver schedule with with driver that does not belong to requestor', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;

@@ -1,6 +1,6 @@
 {
   "name": "carpal",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "The SDK for CarPal fleet solution development.",
   "main": "dist/build.js",
   "scripts": {
@@ -8,8 +8,7 @@
     "lint": "node_modules/.bin/eslint src",
     "precommit": "lint-staged",
     "precommit:lint": "node_modules/.bin/eslint",
-    "precommit:prettier":
-      "node_modules/.bin/prettier --single-quote --trailing-comma es5 --arrow-parens always --write",
+    "precommit:prettier": "node_modules/.bin/prettier --single-quote --trailing-comma es5 --arrow-parens always --write",
     "prepublish": "npm run build",
     "test": "jest --testPathIgnorePatterns=__integration__",
     "test:watch": "jest --testPathIgnorePatterns=__integration__  --watch",
