@@ -1,6 +1,5 @@
-import isEqual from 'lodash.isequal';
 
-/*import {
+/*  import {
   getTokenAsyncCorrectParameters,
   getTokenAsyncMockForRightParameters,
   getTokenAsyncParametersWithWrongPassword,
@@ -8,7 +7,7 @@ import isEqual from 'lodash.isequal';
 
 const axios = jest.fn();
 
-/*axios.mockImplementation((parameters) => {
+/*  axios.mockImplementation((parameters) => {
   if (isEqual(parameters, getTokenAsyncCorrectParameters)) {
     return Promise.resolve(getTokenAsyncMockForRightParameters);
   } else if (isEqual(parameters, getTokenAsyncParametersWithWrongPassword)) {
