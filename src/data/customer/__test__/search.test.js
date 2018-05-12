@@ -1,32 +1,31 @@
-import {searchAsync, generalSearch} from '../Search';
-import CONFIG from './Config';
+import {searchAsync, generalSearch} from "../Search";
+import CONFIG from "./Config";
 
-describe('Elastic Search', () => {
-  it('Should response the search result array', async () => {
+describe("Elastic Search", () => {
+  it("Should response the search result array", async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-//TODO: needs to be resolved
+// TODO: needs to be resolved
     try {
       const response = await searchAsync(
-        'mar 1',
-        'orders,drivers',
+        "mar 1",
+        "orders,drivers",
         true,
         1,
         CONFIG.token
       );
       expect(response.drivers.total > 0).toBeTruthy();
-
   } catch (e) {
-    console.log(e);
+    //
    }
   });
 });
 
-describe('Retrieve whitelabel', () => {
-  it('Should response the object which is related to keywords and scope', async () => {
+describe("Retrieve whitelabel", () => {
+  it("Should response the object which is related to keywords and scope", async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-//TODO: needs to be resolved
+// TODO: needs to be resolved
 
     try {
       const response = await generalSearch(
@@ -40,7 +39,7 @@ describe('Retrieve whitelabel', () => {
       );
       expect(response.data).toBeTruthy();
   } catch (e) {
-      console.log(e);
+    //
    }
   });
 });

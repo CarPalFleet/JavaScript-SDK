@@ -2,9 +2,9 @@
  * @fileoverview This file contains all general ChangeCasing functions
  */
 
-import isObject from 'lodash.isobject';
-import isArray from 'lodash.isarray';
-import isNumber from 'lodash.isnumber';
+import isObject from "lodash.isobject";
+import isArray from "lodash.isarray";
+import isNumber from "lodash.isnumber";
 
 /**
  * @param {Object|String} data string or keys of object are named in form of snake
@@ -13,7 +13,7 @@ import isNumber from 'lodash.isnumber';
  */
 export const snakeToCamel = function(data, depth) {
   if (isObject(data) || isArray(data)) {
-    if (typeof depth === 'undefined') {
+    if (typeof depth === "undefined") {
       depth = 1;
     }
     return processKeys(data, camelize, depth);
@@ -29,7 +29,7 @@ export const snakeToCamel = function(data, depth) {
  */
 export const camelToSnake = function(data, depth) {
   if (isObject(data) || isArray(data)) {
-    if (typeof depth === 'undefined') {
+    if (typeof depth === "undefined") {
       depth = 1;
     }
     return processKeys(data, snakelize, depth);
@@ -44,7 +44,7 @@ export const camelToSnake = function(data, depth) {
  * @return {string} key
  */
 function snakelize(key) {
-  let separator = '_';
+  let separator = "_";
   let split = /(?=[A-Z])/;
 
   return key
@@ -64,7 +64,7 @@ function camelize(key) {
   }
 
   key = key.replace(/[\-_\s]+(.)?/g, function(match, ch) {
-    return ch ? ch.toUpperCase() : '';
+    return ch ? ch.toUpperCase() : "";
   });
   // Ensure 1st char is always lowercase
   return key.substr(0, 1).toLowerCase() + key.substr(1);

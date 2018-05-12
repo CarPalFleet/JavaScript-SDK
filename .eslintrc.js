@@ -14,7 +14,9 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 8,
     sourceType: 'module',
+
     ecmaFeatures: {
+
       experimentalObjectRestSpread: true,
       templateStrings: true,
     },
@@ -23,5 +25,6 @@ module.exports = {
     'no-useless-escape': OFF, // For RegExp and String Escape
     'quote-props': OFF, // Handled by Prettier
     'max-len': OFF, // Handled by Prettier
+    'quotes': ["error", "double", { "avoidEscape": true }]
   },
 };

@@ -2,13 +2,13 @@
  * @fileoverview This file contains all Search related functions that are triggered by a Customer
  */
 
-import axios from 'axios';
-import endpoints from '../Endpoint';
-import camelize from 'camelize';
+import axios from "axios";
+import endpoints from "../Endpoint";
+import camelize from "camelize";
 import {
   apiResponseErrorHandler,
   convertObjectIntoURLString,
-} from '../utility/Util';
+} from "../utility/Util";
 
 /** Elastic Search
  * @param {string} keyword
@@ -33,8 +33,8 @@ export const searchAsync = async (
       scope,
     });
     const response = await axios({
-      method: 'GET',
-      url: `${endpoints.ELASTIC_SEARCH}${paramString.replace('&', '?')}`,
+      method: "GET",
+      url: `${endpoints.ELASTIC_SEARCH}${paramString.replace("&", "?")}`,
       headers: {Authorization: token},
     });
     return camelize(response.data.data);
@@ -67,12 +67,12 @@ export const generalSearch = async (
   fuzziness = 1,
   keywords,
   scopes,
-  pickupDate = '',
+  pickupDate = "",
   token
 ) => {
   try {
     const response = await axios({
-      method: 'POST',
+      method: "POST",
       url: endpoints.GENERAL_SEARCH,
       headers: {Authorization: token},
       data: {

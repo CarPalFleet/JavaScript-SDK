@@ -1,4 +1,4 @@
-//TODO: not sure what the purpose of below class is, we should consider deprecating it.
+// TODO: not sure what the purpose of below class is, we should consider deprecating it.
 
 
 /**
@@ -6,7 +6,7 @@
  */
 export default class BaseError extends Error {
   /**
-   * PubSubError Class's constructor
+   * PubSubError Class"s constructor
    */
   constructor(...args) {
     super(...args);

@@ -1,7 +1,7 @@
-import axios from 'axios';
-import endpoints from '../Endpoint';
-import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../utility/Util';
+import axios from "axios";
+import endpoints from "../Endpoint";
+import camelize from "camelize";
+import {apiResponseErrorHandler} from "../utility/Util";
 
 /**
  * Retrieve Schema
@@ -13,7 +13,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
 export const getSchemaAsync = async (service, schemaName) => {
   try {
     const response = await axios.get(
-      endpoints.SCHEMAS.replace('{0}', service).replace('{1}', schemaName)
+      endpoints.SCHEMAS.replace("{0}", service).replace("{1}", schemaName)
     );
     return camelize(response.data.data);
   } catch (e) {

@@ -1,10 +1,10 @@
-import axios from 'axios';
-import endpoints from './endpoints';
-import {rejectPromise} from '../utility/Util';
-import self from 'worker';
+import axios from "axios";
+import endpoints from "./endpoints";
+import {rejectPromise} from "../utility/Util";
+import self from "worker";
 
-//TODO: consider deprecating all functions below as they are not implemented properly
-//TODO: there are no unit tests
+// TODO: consider deprecating all functions below as they are not implemented properly
+// TODO: there are no unit tests
 
 self.onmessage = (e) => {
   let interval = new Interval(
@@ -12,10 +12,10 @@ self.onmessage = (e) => {
     e.data.checkingTime
   );
   switch (e.data.event) {
-    case 'startJob':
+    case "startJob":
       interval.start(e);
       break;
-    case 'stopJob':
+    case "stopJob":
       self.stop();
       interval.stop();
       break;
@@ -23,12 +23,12 @@ self.onmessage = (e) => {
 };
 
 export const sendMessageToMainThread = (e) => {
-  self.postMessage({errorCounts: e.data.errorCounts, event: 'finishedJob'});
+  self.postMessage({errorCounts: e.data.errorCounts, event: "finishedJob"});
 };
 
 export const checkConnection = async (e) => {
   await axios({
-    method: 'GET',
+    method: "GET",
     //TODO: endpoint does not exist
     url: endpoints.CHECK_SOCKET_CONNECTION,
     header: {Authorization: e.data.token},
@@ -47,14 +47,14 @@ export const handlerConnectionError = async (e) => {
   try {
     e.data.errorCounts += 1;
     let payload = {
-      slackChannel: '',
+      slackChannel: "",
       channelId: e.data.channelId,
-      eventName: 'error.pubsub', // OR error.network
+      eventName: "error.pubsub", // OR error.network
       message: e.response.statusText,
     };
 
     await axios({
-      method: 'GET',
+      method: "GET",
       //TODO: endpoint does not exist
       url: endpoints.SEND_NOTI_TO_SLACK,
       header: {Authorization: e.data.token},

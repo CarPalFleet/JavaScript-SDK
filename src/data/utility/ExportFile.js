@@ -2,13 +2,13 @@
  * @fileoverview This file contains all Export related functions that are triggered by a Customer
  */
 
-import axios from 'axios';
-import endpoints from '../Endpoint';
-import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../utility/Util';
-import {camelToSnake} from '../utility/ChangeCase';
+import axios from "axios";
+import endpoints from "../Endpoint";
+import camelize from "camelize";
+import {apiResponseErrorHandler} from "../utility/Util";
+import {camelToSnake} from "../utility/ChangeCase";
 
-//TODO: this file should be moved to /Customer since they are always triggered by a Customer
+// TODO: this file should be moved to /Customer since they are always triggered by a Customer
 
 /** Export File
  * @param {string} type (mandatory) # driver-list or routing
@@ -22,7 +22,7 @@ import {camelToSnake} from '../utility/ChangeCase';
 export const exportFileAsync = async (type, payload, token) => {
   try {
     const response = await axios({
-      method: 'POST',
+      method: "POST",
       url: getExportURL(type),
       headers: {Authorization: `Bearer ${token}`},
       data: camelToSnake(payload),
@@ -40,9 +40,9 @@ export const exportFileAsync = async (type, payload, token) => {
  */
 export const getExportURL = (type) => {
   switch (type) {
-    case 'driver-list':
+    case "driver-list":
       return endpoints.API_V3.EXPORT_DRIVER_LIST;
-    case 'routing':
+    case "routing":
       return endpoints.API_V3.EXPORT_ROUTE;
     default:
       return endpoints.API_V3.EXPORT_ROUTE;

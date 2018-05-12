@@ -2,8 +2,8 @@
  * @fileoverview This file contains all general messaging related functions that are triggered by various users
  */
 
-import * as Ably from 'ably';
-import camelize from 'camelize';
+import * as Ably from "ably";
+import camelize from "camelize";
 
 /**
  * Declare Pub/Sub (Ably)

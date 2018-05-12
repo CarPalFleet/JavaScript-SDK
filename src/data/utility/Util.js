@@ -2,7 +2,7 @@
  * @fileoverview This file contains all general Utility functions
  */
 
-import isObject from 'lodash.isobject';
+import isObject from "lodash.isobject";
 
 /**
  * Convert Object into string as URL params
@@ -13,7 +13,7 @@ import isObject from 'lodash.isobject';
 export const convertObjectIntoURLString = (filters) => {
   return Object.keys(filters).reduce(
     (str, key) => (str += `&${key}=${filters[key]}`),
-    ''
+    ""
   );
 };
 
@@ -27,19 +27,19 @@ export const apiResponseErrorHandler = (e) => {
   let messages = null;
   if (e.response) {
     if (e.response.data.error && e.response.data.error.message) {
-      messages = e.response.data.error.message.split(',');
+      messages = e.response.data.error.message.split(",");
     }
     rejectObj = {
       statusCode: e.response.status,
       statusText: e.response.statusText,
       errorMessage: getFormattedErrorArray(
-        messages || e.response.data['Message']
+        messages || e.response.data["Message"]
       ),
     };
   } else {
     /* Catch error of e.response
     That will be undefined when status code is 403 Forbidden */
-    rejectObj = {statusCode: 403, statusText: 'Forbidden', errorMessage: []};
+    rejectObj = {statusCode: 403, statusText: "Forbidden", errorMessage: []};
   }
   return Promise.reject(rejectObj);
 };

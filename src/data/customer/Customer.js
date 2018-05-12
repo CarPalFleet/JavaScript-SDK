@@ -2,10 +2,10 @@
  * @fileoverview This file contains all general Customer related functions that are triggered by a Customer
  */
 
-import axios from 'axios';
-import endpoints from '../Endpoint';
-import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../utility/Util';
+import axios from "axios";
+import endpoints from "../Endpoint";
+import camelize from "camelize";
+import {apiResponseErrorHandler} from "../utility/Util";
 
 /**
  * Create New Customer
@@ -35,9 +35,9 @@ export const createNewCustomerAsync = async ({
 }) => {
   try {
     const response = await axios({
-      method: 'POST',
+      method: "POST",
       url: endpoints.NEW_CUSTOMER,
-      headers: {'Content-Type': 'application/json'},
+      headers: {"Content-Type": "application/json"},
       data: {
         email,
         password,

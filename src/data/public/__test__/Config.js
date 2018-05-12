@@ -1,7 +1,7 @@
 const CONFIG = {
-  domain: 'ezbuy.sg',
-  emptyString: '',
-  invalidDomain: 'aa.com',
+  domain: "ezbuy.sg",
+  emptyString: "",
+  invalidDomain: "aa.com",
 };
 
 export default CONFIG;

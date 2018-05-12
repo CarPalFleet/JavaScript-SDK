@@ -2,17 +2,17 @@
  * @fileoverview This file contains all Settings related functions that are triggered by a Customer
  */
 
-import axios from 'axios';
-import endpoints from '../Endpoint';
-import camelize from 'camelize';
+import axios from "axios";
+import endpoints from "../Endpoint";
+import camelize from "camelize";
 import {
   apiResponseErrorHandler,
   convertObjectIntoURLString,
-} from '../utility/Util';
+} from "../utility/Util";
 
-/** Retrieve Customer's (Logo and Background)
- * Return customer's logo and background image if it exists in database
- * @param {integer} domain # customer's webside domain name
+/** Retrieve Customer"s (Logo and Background)
+ * Return customer"s logo and background image if it exists in database
+ * @param {integer} domain # customer"s webside domain name
  * @param {string} token
  * @return {object} promise (resolve/reject)
  * @deprecated since version 0.1.77
@@ -20,8 +20,8 @@ import {
 export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
   try {
     const response = await axios({
-      method: 'GET',
-      url: endpoints.TRANSACTION_GROUP_SETTING.replace('{1}', domain),
+      method: "GET",
+      url: endpoints.TRANSACTION_GROUP_SETTING.replace("{1}", domain),
       headers: {Authorization: token},
     });
     return camelize(response.data.data);
@@ -40,10 +40,10 @@ export const getSettingAsync = async (settingId, filterObject, token) => {
   try {
     let paramString = Object.keys(filterObject).reduce(
       (str, key) => (str += `&${key}=${filterObject[key]}`),
-      ''
+      ""
     );
     const routeSetting = await axios({
-      method: 'GET',
+      method: "GET",
       url: `${endpoints.ROUTE_SETTING}/${settingId}`,
       headers: {Authorization: token},
     });
@@ -57,14 +57,14 @@ export const getSettingAsync = async (settingId, filterObject, token) => {
   }
 };
 
-/** Retrieve Customer's Settings
+/** Retrieve Customer"s Settings
  * @param {string} token
  * @return {Promise} settingObject
  */
 export const getCustomerSettingsAsync = async (token) => {
   try {
     const CustomerSettings = await axios({
-      method: 'GET',
+      method: "GET",
       url: endpoints.CUSTOMER_SETTINGS,
       headers: {Authorization: token},
     });
@@ -75,7 +75,7 @@ export const getCustomerSettingsAsync = async (token) => {
   }
 };
 
-/** Retrieve Customer's Settings (reduced)
+/** Retrieve Customer"s Settings (reduced)
  * @param {string} token
  * @param {int} customerId
  * @param {Object} payload {identityId, transactionGroupId}
@@ -88,11 +88,11 @@ export const showCustomerSettingsAsync = async (
 ) => {
   try {
     const paramsString = convertObjectIntoURLString(payload);
-    const query = paramsString ? `/?${paramsString}` : '';
+    const query = paramsString ? `/?${paramsString}` : "";
     const CustomerSettingsShow = await axios({
-      method: 'GET',
+      method: "GET",
       url: `${endpoints.CUSTOMER_SETTINGS_SHOW.replace(
-        '{0}',
+        "{0}",
         customerId
       )}${query}`,
       headers: {Authorization: token},
