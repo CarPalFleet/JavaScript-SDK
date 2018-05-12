@@ -315,6 +315,14 @@ describe('Test updateDriverAsync function', async () => {
   let token;
   let driver;
 
+  let result = await getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+  token = result.accessToken;
+
   beforeEach(async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
     const driverInfo = {
@@ -337,13 +345,7 @@ describe('Test updateDriverAsync function', async () => {
       vehicleModel: '12456',
       vehicleTypeId: 1,
     };
-    let result = await getTokenAsync(
-      CONFIG.email,
-      CONFIG.password,
-      CONFIG.clientId,
-      CONFIG.clientSecret
-    );
-    token = result.accessToken;
+
     const newDriver = await createDriverAsync(driverInfo, token);
 
     driver = {
