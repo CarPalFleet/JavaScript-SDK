@@ -2,9 +2,7 @@ import CONFIG from './Config';
 import { getTokenAsync } from '../../account/Auth';
 import {
   createDriverAsync,
-  getDriverDetailAsync,
   getDriversAsync,
-  getUpdatedDriverLiveData,
   deleteDriverScheduleAsync,
   createDriverScheduleAsync,
   updateDriverScheduleAsync,
@@ -28,7 +26,7 @@ describe('Create new driver ', async () => {
     );
   });
 
-  it('should return success driver response', async () => {
+  it('should return success driver response and update driver', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
     const driverInfoUpdate = {
       transactionGroupIds: [180],
@@ -51,7 +49,10 @@ describe('Create new driver ', async () => {
       vehicleTypeId: 1,
     };
 
-    const newDriver = await createDriverAsync(driverInfoUpdate, token.accessToken);
+    const newDriver = await createDriverAsync(
+      driverInfoUpdate,
+      token.accessToken
+    );
 
     driver = {
       ...newDriver,
@@ -60,7 +61,6 @@ describe('Create new driver ', async () => {
       driverTypeIds: driverInfoUpdate.driverTypeIds,
       languageIds: [1], // not sure about this parameter
     };
-
 
     const response = await updateDriverAsync(driver, token.accessToken);
     expect('data' in response).toBeTruthy();
@@ -81,7 +81,7 @@ describe('Create new driver ', async () => {
     expect('vehicle' in data).toBeTruthy();
   });
 
-  it('should return validation error statusCode 400', async () => {
+  it('Update driver should return validation error statusCode 400', async () => {
     try {
       jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
       await updateDriverAsync({}, token.accessToken);
@@ -133,114 +133,114 @@ describe('Create new driver ', async () => {
 
   it('Test for pubsub live data for job', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-    const originalDriverDatum = {
-      activeStatusCounts: { '1': 0, '2': 0, '3': 0, '4': 0 },
-      driverTypeCounts: { '1': 1, '2': 3, '3': 4 },
-      data: {
-        '1': [],
-        '2': [],
-        '3': [
-          {
-            addressId: 0,
-            driverId: 9168,
-            customerId: 10919,
-            orderId: 62411,
-            driverStatusId: 3,
-            driverTypeIds: [1],
-            id: '9b4cf220-cd94-4a0b-84ac-32f74dfc142f',
-            latitude: '1.2788882',
-            longitude: '103.8482516',
-            orderRouteTypeId: 1,
-            updatedAt: '2018-01-11 06:06:57',
-          },
-        ],
-        '4': [],
-      },
-      totalStatusCounts: 0,
-    };
-    const pubSubPayload = {
-      data: {
-        addressId: 0,
-        customerId: 10919,
-        driverId: 9168,
-        driverTypeIds: [1],
-        id: '1ada3ace-67ab-4e3b-a1e0-a0d3b63fedc8',
-        latitude: '1.2789042',
-        longitude: '103.8482397',
-        orderId: 62411,
-        orderRouteTypeId: 1,
-        updatedAt: '2018-01-11 06:06:14',
-        // "driverStatusId": 4
-      },
-      lastDriverStatusId: 1,
-    };
+    // const originalDriverDatum = {
+    //   activeStatusCounts: { '1': 0, '2': 0, '3': 0, '4': 0 },
+    //   driverTypeCounts: { '1': 1, '2': 3, '3': 4 },
+    //   data: {
+    //     '1': [],
+    //     '2': [],
+    //     '3': [
+    //       {
+    //         addressId: 0,
+    //         driverId: 9168,
+    //         customerId: 10919,
+    //         orderId: 62411,
+    //         driverStatusId: 3,
+    //         driverTypeIds: [1],
+    //         id: '9b4cf220-cd94-4a0b-84ac-32f74dfc142f',
+    //         latitude: '1.2788882',
+    //         longitude: '103.8482516',
+    //         orderRouteTypeId: 1,
+    //         updatedAt: '2018-01-11 06:06:57',
+    //       },
+    //     ],
+    //     '4': [],
+    //   },
+    //   totalStatusCounts: 0,
+    // };
+    // const pubSubPayload = {
+    //   data: {
+    //     addressId: 0,
+    //     customerId: 10919,
+    //     driverId: 9168,
+    //     driverTypeIds: [1],
+    //     id: '1ada3ace-67ab-4e3b-a1e0-a0d3b63fedc8',
+    //     latitude: '1.2789042',
+    //     longitude: '103.8482397',
+    //     orderId: 62411,
+    //     orderRouteTypeId: 1,
+    //     updatedAt: '2018-01-11 06:06:14',
+    //     // "driverStatusId": 4
+    //   },
+    //   lastDriverStatusId: 1,
+    // };
 
-    const filterObject = {
-      // driverStatusIds: [2],
-      orderRouteTypeIds: 1,
-      driverTypeIds: [1],
-    };
+    // const filterObject = {
+    //   // driverStatusIds: [2],
+    //   orderRouteTypeIds: 1,
+    //   driverTypeIds: [1],
+    // };
 
-  const driverInfo = {
-    transactionGroupIds: [180],
-    sendConfirmationSms: false,
-    sendConfirmationEmail: false,
-    driverTypeIds: [2, 3],
-    firstName: 'User',
-    lastName: generateDisplayName(10),
-    email: `${generateDisplayName(10)}@example.com`,
-    password: '123456',
-    birthday: '1980-01-01',
-    phone: '+6592341092',
-    vehicleColor: 'Red',
-    averageSpeed: 60,
-    maximumCapacity: 100,
-    vehicleModelYear: 2018,
-    vehicleLicenseNumber: '12456',
-    vehicleBrand: 'Scooter',
-    vehicleModel: '12456',
-    vehicleTypeId: 1,
-  };
-
-  try {
-    const responseCreatedriver = await createDriverAsync(
-      driverInfo,
-      token.accessToken
-    );
-    expect('id' in responseCreatedriver).toBeTruthy();
-
-    const payload = {
-      driverId: responseCreatedriver.id,
-      transactionGroupId: 180,
-      startTime: '10:01',
-      endTime: '13:02',
-      startAt: '2020-03-01',
+    const driverInfo = {
+      transactionGroupIds: [180],
+      sendConfirmationSms: false,
+      sendConfirmationEmail: false,
+      driverTypeIds: [2, 3],
+      firstName: 'User',
+      lastName: generateDisplayName(10),
+      email: `${generateDisplayName(10)}@example.com`,
+      password: '123456',
+      birthday: '1980-01-01',
+      phone: '+6592341092',
+      vehicleColor: 'Red',
+      averageSpeed: 60,
+      maximumCapacity: 100,
+      vehicleModelYear: 2018,
+      vehicleLicenseNumber: '12456',
+      vehicleBrand: 'Scooter',
+      vehicleModel: '12456',
       vehicleTypeId: 1,
     };
-    const responseCreateSchedule = await createDriverScheduleAsync(
-      payload,
-      token.accessToken
-    );
-    expect('data' in responseCreateSchedule).toBeTruthy();
 
-    const responseUpdateSchedule = await updateDriverScheduleAsync(
-      responseCreateSchedule.data.id,
-      payload,
-      token.accessToken
-    );
+    try {
+      const responseCreatedriver = await createDriverAsync(
+        driverInfo,
+        token.accessToken
+      );
+      expect('id' in responseCreatedriver).toBeTruthy();
 
-    expect('data' in responseUpdateSchedule).toBeTruthy();
+      const payload = {
+        driverId: responseCreatedriver.id,
+        transactionGroupId: 180,
+        startTime: '10:01',
+        endTime: '13:02',
+        startAt: '2020-03-01',
+        vehicleTypeId: 1,
+      };
+      const responseCreateSchedule = await createDriverScheduleAsync(
+        payload,
+        token.accessToken
+      );
+      expect('data' in responseCreateSchedule).toBeTruthy();
 
-    const responseDelete = await deleteDriverScheduleAsync(
-      responseCreateSchedule.data.id,
-      token.accessToken
-    );
+      const responseUpdateSchedule = await updateDriverScheduleAsync(
+        responseCreateSchedule.data.id,
+        payload,
+        token.accessToken
+      );
 
-    expect('data' in responseDelete).toBeTruthy();
-  } catch (error) {
-    expect(error).toHaveProperty('statusCode', 401);
-  }
-});
+      expect('data' in responseUpdateSchedule).toBeTruthy();
+
+      const responseDelete = await deleteDriverScheduleAsync(
+        responseCreateSchedule.data.id,
+        token.accessToken
+      );
+
+      expect('data' in responseDelete).toBeTruthy();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 401);
+    }
+  });
 
   it('Test for create driver schedule with with driver that does not belong to requestor', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
@@ -374,7 +374,6 @@ describe('Create new driver ', async () => {
     }
   });
 });
-
 
 /**
  * Generate a display name
