@@ -191,7 +191,7 @@ it("Test for create, delete and update driver schedule", async () => {
     token.accessToken
   );
 
-  expect("data" in responseUpdateSchedule).toBeTruthy();
+  expect("data" in responseDelete).toBeTruthy();
 });
 
 it("Test for create driver schedule with with driver that does not belong to requestor", async () => {
@@ -209,6 +209,7 @@ it("Test for create driver schedule with with driver that does not belong to req
       playload,
       token.accessToken
     );
+    expect("data" in response).toBeTruthy();
   } catch (error) {
     expect(error).toHaveProperty("statusCode", 400);
     expect(error).toHaveProperty("errorMessage", [

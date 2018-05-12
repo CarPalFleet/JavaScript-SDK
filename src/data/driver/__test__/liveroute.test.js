@@ -13,10 +13,10 @@ describe("Send driver location Lat/lng records to Dynamodb", () => {
       expect(response.data).toBeTruthy();
         } catch (error) {
           //
-         const expected =  {
+         const expected = {
            statusCode: 404,
            statusText: "Not Found",
-           errorMessage: [ { key: null, messages: ["NotFoundError: Invalid driver ID",] } ]
+           errorMessage: [{key: null, messages: ["NotFoundError: Invalid driver ID"]}],
          };
 
           expect(error).toEqual(expected);

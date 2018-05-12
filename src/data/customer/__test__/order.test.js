@@ -167,7 +167,8 @@ it("Create Grouping Location with date in the past", async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   try {
-    const response = await createOrderAsync(CONFIG.locationObject,token.accessToken);
+    const response = await createOrderAsync(CONFIG.locationObject, token.accessToken);
+    expect("data" in response).toBeTruthy();
   } catch (error) {
     const expected = {"errorMessage": [{"key": "0", "messages": "The pickup date should be after or equal current date."}], "statusCode": 400, "statusText": "Bad Request"};
     expect(error).toEqual(expected);

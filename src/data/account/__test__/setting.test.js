@@ -25,6 +25,7 @@ describe("Retrieve user settings for routing page", () => {
         "routing",
         token.accessToken
       );
+      expect("data" in responseUserSetting).toBeTruthy();
     } catch (error) {
       expect(error).toHaveProperty("statusCode", 403);
     }

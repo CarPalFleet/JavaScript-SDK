@@ -29,7 +29,7 @@ export const sendMessageToMainThread = (e) => {
 export const checkConnection = async (e) => {
   await axios({
     method: "GET",
-    //TODO: endpoint does not exist
+    // TODO: endpoint does not exist
     url: endpoints.CHECK_SOCKET_CONNECTION,
     header: {Authorization: e.data.token},
   });
@@ -55,7 +55,7 @@ export const handlerConnectionError = async (e) => {
 
     await axios({
       method: "GET",
-      //TODO: endpoint does not exist
+      // TODO: endpoint does not exist
       url: endpoints.SEND_NOTI_TO_SLACK,
       header: {Authorization: e.data.token},
       body: payload,

@@ -22,6 +22,7 @@ describe("Show job", async () => {
         CONFIG.orderId,
         token.accessToken
       );
+      expect("data" in response).toBeTruthy();
     } catch (error) {
       // expect(error).toHaveProperty("statusCode", 404);
       // TODO: expect 404 according to documentation, but API is returning 403 because error is not handled properly
@@ -33,6 +34,7 @@ describe("Show job", async () => {
 
     try {
       const response = await getJobDetailAsync(CONFIG.orderId, token.accessToken);
+      expect("data" in response).toBeTruthy();
     } catch (error) {
       // console.log(error);
       // expect(error).toHaveProperty("statusCode", 404);
