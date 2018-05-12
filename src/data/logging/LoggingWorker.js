@@ -6,7 +6,7 @@ import self from "worker";
 // TODO: consider deprecating all functions below as they are not implemented properly
 // TODO: there are no unit tests
 
-self.onmessage = (e) => {
+/* self.onmessage = (e) => {
   let interval = new Interval(
     checkConnection.bind(null, e),
     e.data.checkingTime
@@ -20,7 +20,7 @@ self.onmessage = (e) => {
       interval.stop();
       break;
   }
-};
+};*/
 
 export const sendMessageToMainThread = (e) => {
   self.postMessage({errorCounts: e.data.errorCounts, event: "finishedJob"});
@@ -71,7 +71,7 @@ export const handlerConnectionError = async (e) => {
  * @param {function} fn
  * @param {int} time
  */
-export const Interval = (fn, time) => {
+/* export const Interval = (fn, time) => {
   let timer = false;
 
   let start = function() {
@@ -86,4 +86,4 @@ export const Interval = (fn, time) => {
   let isRunning = function() {
     return timer !== false;
   };
-};
+};*/

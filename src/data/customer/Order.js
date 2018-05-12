@@ -60,7 +60,6 @@ export const getOrdersWithFiltersAsync = async (
  * pickupDate (mandatory)(string) = "2018-02-28"
  * withOrder (optional)(int)
  //TODO: should be renamed to jobs after API is refactored
- * @param {int} customerId
  * @param {string} token
  * @return {object} Promise resolve/reject
  */

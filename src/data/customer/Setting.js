@@ -30,33 +30,6 @@ export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
   }
 };
 
-/** Retrieving User Setting for specific setting
- * @param {Object} filterObject {identityId, productTypeId, transactionGroupId}
- * @param {string} token
- * @return {Promise} settingObject
- * @deprecated since version 0.1.77
- */
-export const getSettingAsync = async (settingId, filterObject, token) => {
-  try {
-    let paramString = Object.keys(filterObject).reduce(
-      (str, key) => (str += `&${key}=${filterObject[key]}`),
-      ""
-    );
-    const routeSetting = await axios({
-      method: "GET",
-      url: `${endpoints.ROUTE_SETTING}/${settingId}`,
-      headers: {Authorization: token},
-    });
-
-    return camelize(routeSetting.data);
-  } catch (e) {
-    return Promise.reject({
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-    });
-  }
-};
-
 /** Retrieve Customer"s Settings
  * @param {string} token
  * @return {Promise} settingObject
