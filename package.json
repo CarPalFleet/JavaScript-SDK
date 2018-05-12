@@ -11,8 +11,7 @@
     "precommit:prettier":
       "node_modules/.bin/prettier --single-quote --trailing-comma es5 --arrow-parens always --write",
     "prepublish": "npm run build",
-    "test":
-      "eslint **/*.js --ignore-pattern 'node_modules  /' --ignore-pattern jest --testPathIgnorePatterns=__integration__",
+    "test": "jest --testPathIgnorePatterns=__integration__",
     "test:watch": "jest --testPathIgnorePatterns=__integration__  --watch",
     "test:integration": "jest --testPathPattern=__integration__",
     "test:integration:watch": "jest --testPathPattern=__integration__  --watch"
