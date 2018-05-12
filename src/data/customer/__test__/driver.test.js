@@ -323,7 +323,7 @@ describe('Test updateDriverAsync function', async () => {
   );
   token = result.accessToken;
 
-  beforeEach(async () => {
+  it('should return success driver response', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
     const driverInfo = {
       transactionGroupIds: [180],
@@ -355,10 +355,8 @@ describe('Test updateDriverAsync function', async () => {
       driverTypeIds: driverInfo.driverTypeIds,
       languageIds: [1], // not sure about this parameter
     };
-  });
 
-  it('should return success driver response', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
     const response = await updateDriverAsync(driver, token);
     expect('data' in response).toBeTruthy();
     const { data } = response;
