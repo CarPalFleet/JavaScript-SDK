@@ -5,16 +5,19 @@ import {
 import CONFIG from './Config';
 
 describe('Retrieve user settings for routing page', () => {
-  it('should return false user_id and 403 statusCode', async () => {
+  let token;
+  beforeAll(async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-
-    const result = getTokenAsync(
+    token = await getTokenAsync(
       CONFIG.email,
       CONFIG.password,
       CONFIG.clientId,
       CONFIG.clientSecret
     );
-    const token = await result;
+  });
+
+  it('should return false user_id and 403 statusCode', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
       const responseUserSetting = await getUserSettingsAsync(
@@ -31,14 +34,6 @@ describe('Retrieve user settings for routing page', () => {
   it('should return Data', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-    const result = getTokenAsync(
-      CONFIG.email,
-      CONFIG.password,
-      CONFIG.clientId,
-      CONFIG.clientSecret
-    );
-    const token = await result;
-
     try {
       const responseUserSetting = await getUserSettingsAsync(
         25143,
@@ -48,7 +43,6 @@ describe('Retrieve user settings for routing page', () => {
 
       expect('data' in responseUserSetting).toBeTruthy();
     } catch (error) {
-
     }
   });
 });
