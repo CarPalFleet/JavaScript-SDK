@@ -10,9 +10,9 @@ import {
   convertObjectIntoURLString,
 } from "../utility/Util";
 
-/** Retrieve Customer"s (Logo and Background)
- * Return customer"s logo and background image if it exists in database
- * @param {integer} domain # customer"s webside domain name
+/** Retrieve Customer' (Logo and Background)
+ * Return customer' logo and background image if it exists in database
+ * @param {integer} domain # customer' webside domain name
  * @param {string} token
  * @return {object} promise (resolve/reject)
  * @deprecated since version 0.1.77
@@ -30,7 +30,7 @@ export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
   }
 };
 
-/** Retrieve Customer"s Settings
+/** Retrieve Customer' Settings
  * @param {string} token
  * @return {Promise} settingObject
  */

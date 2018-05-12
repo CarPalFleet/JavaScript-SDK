@@ -6,7 +6,7 @@
  */
 export default class BaseError extends Error {
   /**
-   * PubSubError Class"s constructor
+   * PubSubError Class constructor
    */
   constructor(...args) {
     super(...args);

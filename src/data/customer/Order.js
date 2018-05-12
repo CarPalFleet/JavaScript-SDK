@@ -501,7 +501,7 @@ export const getErrorOrderContentsAsync = async (
   and Truncate existing error records from Dynamodb
  * This function call 2 API endpoints one after another
  * Call editOrdersAsync to edit the error grouping locations
- * if it"s success, call removeOrderErrorRecordsAsync to truncate records from Dynamodb
+ * on success, call removeOrderErrorRecordsAsync to truncate records from Dynamodb
  * if both API call is success, it will return isUpdatedOrder and isTruncateErrorReords as true
  * @param {array} errorIds
  * @param {array} locationDataList
@@ -786,7 +786,7 @@ export const deleteOrdersAsync = async (groupingLocationIds = [], token) => {
   }
 };
 
-/** API isn"t ready yet
+/** API is not ready yet
  * Cancel Batch File Process
  * @param {int} batchId
  * @param {string} token
@@ -971,7 +971,7 @@ function groupLocationByPickUpAddress(groups, location, errorContents) {
     };
   }
 
-  // driver will be empty array if there"s no driver info
+  // driver will be empty array if there's no driver info
   // Add avatarUrl as a empty string, this field will be included in response.
   isEmpty(location.driver)
     ? (location.driver = {})
@@ -993,7 +993,7 @@ function groupLocationByPickUpAddress(groups, location, errorContents) {
  * @param {object} errorContents # Error object
  * @param {object} location # location object
  * @return {array} errorList
- * if there"s no error for this location, it will response empty array.
+ * if there's no error for this location, it will response empty array.
  */
 export const mergeLocationDataWithErrors = (errorContents, location) => {
   const error = errorContents.data.find(
@@ -1021,6 +1021,6 @@ export const mergeLocationDataWithErrors = (errorContents, location) => {
     }, []);
   }
 
-  /* Response empty array if there"s no error from dynamodb */
+  /* Response empty array if there's no error from dynamodb */
   return [];
 };
