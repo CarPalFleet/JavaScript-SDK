@@ -163,21 +163,120 @@ export const getDriversAsync = async (filterObject = {}, token) => {
 
 /**
  * Update Driver
- * @param {object} filterObject
+ * @param {object} driverDetailsInfo {} 
+ * id (int)
+ * isActive (boolean)
+ * languageIds (array)
+ * transactionGroupIds (array)
+ * driverTypeIds (array)
+ * interviewDetails (object)
+ * interviewDetails.hasCriminalRecord (boolean)
+ * interviewDetails.isAProfessionalDriver (boolean)
+ * interviewDetails.hasWorkAsDriver (boolean)
+ * interviewDetails.hasWorkedForSameCompany (boolean)
+ * interviewDetails.referredFrom (string)
+ * interviewDetails.drivingReason (string)
+ * interviewDetails.remarks (string)
+ * user (object)
+ * user.firstName (string)
+ * user.lastName (string)
+ * user.phone (string|regex:/^(00|\+)\d{1,4}\d{4,11}$/)
+ * user.password (string)
+ * user.passwordConfirmation (string)
+ * vehicle (object)
+ * vehicle.modelYear (optional) (int)
+ * vehicle.averageSpeed (optional) (int) min: 0
+ * vehicle.maximumCapacity (optional) (int) min: 0
+ * vehicle.typeId (optional) (int)
+ * vehicle.model (optional) (string)
+ * vehicle.brand (optional) (string)
+ * vehicle.licenseNumber (optional) (string)
+ * vehicle.color (optional) (string)
+ * bank (object)
+ * bank.branchCode (optional) (string)
+ * bank.code (optional) (string)
+ * bank.name (optional) (string)
+ * bank.accountNumber (optional) (string)
  * @param {string} token
- * @return {promise} reject/resolve
- * @deprecated since version 0.1.77
+ * @return {object} Promise resolve/reject
  */
-export const updateDriverAsync = async (filterObject = {}, token) => {
+export const updateDriverAsync = async ({
+  id,
+  isActive,
+  languageIds,
+  transactionGroupIds,
+  driverTypeIds,
+  hasCriminalRecord,
+  isAProfessionalDriver,
+  hasWorkAsDriver,
+  hasWorkedForSameCompany,
+  referredFrom,
+  drivingReason,
+  remarks,
+  firstName,
+  lastName,
+  phone,
+  password,
+  passwordConfirmation,
+  modelYear,
+  averageSpeed,
+  maximumCapacity,
+  typeId,
+  model,
+  brand,
+  licenseNumber,
+  color,
+  branchCode,
+  code,
+  name,
+  accountNumber,
+}, token) => {
   try {
-    let paramString = convertObjectIntoURLString(filterObject);
-
+    const driverInfo = camelToSnake({
+      id,
+      isActive,
+      languageIds,
+      transactionGroupIds,
+      driverTypeIds,
+      interviewDetails: camelToSnake({
+        hasCriminalRecord,
+        isAProfessionalDriver,
+        hasWorkAsDriver,
+        hasWorkedForSameCompany,
+        referredFrom,
+        drivingReason,
+        remarks,
+      }),
+      user: camelToSnake({
+        firstName,
+        lastName,
+        phone,
+        password,
+        passwordConfirmation,
+      }),
+      vehicle: camelToSnake({
+        modelYear,
+        averageSpeed,
+        maximumCapacity,
+        typeId,
+        model,
+        brand,
+        licenseNumber,
+        color,
+      }),
+      bank: camelToSnake({
+        branchCode,
+        code,
+        name,
+        accountNumber,
+      }),
+    });
     const response = await axios({
       method: 'PUT',
-      url: `${endpoints.API_V3.DRIVER}/${paramString.replace('&', '?')}`,
+      url: endpoints.API_V3.DRIVER_UPDATE.replace('{0}', id),
       headers: {Authorization: `Bearer ${token}`},
+      data: driverInfo,
     });
-
     return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
