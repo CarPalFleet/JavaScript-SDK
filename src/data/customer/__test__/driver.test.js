@@ -192,7 +192,38 @@ it(`Test for create, delete and update driver schedule`, async () => {
     );
   
     expect('data' in responseUpdateSchedule).toBeTruthy();
-  
+ 
+    const payload = {
+      driverId: responseCreatedriver.id,
+      transactionGroupId: 180,
+      startTime: '10:01',
+      endTime: '13:02',
+      startAt: '2020-03-01',
+      vehicleTypeId: 1,
+    };
+    const responseCreateSchedule = await createDriverScheduleAsync(
+      payload,
+      token.accessToken
+    );
+    expect('data' in responseCreateSchedule).toBeTruthy();
+
+    const responseUpdateSchedule = await updateDriverScheduleAsync(
+      responseCreateSchedule.data.id,
+      payload,
+      token.accessToken
+    );
+
+    expect('data' in responseUpdateSchedule).toBeTruthy();
+
+    const responseDelete = await deleteDriverScheduleAsync(
+      responseCreateSchedule.data.id,
+      token.accessToken
+    );
+
+    expect('data' in responseDelete).toBeTruthy();
+  } catch (error) {
+    expect(error).toHaveProperty('statusCode', 401);
+  }
 });
 
 it(`Test for create driver schedule with with driver that does not belong to requestor`, async () => {
