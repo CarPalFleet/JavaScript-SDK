@@ -4,7 +4,7 @@ import CONFIG from '../__test__/Config';
 
 describe('Test for getCustomerPublicProfileSettingsAsync function', () => {
   beforeEach(() => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
   });
   // TODO put correct domain name, now it's throw an error 404
   //   it('getCustomerPublicProfileSettingsAsync success response', async () => {
