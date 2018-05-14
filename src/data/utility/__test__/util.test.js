@@ -8,6 +8,7 @@ import {
   hasSameObjectId,
   pushKeyAndMessageToArray,
   customError,
+  mergeArraysWithObjects,
 } from '../Util';
 
 describe('Convert object key/value into url string', () => {
@@ -143,5 +144,41 @@ describe('Return error object from simple object', () => {
     const object = {statusCode: 401, statusText: 'Unauthorized'};
     const result = customError(object);
     expect(result).toMatchSnapshot();
+  });
+});
+
+describe('Union two arrays into one if ids are equal', () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
+  it('should merge test property of two arrays into one and return new array', () => {
+    const a = [{id: 1, test: [{name: 'Bob'}]}];
+    const b = [{id: 1, test: [{name: 'John'}]}];
+    const union = [{id: 1, test: [{name: 'Bob'}, {name: 'John'}]}];
+    const result = mergeArraysWithObjects(a, b, 'id', 'test');
+    expect(Array.isArray(result)).toBeTruthy();
+    expect(result).toHaveLength(1);
+    expect(result).toEqual(union);
+    expect(result[0].test).toHaveLength(2);
+  });
+
+  it('should return first argument array', () => {
+    const a = [{id: 1, test: [{name: 'Bob'}]}];
+    const b = [];
+    const result = mergeArraysWithObjects(a, b, 'id', 'test');    
+    expect(result).toEqual(a);
+  });
+
+  it('should return second argument array', () => {
+    const a = [];
+    const b = [{id: 1, test: [{name: 'John'}]}];
+    const result = mergeArraysWithObjects(a, b, 'id', 'test');
+    expect(result).toEqual(b);
+  });
+
+  it('should return empty array', () => {
+    const a = [];
+    const b = [];
+    const result = mergeArraysWithObjects(a, b, 'id', 'test');
+    expect(result).toEqual([]);
   });
 });
