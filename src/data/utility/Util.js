@@ -166,3 +166,36 @@ export const customError = (error) => {
     },
   };
 };
+
+/**
+ * It merges two similar arrays and merge specific property of object in this array.
+ * @param {Array} a first array
+ * @param {Array} b seconds array
+ * @param {string} prop unique property what we comparing (ex. id)
+ * @param {string} mergeProp property which we want to merge (ex. data array)
+ * @return {Array} updatedArray
+ */
+export const mergeArraysWithObjects = (a = [], b = [], prop, mergeProp) => {
+  if (a.length === 0 && b.length === 0) {
+    return [];
+  }
+  if (a.length === 0) {
+    return [...b];
+  }
+  if (b.length === 0) {
+    return [...a];
+  }
+  const updatedArray = a.map((aItem) => {
+    const item = b.find((bitem) => bitem.id === aItem.id);
+    return item ? {...aItem, [mergeProp]: [...aItem[mergeProp], ...item[mergeProp]]} : aItem;
+  });
+
+  b.forEach((bitem) => {
+    const uniqueIndex = updatedArray.findIndex((item) => item.id === bitem.id);
+    if (uniqueIndex < 0) {
+      updatedArray.push(bitem);
+    }
+  });
+
+  return updatedArray;
+};
