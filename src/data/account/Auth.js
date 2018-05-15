@@ -2,10 +2,10 @@
  * @fileoverview This file contains all authentication related functions that are triggered by a User
  */
 
-import axios from "axios";
-import endpoints from "../Endpoint";
-import camelize from "camelize";
-import {apiResponseErrorHandler} from "../utility/Util";
+import axios from 'axios';
+import endpoints from '../Endpoint';
+import camelize from 'camelize';
+import { apiResponseErrorHandler } from '../utility/Util';
 
 /**
  * Get Token
@@ -18,16 +18,16 @@ import {apiResponseErrorHandler} from "../utility/Util";
 export const getTokenAsync = async (email, password, clientId, secret) => {
   try {
     const response = await axios({
-      method: "POST",
+      method: 'POST',
       url: endpoints.OAUTH,
-      headers: {"Content-Type": "application/json"},
+      headers: { 'Content-Type': 'application/json' },
       data: {
         username: email,
         password,
-        grantType: "password",
+        grantType: 'password',
         clientId,
         clientSecret: secret,
-        scope: "full-access",
+        scope: 'full-access',
       },
     });
     return camelize(response.data.data);
@@ -46,15 +46,15 @@ export const getTokenAsync = async (email, password, clientId, secret) => {
 export const refreshTokenAsync = async (refreshToken, clientId, secret) => {
   try {
     const response = await axios({
-      method: "POST",
+      method: 'POST',
       url: endpoints.OAUTH,
-      headers: {"Content-Type": "application/json"},
+      headers: { 'Content-Type': 'application/json' },
       data: {
         refreshToken,
-        grantType: "refresh_token",
+        grantType: 'refresh_token',
         clientId,
         clientSecret: secret,
-        scope: "",
+        scope: '',
       },
     });
 

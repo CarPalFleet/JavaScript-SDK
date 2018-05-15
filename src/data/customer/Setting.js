@@ -2,13 +2,13 @@
  * @fileoverview This file contains all Settings related functions that are triggered by a Customer
  */
 
-import axios from "axios";
-import endpoints from "../Endpoint";
-import camelize from "camelize";
+import axios from 'axios';
+import endpoints from '../Endpoint';
+import camelize from 'camelize';
 import {
   apiResponseErrorHandler,
   convertObjectIntoURLString,
-} from "../utility/Util";
+} from '../utility/Util';
 
 /** Retrieve Customer' (Logo and Background)
  * Return customer' logo and background image if it exists in database
@@ -20,9 +20,9 @@ import {
 export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
   try {
     const response = await axios({
-      method: "GET",
-      url: endpoints.TRANSACTION_GROUP_SETTING.replace("{1}", domain),
-      headers: {Authorization: token},
+      method: 'GET',
+      url: endpoints.TRANSACTION_GROUP_SETTING.replace('{1}', domain),
+      headers: { Authorization: token },
     });
     return camelize(response.data.data);
   } catch (e) {
@@ -37,9 +37,9 @@ export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
 export const getCustomerSettingsAsync = async (token) => {
   try {
     const CustomerSettings = await axios({
-      method: "GET",
+      method: 'GET',
       url: endpoints.CUSTOMER_SETTINGS,
-      headers: {Authorization: token},
+      headers: { Authorization: token },
     });
 
     return camelize(CustomerSettings.data);
@@ -61,14 +61,14 @@ export const showCustomerSettingsAsync = async (
 ) => {
   try {
     const paramsString = convertObjectIntoURLString(payload);
-    const query = paramsString ? `/?${paramsString}` : "";
+    const query = paramsString ? `/?${paramsString}` : '';
     const CustomerSettingsShow = await axios({
-      method: "GET",
+      method: 'GET',
       url: `${endpoints.CUSTOMER_SETTINGS_SHOW.replace(
-        "{0}",
+        '{0}',
         customerId
       )}${query}`,
-      headers: {Authorization: token},
+      headers: { Authorization: token },
     });
     return {
       ...CustomerSettingsShow,

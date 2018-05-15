@@ -1,12 +1,12 @@
-import Worker from "worker";
+import Worker from 'worker';
 export const Logging = async (errorLimit, interval, token) => {
-  let worker = new Worker("./LoggingWorker.js");
+  let worker = new Worker('./LoggingWorker.js');
   let errorCounts = 0;
   // Handle Message from web worker
-  worker.addEventListener("callBack", catchErrorCounts.bind(null, errorCounts));
+  worker.addEventListener('callBack', catchErrorCounts.bind(null, errorCounts));
 
   // Send Message from web worker
-  worker.postMessage("checkConnection", errorLimit, interval, token);
+  worker.postMessage('checkConnection', errorLimit, interval, token);
 
   // Stop Message to web worker;
   worker.close();

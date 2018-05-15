@@ -1,4 +1,4 @@
-import BaseError from "./BaseError";
+import BaseError from './BaseError';
 
 // TODO: not sure what the purpose of below class is, we should consider deprecating it.
 
@@ -13,6 +13,6 @@ export default class PubSubError extends BaseError {
    * @param {int} message
    */
   constructor(message) {
-    super(message || "Something went wrong in PubSub!");
+    super(message || 'Something went wrong in PubSub!');
   }
 }

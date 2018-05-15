@@ -1,10 +1,8 @@
-import {getTokenAsync} from "../../account/Auth";
-import {
-  getUserSettingsAsync,
-} from "../Setting";
-import CONFIG from "./Config";
+import { getTokenAsync } from '../../account/Auth';
+import { getUserSettingsAsync } from '../Setting';
+import CONFIG from './Config';
 
-describe("Retrieve user settings for routing page", () => {
+describe('Retrieve user settings for routing page', () => {
   let token;
   beforeAll(async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
@@ -16,32 +14,32 @@ describe("Retrieve user settings for routing page", () => {
     );
   });
 
-  it("should return false user_id and 403 statusCode", async () => {
+  it('should return false user_id and 403 statusCode', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
       const responseUserSetting = await getUserSettingsAsync(
         12212,
-        "routing",
+        'routing',
         token.accessToken
       );
-      expect("data" in responseUserSetting).toBeTruthy();
+      expect('data' in responseUserSetting).toBeTruthy();
     } catch (error) {
-      expect(error).toHaveProperty("statusCode", 403);
+      expect(error).toHaveProperty('statusCode', 403);
     }
   });
 
-  it("should return Data", async () => {
+  it('should return Data', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
       const responseUserSetting = await getUserSettingsAsync(
         25143,
-        "routing",
+        'routing',
         token.accessToken
       );
 
-      expect("data" in responseUserSetting).toBeTruthy();
+      expect('data' in responseUserSetting).toBeTruthy();
     } catch (error) {
       //
     }

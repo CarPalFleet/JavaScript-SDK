@@ -2,10 +2,10 @@
  * @fileoverview This file contains all Settings related functions that are triggered by a User
  */
 
-import axios from "axios";
-import endpoints from "../Endpoint";
-import camelize from "camelize";
-import {apiResponseErrorHandler} from "../utility/Util";
+import axios from 'axios';
+import endpoints from '../Endpoint';
+import camelize from 'camelize';
+import { apiResponseErrorHandler } from '../utility/Util';
 
 /** Retrieve User' settings
  * There are 3 setting types in the setting table
@@ -20,12 +20,9 @@ import {apiResponseErrorHandler} from "../utility/Util";
 export const getUserSettingsAsync = async (userId, type, token) => {
   try {
     const response = await axios({
-      method: "GET",
-      url: `${endpoints.USER_SETTINGS.replace(
-        "{0}",
-        userId
-      )}?type=${type}`,
-      headers: {Authorization: token},
+      method: 'GET',
+      url: `${endpoints.USER_SETTINGS.replace('{0}', userId)}?type=${type}`,
+      headers: { Authorization: token },
     });
     return camelize(response.data);
   } catch (e) {

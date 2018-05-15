@@ -1,8 +1,8 @@
-import {getJobDetailAsync, getJobSummaryAsync} from "../Job";
-import {getTokenAsync} from "../../account/Auth";
-import CONFIG from "./Config";
+import { getJobDetailAsync, getJobSummaryAsync } from '../Job';
+import { getTokenAsync } from '../../account/Auth';
+import CONFIG from './Config';
 
-describe("Show job", async () => {
+describe('Show job', async () => {
   let token;
   beforeAll(async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
@@ -14,7 +14,7 @@ describe("Show job", async () => {
     );
   });
 
-  it("Should get Job summary and expect job not found", async () => {
+  it('Should get Job summary and expect job not found', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
@@ -22,23 +22,25 @@ describe("Show job", async () => {
         CONFIG.orderId,
         token.accessToken
       );
-      expect("data" in response).toBeTruthy();
+      expect('data' in response).toBeTruthy();
     } catch (error) {
       // expect(error).toHaveProperty("statusCode", 404);
       // TODO: expect 404 according to documentation, but API is returning 403 because error is not handled properly
     }
   });
 
-  it("Should get job details and expect job not found", async () => {
+  it('Should get job details and expect job not found', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
-      const response = await getJobDetailAsync(CONFIG.orderId, token.accessToken);
-      expect("data" in response).toBeTruthy();
+      const response = await getJobDetailAsync(
+        CONFIG.orderId,
+        token.accessToken
+      );
+      expect('data' in response).toBeTruthy();
     } catch (error) {
       // console.log(error);
       // expect(error).toHaveProperty("statusCode", 404);
-
       // TODO: expect 404 according to documentation, but API is returning 403 because error is not handled properly
     }
   });

@@ -2,10 +2,10 @@
  * @fileoverview This file contains all account related functions that are triggered by a User
  */
 
-import axios from "axios";
-import endpoints from "../Endpoint";
-import camelize from "camelize";
-import {apiResponseErrorHandler, customError} from "../utility/Util";
+import axios from 'axios';
+import endpoints from '../Endpoint';
+import camelize from 'camelize';
+import { apiResponseErrorHandler, customError } from '../utility/Util';
 
 /**
  * Request reset password
@@ -16,9 +16,9 @@ import {apiResponseErrorHandler, customError} from "../utility/Util";
 export const resetPasswordRequestAsync = async (email) => {
   try {
     const response = await axios({
-      method: "POST",
+      method: 'POST',
       url: endpoints.PASSWORD_RESET,
-      headers: {"Content-Type": "application/json"},
+      headers: { 'Content-Type': 'application/json' },
       data: {
         email,
       },
@@ -48,13 +48,13 @@ export const resetPasswordAsync = async (
     if (token === undefined) {
       throw customError({
         statusCode: 401,
-        statusText: "Unauthorized",
+        statusText: 'Unauthorized',
       });
     }
     const response = await axios({
-      method: "PUT",
+      method: 'PUT',
       url: endpoints.PASSWORD_RESET,
-      headers: {"Content-Type": "application/json"},
+      headers: { 'Content-Type': 'application/json' },
       data: {
         token,
         email,
@@ -76,9 +76,9 @@ export const resetPasswordAsync = async (
 export const validateResetPasswordTokenAsync = async (token) => {
   try {
     const response = await axios({
-      method: "POST",
+      method: 'POST',
       url: endpoints.PASSWORD_RESET_TOKEN,
-      headers: {"Content-Type": "application/json"},
+      headers: { 'Content-Type': 'application/json' },
       data: {
         token,
       },
@@ -102,9 +102,9 @@ export const validateResetPasswordTokenAsync = async (token) => {
 export const getDriverJobsAsync = async (id, token, date) => {
   try {
     const response = await axios({
-      method: "GET",
-      url: endpoints.MY_JOBS.replace("{0}", id).replace("{1}", date),
-      headers: {Authorization: token},
+      method: 'GET',
+      url: endpoints.MY_JOBS.replace('{0}', id).replace('{1}', date),
+      headers: { Authorization: token },
     });
     return camelize(response.data.data);
   } catch (e) {
@@ -124,9 +124,9 @@ export const getDriverJobsAsync = async (id, token, date) => {
 export const getDriverLegsAsync = async (id, token, date) => {
   try {
     const response = await axios({
-      method: "GET",
-      url: endpoints.MY_LEGS.replace("{0}", id).replace("{1}", date),
-      headers: {Authorization: token},
+      method: 'GET',
+      url: endpoints.MY_LEGS.replace('{0}', id).replace('{1}', date),
+      headers: { Authorization: token },
     });
     return camelize(response.data.data);
   } catch (e) {

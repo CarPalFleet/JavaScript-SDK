@@ -2,10 +2,10 @@
  * @fileoverview This file contains all driver GPS data related functions that are triggered by a Driver
  */
 
-import axios from "axios";
-import endpoints from "../Endpoint";
-import camelize from "camelize";
-import {apiResponseErrorHandler} from "../utility/Util";
+import axios from 'axios';
+import endpoints from '../Endpoint';
+import camelize from 'camelize';
+import { apiResponseErrorHandler } from '../utility/Util';
 
 /**
  * Send Live Data from driver app to Dynamodb
@@ -23,10 +23,10 @@ import {apiResponseErrorHandler} from "../utility/Util";
 export const sendLiveRouteDataAsync = async (liveRouteObj, token) => {
   try {
     const response = await axios({
-      method: "POST",
-      url: endpoints.DRIVER_LIVE_ROUTES.replace("{0}", liveRouteObj.driverId),
+      method: 'POST',
+      url: endpoints.DRIVER_LIVE_ROUTES.replace('{0}', liveRouteObj.driverId),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: token,
       },
       data: liveRouteObj,

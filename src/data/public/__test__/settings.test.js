@@ -1,7 +1,7 @@
-import {getCustomerPublicProfileSettingsAsync} from "../Setting";
-import {apiResponseErrorHandler} from "../../utility/Util";
+import { getCustomerPublicProfileSettingsAsync } from '../Setting';
+import { apiResponseErrorHandler } from '../../utility/Util';
 
-describe("Test for getCustomerPublicProfileSettingsAsync function", () => {
+describe('Test for getCustomerPublicProfileSettingsAsync function', () => {
   beforeEach(() => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
   });
@@ -12,7 +12,7 @@ describe("Test for getCustomerPublicProfileSettingsAsync function", () => {
   //     expect(response.length).toBeTruthy();
   //   });
 
-  it("should test getCustomerPublicProfileSettingsAsync error", async () => {
+  it('should test getCustomerPublicProfileSettingsAsync error', async () => {
     try {
       await getCustomerPublicProfileSettingsAsync();
     } catch (error) {
