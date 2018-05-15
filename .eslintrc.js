@@ -23,6 +23,6 @@ module.exports = {
     'no-useless-escape': OFF, // For RegExp and String Escape
     'quote-props': OFF, // Handled by Prettier
     'max-len': OFF, // Handled by Prettier
-    'quotes': ["error", "double"]
+    'object-curly-spacing': ['error', 'always'],
   },
 };

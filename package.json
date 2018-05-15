@@ -17,12 +17,11 @@
     "test:integration:watch": "jest --testPathPattern=__integration__  --watch"
   },
   "lint-staged": {
-    "*.{js}": [
+    "*.{js,css,md}": [
       "npm run precommit:prettier",
       "npm run precommit:lint",
       "git add"
-    ],
-    "*.{json,css,md}": ["npm run precommit:prettier", "git add"]
+    ]
   },
   "repository": {
     "type": "git",

@@ -3,11 +3,10 @@ import {
   convertObjectIntoKeyValueArray,
   customError,
   mergeArraysWithObjects,
-} from "../Util";
+} from '../Util';
 
-
-describe("Convert object key/value into url string", () => {
-  it("should match the string values limit and offset", async () => {
+describe('Convert object key/value into url string', () => {
+  it('should match the string values limit and offset', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     let data = {
@@ -83,15 +82,15 @@ describe("Convert object key/value into url string", () => {
   });
 });*/
 
-describe("Convert Object into key/value array.", () => {
+describe('Convert Object into key/value array.', () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
   const errorMessage = {
-    email: ["Duplicate Email"],
+    email: ['Duplicate Email'],
   };
-  const expected = [["email", ["Duplicate Email"]]];
+  const expected = [['email', ['Duplicate Email']]];
 
-  it("matches if the actual object contains expected key: value pairs", async () => {
+  it('matches if the actual object contains expected key: value pairs', async () => {
     const result = convertObjectIntoKeyValueArray(errorMessage);
     expect(result).toEqual(expect.objectContaining(expected));
   });
@@ -132,48 +131,48 @@ describe("Convert Object into key/value array.", () => {
   });
 });*/
 
-describe("Return error object from simple object", () => {
+describe('Return error object from simple object', () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-  it("should create error object ", () => {
-    const object = {statusCode: 401, statusText: "Unauthorized"};
+  it('should create error object ', () => {
+    const object = { statusCode: 401, statusText: 'Unauthorized' };
     const result = customError(object);
     expect(result).toMatchSnapshot();
   });
 });
 
-describe("Union two arrays into one if ids are equal", () => {
+describe('Union two arrays into one if ids are equal', () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-  it("should merge test property of two arrays into one and return new array", () => {
-    const a = [{id: 1, test: [{name: "Bob"}]}];
-    const b = [{id: 1, test: [{name: "John"}]}];
-    const union = [{id: 1, test: [{name: "Bob"}, {name: "John"}]}];
-    const result = mergeArraysWithObjects(a, b, "id", "test");
+  it('should merge test property of two arrays into one and return new array', () => {
+    const a = [{ id: 1, test: [{ name: 'Bob' }] }];
+    const b = [{ id: 1, test: [{ name: 'John' }] }];
+    const union = [{ id: 1, test: [{ name: 'Bob' }, { name: 'John' }] }];
+    const result = mergeArraysWithObjects(a, b, 'id', 'test');
     expect(Array.isArray(result)).toBeTruthy();
     expect(result).toHaveLength(1);
     expect(result).toEqual(union);
     expect(result[0].test).toHaveLength(2);
   });
 
-  it("should return first argument array", () => {
-    const a = [{id: 1, test: [{name: "Bob"}]}];
+  it('should return first argument array', () => {
+    const a = [{ id: 1, test: [{ name: 'Bob' }] }];
     const b = [];
-    const result = mergeArraysWithObjects(a, b, "id", "test");
+    const result = mergeArraysWithObjects(a, b, 'id', 'test');
     expect(result).toEqual(a);
   });
 
-  it("should return second argument array", () => {
+  it('should return second argument array', () => {
     const a = [];
-    const b = [{id: 1, test: [{name: "John"}]}];
-    const result = mergeArraysWithObjects(a, b, "id", "test");
+    const b = [{ id: 1, test: [{ name: 'John' }] }];
+    const result = mergeArraysWithObjects(a, b, 'id', 'test');
     expect(result).toEqual(b);
   });
 
-  it("should return empty array", () => {
+  it('should return empty array', () => {
     const a = [];
     const b = [];
-    const result = mergeArraysWithObjects(a, b, "id", "test");
+    const result = mergeArraysWithObjects(a, b, 'id', 'test');
     expect(result).toEqual([]);
   });
 });
