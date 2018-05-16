@@ -1,5 +1,8 @@
-import {getNotificationsAsync, deleteNotificationAsync} from '../Notification';
-import {getTokenAsync} from '../../account/Auth';
+import {
+  getNotificationsAsync,
+  deleteNotificationAsync,
+} from '../Notification';
+import { getTokenAsync } from '../../account/Auth';
 import CONFIG from './Config';
 
 describe('Test for retrieving all notifications', () => {
@@ -22,10 +25,9 @@ describe('Test for retrieving all notifications', () => {
     expect('data' in notifications).toBeTruthy();
     expect(notifications.data).toMatchSnapshot();
   });
-  
   it('should delete notification of user', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-    const deleteResponse = {data: true};
+    const deleteResponse = { data: true };
 
     const response = await deleteNotificationAsync(
       1,

@@ -5,10 +5,10 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../utility/Util';
+import { apiResponseErrorHandler } from '../utility/Util';
 
 /**
- * Retrieve Customer's public profile settings
+ * Retrieve Customer' public profile settings
  * @param {string} domain
  * @return {object} Promise resolve/reject
  */

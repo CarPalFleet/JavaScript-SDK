@@ -1,6 +1,6 @@
 {
   "name": "carpal",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "The SDK for CarPal fleet solution development.",
   "main": "dist/build.js",
   "scripts": {
@@ -17,12 +17,11 @@
     "test:integration:watch": "jest --testPathPattern=__integration__  --watch"
   },
   "lint-staged": {
-    "*.{js}": [
+    "*.{js,css,md}": [
       "npm run precommit:prettier",
       "npm run precommit:lint",
       "git add"
-    ],
-    "*.{json,css,md}": ["npm run precommit:prettier", "git add"]
+    ]
   },
   "repository": {
     "type": "git",

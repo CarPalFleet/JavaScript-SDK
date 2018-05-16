@@ -1,4 +1,4 @@
-import {getCountriesAsync} from '../Country';
+import { getCountriesAsync } from '../Country';
 
 test('test for countries', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
