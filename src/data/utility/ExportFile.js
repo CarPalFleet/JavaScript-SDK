@@ -5,10 +5,10 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../utility/Util';
-import {camelToSnake} from '../utility/ChangeCase';
+import { apiResponseErrorHandler } from '../utility/Util';
+import { camelToSnake } from '../utility/ChangeCase';
 
-//TODO: this file should be moved to /Customer since they are always triggered by a Customer
+// TODO: this file should be moved to /Customer since they are always triggered by a Customer
 
 /** Export File
  * @param {string} type (mandatory) # driver-list or routing
@@ -24,7 +24,7 @@ export const exportFileAsync = async (type, payload, token) => {
     const response = await axios({
       method: 'POST',
       url: getExportURL(type),
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
       data: camelToSnake(payload),
     });
 

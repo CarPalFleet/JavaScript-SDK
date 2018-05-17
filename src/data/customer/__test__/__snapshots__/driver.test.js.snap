@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Create new driver  should get getDriverCountsAsync success response 1`] = `
+exports[`Create new driver API V3 should get getDriverCountsAsync success response 1`] = `
 Object {
   "activeStatusCounts": Object {
     "1": 0,
@@ -17,7 +17,7 @@ Object {
 }
 `;
 
-exports[`Create new driver  should get getDriversWithFiltersAsync success response 1`] = `
+exports[`Create new driver API V3 should get getDriversWithFiltersAsync success response 1`] = `
 Object {
   "data": Object {
     "1": Array [],

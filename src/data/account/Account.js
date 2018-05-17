@@ -5,7 +5,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler, customError} from '../utility/Util';
+import { apiResponseErrorHandler, customError } from '../utility/Util';
 
 /**
  * Request reset password
@@ -18,7 +18,7 @@ export const resetPasswordRequestAsync = async (email) => {
     const response = await axios({
       method: 'POST',
       url: endpoints.PASSWORD_RESET,
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       data: {
         email,
       },
@@ -54,7 +54,7 @@ export const resetPasswordAsync = async (
     const response = await axios({
       method: 'PUT',
       url: endpoints.PASSWORD_RESET,
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       data: {
         token,
         email,
@@ -78,7 +78,7 @@ export const validateResetPasswordTokenAsync = async (token) => {
     const response = await axios({
       method: 'POST',
       url: endpoints.PASSWORD_RESET_TOKEN,
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       data: {
         token,
       },
@@ -91,7 +91,7 @@ export const validateResetPasswordTokenAsync = async (token) => {
 };
 
 /**
- * Retrieve Driver's jobs for driver app
+ * Retrieve Driver"s jobs for driver app
  * Old code for driver app (Should move to carpal driver sdk)
  * @param {int} id
  * @param {string} token
@@ -104,7 +104,7 @@ export const getDriverJobsAsync = async (id, token, date) => {
     const response = await axios({
       method: 'GET',
       url: endpoints.MY_JOBS.replace('{0}', id).replace('{1}', date),
-      headers: {Authorization: token},
+      headers: { Authorization: token },
     });
     return camelize(response.data.data);
   } catch (e) {
@@ -113,7 +113,7 @@ export const getDriverJobsAsync = async (id, token, date) => {
 };
 
 /**
- * Retrieve Driver's legs route for driver app
+ * Retrieve Driver"s legs route for driver app
  * Old code for driver app (Should move to carpal driver sdk)
  * @param {string} id
  * @param {string} token
@@ -126,7 +126,7 @@ export const getDriverLegsAsync = async (id, token, date) => {
     const response = await axios({
       method: 'GET',
       url: endpoints.MY_LEGS.replace('{0}', id).replace('{1}', date),
-      headers: {Authorization: token},
+      headers: { Authorization: token },
     });
     return camelize(response.data.data);
   } catch (e) {

@@ -5,7 +5,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../utility/Util';
+import { apiResponseErrorHandler } from '../utility/Util';
 
 /**
  * Get Notification
@@ -20,7 +20,7 @@ export const getNotificationsAsync = async (all = false, userId, token) => {
     let response = await axios({
       method: 'GET',
       url: `${endpoints.NOTIFICATIONS.replace('{0}', userId)}?all=${all}`,
-      headers: {Authorization: token},
+      headers: { Authorization: token },
     });
 
     return camelize(response.data);
@@ -48,7 +48,7 @@ export const deleteNotificationAsync = async (
         '{0}',
         userId
       )}/${notificationId}`,
-      headers: {Authorization: token},
+      headers: { Authorization: token },
     });
 
     return camelize(response);

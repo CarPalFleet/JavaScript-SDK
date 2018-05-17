@@ -5,7 +5,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../utility/Util';
+import { apiResponseErrorHandler } from '../utility/Util';
 
 /**
  * Create New Customer
@@ -37,7 +37,7 @@ export const createNewCustomerAsync = async ({
     const response = await axios({
       method: 'POST',
       url: endpoints.NEW_CUSTOMER,
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       data: {
         email,
         password,

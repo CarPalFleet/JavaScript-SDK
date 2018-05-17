@@ -1,4 +1,4 @@
-import {getTokenAsync} from '../../account/Auth';
+import { getTokenAsync } from '../../account/Auth';
 import {
   getCustomerPreferenceSettingsAsync,
   showCustomerSettingsAsync,

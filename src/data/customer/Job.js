@@ -21,7 +21,7 @@ export const getJobDetailAsync = async (jobId, token) => {
     const jobDetail = await axios({
       method: 'GET',
       url: endpoints.API_V3.JOB.replace('{0}', jobId),
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     return camelize(jobDetail.data);
@@ -41,7 +41,7 @@ export const getJobSummaryAsync = async (jobId, token) => {
     const jobSummary = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.JOB.replace('{0}', jobId)}/summary`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     return camelize(jobSummary.data);
@@ -57,8 +57,8 @@ export const getJobSummaryAsync = async (jobId, token) => {
  * @return {object} Promise resolve/reject
  * @deprecated since version 0.1.77
  */
- //TODO: needs unit testing
- //TODO: there no such thing as Recommended Jobs? Should be deprecated?
+// TODO: needs unit testing
+// TODO: there no such thing as Recommended Jobs? Should be deprecated?
 export const getRecommendedJobsAsync = async (filterObject = {}, token) => {
   try {
     let paramString = convertObjectIntoURLString(filterObject);
@@ -68,7 +68,7 @@ export const getRecommendedJobsAsync = async (filterObject = {}, token) => {
         '&',
         '?'
       )}`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     return camelize(jobSummary.data);

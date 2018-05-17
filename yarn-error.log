@@ -1,5 +1,9 @@
 Arguments: 
+<<<<<<< HEAD
   /usr/local/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js test -t Create new driver API V3
+=======
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js test -t Union two arrays into one if ids are equal
+>>>>>>> dev
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -16,7 +20,11 @@ Platform:
 npm manifest: 
   {
     "name": "carpal",
+<<<<<<< HEAD
     "version": "0.3.1",
+=======
+    "version": "0.3.3",
+>>>>>>> dev
     "description": "The SDK for CarPal fleet solution development.",
     "main": "dist/build.js",
     "scripts": {
@@ -102,7 +110,11 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: sh
+<<<<<<< HEAD
   Arguments: -c jest --testPathIgnorePatterns=__integration__ -t 'Create new driver API V3'
+=======
+  Arguments: -c jest --testPathIgnorePatterns=__integration__ -t 'Union two arrays into one if ids are equal'
+>>>>>>> dev
   Directory: /Users/vitalii/Documents/projects/carpal/JavaScript-SDK
   Output:
   

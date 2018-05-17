@@ -1,4 +1,4 @@
-import {getTokenAsync} from '../Auth';
+import { getTokenAsync } from '../Auth';
 import config from './Config';
 
 describe('Auth integration test', () => {
@@ -26,7 +26,13 @@ describe('Auth integration test', () => {
       );
       expect(response).toBeNull(); // Should not trigger, only if is there is no exception which is not expected behavior
     } catch (error) {
-      const expected = {"errorMessage": [{"key": null, "messages": ["The user credentials were incorrect."]}], "statusCode": 401, "statusText": "Unauthorized"};
+      const expected = {
+        errorMessage: [
+          { key: null, messages: ['The user credentials were incorrect.'] },
+        ],
+        statusCode: 401,
+        statusText: 'Unauthorized',
+      };
       expect(error).toEqual(expected);
     }
   });
