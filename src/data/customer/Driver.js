@@ -16,97 +16,89 @@ import { camelToSnake } from '../utility/ChangeCase';
 
 /**
  * Create Driver
- * @param {object} driverInfo {}
- * birthday (mandatory) (string)
- * driverTypeIds (mandatory) (string) #csv Eg. 2,3
- * email (mandatory) (string)
- * existingUserEmail (optional) (boolean)
- * firstName (mandatory) (string)
- * identityId (mandatory) (string)
- * isNewUser (optional) (boolean)
- * lastName (mandatory) (string)
- * password (mandatory) (string)
- * phone (mandatory) (string)
- * productTypeId (mandatory) (int)
+ * transactionGroupIds (mandatory) (array)
  * sendConfirmationSms (optional) (boolean)
- * transactionGroupId (int) (int)
- * vehicleBrand (optional) (string)
- * vehicleColor (optional) (string)
- * vehicleLicenseNumber (optional) (int)
- * vehicleModel (optional) (string)
- * vehicleModelYear (optional) (int)
- * vehicleTypeId (optional) (int)
- * @param {int} customerId
+ * sendConfirmationEmail (optional) (boolean)
+ * driverTypeIds (mandatory) (array) #csv Eg. [2,3]
+ * firstName (mandatory) (string)
+ * lastName (mandatory) (string)
+ * email (mandatory) (string)
+ * password (mandatory) (string)
+ * birthday (mandatory) (string) (Y-m-d)
+ * phone (mandatory) (string)
+ * vehicle (array) contains vehicle info
+ * vehicle.vehicleColor (optional) (string)
+ * vehicle.averageSpeed (int) (string)
+ * vehicle.maximumCapacity (int) number
+ * vehicle.vehicleModelYear (optional) (int)
+ * vehicle.vehicleLicenseNumber (optional) (int)
+ * vehicle.vehicleBrand (optional) (string)
+ * vehicle.vehicleModel (optional) (string)
+ * vehicle.vehicleTypeId (optional) (int)
+ * @param {object} driverInfo {}
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
 export const createDriverAsync = async (
   {
-    birthday,
-    driverTypeIds,
-    email,
-    existingUserEmail = false,
-    firstName,
-    identityId,
-    isNewUser,
-    lastName,
-    password,
-    phone,
-    productTypeId,
-    // TODO: where is the sendConfirmationEmail?
+    transactionGroupIds,
     sendConfirmationSms = false,
-    transactionGroupId,
-    vehicleBrand,
+    sendConfirmationEmail = false,
+    driverTypeIds,
+    firstName,
+    lastName,
+    email,
+    password,
+    birthday,
+    phone,
     vehicleColor,
-    vehicleLicenseNumber,
-    vehicleModel,
+    averageSpeed,
+    maximumCapacity,
     vehicleModelYear,
+    vehicleLicenseNumber,
+    vehicleBrand,
+    vehicleModel,
     vehicleTypeId,
   },
-  customerId,
-  token
+  token,
 ) => {
   try {
-    const defaultPayload = {
-      driverTypeIds,
-      identityId,
-      isNewUser,
-      productTypeId,
+    const data = {
+      transactionGroupIds,
       sendConfirmationSms,
-      transactionGroupId,
+      sendConfirmationEmail,
+      driverTypeIds,
+      firstName,
+      lastName,
+      email,
+      password,
+      birthday,
+      phone,
       vehicle: {
-        vehicleBrand,
         vehicleColor,
-        vehicleLicenseNumber,
-        vehicleModel,
+        averageSpeed,
+        maximumCapacity,
         vehicleModelYear,
+        vehicleLicenseNumber,
+        vehicleBrand,
+        vehicleModel,
         vehicleTypeId,
       },
     };
 
-    let newPayload;
+    const driver = camelToSnake({
+      ...data,
+      vehicle: camelToSnake(data.vehicle),
+    });
 
-    if (isNewUser) {
-      newPayload = {
-        ...defaultPayload,
-        birthday: birthday || '',
-        email,
-        firstName,
-        lastName,
-        password,
-        phone: phone || '',
-      };
-    } else {
-      newPayload = { ...defaultPayload, existingUserEmail };
-    }
     const response = await axios({
       method: 'POST',
-      url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),
+      url: endpoints.API_V3.CUSTOMER_DRIVER,
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      data: newPayload,
+      data: driver,
     });
 
     return camelize(response.data.data);
@@ -171,21 +163,120 @@ export const getDriversAsync = async (filterObject = {}, token) => {
 
 /**
  * Update Driver
- * @param {object} filterObject
+ * @param {object} driverDetailsInfo {}
+ * id (int)
+ * isActive (boolean)
+ * languageIds (array)
+ * transactionGroupIds (array)
+ * driverTypeIds (array)
+ * interviewDetails (object)
+ * interviewDetails.hasCriminalRecord (boolean)
+ * interviewDetails.isAProfessionalDriver (boolean)
+ * interviewDetails.hasWorkAsDriver (boolean)
+ * interviewDetails.hasWorkedForSameCompany (boolean)
+ * interviewDetails.referredFrom (string)
+ * interviewDetails.drivingReason (string)
+ * interviewDetails.remarks (string)
+ * user (object)
+ * user.firstName (string)
+ * user.lastName (string)
+ * user.phone (string|regex:/^(00|\+)\d{1,4}\d{4,11}$/)
+ * user.password (string)
+ * user.passwordConfirmation (string)
+ * vehicle (object)
+ * vehicle.modelYear (optional) (int)
+ * vehicle.averageSpeed (optional) (int) min: 0
+ * vehicle.maximumCapacity (optional) (int) min: 0
+ * vehicle.typeId (optional) (int)
+ * vehicle.model (optional) (string)
+ * vehicle.brand (optional) (string)
+ * vehicle.licenseNumber (optional) (string)
+ * vehicle.color (optional) (string)
+ * bank (object)
+ * bank.branchCode (optional) (string)
+ * bank.code (optional) (string)
+ * bank.name (optional) (string)
+ * bank.accountNumber (optional) (string)
  * @param {string} token
- * @return {promise} reject/resolve
- * @deprecated since version 0.1.77
+ * @return {object} Promise resolve/reject
  */
-export const updateDriverAsync = async (filterObject = {}, token) => {
+export const updateDriverAsync = async ({
+  id,
+  isActive,
+  languageIds,
+  transactionGroupIds,
+  driverTypeIds,
+  hasCriminalRecord,
+  isAProfessionalDriver,
+  hasWorkAsDriver,
+  hasWorkedForSameCompany,
+  referredFrom,
+  drivingReason,
+  remarks,
+  firstName,
+  lastName,
+  phone,
+  password,
+  passwordConfirmation,
+  modelYear,
+  averageSpeed,
+  maximumCapacity,
+  typeId,
+  model,
+  brand,
+  licenseNumber,
+  color,
+  branchCode,
+  code,
+  name,
+  accountNumber,
+}, token) => {
   try {
-    let paramString = convertObjectIntoURLString(filterObject);
-
+    const driverInfo = camelToSnake({
+      id,
+      isActive,
+      languageIds,
+      transactionGroupIds,
+      driverTypeIds,
+      interviewDetails: camelToSnake({
+        hasCriminalRecord,
+        isAProfessionalDriver,
+        hasWorkAsDriver,
+        hasWorkedForSameCompany,
+        referredFrom,
+        drivingReason,
+        remarks,
+      }),
+      user: camelToSnake({
+        firstName,
+        lastName,
+        phone,
+        password,
+        passwordConfirmation,
+      }),
+      vehicle: camelToSnake({
+        modelYear,
+        averageSpeed,
+        maximumCapacity,
+        typeId,
+        model,
+        brand,
+        licenseNumber,
+        color,
+      }),
+      bank: camelToSnake({
+        branchCode,
+        code,
+        name,
+        accountNumber,
+      }),
+    });
     const response = await axios({
       method: 'PUT',
-      url: `${endpoints.API_V3.DRIVER}/${paramString.replace('&', '?')}`,
+      url: endpoints.API_V3.DRIVER_UPDATE.replace('{0}', id),
       headers: { Authorization: `Bearer ${token}` },
+      data: driverInfo,
     });
-
     return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
