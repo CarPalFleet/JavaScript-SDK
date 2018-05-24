@@ -1,6 +1,6 @@
 const urlPrefix =
   'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
-const laravelUrlPrefix = 'https://api-test.carpal.me';
+const laravelUrlPrefix = 'https://api-pre-test.carpal.me';
 const version = 'v3';
 
 const endpoints = {
@@ -34,13 +34,13 @@ const endpoints = {
   CUSTOMER_SETTINGS_SHOW: `${urlPrefix}/settings/{0}`,
   API_V3: {
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
-    GROUPING_LOCATIONS: `${laravelUrlPrefix}/${version}/customer/grouping-location`,
+    GROUPING_LOCATIONS: `${laravelUrlPrefix}/${version}/customer/order`,
     GROUPING_LOCATION_COUNT: `${laravelUrlPrefix}/${version}/customer/grouping-location/total`,
     GROUPING_BATCH_PROGRESSION: `${laravelUrlPrefix}/${version}/customer/grouping-batch/show-recent-pending`,
     PICKUP_GROUP: `${laravelUrlPrefix}/${version}/customer/pickup-group`,
     DRIVER: `${laravelUrlPrefix}/${version}/customer/driver`,
     DRIVER_ROUTE: `${laravelUrlPrefix}/${version}/customer/driver-route`,
-    JOB: `${laravelUrlPrefix}/${version}/customers/job/{0}`,
+    JOB: `${laravelUrlPrefix}/${version}/customer/job/{0}`,
     ROUTE: `${laravelUrlPrefix}/${version}/customer/route/{0}`,
     STORE_ROUTE: `${laravelUrlPrefix}/${version}/customer/route`,
     OPTIMIZE_ROUTE: `${laravelUrlPrefix}/${version}/customer/route/optimization`,
