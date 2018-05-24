@@ -29,7 +29,7 @@ describe('Order tests', async () => {
     );
   });
 
-  it('Retrieving single grouping location, expect 401', async () => {
+  it('Retrieving single order, expect 401', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
@@ -43,7 +43,7 @@ describe('Order tests', async () => {
     }
   });
 
-  it('Retrieving validated grouping locations', async () => {
+  it('Retrieving validated orders', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const filterObject = {
@@ -70,7 +70,7 @@ describe('Order tests', async () => {
     }
   });
 
-  it('Retrieving grouping locations empty batch', async () => {
+  it('Retrieving orders empty batch', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     const filterObject = {
@@ -102,7 +102,7 @@ describe('Order tests', async () => {
 
     const filterObject = {
       pickupDate: '2018-04-15',
-      withOrder: 0,
+      withJob: 0,
     };
 
     try {
@@ -116,7 +116,7 @@ describe('Order tests', async () => {
     }
   });
 
-  it('Retrieving error grouping locations from DynamoDB', async () => {
+  it('Retrieving error orders from DynamoDB', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
@@ -170,7 +170,7 @@ describe('Order tests', async () => {
     }
   });
 
-  it('Create Grouping Location with date in the past', async () => {
+  it('Create Order with date in the past', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {

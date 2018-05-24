@@ -56,9 +56,9 @@ export const getOrdersWithFiltersAsync = async (
 
 /**
  * Retrieve Remaining Orders Count
- * @param {object} filterObject # {pickupDate, withOrder}
+ * @param {object} filterObject # {pickupDate, withJob}
  * pickupDate (mandatory)(string) = "2018-02-28"
- * withOrder (optional)(int)
+ * withJob(optional)(int)
  //TODO: should be renamed to jobs after API is refactored
  * @param {string} token
  * @return {object} Promise resolve/reject
@@ -68,10 +68,7 @@ export const getRemainingOrdersCountAsync = async (filterObject, token) => {
   try {
     const response = await axios({
       method: 'GET',
-      url: `${endpoints.API_V3.GROUPING_LOCATION_COUNT}${paramString.replace(
-        '&',
-        '?'
-      )}`,
+      url: `${endpoints.API_V3.ORDER_COUNT}${paramString.replace('&', '?')}`,
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -250,16 +247,16 @@ export const getUploadedOrderProgressionAsync = async (customerId, token) => {
 
 /**
  * Retrieve single order
- * @param {object} groupingLocationId
+ * @param {object} orderId
  * @param {string} token
  * @return {object} Promise resolve/reject
  //TODO: needs more extensive unit testing
  */
-export const getOrderAsync = async (groupingLocationId, token) => {
+export const getOrderAsync = async (orderId, token) => {
   try {
     let response = await axios({
       method: 'GET',
-      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${groupingLocationId}`,
+      url: `${endpoints.API_V3.ORDER}/${orderId}`,
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -412,10 +409,10 @@ export const findDuplicateIndexes = (newValues, accumulator, oldValues, i) => {
 
 /**
  * Get Remaining Orders
- * @param {object} filterObject # {statusIds, pickupDate (mandatory), withOrder, withDriver, withRoute, sort, limit, offset}
- * StatusIds = 1/2/3/4. 1 for "pending", 2 for "validated", 3 for "grouped", 4 for "failed"
+ * @param {object} filterObject # {statusIds, pickupDate (mandatory), withJob, withDriver, withRoute, sort, limit, offset}
+ * statusIds = 1/2/3/4. 1 for "pending", 2 for "validated", 3 for "grouped", 4 for "failed"
  * pickupDate (mandatory) = "2018-02-28"
- * withOrder (optional) = 1 OR 0
+ * withJob (optional) = 1 OR 0
  * driverId (optional) = 1234
  * sort (optional) = fieldName,asc OR desc
  * limit = 20 (optional)
@@ -446,9 +443,9 @@ export const getOrdersAsync = async (filterObject, token) => {
   try {
     /*
       Add following filter for remaining order
-      statusIds = 2; // Success Grouping Locations
-      withRoute = 0; // Grouping locations without routes
-      withOrder = 1; // Grouping Location should have included orderId
+      statusIds = 2; // Success Orders
+      withRoute = 0; // Orders without routes
+      withJob = 1; // Order should have included jobId
       include = "pickup_group,delivery_address"
       limit = 20
       offset = 0
@@ -457,10 +454,7 @@ export const getOrdersAsync = async (filterObject, token) => {
     let paramString = convertObjectIntoURLString(filters);
     let response = await axios({
       method: 'GET',
-      url: `${endpoints.API_V3.GROUPING_LOCATIONS}${paramString.replace(
-        '&',
-        '?'
-      )}`,
+      url: `${endpoints.API_V3.ORDER}${paramString.replace('&', '?')}`,
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -584,9 +578,9 @@ export const removeOrderErrorRecordsAsync = async (errorIds = [], token) => {
 
 /**
  * Get pickup group
- * @param {object} filterObject # {pickupDate (mandatory), withOrder}
+ * @param {object} filterObject # {pickupDate (mandatory), withJob}
  * pickupDate (optional)(string) = "2018-02-28"
- * withOrder (optional)(int) = 0
+ * withJob (optional)(int) = 0
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
@@ -616,7 +610,7 @@ export const getUniquePickupAddressesAsync = async (filterObject, token) => {
 
 /**
  * Create single order
- * @param {object} locationObject
+ * @param {object} orderObject
  //TODO: this object is not complete, an order can have much more parameters
  {
    pickupLocationAddress: "22 Gim moh road",
@@ -631,18 +625,18 @@ export const getUniquePickupAddressesAsync = async (filterObject, token) => {
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const createOrderAsync = async (locationObject, token) => {
+export const createOrderAsync = async (orderObject, token) => {
   try {
-    locationObject = camelToSnake(locationObject);
+    orderObject = camelToSnake(orderObject);
     let response = await axios({
       method: 'POST',
-      url: endpoints.API_V3.GROUPING_LOCATIONS,
+      url: endpoints.API_V3.ORDER,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       data: {
-        location_data: JSON.stringify(camelToSnake(locationObject)),
+        location_data: JSON.stringify(camelToSnake(orderObject)),
       },
     });
 
@@ -654,8 +648,8 @@ export const createOrderAsync = async (locationObject, token) => {
 
 /**
  * Edit single order
- * @param {int} groupingLocationId
- * @param {object} locationObject
+ * @param {int} orderId
+ * @param {object} orderObject
  //TODO: this object is not complete, an order can have much more parameters
  {
    pickupLocationAddress: "22 Gim moh road",
@@ -670,19 +664,15 @@ export const createOrderAsync = async (locationObject, token) => {
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const editOrderAsync = async (
-  groupingLocationId,
-  locationObject,
-  token
-) => {
+export const editOrderAsync = async (orderId, orderObject, token) => {
   try {
     let updatedLocationDataObject = {
-      location_data: JSON.stringify(camelToSnake(locationObject)),
+      location_data: JSON.stringify(camelToSnake(orderObject)),
     };
 
     let response = await axios({
       method: 'PUT',
-      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${groupingLocationId}`,
+      url: `${endpoints.API_V3.ORDER}/${orderId}`,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -698,7 +688,7 @@ export const editOrderAsync = async (
 
 /**
  * Edit multiple orders
- * @param {array} locationDataList
+ * @param {array} orderDataList
  //TODO: this object is not complete, an order can have much more parameters
  [
    {
@@ -718,11 +708,11 @@ export const editOrderAsync = async (
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const editOrdersAsync = async (locationDataList = [], token) => {
+export const editOrdersAsync = async (orderDataList = [], token) => {
   try {
-    let updatedLocationDataList = locationDataList.map((data) => {
+    let updatedOrderDataList = orderDataList.map((data) => {
       let tmpObject = {
-        grouping_location_id: data.groupingLocationId,
+        order_id: data.orderId,
         location_data: JSON.stringify(camelToSnake(data.locationData)),
       };
       return tmpObject;
@@ -730,12 +720,12 @@ export const editOrdersAsync = async (locationDataList = [], token) => {
 
     let response = await axios({
       method: 'PUT',
-      url: endpoints.API_V3.GROUPING_LOCATIONS,
+      url: endpoints.API_V3.ORDER,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      data: updatedLocationDataList,
+      data: updatedOrderDataList,
     });
 
     return camelize(response.data);
@@ -746,16 +736,16 @@ export const editOrdersAsync = async (locationDataList = [], token) => {
 
 /**
  * Delete single order
- * @param {array} groupingLocationId
+ * @param {array} orderId
  * @param {string} token
  * @return {object} Promise resolve/reject
  * return {data: true} if deleting is success
  */
-export const deleteOrderAsync = async (groupingLocationId, token) => {
+export const deleteOrderAsync = async (orderId, token) => {
   try {
     await axios({
       method: 'DELETE',
-      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${groupingLocationId}`,
+      url: `${endpoints.API_V3.ORDER}/${orderId}`,
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -767,19 +757,17 @@ export const deleteOrderAsync = async (groupingLocationId, token) => {
 
 /**
  * Delete Multiple Orders
- * @param {array} groupingLocationIds
+ * @param {array} orderIds
  * @param {string} token
  * @return {object} Promise resolve/reject
  * return {data: true} if deleting is success
  */
-export const deleteOrdersAsync = async (groupingLocationIds = [], token) => {
+export const deleteOrdersAsync = async (orderIds = [], token) => {
   try {
-    let paramString = groupingLocationIds.join();
+    let paramString = orderIds.join();
     await axios({
       method: 'DELETE',
-      url: `${
-        endpoints.API_V3.GROUPING_LOCATIONS
-      }?grouping_location_ids=${paramString}`,
+      url: `${endpoints.API_V3.ORDER}?grouping_location_ids=${paramString}`,
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -800,7 +788,7 @@ export const cancelBatchFileProcessAsync = async (batchId, token) => {
   try {
     let response = await axios({
       method: 'DELETE',
-      url: `${endpoints.API_V3.GROUPING_LOCATIONS}/${batchId}`,
+      url: `${endpoints.API_V3.ORDER}/${batchId}`,
       headers: { Authorization: `Bearer ${token}` },
     });
 
