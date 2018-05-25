@@ -47,7 +47,7 @@ export const getRoutesAsync = async (filterObject, token) => {
  * routeSettings (optional) (json string),
  * routeLocations (mandatory) (array),
  * sequence (mandatory) (int),
- * groupingLocationId (mandatory) (int)
+ * orderId (mandatory) (int)
  * locationTypeId  (mandatory) (int) (2 for Delivery Location or 3 for Pickup Location)
  * routeCapacity (optional) (decimal)
  * replaceAllExisting (boolean) (optional)
@@ -61,7 +61,7 @@ export const getRoutesAsync = async (filterObject, token) => {
        "routeLocations": [
          {
            "sequence": 1,
-           "groupingLocationId": 1,
+           "orderId": 1,
            "locationTypeId": 3,
            "routeCapacity": 10.5
          }

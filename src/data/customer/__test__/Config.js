@@ -38,7 +38,7 @@ const CONFIG = {
       route_locations: [
         {
           sequence: 1,
-          grouping_location_id: 1,
+          order_id: 1,
           location_type_id: 3,
           route_capacity: 10.5,
         },
