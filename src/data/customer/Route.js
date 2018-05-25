@@ -14,10 +14,10 @@ import toArray from 'lodash.toarray';
 
 /**
  * Get Routes
- * @param {object} filterObject # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, page}
+ * @param {object} filterObject # {pickupDate (mandatory), routeStatusIds, includeJobs, limit, page}
  * pickupDate (optional)(string) = "2018-02-28"
  * routeStatusIds (optional)(int) = 1,2 (csv)
- * includeOrders (optional)(bollean) = true/false
+ * includeJobs (optional)(bollean) = true/false
  * limit = 20 (optional)(int)
  * page = 0 (optional)(int)
  * @param {string} token

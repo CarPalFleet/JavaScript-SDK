@@ -26,16 +26,26 @@ export const apiResponseErrorHandler = (e) => {
   let rejectObj = {};
   let messages = null;
   if (e.response) {
-    if (e.response.data.error && e.response.data.error.message) {
-      messages = e.response.data.error.message.split(',');
+    if (e.response.data && e.response.data.errors) {
+      let errors = [];
+      let errorObj = e.response.data.errors;
+      if (errorObj.location_data) {
+        errorObj = errorObj.location_data;
+      }
+      const keys = Object.keys(errorObj);
+      keys.forEach((key) => {
+        errors = errors.concat(errorObj[key]);
+      });
+      messages = errors;
     }
     rejectObj = {
       statusCode: e.response.status,
       statusText: e.response.statusText,
-      errorMessage: getFormattedErrorArray(
-        messages || e.response.data['Message']
-      ),
+      errorMessage:
+        messages || getFormattedErrorArray(e.response.data['Message']),
     };
+  } else if (e.statusCode) {
+    rejectObj = e;
   } else {
     /* Catch error of e.response
     That will be undefined when status code is 403 Forbidden */

@@ -29,17 +29,17 @@ describe('Order tests', async () => {
     );
   });
 
-  it('Retrieving single order, expect 401', async () => {
+  it('Retrieving single order, expect 404', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
       const response = await getOrderAsync(
         CONFIG.groupingLocationId,
-        CONFIG.token
+        token.accessToken
       );
       expect('data' in response).toBeTruthy();
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 401);
+      expect(error).toHaveProperty('statusCode', 404);
     }
   });
 
@@ -80,20 +80,20 @@ describe('Order tests', async () => {
       offset: 0,
     };
 
-    const response = await getOrdersGroupByPickUpAddressAsync(
-      filterObject,
-      CONFIG.customerId,
-      token.accessToken
-    );
-
     try {
+      const response = await getOrdersGroupByPickUpAddressAsync(
+        filterObject,
+        CONFIG.customerId,
+        token.accessToken
+      );
+
       expect('data' in response).toBeTruthy();
       expect('totalLocationCount' in response).toBeTruthy();
       expect('successLocationCount' in response).toBeTruthy();
       expect('failedLocationCount' in response).toBeTruthy();
       expect(response).toHaveProperty('totalLocationCount', 0);
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 401);
+      expect(error).toHaveProperty('statusCode', 400);
     }
   });
 
@@ -112,7 +112,7 @@ describe('Order tests', async () => {
       );
       expect('totalCount' in responseCount).toBeTruthy();
     } catch (error) {
-      await expect(error).rejects.toHaveProperty('statusCode', 400);
+      expect(error).toHaveProperty('statusCode', 401);
     }
   });
 
@@ -127,7 +127,7 @@ describe('Order tests', async () => {
       );
       expect(response.data instanceof Array).toBeTruthy();
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 401);
+      expect(error).toHaveProperty('statusCode', 400);
     }
   });
 
@@ -137,15 +137,15 @@ describe('Order tests', async () => {
     try {
       const response = await updateAndTruncateOrderErrorsAsync(
         CONFIG.orderWithErrorIds,
-        CONFIG.locationDataList,
+        CONFIG.orderDataList,
         token.accessToken
       );
       expect('data' in response).toBeTruthy();
     } catch (error) {
       const expected = {
-        statusCode: 400,
-        statusText: 'Bad Request',
-        errorMessage: [],
+        statusCode: 404,
+        statusText: 'Not Found',
+        errorMessage: ['Order not found'],
       };
       expect(error).toEqual(expected);
     }
@@ -182,10 +182,7 @@ describe('Order tests', async () => {
     } catch (error) {
       const expected = {
         errorMessage: [
-          {
-            key: '0',
-            messages: 'The pickup date should be after or equal current date.',
-          },
+          'The pickup date should be after or equal current date.',
         ],
         statusCode: 400,
         statusText: 'Bad Request',
@@ -208,18 +205,22 @@ describe('Order tests', async () => {
     }
   });
 
-  it('Edit Grouping Location not found', async () => {
+  it('Edit Order not found', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
-      const response = await editOrderAsync(1, '28-02-2018', token.accessToken);
+      const response = await editOrderAsync(
+        1,
+        { pickupDate: '28-02-2018' },
+        token.accessToken
+      );
 
       expect('data' in response).toBeTruthy();
     } catch (error) {
       const expected = {
-        errorMessage: [{ key: '0', messages: 'Grouping Location not found' }],
-        statusCode: 400,
-        statusText: 'Bad Request',
+        errorMessage: ['Order not found'],
+        statusCode: 404,
+        statusText: 'Not Found',
       };
       expect(error).toEqual(expected);
     }
@@ -247,9 +248,9 @@ describe('Order tests', async () => {
       expect(response.data).toBeTruthy();
     } catch (error) {
       const expected = {
-        statusCode: 400,
-        statusText: 'Bad Request',
-        errorMessage: [{ key: '0', messages: 'Grouping Location not found' }],
+        statusCode: 404,
+        statusText: 'Not Found',
+        errorMessage: ['Order not found'],
       };
       expect(error).toEqual(expected);
     }
@@ -266,9 +267,9 @@ describe('Order tests', async () => {
       expect(response.data).toBeTruthy();
     } catch (error) {
       const expected = {
-        statusCode: 400,
-        statusText: 'Bad Request',
-        errorMessage: [{ key: '0', messages: 'Grouping Location not found' }],
+        statusCode: 404,
+        statusText: 'Not Found',
+        errorMessage: ['Order not found'],
       };
       expect(error).toEqual(expected);
     }
@@ -290,7 +291,6 @@ describe('Convert Ids into CSV string', () => {
 describe('Remove batch errors of order from Dynamodb', () => {
   it('Should response an object and data should be true.', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-
     const response = await removeOrderErrorRecordsAsync(
       CONFIG.orderWithErrorIds,
       CONFIG.token

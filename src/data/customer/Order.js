@@ -233,11 +233,20 @@ export const getUploadedOrderProgressionAsync = async (customerId, token) => {
     let result = camelize(response.data);
 
     let updatedProgressData = {
-      chunkProgression: result.data.chunkProgressionCount,
-      totalChunkProgression: result.data.totalLocationCount,
-      failedLocationCount: result.data.failedLocationCount,
+      chunkProgression: 0,
+      totalChunkProgression: 0,
+      failedLocationCount: 0,
       groupingLocationIdsSuccess: [],
     };
+
+    if (response.status !== 204) {
+      updatedProgressData = {
+        chunkProgression: result.data.chunkProgressionCount,
+        totalChunkProgression: result.data.totalLocationCount,
+        failedLocationCount: result.data.failedLocationCount,
+        groupingLocationIdsSuccess: [],
+      };
+    }
 
     return { data: updatedProgressData };
   } catch (e) {
@@ -486,7 +495,6 @@ export const getErrorOrderContentsAsync = async (
       )}?pickupDate=${pickupDate}`,
       headers: { Authorization: token },
     });
-
     return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
@@ -516,7 +524,9 @@ export const updateAndTruncateOrderErrorsAsync = async (
 ) => {
   try {
     let editResponse = await editOrdersAsync(locationDataList, token);
-    await removeOrderErrorRecordsAsync(errorIds, token);
+    if (editResponse) {
+      await removeOrderErrorRecordsAsync(errorIds, token);
+    }
 
     return {
       data: editResponse,
@@ -524,7 +534,7 @@ export const updateAndTruncateOrderErrorsAsync = async (
       isTruncateErrorReords: true,
     };
   } catch (e) {
-    return rejectPromise(e);
+    return apiResponseErrorHandler(e);
   }
 };
 
@@ -767,7 +777,7 @@ export const deleteOrdersAsync = async (orderIds = [], token) => {
     let paramString = orderIds.join();
     await axios({
       method: 'DELETE',
-      url: `${endpoints.API_V3.ORDER}?grouping_location_ids=${paramString}`,
+      url: `${endpoints.API_V3.ORDER}?order_ids=${paramString}`,
       headers: { Authorization: `Bearer ${token}` },
     });
 
