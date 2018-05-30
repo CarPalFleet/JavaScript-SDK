@@ -86,7 +86,7 @@ describe('Create new driver ', async () => {
       jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
       await updateDriverAsync({}, token.accessToken);
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 400);
+      expect(error).toHaveProperty('statusCode', 404);
     }
   });
 
@@ -261,11 +261,8 @@ describe('Create new driver ', async () => {
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 400);
       expect(error).toHaveProperty('errorMessage', [
-        { key: '0', messages: 'Driver does not belong to you' },
-        {
-          key: '1',
-          messages: ' Driver does not match Transaction Group',
-        },
+        'Driver does not belong to you',
+        'Driver does not match Transaction Group',
       ]);
     }
   });

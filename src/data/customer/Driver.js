@@ -60,7 +60,7 @@ export const createDriverAsync = async (
     vehicleModel,
     vehicleTypeId,
   },
-  token,
+  token
 ) => {
   try {
     const data = {
@@ -200,37 +200,40 @@ export const getDriversAsync = async (filterObject = {}, token) => {
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const updateDriverAsync = async ({
-  id,
-  isActive,
-  languageIds,
-  transactionGroupIds,
-  driverTypeIds,
-  hasCriminalRecord,
-  isAProfessionalDriver,
-  hasWorkAsDriver,
-  hasWorkedForSameCompany,
-  referredFrom,
-  drivingReason,
-  remarks,
-  firstName,
-  lastName,
-  phone,
-  password,
-  passwordConfirmation,
-  modelYear,
-  averageSpeed,
-  maximumCapacity,
-  typeId,
-  model,
-  brand,
-  licenseNumber,
-  color,
-  branchCode,
-  code,
-  name,
-  accountNumber,
-}, token) => {
+export const updateDriverAsync = async (
+  {
+    id,
+    isActive,
+    languageIds,
+    transactionGroupIds,
+    driverTypeIds,
+    hasCriminalRecord,
+    isAProfessionalDriver,
+    hasWorkAsDriver,
+    hasWorkedForSameCompany,
+    referredFrom,
+    drivingReason,
+    remarks,
+    firstName,
+    lastName,
+    phone,
+    password,
+    passwordConfirmation,
+    modelYear,
+    averageSpeed,
+    maximumCapacity,
+    typeId,
+    model,
+    brand,
+    licenseNumber,
+    color,
+    branchCode,
+    code,
+    name,
+    accountNumber,
+  },
+  token
+) => {
   try {
     const driverInfo = camelToSnake({
       id,
@@ -321,7 +324,7 @@ export const getDriversBasedOnSearchResult = async (
 /**
  * Get Driver with filters
  * @param {object} filterObject {orderRouteTypeIds, driverTypeIds, driverStatusId}
- * orderRouteTypeIds (string) (optinal) 1,2 #csv string
+ * jobRouteTypeIds (string) (optinal) 1,2 #csv string
  * * 1 means Live, 2 means POD
  * driverTypeIds (string) (optinal) 1 #csv string
  * * 1 means Inhouse, 2 means Public, 3 means Service Provider

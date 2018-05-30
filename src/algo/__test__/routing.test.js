@@ -25,9 +25,7 @@ describe('Call route optimization endpoints', () => {
       const expected = {
         statusCode: 400,
         statusText: 'Bad Request',
-        errorMessage: [
-          { key: '0', messages: 'Route Setting does not belong to you' },
-        ],
+        errorMessage: ['Route Setting does not belong to you'],
       };
       expect(e).toEqual(expected);
     }

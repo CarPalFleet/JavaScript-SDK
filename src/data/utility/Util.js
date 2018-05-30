@@ -36,7 +36,9 @@ export const apiResponseErrorHandler = (e) => {
       keys.forEach((key) => {
         errors = errors.concat(errorObj[key]);
       });
-      messages = errors;
+      if (errors.length) {
+        messages = errors;
+      }
     }
     rejectObj = {
       statusCode: e.response.status,
@@ -100,7 +102,14 @@ export const getFormattedErrorArray = (errorMessage) => {
  * @return {array} [key, value]
  */
 export const convertObjectIntoKeyValueArray = (object) => {
-  return Object.entries(object);
+  // implementation of Object.entries as it is not available in all browsers
+  const ownProps = Object.keys(object);
+  let i = ownProps.length;
+  const resArray = new Array(i); // preallocate the Array
+  while (i--) {
+    resArray[i] = [ownProps[i], object[ownProps[i]]];
+  }
+  return resArray;
 };
 
 /**

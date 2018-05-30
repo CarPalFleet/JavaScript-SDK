@@ -19,42 +19,6 @@ import {
 } from '../utility/Util';
 
 /**
- * Get Order with filters for Dashboard
- * @param {object} filterObject # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
- * @param {int} customerId # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
- * @param {string} token # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
- * @param {boolean} validationStatus
- * pickupDate (optional)(string) = "2018-02-28"
- * routeStatusIds (optional)(int) = 1,2 (csv)
- * includeOrders (optional)(bollean) = true/false
- * limit = 20 (optional)(int)
- * page = 0 (optional)(int)
- * @return {object} Promise resolve/reject
- */
-// TODO: should be called Jobs, as the dashboard does not have Orders and should be moved to Job.js + needs unit test
-export const getOrdersWithFiltersAsync = async (
-  filterObject = {},
-  customerId,
-  token,
-  validationStatus = false
-) => {
-  let paramString = convertObjectIntoURLString(filterObject);
-  try {
-    const response = await axios({
-      method: 'GET',
-      url: `${endpoints.CUSTOMER_ORDERS.replace(
-        '{0}',
-        customerId
-      )}${paramString.replace('&', '?')}`,
-      headers: { Authorization: token },
-    });
-    return camelize(categoriesCustomerOrders(response.data));
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-/**
  * Retrieve Remaining Orders Count
  * @param {object} filterObject # {pickupDate, withJob}
  * pickupDate (mandatory)(string) = "2018-02-28"
@@ -73,34 +37,6 @@ export const getRemainingOrdersCountAsync = async (filterObject, token) => {
     });
 
     return camelize(response.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-/**
- * Retrieve All Order Counts (to be renamed to Retrieve All Jobs Counts)
- * @param {object} filterObject # {pickupDate, limit, offset}
- * pickupDate (optional)(string) = "2018-02-28"
- * limit = 20 (optional)(int)
- * offset = 0 (optional)(int)
- * @param {int} customerId
- * @param {string} token
- * @return {object} Promise resolve/reject
- */
-// TODO: should be called Jobs, as the dashboard does not have Orders and should be moved to Job.js and needs unit testing
-export const getOrderCountsAsync = async (filterObject, customerId, token) => {
-  let paramString = convertObjectIntoURLString(filterObject);
-  try {
-    const response = await axios({
-      method: 'GET',
-      url: `${endpoints.CUSTOMER_ORDERS.replace(
-        '{0}',
-        customerId
-      )}${paramString.replace('&', '?')}`,
-      headers: { Authorization: token },
-    });
-    return calculateCustomerOrderCounts(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
@@ -489,7 +425,7 @@ export const getErrorOrderContentsAsync = async (
   try {
     let response = await axios({
       method: 'GET',
-      url: `${endpoints.GROUPING_LOCATIONS_ERRORS.replace(
+      url: `${endpoints.ORDER_ERRORS.replace(
         '{0}',
         customerId
       )}?pickupDate=${pickupDate}`,
@@ -540,20 +476,17 @@ export const updateAndTruncateOrderErrorsAsync = async (
 
 /**
  * Remove Order Error Record (single record) from Dynamodb
- * @param {int} groupingLocationId
+ * @param {int} orderId
  * @param {string} token
  * @return {promise} reject/resolve
  * if resolve, will return {data: true}
  TODO: needs unit testing, is this function used?
  */
-export const removeErrorOrderRecordAsync = async (
-  groupingLocationId,
-  token
-) => {
+export const removeErrorOrderRecordAsync = async (orderId, token) => {
   try {
     await axios({
       method: 'DELETE',
-      url: `${endpoints.ORDER_WITH_ERRORS}/${groupingLocationId}`,
+      url: `${endpoints.ORDER_WITH_ERRORS}/${orderId}`,
       headers: { Authorization: token },
     });
 
@@ -881,39 +814,6 @@ export const getUpdatedJobLiveData = (
   } catch (e) {
     return { statusCode: '500', statusText: 'Error in updating job live data' };
   }
-};
-
-/**
- * Calculate Customer Order Counts
- * @param {object} data
- * @return {object} data # retrun count of data object
- //TODO: needs unit testing
- */
-function calculateCustomerOrderCounts(data) {
-  let orders = categoriesCustomerOrders(data);
-  let countData = { totalStatusCounts: 0, activeStatusCounts: {} };
-  return Object.keys(orders.data).reduce(function(counts, value) {
-    counts.activeStatusCounts[value] = orders.data[value].length;
-    counts.totalStatusCounts += orders.data[value].length;
-    return counts;
-  }, countData);
-}
-
-/**
- * Categories Customer Orders
- * @param {object} orders
- * @return {object} data
- */
-export const categoriesCustomerOrders = (orders) => {
-  let responseData = { 2: [], 5: [], 7: [], 9: [] };
-  return {
-    data: orders['data'].reduce((data, value) => {
-      if (data[value.order_status_id]) {
-        data[value.order_status_id].push(value);
-      }
-      return data;
-    }, responseData),
-  };
 };
 
 /**
