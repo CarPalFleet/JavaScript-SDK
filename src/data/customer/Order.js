@@ -460,10 +460,6 @@ export const updateAndTruncateOrderErrorsAsync = async (
   try {
     let editResponse = await editOrdersAsync(locationDataList, token);
     await removeOrderErrorRecordsAsync(errorIds, token);
-    //
-    // if (editResponse) {
-    //   await removeOrderErrorRecordsAsync(errorIds, token);
-    // }
 
     return {
       data: editResponse,
