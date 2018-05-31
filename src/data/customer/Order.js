@@ -23,7 +23,6 @@ import {
  * @param {object} filterObject # {pickupDate, withJob}
  * pickupDate (mandatory)(string) = "2018-02-28"
  * withJob(optional)(int)
- //TODO: should be renamed to jobs after API is refactored
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
@@ -289,7 +288,7 @@ export const getOrdersGroupByPickUpAddressAsync = async (
       );
     }
 
-    return groupLocations(locations, errorContents ? errorContents : null);
+    return groupOrders(locations, errorContents ? errorContents : null);
   } catch (e) {
     // Response Promise Reject with statusCode and statusText
     return rejectPromise(e);
@@ -369,7 +368,7 @@ export const findDuplicateIndexes = (newValues, accumulator, oldValues, i) => {
 export const getRemainingOrdersAsync = async (filterObject, token) => {
   try {
     let locations = await getOrdersAsync(filterObject, token);
-    return groupLocations(locations);
+    return groupOrders(locations);
   } catch (e) {
     return rejectPromise(e);
   }
@@ -460,9 +459,11 @@ export const updateAndTruncateOrderErrorsAsync = async (
 ) => {
   try {
     let editResponse = await editOrdersAsync(locationDataList, token);
-    if (editResponse) {
-      await removeOrderErrorRecordsAsync(errorIds, token);
-    }
+    await removeOrderErrorRecordsAsync(errorIds, token);
+    //
+    // if (editResponse) {
+    //   await removeOrderErrorRecordsAsync(errorIds, token);
+    // }
 
     return {
       data: editResponse,
@@ -742,94 +743,15 @@ export const cancelBatchFileProcessAsync = async (batchId, token) => {
 };
 
 /**
- * Get Updated Job Live Data for Dashboard
- * @param {object} originalJobDatum
- * @param {object} pubSubPayload
- * @param {string} filterObject {pickupDate, routeStatusIds, includeOrders, limit, offset}
- * @return {object} Promise resolve/reject
- */
-// TODO: function should be moved to file customer/Job.js + needs unit testing
-export const getUpdatedJobLiveData = (
-  originalJobDatum,
-  pubSubPayload,
-  filterObject
-) => {
-  try {
-    pubSubPayload = camelize(pubSubPayload.payload);
-    // If orderStatusId is 1, change into 2. #laraval side will handle it later.
-    const orderStatusIds = [2, 5, 7, 9];
-    if (pubSubPayload.orderStatusId == 1) pubSubPayload.orderStatusId = 2;
-
-    /* palyload orderStatusId must be includes in 2,5,7,9
-      payload date should be the same with today date
-      payload orderStatusId orderStatusIds must be one of orderStatusIds of filterObject
-      Else send return orginal Job Data */
-    const isValidStatus = orderStatusIds.includes(pubSubPayload.orderStatusId);
-    const isSameDate = pubSubPayload.pickupDate === filterObject.pickupDate;
-    const isInclude = filterObject.orderStatusIds
-      ? filterObject.orderStatusIds.includes(pubSubPayload.orderStatusId)
-      : true;
-
-    if (!(isValidStatus && isSameDate && isInclude)) {
-      return originalJobDatum;
-    }
-
-    let jobStatusKeys = Object.keys(originalJobDatum['data']);
-    let matchedPayload = jobStatusKeys.reduce(
-      (matchedPayload, statusId) => {
-        let index = originalJobDatum['data'][statusId].findIndex((order) => {
-          return pubSubPayload.orderId == order.orderId; // orderId might be string/integer;
-        });
-        if (index >= 0) {
-          matchedPayload.statusId = statusId;
-          matchedPayload.index = index;
-          matchedPayload.data = originalJobDatum['data'][statusId][index];
-          matchedPayload.isDataExist =
-            originalJobDatum['data'][statusId][index];
-        }
-        return matchedPayload;
-      },
-      { isDataExist: false, statusId: 0, index: -1, data: {} }
-    );
-
-    if (matchedPayload.isDataExist) {
-      // update activeStatusCounts
-      originalJobDatum['activeStatusCounts'][pubSubPayload.orderStatusId] += 1;
-      let currentStatusCounts =
-        originalJobDatum['activeStatusCounts'][matchedPayload.statusId];
-      originalJobDatum['activeStatusCounts'][
-        matchedPayload.statusId
-      ] -= currentStatusCounts ? 1 : 0;
-      originalJobDatum['data'][matchedPayload.statusId].splice(
-        matchedPayload.index,
-        1
-      );
-    } else {
-      originalJobDatum['totalStatusCounts'] += 1;
-      originalJobDatum['activeStatusCounts'][pubSubPayload.orderStatusId] += 1;
-    }
-    // update data Object
-    originalJobDatum['data'][pubSubPayload.orderStatusId].push(pubSubPayload);
-    return originalJobDatum;
-  } catch (e) {
-    return { statusCode: '500', statusText: 'Error in updating job live data' };
-  }
-};
-
-/**
- * Group Locations with error contents
+ * Group Orders with error contents
  * @param {object} locations
  * @param {object} errorContents
  * @return {object} { data: [0], groupId: [2]}
  */
-export const groupLocations = (locations, errorContents = null) => {
+export const groupOrders = (locations, errorContents = null) => {
   let locationsGroups = locations['data'].reduce(
     (groupAddressObject, location, index) => {
-      return groupLocationByPickUpAddress(
-        groupAddressObject,
-        location,
-        errorContents
-      );
+      return orderByPickUpAddress(groupAddressObject, location, errorContents);
     },
     { data: [0], groupIds: [0] }
   );
@@ -855,7 +777,7 @@ export const groupLocations = (locations, errorContents = null) => {
  * @param {object} errorContents The errorContent number.
  * @return {object} groupped addresses
  */
-function groupLocationByPickUpAddress(groups, location, errorContents) {
+function orderByPickUpAddress(groups, location, errorContents) {
   // ErrorContents
   let groupId = location.pickupGroupId;
   let index = groups['groupIds'].indexOf(groupId);

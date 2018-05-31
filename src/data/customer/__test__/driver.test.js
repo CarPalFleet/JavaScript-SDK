@@ -38,7 +38,7 @@ describe('Create new driver ', async () => {
       email: `${generateDisplayName(10)}@example.com`,
       password: '123456',
       birthday: '1980-01-01',
-      phone: '+6592341092',
+      phone: `+659${Math.floor(Math.random() * 10000000)}`,
       vehicleColor: 'Red',
       averageSpeed: 60,
       maximumCapacity: 100,
@@ -101,7 +101,7 @@ describe('Create new driver ', async () => {
       email: `${generateDisplayName(10)}@example.com`,
       password: '123456',
       birthday: '1980-01-01',
-      phone: '+6592341092',
+      phone: `+659${Math.floor(Math.random() * 10000000)}`,
       vehicleColor: 'Red',
       averageSpeed: 60,
       maximumCapacity: 100,
@@ -191,7 +191,7 @@ describe('Create new driver ', async () => {
       email: `${generateDisplayName(10)}@example.com`,
       password: '123456',
       birthday: '1980-01-01',
-      phone: '+6592341092',
+      phone: `+659${Math.floor(Math.random() * 10000000)}`,
       vehicleColor: 'Red',
       averageSpeed: 60,
       maximumCapacity: 100,
@@ -261,8 +261,13 @@ describe('Create new driver ', async () => {
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 400);
       expect(error).toHaveProperty('errorMessage', [
-        'Driver does not belong to you',
-        'Driver does not match Transaction Group',
+        {
+          key: 'driver_id',
+          messages: [
+            'Driver does not belong to you',
+            'Driver does not match Transaction Group',
+          ],
+        },
       ]);
     }
   });

@@ -34,7 +34,10 @@ export const apiResponseErrorHandler = (e) => {
       }
       const keys = Object.keys(errorObj);
       keys.forEach((key) => {
-        errors = errors.concat(errorObj[key]);
+        errors.push({
+          key,
+          messages: errorObj[key],
+        });
       });
       if (errors.length) {
         messages = errors;

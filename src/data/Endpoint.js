@@ -15,7 +15,7 @@ const endpoints = {
   MY_LEGS: `${urlPrefix}/drivers/{0}/legs?date={1}`,
   NEW_CUSTOMER: `${urlPrefix}/customers`,
   TRANSACTION_GROUP_SETTING: `${urlPrefix}/transaction-groups/{1}`,
-  CUSTOMER_JOBS: `${urlPrefix}/customers/{0}/orders`,
+  CUSTOMER_JOBS: `${urlPrefix}/customers/{0}/jobs`,
   DELIVERY_WINDOW: `${urlPrefix}/customers/{0}/delivery-windows`,
   ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`,
   GENERAL_SEARCH: `${urlPrefix}/search`,

@@ -127,7 +127,7 @@ describe('Order tests', async () => {
       );
       expect(response.data instanceof Array).toBeTruthy();
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 400);
+      expect(error).toHaveProperty('statusCode', 401);
     }
   });
 
@@ -145,7 +145,7 @@ describe('Order tests', async () => {
       const expected = {
         statusCode: 404,
         statusText: 'Not Found',
-        errorMessage: ['Order not found'],
+        errorMessage: [{ key: 'order_ids', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
     }
@@ -182,7 +182,12 @@ describe('Order tests', async () => {
     } catch (error) {
       const expected = {
         errorMessage: [
-          'The pickup date should be after or equal current date.',
+          {
+            key: 'pickup_date',
+            messages: [
+              'The pickup date should be after or equal current date.',
+            ],
+          },
         ],
         statusCode: 400,
         statusText: 'Bad Request',
@@ -218,7 +223,7 @@ describe('Order tests', async () => {
       expect('data' in response).toBeTruthy();
     } catch (error) {
       const expected = {
-        errorMessage: ['Order not found'],
+        errorMessage: [{ key: 'order_id', messages: ['Order not found'] }],
         statusCode: 404,
         statusText: 'Not Found',
       };
@@ -250,7 +255,7 @@ describe('Order tests', async () => {
       const expected = {
         statusCode: 404,
         statusText: 'Not Found',
-        errorMessage: ['Order not found'],
+        errorMessage: [{ key: 'order_id', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
     }
@@ -269,7 +274,7 @@ describe('Order tests', async () => {
       const expected = {
         statusCode: 404,
         statusText: 'Not Found',
-        errorMessage: ['Order not found'],
+        errorMessage: [{ key: 'order_ids', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
     }
@@ -301,7 +306,7 @@ describe('Remove batch errors of order from Dynamodb', () => {
       const expected = {
         statusCode: 404,
         statusText: 'Not Found',
-        errorMessage: ['Order not found'],
+        errorMessage: [{ key: 'order_ids', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
     }

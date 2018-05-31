@@ -79,13 +79,12 @@ export const getRecommendedJobsAsync = async (filterObject = {}, token) => {
 
 /**
  * Retrieve All Job Counts
- * @param {object} filterObject # {pickupDate, limit, offset}
+ * @param {object} filterObject # {pickupDate}
  * pickupDate (optional)(string) = "2018-02-28"
- * limit = 20 (optional)(int)
- * offset = 0 (optional)(int)
  * @param {int} customerId
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * //TODO: needs unit testing
  */
 export const getJobsCountsAsync = async (filterObject, customerId, token) => {
   let paramString = convertObjectIntoURLString(filterObject);
@@ -111,26 +110,26 @@ export const getJobsCountsAsync = async (filterObject, customerId, token) => {
  //TODO: needs unit testing
  */
 function calculateCustomerJobsCounts(data) {
-  let orders = categoriesCustomerJobs(data);
+  let jobs = categoriesCustomerJobs(data);
   let countData = { totalStatusCounts: 0, activeStatusCounts: {} };
-  return Object.keys(orders.data).reduce(function(counts, value) {
-    counts.activeStatusCounts[value] = orders.data[value].length;
-    counts.totalStatusCounts += orders.data[value].length;
+  return Object.keys(jobs.data).reduce(function(counts, value) {
+    counts.activeStatusCounts[value] = jobs.data[value].length;
+    counts.totalStatusCounts += jobs.data[value].length;
     return counts;
   }, countData);
 }
 
 /**
- * Categories Customer Orders
- * @param {object} orders
+ * Categories Customer Jobs
+ * @param {object} jobs
  * @return {object} data
  */
-export const categoriesCustomerJobs = (orders) => {
+export const categoriesCustomerJobs = (jobs) => {
   let responseData = { 2: [], 5: [], 7: [], 9: [] };
   return {
-    data: orders['data'].reduce((data, value) => {
-      if (data[value.order_status_id]) {
-        data[value.order_status_id].push(value);
+    data: jobs['data'].reduce((data, value) => {
+      if (data[value.job_status_id]) {
+        data[value.job_status_id].push(value);
       }
       return data;
     }, responseData),
@@ -139,16 +138,14 @@ export const categoriesCustomerJobs = (orders) => {
 
 /**
  * Get Jobs with filters for Dashboard
- * @param {object} filterObject # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
- * @param {int} customerId # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
- * @param {string} token # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, offset}
+ * @param {object} filterObject # {pickupDate (mandatory), jobStatusIds}
+ * @param {int} customerId
+ * @param {string} token
  * @param {boolean} validationStatus
  * pickupDate (optional)(string) = "2018-02-28"
- * routeStatusIds (optional)(int) = 1,2 (csv)
- * includeOrders (optional)(bollean) = true/false
- * limit = 20 (optional)(int)
- * page = 0 (optional)(int)
+ * jobStatusIds (optional)(int) = 1,2 (csv)
  * @return {object} Promise resolve/reject
+ *  //TODO: needs unit testing
  */
 export const getJobsWithFiltersAsync = async (
   filterObject = {},
@@ -169,5 +166,80 @@ export const getJobsWithFiltersAsync = async (
     return camelize(categoriesCustomerJobs(response.data));
   } catch (e) {
     return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Get Updated Job Live Data for Dashboard
+ * @param {object} originalJobDatum
+ * @param {object} pubSubPayload
+ * @param {string} filterObject {pickupDate, routeStatusIds, includeJobs limit, offset}
+ * @return {object} Promise resolve/reject
+ */
+// TODO: needs unit testing
+export const getUpdatedJobLiveData = (
+  originalJobDatum,
+  pubSubPayload,
+  filterObject
+) => {
+  try {
+    pubSubPayload = camelize(pubSubPayload.payload);
+    // If jobStatusId is 1, change into 2. #laraval side will handle it later.
+    const jobStatusIds = [2, 5, 7, 9];
+    if (pubSubPayload.jobStatusId == 1) pubSubPayload.jobStatusId = 2;
+
+    /* palyload jobStatusId must be includes in 2,5,7,9
+      payload date should be the same with today date
+      payload jobStatusId jobStatusIds must be one of jobStatusIds of filterObject
+      Else send return orginal Job Data */
+    const isValidStatus = jobStatusIds.includes(pubSubPayload.jobStatusId);
+    const isSameDate = pubSubPayload.pickupDate === filterObject.pickupDate;
+    const isInclude = filterObject.jobStatusIds
+      ? filterObject.jobStatusIds.includes(pubSubPayload.jobStatusId)
+      : true;
+
+    if (!(isValidStatus && isSameDate && isInclude)) {
+      return originalJobDatum;
+    }
+
+    let jobStatusKeys = Object.keys(originalJobDatum['data']);
+    let matchedPayload = jobStatusKeys.reduce(
+      (matchedPayload, statusId) => {
+        let index = originalJobDatum['data'][statusId].findIndex((job) => {
+          return pubSubPayload.jobId == job.jobId; // jobId might be string/integer;
+        });
+        if (index >= 0) {
+          matchedPayload.statusId = statusId;
+          matchedPayload.index = index;
+          matchedPayload.data = originalJobDatum['data'][statusId][index];
+          matchedPayload.isDataExist =
+            originalJobDatum['data'][statusId][index];
+        }
+        return matchedPayload;
+      },
+      { isDataExist: false, statusId: 0, index: -1, data: {} }
+    );
+
+    if (matchedPayload.isDataExist) {
+      // update activeStatusCounts
+      originalJobDatum['activeStatusCounts'][pubSubPayload.jobStatusId] += 1;
+      let currentStatusCounts =
+        originalJobDatum['activeStatusCounts'][matchedPayload.statusId];
+      originalJobDatum['activeStatusCounts'][
+        matchedPayload.statusId
+      ] -= currentStatusCounts ? 1 : 0;
+      originalJobDatum['data'][matchedPayload.statusId].splice(
+        matchedPayload.index,
+        1
+      );
+    } else {
+      originalJobDatum['totalStatusCounts'] += 1;
+      originalJobDatum['activeStatusCounts'][pubSubPayload.jobStatusId] += 1;
+    }
+    // update data Object
+    originalJobDatum['data'][pubSubPayload.jobStatusId].push(pubSubPayload);
+    return originalJobDatum;
+  } catch (e) {
+    return { statusCode: '500', statusText: 'Error in updating job live data' };
   }
 };
