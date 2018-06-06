@@ -3,6 +3,7 @@
  */
 
 import isObject from 'lodash.isobject';
+import camelize from 'camelize';
 
 /**
  * Convert Object into string as URL params
@@ -32,11 +33,12 @@ export const apiResponseErrorHandler = (e) => {
       if (errorObj.location_data) {
         errorObj = errorObj.location_data;
       }
-      const keys = Object.keys(errorObj);
+      const camelizedObj = camelize(errorObj);
+      const keys = Object.keys(camelizedObj);
       keys.forEach((key) => {
         errors.push({
           key,
-          messages: errorObj[key],
+          messages: camelizedObj[key],
         });
       });
       if (errors.length) {

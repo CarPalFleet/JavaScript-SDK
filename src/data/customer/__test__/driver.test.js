@@ -262,7 +262,7 @@ describe('Create new driver ', async () => {
       expect(error).toHaveProperty('statusCode', 400);
       expect(error).toHaveProperty('errorMessage', [
         {
-          key: 'driver_id',
+          key: 'driverId',
           messages: [
             'Driver does not belong to you',
             'Driver does not match Transaction Group',

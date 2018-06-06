@@ -145,7 +145,7 @@ describe('Order tests', async () => {
       const expected = {
         statusCode: 404,
         statusText: 'Not Found',
-        errorMessage: [{ key: 'order_ids', messages: ['Order not found'] }],
+        errorMessage: [{ key: 'orderIds', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
     }
@@ -183,7 +183,7 @@ describe('Order tests', async () => {
       const expected = {
         errorMessage: [
           {
-            key: 'pickup_date',
+            key: 'pickupDate',
             messages: [
               'The pickup date should be after or equal current date.',
             ],
@@ -223,7 +223,7 @@ describe('Order tests', async () => {
       expect('data' in response).toBeTruthy();
     } catch (error) {
       const expected = {
-        errorMessage: [{ key: 'order_id', messages: ['Order not found'] }],
+        errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
         statusCode: 404,
         statusText: 'Not Found',
       };
@@ -255,7 +255,7 @@ describe('Order tests', async () => {
       const expected = {
         statusCode: 404,
         statusText: 'Not Found',
-        errorMessage: [{ key: 'order_id', messages: ['Order not found'] }],
+        errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
     }
@@ -274,7 +274,7 @@ describe('Order tests', async () => {
       const expected = {
         statusCode: 404,
         statusText: 'Not Found',
-        errorMessage: [{ key: 'order_ids', messages: ['Order not found'] }],
+        errorMessage: [{ key: 'orderIds', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
     }
@@ -306,7 +306,7 @@ describe('Remove batch errors of order from Dynamodb', () => {
       const expected = {
         statusCode: 404,
         statusText: 'Not Found',
-        errorMessage: [{ key: 'order_ids', messages: ['Order not found'] }],
+        errorMessage: [{ key: 'orderIds', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
     }

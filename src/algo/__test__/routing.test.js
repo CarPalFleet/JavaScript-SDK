@@ -27,7 +27,7 @@ describe('Call route optimization endpoints', () => {
         statusText: 'Bad Request',
         errorMessage: [
           {
-            key: 'route_setting_id',
+            key: 'routeSettingId',
             messages: ['Route Setting does not belong to you'],
           },
         ],
