@@ -5,7 +5,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../utility/Util';
+import { apiResponseErrorHandler } from '../utility/Util';
 
 /**
  * Send Live Data from driver app to Dynamodb
@@ -18,6 +18,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
  * orderRouteType = 0 (mandatory)(int)
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * @deprecated since version 0.1.77
  */
 export const sendLiveRouteDataAsync = async (liveRouteObj, token) => {
   try {

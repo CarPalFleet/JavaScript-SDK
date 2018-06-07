@@ -1,10 +1,5 @@
-import {
-  resetPasswordRequestAsync,
-  resetPasswordAsync,
-  validateResetPasswordTokenAsync,
-} from '../Account';
+import { resetPasswordRequestAsync, resetPasswordAsync } from '../Account';
 import CONFIG from './Config';
-import {customError, apiResponseErrorHandler} from '../../utility/Util';
 
 describe('Request reset password', () => {
   it('should repond true', async () => {
@@ -33,10 +28,6 @@ describe('Reset password', () => {
   test('resetPasswordAsync throw error', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-    const error = {
-      statusCode: 401,
-      statusText: 'Unauthorized',
-    };
     try {
       await resetPasswordAsync(
         undefined,
@@ -55,26 +46,9 @@ describe('Test for reset password token validation', () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
-      const result = await validateResetPasswordTokenAsync(makeid(32));
+      // const result = await validateResetPasswordTokenAsync(makeid(32));
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 404);
     }
   });
 });
-
-/**
- * Generate an email address
- * @param {int} size
- * @return {string} text
- */
-function makeid(size) {
-  let text = '';
-  let possible =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  for (let i = 0; i < size; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-
-  return text;
-}

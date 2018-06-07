@@ -35,7 +35,7 @@ export const searchAsync = async (
     const response = await axios({
       method: 'GET',
       url: `${endpoints.ELASTIC_SEARCH}${paramString.replace('&', '?')}`,
-      headers: {Authorization: token},
+      headers: { Authorization: token },
     });
     return camelize(response.data.data);
   } catch (e) {
@@ -74,7 +74,7 @@ export const generalSearch = async (
     const response = await axios({
       method: 'POST',
       url: endpoints.GENERAL_SEARCH,
-      headers: {Authorization: token},
+      headers: { Authorization: token },
       data: {
         customerId,
         fuzzy,

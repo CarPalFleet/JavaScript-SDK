@@ -12,101 +12,93 @@ import {
   getCSVStringFromArrayObject,
   arrayReduce,
 } from '../utility/Util';
-import {camelToSnake} from '../utility/ChangeCase';
+import { camelToSnake } from '../utility/ChangeCase';
 
 /**
  * Create Driver
- * @param {object} driverInfo {}
- * birthday (mandatory) (string)
- * driverTypeIds (mandatory) (string) #csv Eg. 2,3
- * email (mandatory) (string)
- * existingUserEmail (optional) (boolean)
- * firstName (mandatory) (string)
- * identityId (mandatory) (string)
- * isNewUser (optional) (boolean)
- * lastName (mandatory) (string)
- * password (mandatory) (string)
- * phone (mandatory) (string)
- * productTypeId (mandatory) (int)
+ * transactionGroupIds (mandatory) (array)
  * sendConfirmationSms (optional) (boolean)
- * transactionGroupId (int) (int)
- * vehicleBrand (optional) (string)
- * vehicleColor (optional) (string)
- * vehicleLicenseNumber (optional) (int)
- * vehicleModel (optional) (string)
- * vehicleModelYear (optional) (int)
- * vehicleTypeId (optional) (int)
- * @param {int} customerId
+ * sendConfirmationEmail (optional) (boolean)
+ * driverTypeIds (mandatory) (array) #csv Eg. [2,3]
+ * firstName (mandatory) (string)
+ * lastName (mandatory) (string)
+ * email (mandatory) (string)
+ * password (mandatory) (string)
+ * birthday (mandatory) (string) (Y-m-d)
+ * phone (mandatory) (string)
+ * vehicle (array) contains vehicle info
+ * vehicle.vehicleColor (optional) (string)
+ * vehicle.averageSpeed (int) (string)
+ * vehicle.maximumCapacity (int) number
+ * vehicle.vehicleModelYear (optional) (int)
+ * vehicle.vehicleLicenseNumber (optional) (int)
+ * vehicle.vehicleBrand (optional) (string)
+ * vehicle.vehicleModel (optional) (string)
+ * vehicle.vehicleTypeId (optional) (int)
+ * @param {object} driverInfo {}
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
 export const createDriverAsync = async (
   {
-    birthday,
-    driverTypeIds,
-    email,
-    existingUserEmail = false,
-    firstName,
-    identityId,
-    isNewUser,
-    lastName,
-    password,
-    phone,
-    productTypeId,
-    // TODO: where is the sendConfirmationEmail?
+    transactionGroupIds,
     sendConfirmationSms = false,
-    transactionGroupId,
-    vehicleBrand,
+    sendConfirmationEmail = false,
+    driverTypeIds,
+    firstName,
+    lastName,
+    email,
+    password,
+    birthday,
+    phone,
     vehicleColor,
-    vehicleLicenseNumber,
-    vehicleModel,
+    averageSpeed,
+    maximumCapacity,
     vehicleModelYear,
+    vehicleLicenseNumber,
+    vehicleBrand,
+    vehicleModel,
     vehicleTypeId,
   },
-  customerId,
-  token
+  token,
 ) => {
   try {
-    const defaultPayload = {
-      driverTypeIds,
-      identityId,
-      isNewUser,
-      productTypeId,
+    const data = {
+      transactionGroupIds,
       sendConfirmationSms,
-      transactionGroupId,
+      sendConfirmationEmail,
+      driverTypeIds,
+      firstName,
+      lastName,
+      email,
+      password,
+      birthday,
+      phone,
       vehicle: {
-        vehicleBrand,
         vehicleColor,
-        vehicleLicenseNumber,
-        vehicleModel,
+        averageSpeed,
+        maximumCapacity,
         vehicleModelYear,
+        vehicleLicenseNumber,
+        vehicleBrand,
+        vehicleModel,
         vehicleTypeId,
       },
     };
 
-    let newPayload;
+    const driver = camelToSnake({
+      ...data,
+      vehicle: camelToSnake(data.vehicle),
+    });
 
-    if (isNewUser) {
-      newPayload = {
-        ...defaultPayload,
-        birthday: birthday || '',
-        email,
-        firstName,
-        lastName,
-        password,
-        phone: phone || '',
-      };
-    } else {
-      newPayload = {...defaultPayload, existingUserEmail};
-    }
     const response = await axios({
       method: 'POST',
-      url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),
+      url: endpoints.API_V3.CUSTOMER_DRIVER,
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      data: newPayload,
+      data: driver,
     });
 
     return camelize(response.data.data);
@@ -136,7 +128,7 @@ export const getDriverDetailAsync = async (
       url: endpoints.CUSTOMER_DRIVER_DETAIL.replace('{0}', customerId)
         .replace('{1}', identityId)
         .replace('{2}', driverId),
-      headers: {Authorization: token},
+      headers: { Authorization: token },
     });
     return camelize(response.data);
   } catch (e) {
@@ -151,7 +143,7 @@ export const getDriverDetailAsync = async (
  * page (optional) (int) #offset, start from 1 value
  * @param {string} token
  * @return {promise} reject/resolve
- * Will return [] array if there's no drivers
+ * Will return [] array if there"s no drivers
  */
 export const getDriversAsync = async (filterObject = {}, token) => {
   try {
@@ -160,7 +152,7 @@ export const getDriversAsync = async (filterObject = {}, token) => {
     const response = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.DRIVER}/${paramString.replace('&', '?')}`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     return camelize(response.data);
@@ -171,21 +163,120 @@ export const getDriversAsync = async (filterObject = {}, token) => {
 
 /**
  * Update Driver
- * @param {object} filterObject
+ * @param {object} driverDetailsInfo {}
+ * id (int)
+ * isActive (boolean)
+ * languageIds (array)
+ * transactionGroupIds (array)
+ * driverTypeIds (array)
+ * interviewDetails (object)
+ * interviewDetails.hasCriminalRecord (boolean)
+ * interviewDetails.isAProfessionalDriver (boolean)
+ * interviewDetails.hasWorkAsDriver (boolean)
+ * interviewDetails.hasWorkedForSameCompany (boolean)
+ * interviewDetails.referredFrom (string)
+ * interviewDetails.drivingReason (string)
+ * interviewDetails.remarks (string)
+ * user (object)
+ * user.firstName (string)
+ * user.lastName (string)
+ * user.phone (string|regex:/^(00|\+)\d{1,4}\d{4,11}$/)
+ * user.password (string)
+ * user.passwordConfirmation (string)
+ * vehicle (object)
+ * vehicle.modelYear (optional) (int)
+ * vehicle.averageSpeed (optional) (int) min: 0
+ * vehicle.maximumCapacity (optional) (int) min: 0
+ * vehicle.typeId (optional) (int)
+ * vehicle.model (optional) (string)
+ * vehicle.brand (optional) (string)
+ * vehicle.licenseNumber (optional) (string)
+ * vehicle.color (optional) (string)
+ * bank (object)
+ * bank.branchCode (optional) (string)
+ * bank.code (optional) (string)
+ * bank.name (optional) (string)
+ * bank.accountNumber (optional) (string)
  * @param {string} token
- * @return {promise} reject/resolve
- * @deprecated since version 0.1.77
+ * @return {object} Promise resolve/reject
  */
-export const updateDriverAsync = async (filterObject = {}, token) => {
+export const updateDriverAsync = async ({
+  id,
+  isActive,
+  languageIds,
+  transactionGroupIds,
+  driverTypeIds,
+  hasCriminalRecord,
+  isAProfessionalDriver,
+  hasWorkAsDriver,
+  hasWorkedForSameCompany,
+  referredFrom,
+  drivingReason,
+  remarks,
+  firstName,
+  lastName,
+  phone,
+  password,
+  passwordConfirmation,
+  modelYear,
+  averageSpeed,
+  maximumCapacity,
+  typeId,
+  model,
+  brand,
+  licenseNumber,
+  color,
+  branchCode,
+  code,
+  name,
+  accountNumber,
+}, token) => {
   try {
-    let paramString = convertObjectIntoURLString(filterObject);
-
+    const driverInfo = camelToSnake({
+      id,
+      isActive,
+      languageIds,
+      transactionGroupIds,
+      driverTypeIds,
+      interviewDetails: camelToSnake({
+        hasCriminalRecord,
+        isAProfessionalDriver,
+        hasWorkAsDriver,
+        hasWorkedForSameCompany,
+        referredFrom,
+        drivingReason,
+        remarks,
+      }),
+      user: camelToSnake({
+        firstName,
+        lastName,
+        phone,
+        password,
+        passwordConfirmation,
+      }),
+      vehicle: camelToSnake({
+        modelYear,
+        averageSpeed,
+        maximumCapacity,
+        typeId,
+        model,
+        brand,
+        licenseNumber,
+        color,
+      }),
+      bank: camelToSnake({
+        branchCode,
+        code,
+        name,
+        accountNumber,
+      }),
+    });
     const response = await axios({
       method: 'PUT',
-      url: `${endpoints.API_V3.DRIVER}/${paramString.replace('&', '?')}`,
-      headers: {Authorization: `Bearer ${token}`},
+      url: endpoints.API_V3.DRIVER_UPDATE.replace('{0}', id),
+      headers: { Authorization: `Bearer ${token}` },
+      data: driverInfo,
     });
-
     return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
@@ -200,7 +291,7 @@ export const updateDriverAsync = async (filterObject = {}, token) => {
  * @param {array} searchResult
  * @param {string} token
  * @return {promise} reject/resolve
- * Will return [] array if there's no drivers
+ * Will return [] array if there"s no drivers
  * @deprecated since version 0.1.77
  */
 export const getDriversBasedOnSearchResult = async (
@@ -240,7 +331,7 @@ export const getDriversBasedOnSearchResult = async (
  * @param {string} token
  * @param {boolean} validationStatus (optional)
  * @return {promise} reject/resolve
- * Will return [] array if there's no drivers
+ * Will return [] array if there"s no drivers
  */
 // TODO: needs unit testing
 export const getDriversWithFiltersAsync = async (
@@ -257,7 +348,7 @@ export const getDriversWithFiltersAsync = async (
         '{0}',
         customerId
       )}${paramString.replace('&', '?')}`,
-      headers: {Authorization: token},
+      headers: { Authorization: token },
     });
     return camelize(categoriesCustomerDrivers(response.data));
   } catch (e) {
@@ -277,7 +368,7 @@ export const getDriversWithFiltersAsync = async (
  * @param {string} customerId
  * @param {boolean} token (optional)
  * @return {promise} reject/resolve
- * Will return [] array if there's no drivers
+ * Will return [] array if there"s no drivers
  */
 // TODO: needs unit testing
 export const getDriverCountsAsync = async (
@@ -293,7 +384,7 @@ export const getDriverCountsAsync = async (
         '{0}',
         customerId
       )}${paramString.replace('&', '?')}`,
-      headers: {Authorization: token},
+      headers: { Authorization: token },
     });
 
     return calculateCustomerDriverCounts(
@@ -308,7 +399,7 @@ export const getDriverCountsAsync = async (
 /**
  * Get the Driver Routes
  * @param {object} filterObject # {pickupDate (mandatory), withAvailability, withSchedule, limit, offset}
- * pickupDate (optional)(string) = '2018-02-28'
+ * pickupDate (optional)(string) = "2018-02-28"
  * withAvailability (optional)(int) = 1/0
  * withSchedule (optional)(int) = 1/0
  * limit = 20 (optional)(int)
@@ -323,7 +414,7 @@ export const getDriverRoutesAsync = async (filterObject, token) => {
     const routes = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.DRIVER_ROUTE}${paramString.replace('&', '?')}`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     return camelize(routes.data);
@@ -339,7 +430,7 @@ export const getDriverRoutesAsync = async (filterObject, token) => {
  * @param {string} pubSubPayload
  * @param {boolean} filterObject
  * @return {promise} reject/resolve
- * Will return [] array if there's no drivers
+ * Will return [] array if there"s no drivers
  */
 export const getUpdatedDriverLiveData = (
   originalDriverDatum,
@@ -387,7 +478,7 @@ export const getUpdatedDriverLiveData = (
         }
         return matchedPayload;
       },
-      {isDataExist: false, statusId: 0, index: -1, data: {}}
+      { isDataExist: false, statusId: 0, index: -1, data: {} }
     );
 
     if (matchedPayload.isDataExist) {
@@ -447,7 +538,7 @@ export const updateDriverScheduleAsync = async (
     const result = await axios({
       method: 'put',
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', scheduleId)}`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
       data: camelToSnake(payload),
     });
     return camelize(result.data);
@@ -470,9 +561,9 @@ export const deleteDriverScheduleAsync = async (scheduleId, token) => {
     await axios({
       method: 'delete',
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', scheduleId)}`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
     });
-    return {data: true};
+    return { data: true };
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
@@ -498,7 +589,7 @@ export const createDriverScheduleAsync = async (payload = {}, token) => {
     const result = await axios({
       method: 'post',
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', '')}`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
       data: camelToSnake(payload),
     });
     return camelize(result.data);
@@ -512,13 +603,13 @@ export const createDriverScheduleAsync = async (payload = {}, token) => {
  * @param {object} data
  * @param {array} driverTypeIds
  * @return {object} total count object of live driver data
+ // TODO: needs unit testing
  */
-// TODO: needs unit testing
 function calculateCustomerDriverCounts(data, driverTypeIds) {
   const countData = {
     totalStatusCounts: 0,
-    activeStatusCounts: {1: 0, 2: 0, 3: 0, 4: 0},
-    driverTypeCounts: {1: 0, 2: 0, 3: 0},
+    activeStatusCounts: { 1: 0, 2: 0, 3: 0, 4: 0 },
+    driverTypeCounts: { 1: 0, 2: 0, 3: 0 },
   };
 
   let drivers = categoriesCustomerDriversForCount(data);
@@ -604,9 +695,9 @@ export const getActiveStatusCountsAndTotalCounts = (
  */
 export const categoriesCustomerDriversForCount = (drivers) => {
   let responseData = {
-    1: {1: [], 2: [], 3: [], 4: []},
-    2: {1: [], 2: [], 3: [], 4: []},
-    3: {1: [], 2: [], 3: [], 4: []},
+    1: { 1: [], 2: [], 3: [], 4: [] },
+    2: { 1: [], 2: [], 3: [], 4: [] },
+    3: { 1: [], 2: [], 3: [], 4: [] },
   };
   return {
     data: drivers['data'].reduce((data, value) => {
@@ -630,7 +721,7 @@ export const categoriesCustomerDriversForCount = (drivers) => {
  };
  */
 export const categoriesCustomerDrivers = (drivers) => {
-  let responseData = {1: [], 2: [], 3: [], 4: []};
+  let responseData = { 1: [], 2: [], 3: [], 4: [] };
   return {
     data: drivers['data'].reduce((data, value) => {
       if (data[value.driver_status_id]) {
