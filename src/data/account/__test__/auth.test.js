@@ -1,39 +1,39 @@
-import {getTokenAsync, refreshTokenAsync} from '../Auth';
-import CONFIG from './Config';
+import { getTokenAsync } from '../Auth';
+import config from './Config';
 
-test('test for account alpha.test@carpal.me', async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
-  expect(token).not.toBeNull();
-});
+describe('Auth integration test', () => {
+  it('verifies a successful accessToken in the return object', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-test('test for account alpha.test@carpal.me with wrong tpassword', async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  const result = getTokenAsync(
-    CONFIG.temail,
-    'carpaldemo2',
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  await expect(result).rejects.toHaveProperty('statusCode', 401);
-});
+    const response = await getTokenAsync(
+      config.email,
+      config.password,
+      config.clientId,
+      config.clientSecret
+    );
+    expect(response).toHaveProperty('accessToken');
+  });
 
-test('test for refresh token', async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  let result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  let token = await result;
-  result = refreshTokenAsync(token.refreshToken, CONFIG.clientId, CONFIG.token);
-  token = await result;
-  expect(token).toBeTruthy();
+  it('test for account alpha.test@carpal.me with wrong password', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
+    try {
+      const response = await getTokenAsync(
+        config.email,
+        'wrong-password',
+        config.clientId,
+        config.clientSecret
+      );
+      expect(response).toBeNull(); // Should not trigger, only if is there is no exception which is not expected behavior
+    } catch (error) {
+      const expected = {
+        errorMessage: [
+          { key: null, messages: ['The user credentials were incorrect.'] },
+        ],
+        statusCode: 401,
+        statusText: 'Unauthorized',
+      };
+      expect(error).toEqual(expected);
+    }
+  });
 });

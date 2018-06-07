@@ -1,10 +1,10 @@
 const CONFIG = {
-  email: 'supportsg@carpal.me',
-  password: 'Hoofdletter50!',
-  temail: 'alpha.test@carpal.me',
-  tpassword: '123456',
+  email: 'alpha.test@carpal.me',
+  password: '123456',
   clientId: '2',
   clientSecret: '8iQwaS8mJLvrW5KrGUrjDZ90bTrwk7frv4ygk7qt',
+  groupingBatchId: '28088',
+  orderWithErrorIds: ['56c719b7-93aa-420a-b9b1-140c4e03397b'],
   domain: 'ezbuy.sg',
   emptyString: '',
   invalidDomain: 'aa.com',
@@ -23,17 +23,64 @@ const CONFIG = {
   showOrderOptions: false,
   transactionGroupIds: [],
   pickupDate: '2018-02-28',
-  groupingLocationId: 27318,
-  groupingLocationIds: [27318, 27312],
+  groupingLocationId: 27638,
+  groupingLocationIds: [27638, 27644],
   batchId: 12,
   orderId: 27381,
   customerId: 14445,
+  fuzzy: false,
+  fuzziness: 1,
+  createRoutePayload: [
+    {
+      driver_id: 2,
+      pickup_date: '2018-03-30',
+      route_settings: '{}',
+      route_locations: [
+        {
+          sequence: 1,
+          grouping_location_id: 1,
+          location_type_id: 3,
+          route_capacity: 10.5,
+        },
+      ],
+    },
+  ],
+  scopes: {
+    drivers: ['driverId', 'driverName'],
+    jobs: ['orderId'],
+    orders: ['groupingLocationId'],
+  },
+  searchResult: [
+    {
+      id: 1,
+      groupingLocationId: 27638,
+      orderId: null,
+      driverId: null,
+    },
+    {
+      id: 2,
+      groupingLocationId: 27644,
+      orderId: null,
+      driverId: null,
+    },
+  ],
+  fieldName: 'groupingLocationId',
+  keywords: 14445,
   locationObject: {
     pickupLocationAddress: '22 Gim moh road',
     deliveryAddress: 'Holland Close',
     pickupDate: '28-02-2018',
     pickupTimeWindow: '14:35-16:00',
     deliveryDate: '28-02-2018',
+    deliveryTimeWindow: '17:00-17:00',
+    driverEmailId: null,
+  },
+  locationObjectFutureDate: {
+    pickupLocationAddress: '22 Gim moh road',
+    deliveryAddress: 'Holland Close',
+    pickupDate: '28-02-2050',
+    pickupTimeWindow: '14:35-16:00',
+    deliveryDate: '28-02-2050',
     deliveryTimeWindow: '17:00-17:00',
     driverEmailId: null,
   },
@@ -109,7 +156,7 @@ const CONFIG = {
         customWaybillNumber: '234567',
         cashOnDeliveryAmount: 90,
         team: 'Team A',
-        groupingLocationStatusId: 4, // 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+        groupingLocationStatusId: 4, // 1 for "pending", 2 for "validated", 3 for "grouped", 4 for "failed"
         driver: [],
       },
       {
@@ -151,7 +198,7 @@ const CONFIG = {
         customWaybillNumber: '234567',
         cashOnDeliveryAmount: 90,
         team: 'Team A',
-        groupingLocationStatusId: 4, // 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+        groupingLocationStatusId: 4, // 1 for "pending", 2 for "validated", 3 for "grouped", 4 for "failed"
         driver: [],
       },
       {
@@ -193,7 +240,7 @@ const CONFIG = {
         customWaybillNumber: '234567',
         cashOnDeliveryAmount: 90,
         team: 'Team A',
-        groupingLocationStatusId: 4, // 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+        groupingLocationStatusId: 4, // 1 for "pending", 2 for "validated", 3 for "grouped", 4 for "failed"
         driver: [],
       },
     ],

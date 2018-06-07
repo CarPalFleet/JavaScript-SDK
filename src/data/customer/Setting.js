@@ -1,20 +1,28 @@
+/**
+ * @fileoverview This file contains all Settings related functions that are triggered by a Customer
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../../utility/Util';
+import {
+  apiResponseErrorHandler,
+  convertObjectIntoURLString,
+} from '../utility/Util';
 
-/** Retriving whiteLabel (Logo and Background)
- * Return transaction customer's logo and Background if it is existed in database
- * @param {integer} domain # customer's webside domain name
+/** Retrieve Customer' (Logo and Background)
+ * Return customer' logo and background image if it exists in database
+ * @param {integer} domain # customer' webside domain name
  * @param {string} token
  * @return {object} promise (resolve/reject)
+ * @deprecated since version 0.1.77
  */
 export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
   try {
     const response = await axios({
-      method: 'get',
+      method: 'GET',
       url: endpoints.TRANSACTION_GROUP_SETTING.replace('{1}', domain),
-      headers: {Authorization: token},
+      headers: { Authorization: token },
     });
     return camelize(response.data.data);
   } catch (e) {
@@ -22,28 +30,50 @@ export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
   }
 };
 
-/** Retriving Customer's settings
- * There're 3 setting types in the setting table
- * 1. routing, 2. my-order, 3. driver-list
- * In routing type, it includes customer time line setting (15 min, 30 min, 45 min etc.)
- * Retrieve table settings from my-order type OR driver-list.
- * @param {integer} customerId
- * @param {string} type # routing, my-order, driver-list
+/** Retrieve Customer' Settings
  * @param {string} token
- * @return {object} promise (resolve/reject)
+ * @return {Promise} settingObject
  */
-export const getCustomerSettingsAsync = async (customerId, type, token) => {
+export const getCustomerSettingsAsync = async (token) => {
   try {
-    const response = await axios({
-      method: 'get',
-      url: `${endpoints.CUSTOMER_SETTINGS.replace(
-        '{0}',
-        customerId
-      )}?type=${type}`,
-      headers: {Authorization: token},
+    const CustomerSettings = await axios({
+      method: 'GET',
+      url: endpoints.CUSTOMER_SETTINGS,
+      headers: { Authorization: token },
     });
 
-    return camelize(response.data);
+    return camelize(CustomerSettings.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/** Retrieve Customer"s Settings (reduced)
+ * @param {string} token
+ * @param {int} customerId
+ * @param {Object} payload {identityId, transactionGroupId}
+ * @return {Promise} settings object
+ */
+export const showCustomerSettingsAsync = async (
+  token,
+  customerId,
+  payload = {}
+) => {
+  try {
+    const paramsString = convertObjectIntoURLString(payload);
+    const query = paramsString ? `/?${paramsString}` : '';
+    const CustomerSettingsShow = await axios({
+      method: 'GET',
+      url: `${endpoints.CUSTOMER_SETTINGS_SHOW.replace(
+        '{0}',
+        customerId
+      )}${query}`,
+      headers: { Authorization: token },
+    });
+    return {
+      ...CustomerSettingsShow,
+      data: camelize(CustomerSettingsShow.data),
+    };
   } catch (e) {
     return apiResponseErrorHandler(e);
   }

@@ -1,75 +1,96 @@
-import {getTokenAsync} from '../../account/Auth';
+import { getTokenAsync } from '../../account/Auth';
 import {
   getCustomerPreferenceSettingsAsync,
+  showCustomerSettingsAsync,
   getCustomerSettingsAsync,
 } from '../Setting';
 import CONFIG from './Config';
 
-describe('Retrieve whitelabel', () => {
-  it('should response object including whitelabel info', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(
-      CONFIG.email,
-      CONFIG.password,
-      CONFIG.clientId,
-      CONFIG.clientSecret
-    );
-    const token = await result;
-    const response = getCustomerPreferenceSettingsAsync(
-      CONFIG.domain,
-      token.accessToken
-    );
-    const whiteLabel = await response;
-    await expect(whiteLabel).rejects.toHaveProperty('statusCode', 404);
-  });
-});
+describe('Tests showCustomerSettingsAsync function', async () => {
+  let token;
+  const customerId = 65;
+  const payload = {
+    identityId: 1,
+    transactionGroupId: 180,
+  };
 
-describe('Retrieve whitelabel with invalid domain', () => {
-  it('should get error statusCode', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(
+  beforeAll(async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    token = await getTokenAsync(
       CONFIG.email,
       CONFIG.password,
       CONFIG.clientId,
       CONFIG.clientSecret
     );
-    const token = await result;
+  });
+
+  it('should response object including customer settings', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
+    const response = getCustomerSettingsAsync(token.accessToken);
+    const settings = await response;
+    expect('data' in settings).toBeTruthy();
+  });
+
+  it('should get error statusCode', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
     const response = getCustomerPreferenceSettingsAsync(
       CONFIG.invalidDomain,
       token.accessToken
     );
     await expect(response).rejects.toHaveProperty('statusCode', 404);
   });
-});
 
-describe('Retreive customer setting', () => {
-  it('should get the array of settings. ', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(
-      CONFIG.email,
-      CONFIG.password,
-      CONFIG.clientId,
-      CONFIG.clientSecret
-    );
-    const response = await getCustomerSettingsAsync(
-      // REVIEW consider creating a variable for 14445, this is a "magic number" and hard to understand later by you or someone else
-      // for example:
-      //          const HTTP_ERROR_CODE_FILE_NOT_FOUND = 404
-      //          const NUMBER_OF_SECONDS_IN_ONE_DAY = 86400
-      14445,
-      'routing',
-      result.accessToken
-    );
+  it('should return customer settings status 200', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-    // REVIEW this is quite complicated to process could use here something like
-    // const expected = [{setting: {}}];
-    // expect(response.data).toEqual(expected);
-    expect(response.data).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          setting: {},
-        }),
-      ])
+    const response = await showCustomerSettingsAsync(
+      token.accessToken,
+      customerId,
+      payload
     );
+    expect(response).toHaveProperty('status', 200);
+  });
+
+  it('should get customer settings', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
+    const response = await showCustomerSettingsAsync(
+      token.accessToken,
+      customerId,
+      payload
+    );
+    expect(response.data).toMatchSnapshot();
+  });
+
+  it('should get error customer statusCode 400', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
+    try {
+      await showCustomerSettingsAsync('');
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 400);
+    }
+  });
+
+  it('should get error customer statusCode 401', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
+    try {
+      await showCustomerSettingsAsync(token.accessToken, customerId, payload);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 401);
+    }
+  });
+
+  it('should get error customer statusCode 403', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
+    try {
+      await showCustomerSettingsAsync(token.accessToken, '', payload);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 403);
+    }
   });
 });

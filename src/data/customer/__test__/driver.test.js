@@ -1,177 +1,378 @@
 import CONFIG from './Config';
-import {getTokenAsync} from '../../account/Auth';
+import { getTokenAsync } from '../../account/Auth';
 import {
-  createNewDriverAsync,
-  getCustomerDriverDetailAsync,
-  getCustomerDriverListAsync,
-  getDriverListAsync,
-  updateDriverLiveData,
+  createDriverAsync,
+  getDriversAsync,
+  deleteDriverScheduleAsync,
+  createDriverScheduleAsync,
+  updateDriverScheduleAsync,
+  getDriversWithFiltersAsync,
+  getDriverCountsAsync,
+  getDriverRoutesAsync,
+  updateDriverAsync,
 } from '../Driver';
 
-describe('Create new driver ', () => {
-  it('should response new driver object including id and details', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    const result = getTokenAsync(
-      CONFIG.temail,
-      CONFIG.tpassword,
+describe('Create new driver ', async () => {
+  let token;
+  let driver;
+
+  beforeAll(async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    token = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
       CONFIG.clientId,
       CONFIG.clientSecret
     );
-    const token = await result;
+  });
 
-    const driverInfo = {
-      identityId: 1,
-      productTypeId: 3,
-      transactionGroupId: [180],
+  it('should return success driver response and update driver', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    const driverInfoUpdate = {
+      transactionGroupIds: [180],
+      sendConfirmationSms: false,
+      sendConfirmationEmail: false,
+      driverTypeIds: [2, 3],
       firstName: 'User',
       lastName: generateDisplayName(10),
       email: `${generateDisplayName(10)}@example.com`,
       password: '123456',
       birthday: '1980-01-01',
       phone: '+6592341092',
-      isNewUser: true,
-      sendConfirmationSms: false,
-      vehicleTypeId: 1,
+      vehicleColor: 'Red',
+      averageSpeed: 60,
+      maximumCapacity: 100,
+      vehicleModelYear: 2018,
+      vehicleLicenseNumber: '12456',
       vehicleBrand: 'Scooter',
       vehicleModel: '12456',
-      vehicleLicenseNumber: '12456',
-      vehicleModelYear: 2018,
-      vehicleColor: 'Black',
+      vehicleTypeId: 1,
     };
 
-    const response = await createNewDriverAsync(
-      driverInfo,
-      1,
+    const newDriver = await createDriverAsync(
+      driverInfoUpdate,
       token.accessToken
     );
-    expect('driver' in response).toBeTruthy();
-    expect('id' in response.driver).toBeTruthy();
-    expect('details' in response.driver).toBeTruthy();
+
+    driver = {
+      ...newDriver,
+      isActive: true,
+      transactionGroupIds: driverInfoUpdate.transactionGroupIds,
+      driverTypeIds: driverInfoUpdate.driverTypeIds,
+      languageIds: [1], // not sure about this parameter
+    };
+
+    const response = await updateDriverAsync(driver, token.accessToken);
+    expect('data' in response).toBeTruthy();
+    const { data } = response;
+    expect('id' in data).toBeTruthy();
+    expect('driverDetailsId' in data).toBeTruthy();
+    expect('userId' in data).toBeTruthy();
+    expect('driverStatusId' in data).toBeTruthy();
+    expect('driverStatusName' in data).toBeTruthy();
+    expect('avatar' in data).toBeTruthy();
+    expect('online' in data).toBeTruthy();
+    expect('locationTracking' in data).toBeTruthy();
+    expect('activatedAt' in data).toBeTruthy();
+    expect('lastDeactivatedAt' in data).toBeTruthy();
+    expect('createdAt' in data).toBeTruthy();
+    expect('updatedAt' in data).toBeTruthy();
+    expect('user' in data).toBeTruthy();
+    expect('vehicle' in data).toBeTruthy();
   });
-});
 
-test(`Test for retrieving detail of customer's driver`, async () => {
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
-  const response = await getCustomerDriverDetailAsync(
-    1,
-    5,
-    9869,
-    token.accessToken
-  );
-  expect(response instanceof Object).toBe(true);
-});
+  it('Update driver should return validation error statusCode 400', async () => {
+    try {
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+      await updateDriverAsync({}, token.accessToken);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 400);
+    }
+  });
 
-test(`Test for retrieving V3 driver list`, async () => {
-  const result = getTokenAsync(
-    CONFIG.temail,
-    CONFIG.tpassword,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
-  const filters = {
-    limit: 2,
-    page: 1,
-  };
+  it('should respond new driver object including id details and perform a show request on that driver', async () => {
+    const driverInfo = {
+      transactionGroupIds: [180],
+      sendConfirmationSms: false,
+      sendConfirmationEmail: false,
+      driverTypeIds: [2, 3],
+      firstName: 'User',
+      lastName: generateDisplayName(10),
+      email: `${generateDisplayName(10)}@example.com`,
+      password: '123456',
+      birthday: '1980-01-01',
+      phone: '+6592341092',
+      vehicleColor: 'Red',
+      averageSpeed: 60,
+      maximumCapacity: 100,
+      vehicleModelYear: 2018,
+      vehicleLicenseNumber: '12456',
+      vehicleBrand: 'Scooter',
+      vehicleModel: '12456',
+      vehicleTypeId: 1,
+    };
 
-  const response = await getDriverListAsync(filters, token.accessToken);
-  expect('data' in response).toBe(true);
-  expect(response.data instanceof Array).toBe(true);
-});
+    const response = await createDriverAsync(driverInfo, token.accessToken);
+    expect('id' in response).toBeTruthy();
+    expect('vehicle' in response).toBeTruthy();
+    expect('driverTypes' in response).toBeTruthy();
+  });
 
-test('Test for retrieving drivers by a customer account', async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  const filterObj = {
-    driverStatusIds: [2],
-    orderRouteTypeIds: [1, 2],
-    driverTypeIds: [1, 2, 3],
-  };
-  const result = getTokenAsync(
-    CONFIG.email,
-    CONFIG.password,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const token = await result;
+  it('Test for retrieving V3 driver list', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-  const response = await getCustomerDriverListAsync(
-    filterObj,
-    1,
-    token.accessToken
-  );
+    const filters = {
+      limit: 2,
+      page: 1,
+    };
 
-  expect(response instanceof Array).toBe(true);
-  expect(true).toBe(true);
-});
+    const response = await getDriversAsync(filters, token.accessToken);
+    expect('data' in response).toBeTruthy();
+    expect(response.data instanceof Array).toBeTruthy();
+  });
 
-test('Test for pubsub live data for job', async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  const originalDriverDatum = {
-    activeStatusCounts: {'1': 0, '2': 0, '3': 0, '4': 0},
-    driverTypeCounts: {'1': 1, '2': 3, '3': 4},
-    data: {
-      '1': [],
-      '2': [],
-      '3': [
+  it('Test for pubsub live data for job', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    // const originalDriverDatum = {
+    //   activeStatusCounts: { '1': 0, '2': 0, '3': 0, '4': 0 },
+    //   driverTypeCounts: { '1': 1, '2': 3, '3': 4 },
+    //   data: {
+    //     '1': [],
+    //     '2': [],
+    //     '3': [
+    //       {
+    //         addressId: 0,
+    //         driverId: 9168,
+    //         customerId: 10919,
+    //         orderId: 62411,
+    //         driverStatusId: 3,
+    //         driverTypeIds: [1],
+    //         id: '9b4cf220-cd94-4a0b-84ac-32f74dfc142f',
+    //         latitude: '1.2788882',
+    //         longitude: '103.8482516',
+    //         orderRouteTypeId: 1,
+    //         updatedAt: '2018-01-11 06:06:57',
+    //       },
+    //     ],
+    //     '4': [],
+    //   },
+    //   totalStatusCounts: 0,
+    // };
+    // const pubSubPayload = {
+    //   data: {
+    //     addressId: 0,
+    //     customerId: 10919,
+    //     driverId: 9168,
+    //     driverTypeIds: [1],
+    //     id: '1ada3ace-67ab-4e3b-a1e0-a0d3b63fedc8',
+    //     latitude: '1.2789042',
+    //     longitude: '103.8482397',
+    //     orderId: 62411,
+    //     orderRouteTypeId: 1,
+    //     updatedAt: '2018-01-11 06:06:14',
+    //     // "driverStatusId": 4
+    //   },
+    //   lastDriverStatusId: 1,
+    // };
+
+    // const filterObject = {
+    //   // driverStatusIds: [2],
+    //   orderRouteTypeIds: 1,
+    //   driverTypeIds: [1],
+    // };
+
+    const driverInfo = {
+      transactionGroupIds: [180],
+      sendConfirmationSms: false,
+      sendConfirmationEmail: false,
+      driverTypeIds: [2, 3],
+      firstName: 'User',
+      lastName: generateDisplayName(10),
+      email: `${generateDisplayName(10)}@example.com`,
+      password: '123456',
+      birthday: '1980-01-01',
+      phone: '+6592341092',
+      vehicleColor: 'Red',
+      averageSpeed: 60,
+      maximumCapacity: 100,
+      vehicleModelYear: 2018,
+      vehicleLicenseNumber: '12456',
+      vehicleBrand: 'Scooter',
+      vehicleModel: '12456',
+      vehicleTypeId: 1,
+    };
+
+    try {
+      const responseCreatedriver = await createDriverAsync(
+        driverInfo,
+        token.accessToken
+      );
+      expect('id' in responseCreatedriver).toBeTruthy();
+
+      const payload = {
+        driverId: responseCreatedriver.id,
+        transactionGroupId: 180,
+        startTime: '10:01',
+        endTime: '13:02',
+        startAt: '2020-03-01',
+        vehicleTypeId: 1,
+      };
+      const responseCreateSchedule = await createDriverScheduleAsync(
+        payload,
+        token.accessToken
+      );
+      expect('data' in responseCreateSchedule).toBeTruthy();
+
+      const responseUpdateSchedule = await updateDriverScheduleAsync(
+        responseCreateSchedule.data.id,
+        payload,
+        token.accessToken
+      );
+
+      expect('data' in responseUpdateSchedule).toBeTruthy();
+
+      const responseDelete = await deleteDriverScheduleAsync(
+        responseCreateSchedule.data.id,
+        token.accessToken
+      );
+
+      expect('data' in responseDelete).toBeTruthy();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 401);
+    }
+  });
+
+  it('Test for create driver schedule with with driver that does not belong to requestor', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
+    const playload = {
+      driverId: 99999999999912,
+      transactionGroupId: 180,
+      startTime: '10:01',
+      endTime: '13:02',
+      startAt: '2018-03-01',
+    };
+    try {
+      const response = await createDriverScheduleAsync(
+        playload,
+        token.accessToken
+      );
+      expect('data' in response).toBeTruthy();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 400);
+      expect(error).toHaveProperty('errorMessage', [
+        { key: '0', messages: 'Driver does not belong to you' },
         {
-          addressId: 0,
-          driverId: 9168,
-          customerId: 10919,
-          orderId: 62411,
-          driverStatusId: 3,
-          driverTypeIds: [1],
-          id: '9b4cf220-cd94-4a0b-84ac-32f74dfc142f',
-          latitude: '1.2788882',
-          longitude: '103.8482516',
-          orderRouteTypeId: 1,
-          updatedAt: '2018-01-11 06:06:57',
+          key: '1',
+          messages: ' Driver does not match Transaction Group',
         },
-      ],
-      '4': [],
-    },
-    totalStatusCounts: 0,
-  };
-  const pubSubPayload = {
-    data: {
-      addressId: 0,
-      customerId: 10919,
-      driverId: 9168,
-      driverTypeIds: [1],
-      id: '1ada3ace-67ab-4e3b-a1e0-a0d3b63fedc8',
-      latitude: '1.2789042',
-      longitude: '103.8482397',
-      orderId: 62411,
-      orderRouteTypeId: 1,
-      updatedAt: '2018-01-11 06:06:14',
-      // "driverStatusId": 4
-    },
-    lastDriverStatusId: 1,
-  };
+      ]);
+    }
+  });
 
   const filterObject = {
-    // driverStatusIds: [2],
+    driverStatusIds: [2],
     orderRouteTypeIds: 1,
     driverTypeIds: [1],
   };
-  const result = getTokenAsync(
-    CONFIG.email,
-    CONFIG.password,
-    CONFIG.clientId,
-    CONFIG.clientSecret
-  );
-  const response = updateDriverLiveData(
-    originalDriverDatum,
-    pubSubPayload,
-    filterObject,
-    result.accessToken
-  );
-  expect(response instanceof Object).toBe(true);
+  const customerId = 14445;
+
+  it('should get getDriversWithFiltersAsync success response', async () => {
+    try {
+      const response = await getDriversWithFiltersAsync(
+        filterObject,
+        customerId,
+        token.accessToken
+      );
+      expect(response).toMatchSnapshot();
+    } catch (error) {
+      //
+    }
+  });
+  it('should throw getDriversWithFiltersAsync 401 error status', async () => {
+    try {
+      await getDriverCountsAsync();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 401);
+    }
+  });
+
+  const filterObject2 = {
+    driverStatusIds: [2],
+    orderRouteTypeIds: 1,
+    driverTypeIds: [1],
+  };
+  it('should get getDriverCountsAsync success response', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
+    try {
+      const response = await getDriverCountsAsync(
+        filterObject2,
+        customerId,
+        token.accessToken
+      );
+      expect(response).toMatchSnapshot();
+    } catch (error) {
+      //
+    }
+  });
+  it('should throw getDriverCountsAsync 401 error status', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
+    try {
+      await getDriverCountsAsync();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 401);
+    }
+  });
+  const filterObject3 = {
+    pickupDate: '2018-02-28',
+    withRoute: 0,
+    sort: 'pickup_window,asc',
+    limit: 1,
+    offset: 1,
+    include: 'pickup_group,delivery_address',
+    statusIds: 2, // 2 is for validated records
+    recommendedForDriverId: 20,
+  };
+  it('should get getDriverRoutesAsync success response', async () => {
+    try {
+      const response = await getDriverRoutesAsync(
+        filterObject3,
+        token.accessToken
+      );
+      expect(typeof response.data).toBe('object');
+      const dataObj = response.data[`${Object.keys(response.data)[0]}`];
+      expect(dataObj).toHaveProperty('id');
+      expect(dataObj).toHaveProperty('driverDetailsId');
+      expect(dataObj).toHaveProperty('userId');
+      expect(dataObj).toHaveProperty('driverStatusId');
+      expect(dataObj).toHaveProperty('driverStatusName');
+      expect(dataObj).toHaveProperty('avatar');
+      expect(dataObj).toHaveProperty('activatedAt');
+      expect(dataObj).toHaveProperty('createdAt');
+      expect(dataObj).toHaveProperty('updatedAt');
+      expect(dataObj).toHaveProperty('user');
+      expect(dataObj).toHaveProperty('vehicle');
+      expect(dataObj).toHaveProperty('driverTypes');
+      expect(dataObj).toHaveProperty('driverGeofences');
+      expect(dataObj).toHaveProperty('driverSchedules');
+      expect(dataObj).toHaveProperty('driverAssignments');
+      expect(dataObj).toHaveProperty('routes');
+    } catch (error) {
+      //
+    }
+  });
+
+  it('should throw getDriverRoutesAsync 401 error status', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
+    try {
+      await getDriverCountsAsync();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 401);
+    }
+  });
 });
 
 /**

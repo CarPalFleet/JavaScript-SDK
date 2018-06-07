@@ -1,5 +1,3 @@
-// REVIEW this test doesn't do anything
-
 import PubSubError from '../PubSubError';
 
 /**
@@ -9,8 +7,10 @@ function doPubSubError() {
   throw new PubSubError();
 }
 
-it('should recognize pubsub error', () => {
-  expect(() => {
-    doPubSubError();
-  }).toThrowError();
+describe('Create new pubsub error', () => {
+  it('should recognize pubsub error', async () => {
+    expect(() => {
+      doPubSubError();
+    }).toThrowError();
+  });
 });

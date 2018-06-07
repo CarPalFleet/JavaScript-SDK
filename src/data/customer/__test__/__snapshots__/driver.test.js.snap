@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Create new driver  should get getDriverCountsAsync success response 1`] = `
+Object {
+  "activeStatusCounts": Object {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+  },
+  "driverTypeCounts": Object {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+  },
+  "totalStatusCounts": 0,
+}
+`;
+
+exports[`Create new driver  should get getDriversWithFiltersAsync success response 1`] = `
+Object {
+  "data": Object {
+    "1": Array [],
+    "2": Array [],
+    "3": Array [],
+    "4": Array [],
+  },
+}
+`;

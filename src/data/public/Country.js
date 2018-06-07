@@ -1,8 +1,16 @@
+/**
+ * @fileoverview This file contains all Country related functions that are triggered by a (public) User
+ */
+
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../../utility/Util';
+import { apiResponseErrorHandler } from '../utility/Util';
 
+/**
+ * Retrieve all countries
+ * @return {object} Promise resolve/reject
+ */
 export const getCountriesAsync = async () => {
   try {
     const response = await axios.get(endpoints.COUNTRIES);
