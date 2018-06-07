@@ -56,7 +56,7 @@ describe('Create new driver ', async () => {
 
     driver = {
       ...newDriver,
-      isActive: true,
+      driverStatusId: 2,
       transactionGroupIds: driverInfoUpdate.transactionGroupIds,
       driverTypeIds: driverInfoUpdate.driverTypeIds,
       languageIds: [1], // not sure about this parameter
