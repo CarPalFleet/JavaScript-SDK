@@ -3,13 +3,6 @@
 exports[`Test for retrieving all notifications should return all notifications 1`] = `
 Array [
   Object {
-    "content": "Test notification 2",
-    "id": "asdf23dsa1fjak2389",
-    "isRead": true,
-    "timestamp": "2018-01-01 13:30:00",
-    "userId": 1,
-  },
-  Object {
     "content": "test",
     "id": "a9f0e92d-6bb0-4126-93cb-2ed8c88cac37",
     "isRead": false,
