@@ -60,7 +60,7 @@ export const createDriverAsync = async (
     vehicleModel,
     vehicleTypeId,
   },
-  token,
+  token
 ) => {
   try {
     const data = {
@@ -165,7 +165,7 @@ export const getDriversAsync = async (filterObject = {}, token) => {
  * Update Driver
  * @param {object} driverDetailsInfo {}
  * id (int)
- * isActive (boolean)
+ * driverStatusId (int)
  * languageIds (array)
  * transactionGroupIds (array)
  * driverTypeIds (array)
@@ -184,14 +184,14 @@ export const getDriversAsync = async (filterObject = {}, token) => {
  * user.password (string)
  * user.passwordConfirmation (string)
  * vehicle (object)
- * vehicle.modelYear (optional) (int)
+ * vehicle.vehicleModelYear (optional) (int)
  * vehicle.averageSpeed (optional) (int) min: 0
  * vehicle.maximumCapacity (optional) (int) min: 0
- * vehicle.typeId (optional) (int)
- * vehicle.model (optional) (string)
- * vehicle.brand (optional) (string)
- * vehicle.licenseNumber (optional) (string)
- * vehicle.color (optional) (string)
+ * vehicle.vehicleTypeId (optional) (int)
+ * vehicle.vehicleModel (optional) (string)
+ * vehicle.vehicleBrand (optional) (string)
+ * vehicle.vehicleLicenseNumber (optional) (string)
+ * vehicle.vehicleColor (optional) (string)
  * bank (object)
  * bank.branchCode (optional) (string)
  * bank.code (optional) (string)
@@ -200,41 +200,44 @@ export const getDriversAsync = async (filterObject = {}, token) => {
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const updateDriverAsync = async ({
-  id,
-  isActive,
-  languageIds,
-  transactionGroupIds,
-  driverTypeIds,
-  hasCriminalRecord,
-  isAProfessionalDriver,
-  hasWorkAsDriver,
-  hasWorkedForSameCompany,
-  referredFrom,
-  drivingReason,
-  remarks,
-  firstName,
-  lastName,
-  phone,
-  password,
-  passwordConfirmation,
-  modelYear,
-  averageSpeed,
-  maximumCapacity,
-  typeId,
-  model,
-  brand,
-  licenseNumber,
-  color,
-  branchCode,
-  code,
-  name,
-  accountNumber,
-}, token) => {
+export const updateDriverAsync = async (
+  {
+    id,
+    driverStatusId,
+    languageIds,
+    transactionGroupIds,
+    driverTypeIds,
+    hasCriminalRecord,
+    isAProfessionalDriver,
+    hasWorkAsDriver,
+    hasWorkedForSameCompany,
+    referredFrom,
+    drivingReason,
+    remarks,
+    firstName,
+    lastName,
+    phone,
+    password,
+    passwordConfirmation,
+    vehicleModelYear,
+    averageSpeed,
+    maximumCapacity,
+    vehicleTypeId,
+    vehicleModel,
+    vehicleBrand,
+    vehicleLicenseNumber,
+    vehicleColor,
+    branchCode,
+    code,
+    name,
+    accountNumber,
+  },
+  token
+) => {
   try {
     const driverInfo = camelToSnake({
       id,
-      isActive,
+      driverStatusId,
       languageIds,
       transactionGroupIds,
       driverTypeIds,
@@ -255,14 +258,14 @@ export const updateDriverAsync = async ({
         passwordConfirmation,
       }),
       vehicle: camelToSnake({
-        modelYear,
+        vehicleModelYear,
         averageSpeed,
         maximumCapacity,
-        typeId,
-        model,
-        brand,
-        licenseNumber,
-        color,
+        vehicleTypeId,
+        vehicleModel,
+        vehicleBrand,
+        vehicleLicenseNumber,
+        vehicleColor,
       }),
       bank: camelToSnake({
         branchCode,
