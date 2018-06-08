@@ -653,7 +653,7 @@ export const editOrdersAsync = async (orderDataList = [], token) => {
     let updatedOrderDataList = orderDataList.map((data) => {
       let tmpObject = {
         order_id: data.orderId,
-        order_data: camelToSnake(data.locationData),
+        order_data: camelToSnake(data.orderData),
       };
       return tmpObject;
     });
