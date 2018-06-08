@@ -576,7 +576,7 @@ export const createOrderAsync = async (orderObject, token) => {
         'Content-Type': 'application/json',
       },
       data: {
-        location_data: JSON.stringify(camelToSnake(orderObject)),
+        order_data: orderObject,
       },
     });
 
@@ -607,7 +607,7 @@ export const createOrderAsync = async (orderObject, token) => {
 export const editOrderAsync = async (orderId, orderObject, token) => {
   try {
     let updatedLocationDataObject = {
-      location_data: JSON.stringify(camelToSnake(orderObject)),
+      order_data: camelToSnake(orderObject),
     };
 
     let response = await axios({
@@ -653,7 +653,7 @@ export const editOrdersAsync = async (orderDataList = [], token) => {
     let updatedOrderDataList = orderDataList.map((data) => {
       let tmpObject = {
         order_id: data.orderId,
-        location_data: JSON.stringify(camelToSnake(data.locationData)),
+        order_data: camelToSnake(data.locationData),
       };
       return tmpObject;
     });

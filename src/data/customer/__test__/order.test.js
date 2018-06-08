@@ -183,10 +183,12 @@ describe('Order tests', async () => {
       const expected = {
         errorMessage: [
           {
-            key: 'pickupDate',
-            messages: [
-              'The pickup date should be after or equal current date.',
-            ],
+            key: 'orderData',
+            messages: {
+              pickupDate: [
+                'The pickup date should be after or equal current date.',
+              ],
+            },
           },
         ],
         statusCode: 400,
