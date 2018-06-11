@@ -314,11 +314,19 @@ export const getOrdersBasedOnSearchResult = async (
 };
 
 /**
- * Retrieve All Order Counts //TODO: is this description correct?
- * @param {object} filterObject # {pickupDate, limit, offset}
- * pickupDate (optional)(string) = "2018-02-28"
- * limit = 20 (optional)(int)
- * offset = 0 (optional)(int)
+ * Retrieve All Order Counts
+ * @param {object} filterObject # {pickupDate (mandatory), limit, offset}
+ * pickupDate (mandatory)(string) = "2018-02-28"
+ * statusIds = 1/2/3/4. 1 for "pending", 2 for "validated", 3 for "grouped", 4 for "failed"
+ * groupingLocationIds (optional)(csv) = "123,234,45"
+ * withOrder (optional)(bool) = 1 OR 0
+ * withDriver (optional)(bool) = 1 OR 0
+ * withRoute (optional)(bool) = 1 OR 0
+ * recommendedForDriverId (optional)(int) = 123
+ * include (optional)(csv) = "pickup_group,delivery_address,route_locations"
+ * sort (optional) = fieldName,asc OR desc
+ * limit (optional)(int) = 20
+ * offset (optional)(int) = 20
  * @param {int} customerId
  * @param {string} token
  * @return {object} Promise resolve/reject
@@ -435,10 +443,18 @@ export const getRemainingOrdersAsync = async (filterObject, token) => {
 
 /**
  * Get orders
- * @param {object} filterObject # {pickupDate (mandatory), limit, offset}
- * pickupDate (optional)(string) = "2018-02-28"
- * limit = 20 (optional)(int)
- * page = 0 (optional)(int)
+ * @param {object} filterObject # {
+ * pickupDate (mandatory)(string) = "2018-02-28",
+ * statusIds = 1/2/3/4. 1 for "pending", 2 for "validated", 3 for "grouped", 4 for "failed",
+ * groupingLocationIds (optional)(csv) = "123,234,45",
+ * withOrder (optional)(bool) = 1 OR 0,
+ * withDriver (optional)(bool) = 1 OR 0,
+ * withRoute (optional)(bool) = 1 OR 0,
+ * recommendedForDriverId (optional)(int) = 123,
+ * include (optional)(csv) = "pickup_group,delivery_address,route_locations",
+ * sort (optional) = fieldName,asc OR desc,
+ * limit (optional)(int) = 20,
+ * offset (optional)(int) = 20}
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
@@ -463,7 +479,6 @@ export const getOrdersAsync = async (filterObject, token) => {
       )}`,
       headers: { Authorization: `Bearer ${token}` },
     });
-
     return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
