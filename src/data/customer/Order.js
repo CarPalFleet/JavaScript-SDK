@@ -274,7 +274,7 @@ export const getOrdersGroupByPickUpAddressAsync = async (
     * Use 2 as default. It means validated orders
     */
     let statusId = filterObject.statusIds || 2;
-    let locations = await getOrdersAsync(filterObject, token);
+    let orders = await getOrdersAsync(filterObject, token);
     let errorContents;
 
     /* Check statusId whethere 4 or not
@@ -288,7 +288,7 @@ export const getOrdersGroupByPickUpAddressAsync = async (
       );
     }
 
-    return groupOrders(locations, errorContents ? errorContents : null);
+    return groupOrders(orders, errorContents ? errorContents : null);
   } catch (e) {
     // Response Promise Reject with statusCode and statusText
     return rejectPromise(e);
@@ -740,27 +740,27 @@ export const cancelBatchFileProcessAsync = async (batchId, token) => {
 
 /**
  * Group Orders with error contents
- * @param {object} locations
+ * @param {object} orders
  * @param {object} errorContents
  * @return {object} { data: [0], groupId: [2]}
  */
-export const groupOrders = (locations, errorContents = null) => {
-  let locationsGroups = locations['data'].reduce(
-    (groupAddressObject, location, index) => {
-      return orderByPickUpAddress(groupAddressObject, location, errorContents);
+export const groupOrders = (orders, errorContents = null) => {
+  let orderGroups = orders['data'].reduce(
+    (groupAddressObject, order, index) => {
+      return orderByPickUpAddress(groupAddressObject, order, errorContents);
     },
     { data: [0], groupIds: [0] }
   );
 
-  if (typeof locationsGroups['data'][0] === 'number') {
-    locationsGroups['data'].splice(0, 1);
+  if (typeof orderGroups['data'][0] === 'number') {
+    orderGroups['data'].splice(0, 1);
   }
 
   const result = {
-    totalLocationCount: locations['meta'].totalLocationCount, // total_location_count
-    successLocationCount: locations['meta'].validatedLocationCount, // validated_location_count
-    failedLocationCount: locations['meta'].failedLocationCount, // failed_location_count
-    data: locationsGroups.data,
+    totalLocationCount: orders['meta'].totalLocationCount, // total_location_count
+    successLocationCount: orders['meta'].validatedLocationCount, // validated_location_count
+    failedLocationCount: orders['meta'].failedLocationCount, // failed_location_count
+    data: orderGroups.data,
   };
 
   return result;
@@ -769,13 +769,13 @@ export const groupOrders = (locations, errorContents = null) => {
 /**
  * Group Order by Pickup Address
  * @param {object} groups
- * @param {object} location
+ * @param {object} order
  * @param {object} errorContents The errorContent number.
  * @return {object} groupped addresses
  */
-function orderByPickUpAddress(groups, location, errorContents) {
+function orderByPickUpAddress(groups, order, errorContents) {
   // ErrorContents
-  let groupId = location.pickupGroupId;
+  let groupId = order.pickupGroupId;
   let index = groups['groupIds'].indexOf(groupId);
   if (index === -1) {
     index = groupId ? groups['groupIds'].length : 0;
@@ -785,24 +785,24 @@ function orderByPickUpAddress(groups, location, errorContents) {
   if (!(groups['data'][index] instanceof Object)) {
     groups['data'][index] = {
       id: groupId,
-      address: location.pickupLocationAddress,
+      address: order.pickupLocationAddress,
       jobs: [],
     };
   }
 
   // driver will be empty array if there's no driver info
   // Add avatarUrl as a empty string, this field will be included in response.
-  isEmpty(location.driver)
-    ? (location.driver = {})
-    : (location.driver['avatarUrl'] = '');
+  isEmpty(order.driver)
+    ? (order.driver = {})
+    : (order.driver['avatarUrl'] = '');
 
   if (errorContents) {
-    location.error = mergeLocationDataWithErrors(errorContents, location);
+    order.error = mergeLocationDataWithErrors(errorContents, order);
   }
 
-  location.latitude = location.latitude || '';
-  location.longitude = location.longitude || '';
-  groups['data'][index]['jobs'].push(location);
+  order.latitude = order.latitude || '';
+  order.longitude = order.longitude || '';
+  groups['data'][index]['jobs'].push(order);
 
   return groups;
 }
@@ -810,13 +810,13 @@ function orderByPickUpAddress(groups, location, errorContents) {
 /**
  * Merge Location data with Errors
  * @param {object} errorContents # Error object
- * @param {object} location # location object
+ * @param {object} order # location object
  * @return {array} errorList
  * if there's no error for this location, it will response empty array.
  */
-export const mergeLocationDataWithErrors = (errorContents, location) => {
+export const mergeLocationDataWithErrors = (errorContents, order) => {
   const error = errorContents.data.find(
-    (errorContent) => errorContent.groupingLocationId === location.id
+    (errorContent) => errorContent.orderId === order.id
   );
   if (error) {
     return Object.keys(error['errorMessages']).reduce((errorList, key) => {
