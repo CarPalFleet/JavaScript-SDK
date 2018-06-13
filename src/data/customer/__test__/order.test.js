@@ -31,7 +31,6 @@ describe('Order tests', async () => {
 
   it('Retrieving single grouping location, expect 401', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-
     try {
       const response = await getOrderAsync(
         CONFIG.groupingLocationId,
@@ -48,9 +47,16 @@ describe('Order tests', async () => {
 
     const filterObject = {
       statusIds: 2, // 2 = validated records, 4 = errors
-      pickupDate: '2018-02-28',
-      limit: 30,
-      offset: 0,
+      pickupDate: '2018-06-10',
+      // groupingLocationIds: CONFIG.groupingLocationIds.reduce((a,b) => `${a},${b}`),
+      withOrder: 0,
+      withDriver: 0,
+      withRoute: 0,
+      // recommendedForDriverId: CONFIG.driverId,
+      include: 'pickup_group,delivery_address,route_locations',
+      sort: 'pickup_window,asc',
+      limit: 20,
+      offset: 20,
     };
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
