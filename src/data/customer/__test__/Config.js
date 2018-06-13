@@ -87,7 +87,7 @@ const CONFIG = {
   orderDataList: [
     {
       orderId: 27318,
-      locationData: {
+      orderData: {
         pickupLocationAddress: '22 Gim moh road',
         deliveryAddress: 'Holland Close',
         pickupDate: '28-02-2018',
@@ -99,7 +99,7 @@ const CONFIG = {
     },
     {
       orderId: 27312,
-      locationData: {
+      orderData: {
         pickupLocationAddress: '22 Gim moh road',
         deliveryAddress: 'Holland Close',
         pickupDate: '28-02-2018',

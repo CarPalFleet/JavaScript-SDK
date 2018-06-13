@@ -2,6 +2,28 @@
 
 exports[`Create new driver  should get getDriverCountsAsync success response 1`] = `
 Object {
+  "data": Object {
+    "1": Array [],
+    "2": Array [],
+    "3": Array [],
+    "4": Array [],
+  },
+}
+`;
+
+exports[`Create new driver  should get getDriversWithFiltersAsync success response 1`] = `
+Object {
+  "data": Object {
+    "1": Array [],
+    "2": Array [],
+    "3": Array [],
+    "4": Array [],
+  },
+}
+`;
+
+exports[`Create new driver  should throw getDriverRoutesAsync 401 error status 1`] = `
+Object {
   "activeStatusCounts": Object {
     "1": 0,
     "2": 0,
@@ -14,16 +36,5 @@ Object {
     "3": 0,
   },
   "totalStatusCounts": 0,
-}
-`;
-
-exports[`Create new driver  should get getDriversWithFiltersAsync success response 1`] = `
-Object {
-  "data": Object {
-    "1": Array [],
-    "2": Array [],
-    "3": Array [],
-    "4": Array [],
-  },
 }
 `;
