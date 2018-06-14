@@ -4,7 +4,7 @@ import { getTokenAsync } from '../../account/Auth';
 
 describe('Get Routes with filters', () => {
   it('`should get true value for export file`', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     const type = 'routing';
     const result = await getTokenAsync(

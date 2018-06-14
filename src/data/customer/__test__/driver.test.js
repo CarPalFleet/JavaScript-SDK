@@ -280,6 +280,8 @@ describe('Create new driver ', async () => {
   const customerId = 14445;
 
   it('should get getDriversWithFiltersAsync success response', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+
     try {
       const response = await getDriversWithFiltersAsync(
         filterObject,
@@ -305,7 +307,7 @@ describe('Create new driver ', async () => {
     driverTypeIds: [1],
   };
   it('should get getDriverCountsAsync success response', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
     try {
       const response = await getDriverCountsAsync(

@@ -19,7 +19,7 @@ import CONFIG from './Config';
 
 let token;
 beforeAll(async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
   token = await getTokenAsync(
     CONFIG.email,
     CONFIG.password,
@@ -30,7 +30,7 @@ beforeAll(async () => {
 
 describe('Order tests', async () => {
   it('Retrieving single order, expect 404', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await getOrderAsync(
@@ -44,7 +44,7 @@ describe('Order tests', async () => {
   });
 
   it('Retrieving validated orders', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     const filterObject = {
       statusIds: 2, // 2 = validated records, 4 = errors
@@ -53,7 +53,7 @@ describe('Order tests', async () => {
       offset: 0,
     };
 
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await getOrdersGroupByPickUpAddressAsync(
@@ -71,7 +71,7 @@ describe('Order tests', async () => {
   });
 
   it('Retrieving orders empty batch', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     const filterObject = {
       statusIds: 4,
@@ -98,7 +98,7 @@ describe('Order tests', async () => {
   });
 
   it('Retrieving Remaining Order Count', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     const filterObject = {
       pickupDate: '2018-04-15',
@@ -117,7 +117,7 @@ describe('Order tests', async () => {
   });
 
   it('Retrieving error orders from DynamoDB', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await getErrorOrderContentsAsync(
@@ -132,7 +132,7 @@ describe('Order tests', async () => {
   });
 
   it('Should return not found', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await updateAndTruncateOrderErrorsAsync(
@@ -156,7 +156,7 @@ describe('Order tests', async () => {
       pickupDate: '2018-02-05',
       withOrder: 0,
     };
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await getUniquePickupAddressesAsync(
@@ -171,7 +171,7 @@ describe('Order tests', async () => {
   });
 
   it('Create Order with date in the past', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await createOrderAsync(
@@ -213,7 +213,7 @@ describe('Order tests', async () => {
   });
 
   it('Edit Order not found', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await editOrderAsync(
@@ -234,7 +234,7 @@ describe('Order tests', async () => {
   });
 
   it('Test for uploading batch order progression', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await getUploadedOrderProgressionAsync(
@@ -248,7 +248,7 @@ describe('Order tests', async () => {
   });
 
   it('Delete Grouping Location not found', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await deleteOrderAsync(1, token.accessToken);
@@ -264,7 +264,7 @@ describe('Order tests', async () => {
   });
 
   it('Delete Multiple Grouping Locations not found', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await deleteOrdersAsync(
@@ -285,7 +285,7 @@ describe('Order tests', async () => {
 
 describe('Convert Ids into CSV string', () => {
   it('should response string', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     const response = await getCSVStringFromArrayObject(
       CONFIG.searchResult,
       CONFIG.fieldName
@@ -296,7 +296,7 @@ describe('Convert Ids into CSV string', () => {
 
 describe('Remove batch errors of order from Dynamodb', () => {
   it('Should response an object and data should be true.', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     try {
       const response = await removeOrderErrorRecordsAsync(
         CONFIG.orderWithErrorIds,
@@ -317,7 +317,7 @@ describe('Remove batch errors of order from Dynamodb', () => {
 
 describe('Remove one error record of order from Dynamodb', () => {
   it('Should response an object and data should be true.', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     try {
       const response = await removeOrderErrorRecordsAsync(
         CONFIG.groupingBatchId,
@@ -338,7 +338,7 @@ describe('Remove one error record of order from Dynamodb', () => {
 
 // TODO: needs to be fixed
 /* test("Edit Multiple Grouping Locations not found", async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
   const result = getTokenAsync(
     CONFIG.email,
@@ -360,7 +360,7 @@ console.log(error);
 
 // TODO: needs to be fixed
 /* test("Test for file uploading", async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
   const result = getTokenAsync(
     CONFIG.email,
@@ -388,7 +388,7 @@ console.log(error);
 
 // TODO: needs to be fixed
 /* test("Test for file uploading error", async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
   const response = await fileUploadForOrderAsync(
     {grouping_spreadsheet: 12},
