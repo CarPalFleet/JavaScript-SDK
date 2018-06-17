@@ -323,8 +323,8 @@ export const getDriversBasedOnSearchResult = async (
 
 /**
  * Get Driver with filters
- * @param {object} filterObject {orderRouteTypeIds, driverTypeIds, driverStatusId}
- * orderRouteTypeIds (string) (optinal) 1,2 #csv string
+ * @param {object} filterObject {jobRouteTypeIds, driverTypeIds, driverStatusId}
+ * jobRouteTypeIds (string) (optinal) 1,2 #csv string
  * * 1 means Live, 2 means POD
  * driverTypeIds (string) (optinal) 1 #csv string
  * * 1 means Inhouse, 2 means Public, 3 means Service Provider
@@ -361,8 +361,8 @@ export const getDriversWithFiltersAsync = async (
 
 /**
  * Get Driver Counts for Dashboard
- * @param {object} filterObject {orderRouteTypeIds, driverTypeIds, driverStatusId}
- * orderRouteTypeIds (string) (optinal) 1,2 #csv string
+ * @param {object} filterObject {jobRouteTypeIds, driverTypeIds, driverStatusId}
+ * jobRouteTypeIds (string) (optinal) 1,2 #csv string
  * * 1 means Live, 2 means POD
  * driverTypeIds (array) (optinal) [1] #csv string
  * * 1 means Inhouse, 2 means Public, 3 means Service Provider
