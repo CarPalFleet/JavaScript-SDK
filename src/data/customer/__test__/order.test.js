@@ -17,34 +17,34 @@ import { getCSVStringFromArrayObject } from '../../utility/Util';
 
 import CONFIG from './Config';
 
-describe('Order tests', async () => {
-  let token;
-  beforeAll(async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-    token = await getTokenAsync(
-      CONFIG.email,
-      CONFIG.password,
-      CONFIG.clientId,
-      CONFIG.clientSecret
-    );
-  });
+let token;
+beforeAll(async () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+  token = await getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+});
 
-  it('Retrieving single grouping location, expect 401', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+describe('Order tests', async () => {
+  it('Retrieving single order, expect 404', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await getOrderAsync(
         CONFIG.groupingLocationId,
-        CONFIG.token
+        token.accessToken
       );
       expect('data' in response).toBeTruthy();
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 401);
+      expect(error).toHaveProperty('statusCode', 404);
     }
   });
 
-  it('Retrieving validated grouping locations', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  it('Retrieving validated orders', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     const filterObject = {
       statusIds: 2, // 2 = validated records, 4 = errors
@@ -53,7 +53,7 @@ describe('Order tests', async () => {
       offset: 0,
     };
 
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await getOrdersGroupByPickUpAddressAsync(
@@ -70,8 +70,8 @@ describe('Order tests', async () => {
     }
   });
 
-  it('Retrieving grouping locations empty batch', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  it('Retrieving orders empty batch', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     const filterObject = {
       statusIds: 4,
@@ -80,29 +80,29 @@ describe('Order tests', async () => {
       offset: 0,
     };
 
-    const response = await getOrdersGroupByPickUpAddressAsync(
-      filterObject,
-      CONFIG.customerId,
-      token.accessToken
-    );
-
     try {
+      const response = await getOrdersGroupByPickUpAddressAsync(
+        filterObject,
+        CONFIG.customerId,
+        token.accessToken
+      );
+
       expect('data' in response).toBeTruthy();
       expect('totalLocationCount' in response).toBeTruthy();
       expect('successLocationCount' in response).toBeTruthy();
       expect('failedLocationCount' in response).toBeTruthy();
       expect(response).toHaveProperty('totalLocationCount', 0);
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 401);
+      expect(error).toHaveProperty('statusCode', 400);
     }
   });
 
   it('Retrieving Remaining Order Count', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     const filterObject = {
       pickupDate: '2018-04-15',
-      withOrder: 0,
+      withJob: 0,
     };
 
     try {
@@ -112,12 +112,12 @@ describe('Order tests', async () => {
       );
       expect('totalCount' in responseCount).toBeTruthy();
     } catch (error) {
-      await expect(error).rejects.toHaveProperty('statusCode', 400);
+      expect(error).toHaveProperty('statusCode', 401);
     }
   });
 
-  it('Retrieving error grouping locations from DynamoDB', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  it('Retrieving error orders from DynamoDB', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await getErrorOrderContentsAsync(
@@ -132,20 +132,20 @@ describe('Order tests', async () => {
   });
 
   it('Should return not found', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await updateAndTruncateOrderErrorsAsync(
         CONFIG.orderWithErrorIds,
-        CONFIG.locationDataList,
+        CONFIG.orderDataList,
         token.accessToken
       );
       expect('data' in response).toBeTruthy();
     } catch (error) {
       const expected = {
-        statusCode: 400,
-        statusText: 'Bad Request',
-        errorMessage: [],
+        statusCode: 404,
+        statusText: 'Not Found',
+        errorMessage: [{ key: 'orderIds', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
     }
@@ -156,7 +156,7 @@ describe('Order tests', async () => {
       pickupDate: '2018-02-05',
       withOrder: 0,
     };
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await getUniquePickupAddressesAsync(
@@ -170,8 +170,8 @@ describe('Order tests', async () => {
     }
   });
 
-  it('Create Grouping Location with date in the past', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  it('Create Order with date in the past', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await createOrderAsync(
@@ -183,8 +183,12 @@ describe('Order tests', async () => {
       const expected = {
         errorMessage: [
           {
-            key: '0',
-            messages: 'The pickup date should be after or equal current date.',
+            key: 'orderData',
+            messages: {
+              pickupDate: [
+                'The pickup date should be after or equal current date.',
+              ],
+            },
           },
         ],
         statusCode: 400,
@@ -194,8 +198,8 @@ describe('Order tests', async () => {
     }
   });
 
-  it('Create Grouping Location with date in the future', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  it('Create Order with date in the future', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
     try {
       const response = await createOrderAsync(
@@ -208,25 +212,29 @@ describe('Order tests', async () => {
     }
   });
 
-  it('Edit Grouping Location not found', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  it('Edit Order not found', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
-      const response = await editOrderAsync(1, '28-02-2018', token.accessToken);
+      const response = await editOrderAsync(
+        1,
+        { pickupDate: '28-02-2018' },
+        token.accessToken
+      );
 
       expect('data' in response).toBeTruthy();
     } catch (error) {
       const expected = {
-        errorMessage: [{ key: '0', messages: 'Grouping Location not found' }],
-        statusCode: 400,
-        statusText: 'Bad Request',
+        errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
+        statusCode: 404,
+        statusText: 'Not Found',
       };
       expect(error).toEqual(expected);
     }
   });
 
   it('Test for uploading batch order progression', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await getUploadedOrderProgressionAsync(
@@ -240,23 +248,23 @@ describe('Order tests', async () => {
   });
 
   it('Delete Grouping Location not found', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await deleteOrderAsync(1, token.accessToken);
       expect(response.data).toBeTruthy();
     } catch (error) {
       const expected = {
-        statusCode: 400,
-        statusText: 'Bad Request',
-        errorMessage: [{ key: '0', messages: 'Grouping Location not found' }],
+        statusCode: 404,
+        statusText: 'Not Found',
+        errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
     }
   });
 
   it('Delete Multiple Grouping Locations not found', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await deleteOrdersAsync(
@@ -266,9 +274,9 @@ describe('Order tests', async () => {
       expect(response.data).toBeTruthy();
     } catch (error) {
       const expected = {
-        statusCode: 400,
-        statusText: 'Bad Request',
-        errorMessage: [{ key: '0', messages: 'Grouping Location not found' }],
+        statusCode: 404,
+        statusText: 'Not Found',
+        errorMessage: [{ key: 'orderIds', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
     }
@@ -277,8 +285,7 @@ describe('Order tests', async () => {
 
 describe('Convert Ids into CSV string', () => {
   it('should response string', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     const response = await getCSVStringFromArrayObject(
       CONFIG.searchResult,
       CONFIG.fieldName
@@ -289,33 +296,49 @@ describe('Convert Ids into CSV string', () => {
 
 describe('Remove batch errors of order from Dynamodb', () => {
   it('Should response an object and data should be true.', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-
-    const response = await removeOrderErrorRecordsAsync(
-      CONFIG.orderWithErrorIds,
-      CONFIG.token
-    );
-    expect('data' in response).toBeTruthy();
-    expect(response.data).toBeTruthy();
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    try {
+      const response = await removeOrderErrorRecordsAsync(
+        CONFIG.orderWithErrorIds,
+        token.accessToken
+      );
+      expect('data' in response).toBeTruthy();
+      expect(response.data).toBeTruthy();
+    } catch (error) {
+      const expected = {
+        statusCode: 404,
+        statusText: 'Not Found',
+        errorMessage: [{ key: 'orderIds', messages: ['Order not found'] }],
+      };
+      expect(error).toEqual(expected);
+    }
   });
 });
 
 describe('Remove one error record of order from Dynamodb', () => {
   it('Should response an object and data should be true.', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-
-    const response = await removeOrderErrorRecordsAsync(
-      CONFIG.groupingBatchId,
-      CONFIG.token
-    );
-    expect('data' in response).toBeTruthy();
-    expect(response.data).toBeTruthy();
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    try {
+      const response = await removeOrderErrorRecordsAsync(
+        CONFIG.groupingBatchId,
+        token.accessToken
+      );
+      expect('data' in response).toBeTruthy();
+      expect(response.data).toBeTruthy();
+    } catch (error) {
+      const expected = {
+        statusCode: 404,
+        statusText: 'Not Found',
+        errorMessage: ['Order not found'],
+      };
+      expect(error).toEqual(expected);
+    }
   });
 });
 
 // TODO: needs to be fixed
 /* test("Edit Multiple Grouping Locations not found", async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
   const result = getTokenAsync(
     CONFIG.email,
@@ -337,7 +360,7 @@ console.log(error);
 
 // TODO: needs to be fixed
 /* test("Test for file uploading", async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
   const result = getTokenAsync(
     CONFIG.email,
@@ -365,7 +388,7 @@ console.log(error);
 
 // TODO: needs to be fixed
 /* test("Test for file uploading error", async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
   const response = await fileUploadForOrderAsync(
     {grouping_spreadsheet: 12},
