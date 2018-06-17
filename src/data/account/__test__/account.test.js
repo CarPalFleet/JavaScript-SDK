@@ -2,12 +2,26 @@ import { resetPasswordRequestAsync, resetPasswordAsync } from '../Account';
 import CONFIG from './Config';
 
 describe('Request reset password', () => {
-  it('should repond true', async () => {
+  it('should repond true with 204', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-    const response = resetPasswordRequestAsync(CONFIG.email);
-    const result = await response;
-    expect(result).toBeTruthy();
+    try {
+      const response = await resetPasswordRequestAsync(CONFIG.email);
+      expect(response).toHaveProperty('status', 204);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 400);
+    }
+  });
+
+  it('should repond true with 400', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
+    try {
+      const response = await resetPasswordRequestAsync('test');
+      expect(response).toBeTruthy();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 400);
+    }
   });
 });
 

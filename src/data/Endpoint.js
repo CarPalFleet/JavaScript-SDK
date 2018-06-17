@@ -1,6 +1,6 @@
 const urlPrefix =
   'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
-const laravelUrlPrefix = 'https://api-test.carpal.me';
+const laravelUrlPrefix = 'https://api-pre-test.carpal.me';
 const version = 'v3';
 
 const endpoints = {
@@ -9,7 +9,7 @@ const endpoints = {
   COUNTRIES: `${urlPrefix}/countries`,
   ACCOUNTS: `${urlPrefix}/drivers`,
   OAUTH: `${urlPrefix}/authentication`,
-  PASSWORD_RESET: `${urlPrefix}/users/password/reset`,
+  PASSWORD_RESET_API_WRAPPER: `${urlPrefix}/users/password/reset`,
   PASSWORD_RESET_TOKEN: `${urlPrefix}/users/password/token`,
   MY_JOBS: `${urlPrefix}/drivers/{0}/jobs?date={1}`,
   MY_LEGS: `${urlPrefix}/drivers/{0}/legs?date={1}`,
@@ -50,6 +50,7 @@ const endpoints = {
     EXPORT_DRIVER_LIST: `${laravelUrlPrefix}/${version}/customer/driverlist/export`, // url will be updated after backend is finished
     EXPORT_ROUTE: `${laravelUrlPrefix}/${version}/customer/report/routes-export`,
     CUSTOMER_DRIVER: `${laravelUrlPrefix}/${version}/customer/driver`,
+    REQUEST_PASSWORD_RESET: `${laravelUrlPrefix}/${version}/user/password/forgot`,
   },
 };
 
