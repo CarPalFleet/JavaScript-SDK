@@ -51,7 +51,7 @@ export const resetPasswordAsync = async (
     }
     const response = await axios({
       method: 'PUT',
-      url: endpoints.PASSWORD_RESET_API_WRAPPER,
+      url: endpoints.API_V3.PASSWORD_RESET_WITH_TOKEN,
       headers: { 'Content-Type': 'application/json' },
       data: {
         token,
@@ -60,7 +60,7 @@ export const resetPasswordAsync = async (
         confirmPassword,
       },
     });
-    return camelize(response.data.data);
+    return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
@@ -70,6 +70,8 @@ export const resetPasswordAsync = async (
  * Validate Reset Password Token
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * @deprecated since version 0.3.15
+ // TODO: verify this endpoint is not being used by the front-end
  */
 export const validateResetPasswordTokenAsync = async (token) => {
   try {
