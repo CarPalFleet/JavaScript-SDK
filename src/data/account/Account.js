@@ -12,19 +12,17 @@ import { apiResponseErrorHandler, customError } from '../utility/Util';
  * @param {string} email
  * @return {object} Promise resolve/reject
  */
-// TODO: should call API V3 directly and not API wrapper
 export const resetPasswordRequestAsync = async (email) => {
   try {
     const response = await axios({
       method: 'POST',
-      url: endpoints.PASSWORD_RESET,
+      url: endpoints.API_V3.REQUEST_PASSWORD_RESET,
       headers: { 'Content-Type': 'application/json' },
       data: {
         email,
       },
     });
-
-    return camelize(response.data.data);
+    return camelize(response);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
@@ -53,7 +51,7 @@ export const resetPasswordAsync = async (
     }
     const response = await axios({
       method: 'PUT',
-      url: endpoints.PASSWORD_RESET,
+      url: endpoints.PASSWORD_RESET_API_WRAPPER,
       headers: { 'Content-Type': 'application/json' },
       data: {
         token,
