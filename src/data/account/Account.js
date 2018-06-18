@@ -5,7 +5,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import { apiResponseErrorHandler, customError } from '../utility/Util';
+import { apiResponseErrorHandler } from '../utility/Util';
 
 /**
  * Request reset password
@@ -43,12 +43,6 @@ export const resetPasswordAsync = async (
   confirmPassword
 ) => {
   try {
-    if (token === undefined) {
-      throw customError({
-        statusCode: 401,
-        statusText: 'Unauthorized',
-      });
-    }
     const response = await axios({
       method: 'PUT',
       url: endpoints.API_V3.PASSWORD_RESET_WITH_TOKEN,

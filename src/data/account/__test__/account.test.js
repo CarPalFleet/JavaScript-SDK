@@ -5,7 +5,7 @@ import {
 } from '../Account';
 import CONFIG from './Config';
 
-describe('Request reset password', () => {
+describe('Request reset password token', () => {
   it('should repond true with 204', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
@@ -29,21 +29,8 @@ describe('Request reset password', () => {
   });
 });
 
-describe('Reset password', () => {
-  test('result should be true if the the token is correct', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-
-    const response = resetPasswordAsync(
-      CONFIG.refreshToken,
-      CONFIG.email,
-      'carpaldemo',
-      'carpaldemo'
-    );
-    const result = await response;
-    expect(result).toBeTruthy();
-  });
-
-  test('resetPasswordAsync throw error', async () => {
+describe('Reset password with token', () => {
+  test('resetPasswordAsync throw 400 because of no or invalid token', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
@@ -54,13 +41,13 @@ describe('Reset password', () => {
         'carpaldemo'
       );
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 401);
+      expect(error).toHaveProperty('statusCode', 400);
     }
   });
 });
 
 describe('Test for reset password token validation', () => {
-  test('reject with statusCode 404 if the reset password is invalid', async () => {
+  test('reject with statusCode 404 if the reset token is invalid', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
