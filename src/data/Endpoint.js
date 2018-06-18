@@ -49,7 +49,6 @@ const endpoints = {
     EXPORT_ROUTE: `${laravelUrlPrefix}/${version}/customer/report/routes-export`,
     CUSTOMER_DRIVER: `${laravelUrlPrefix}/${version}/customer/driver`,
     REQUEST_PASSWORD_RESET: `${laravelUrlPrefix}/${version}/user/password/email`,
-    PASSWORD_RESET_WITH_TOKEN: `${laravelUrlPrefix}/${version}/user/password/email`,
     VALIDATE_PASSWORD_RESET_TOKEN: `${laravelUrlPrefix}/${version}/password`,
   },
 };

@@ -45,7 +45,7 @@ export const resetPasswordAsync = async (
   try {
     const response = await axios({
       method: 'PUT',
-      url: endpoints.API_V3.PASSWORD_RESET_WITH_TOKEN,
+      url: endpoints.API_V3.REQUEST_PASSWORD_RESET,
       headers: { 'Content-Type': 'application/json' },
       data: {
         token,
