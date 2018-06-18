@@ -1,4 +1,8 @@
-import { resetPasswordRequestAsync, resetPasswordAsync } from '../Account';
+import {
+  resetPasswordRequestAsync,
+  resetPasswordAsync,
+  validateResetPasswordTokenAsync,
+} from '../Account';
 import CONFIG from './Config';
 
 describe('Request reset password', () => {
@@ -60,7 +64,8 @@ describe('Test for reset password token validation', () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
-      // const result = await validateResetPasswordTokenAsync(makeid(32));
+      const result = await validateResetPasswordTokenAsync(12);
+      expect(result).toHaveProperty('statusCode', 204);
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 404);
     }
