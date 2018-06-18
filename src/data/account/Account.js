@@ -70,14 +70,12 @@ export const resetPasswordAsync = async (
  * Validate Reset Password Token
  * @param {string} token
  * @return {object} Promise resolve/reject
- * @deprecated since version 0.3.15
- // TODO: verify this endpoint is not being used by the front-end
  */
 export const validateResetPasswordTokenAsync = async (token) => {
   try {
     const response = await axios({
       method: 'POST',
-      url: endpoints.PASSWORD_RESET_TOKEN,
+      url: endpoints.API_V3.VALIDATE_PASSWORD_RESET_TOKEN,
       headers: { 'Content-Type': 'application/json' },
       data: {
         token,
