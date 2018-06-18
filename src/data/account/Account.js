@@ -74,7 +74,7 @@ export const resetPasswordAsync = async (
 export const validateResetPasswordTokenAsync = async (token) => {
   try {
     const response = await axios({
-      method: 'POST',
+      method: 'GET',
       url: endpoints.API_V3.VALIDATE_PASSWORD_RESET_TOKEN,
       headers: { 'Content-Type': 'application/json' },
       data: {
