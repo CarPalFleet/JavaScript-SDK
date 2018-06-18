@@ -5,7 +5,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import { apiResponseErrorHandler, customError } from '../utility/Util';
+import { apiResponseErrorHandler } from '../utility/Util';
 
 /**
  * Request reset password
@@ -43,15 +43,9 @@ export const resetPasswordAsync = async (
   confirmPassword
 ) => {
   try {
-    if (token === undefined) {
-      throw customError({
-        statusCode: 401,
-        statusText: 'Unauthorized',
-      });
-    }
     const response = await axios({
       method: 'PUT',
-      url: endpoints.PASSWORD_RESET_API_WRAPPER,
+      url: endpoints.API_V3.PASSWORD_RESET_WITH_TOKEN,
       headers: { 'Content-Type': 'application/json' },
       data: {
         token,
@@ -60,7 +54,7 @@ export const resetPasswordAsync = async (
         confirmPassword,
       },
     });
-    return camelize(response.data.data);
+    return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
@@ -74,8 +68,8 @@ export const resetPasswordAsync = async (
 export const validateResetPasswordTokenAsync = async (token) => {
   try {
     const response = await axios({
-      method: 'POST',
-      url: endpoints.PASSWORD_RESET_TOKEN,
+      method: 'GET',
+      url: endpoints.API_V3.VALIDATE_PASSWORD_RESET_TOKEN,
       headers: { 'Content-Type': 'application/json' },
       data: {
         token,
