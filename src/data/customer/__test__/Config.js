@@ -30,6 +30,7 @@ const CONFIG = {
   customerId: 14445,
   fuzzy: false,
   fuzziness: 1,
+  routeIds: '1234,4567',
   createRoutePayload: [
     {
       driver_id: 2,

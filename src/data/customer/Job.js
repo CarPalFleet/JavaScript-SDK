@@ -76,3 +76,26 @@ export const getRecommendedJobsAsync = async (filterObject = {}, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * create Jobs
+ * @param {string} routeIds comma seperated string ex: 1234,3455
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const createJobsAsync = async (routeIds, token) => {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: endpoints.API_V3.JOB_PRIVATE,
+      headers: { Authorization: `Bearer ${token}` },
+      data: {
+        route_ids: routeIds,
+      },
+    });
+
+    return camelize(res.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
