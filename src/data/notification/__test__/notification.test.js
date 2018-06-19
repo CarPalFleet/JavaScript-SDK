@@ -8,7 +8,7 @@ import CONFIG from './Config';
 describe('Test for retrieving all notifications', () => {
   let token;
   beforeAll(async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     token = await getTokenAsync(
       CONFIG.email,
       CONFIG.password,
@@ -18,7 +18,7 @@ describe('Test for retrieving all notifications', () => {
   });
 
   it('should return all notifications', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = getNotificationsAsync(false, 1, token.accessToken);
@@ -35,7 +35,7 @@ describe('Test for retrieving all notifications', () => {
     }
   });
   it('should delete notification of user', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     const deleteResponse = { data: true };
     try {
       const response = await deleteNotificationAsync(

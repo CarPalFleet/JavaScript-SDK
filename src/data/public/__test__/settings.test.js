@@ -3,7 +3,7 @@ import { apiResponseErrorHandler } from '../../utility/Util';
 
 describe('Test for getCustomerPublicProfileSettingsAsync function', () => {
   beforeEach(() => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
   });
   // TODO put correct domain name, now it"s throw an error 404
   //   it("getCustomerPublicProfileSettingsAsync success response", async () => {

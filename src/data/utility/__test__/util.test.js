@@ -7,7 +7,7 @@ import {
 
 describe('Convert object key/value into url string', () => {
   it('should match the string values limit and offset', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     let data = {
       limit: 20,
@@ -22,7 +22,7 @@ describe('Convert object key/value into url string', () => {
 
 /* describe("Handle API Error", () => {
   it("should return promise (reject) object with statusCode, statusText and errorMessage", async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     const errors = {
       response: {
@@ -44,7 +44,7 @@ describe('Convert object key/value into url string', () => {
 
 /* describe("Response Promise Reject", () => {
   it("should return promise (reject) object with stausCode, statusText and errorMessage", async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const errors = {
@@ -69,7 +69,7 @@ describe('Convert object key/value into url string', () => {
 });*/
 
 /* describe("Format error messages into key value objects inside of array", () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
   const errorMessage = {
     email: ["Duplicate Email"],
@@ -83,7 +83,7 @@ describe('Convert object key/value into url string', () => {
 });*/
 
 describe('Convert Object into key/value array.', () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
   const errorMessage = {
     email: ['Duplicate Email'],
@@ -97,7 +97,7 @@ describe('Convert Object into key/value array.', () => {
 });
 
 /* describe("Iterate the array and format by using ES 6 reduce method", () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
   const data = [1, 2, 3];
 
@@ -110,7 +110,7 @@ describe('Convert Object into key/value array.', () => {
 });*/
 
 /* describe("Store key/value element into array", () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
   it("should response new array with key/value elements", async () => {
     const [key, value] = ["key", "messages"];
@@ -121,7 +121,7 @@ describe('Convert Object into key/value array.', () => {
 });*/
 
 /* describe("Check the same object id in two params", () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
   it("true/false value in ", async () => {
     const objectA = {id: 1};
@@ -132,7 +132,7 @@ describe('Convert Object into key/value array.', () => {
 });*/
 
 describe('Return error object from simple object', () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
   it('should create error object ', () => {
     const object = { statusCode: 401, statusText: 'Unauthorized' };
@@ -142,7 +142,7 @@ describe('Return error object from simple object', () => {
 });
 
 describe('Union two arrays into one if ids are equal', () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
   it('should merge test property of two arrays into one and return new array', () => {
     const a = [{ id: 1, test: [{ name: 'Bob' }] }];
