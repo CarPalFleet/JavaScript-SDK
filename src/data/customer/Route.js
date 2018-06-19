@@ -14,10 +14,10 @@ import toArray from 'lodash.toarray';
 
 /**
  * Get Routes
- * @param {object} filterObject # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, page}
+ * @param {object} filterObject # {pickupDate (mandatory), routeStatusIds, includeJobs, limit, page}
  * pickupDate (optional)(string) = "2018-02-28"
  * routeStatusIds (optional)(int) = 1,2 (csv)
- * includeOrders (optional)(bollean) = true/false
+ * includeJobs (optional)(bollean) = true/false
  * limit = 20 (optional)(int)
  * page = 0 (optional)(int)
  * @param {string} token
@@ -47,7 +47,7 @@ export const getRoutesAsync = async (filterObject, token) => {
  * routeSettings (optional) (json string),
  * routeLocations (mandatory) (array),
  * sequence (mandatory) (int),
- * groupingLocationId (mandatory) (int)
+ * orderId (mandatory) (int)
  * locationTypeId  (mandatory) (int) (2 for Delivery Location or 3 for Pickup Location)
  * routeCapacity (optional) (decimal)
  * replaceAllExisting (boolean) (optional)
@@ -61,7 +61,7 @@ export const getRoutesAsync = async (filterObject, token) => {
        "routeLocations": [
          {
            "sequence": 1,
-           "groupingLocationId": 1,
+           "orderId": 1,
            "locationTypeId": 3,
            "routeCapacity": 10.5
          }
