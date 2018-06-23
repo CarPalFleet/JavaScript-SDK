@@ -47,7 +47,7 @@ describe('Reset password with token', () => {
 });
 
 describe('Test for reset password token validation', () => {
-  test('reject with statusCode 404 if the reset token is invalid', async () => {
+  test('reject with statusCode 404 if the reset token is not found', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
     try {
