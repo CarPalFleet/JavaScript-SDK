@@ -552,12 +552,13 @@ export const getUpdatedDriverLiveData = (
 
 /** Update driver time slot
  * @param {int} scheduleId
- * @param {object} payload {driverId, transactionGroupId, startTime, endTime, startDate}
- * scheduleId (optional)(int)
- * transactionGroupId (optional)(int)
- * startTime (optional)(date_format:H:i)
- * endTime (optional)(date_format:H:i)
- * startDate (optional)(date_format:Y-m-d)
+ * @typedef {Object} ScheduleInfo
+ * @property {number} driverId
+ * @property {number} transactionGroupId
+ * @property {string} startAt (YYYY-MM-DD)
+ * @property {Array.<Window>} windows Array of window object
+ * @property {Array.<number>} recursions Array of day numbers for recurring window
+ * @param {ScheduleInfo} payload // Schdule info object
  * @param {string} token {driverId, transactionGroupId, startTime, endTime, startDate}
  * @return {Object} Promise resolve/reject
  * If resolve, return value: boolean(To indicate update successful or failed)
@@ -572,11 +573,17 @@ export const updateDriverScheduleAsync = async (
   token
 ) => {
   try {
+    const newPayload = {
+      ...payload,
+      windows: payload.windows
+        ? payload.windows.map((window) => camelToSnake(window))
+        : undefined,
+    };
     const result = await axios({
       method: 'put',
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', scheduleId)}`,
       headers: { Authorization: `Bearer ${token}` },
-      data: camelToSnake(payload),
+      data: camelToSnake(newPayload),
     });
     return camelize(result.data);
   } catch (e) {
@@ -607,12 +614,13 @@ export const deleteDriverScheduleAsync = async (scheduleId, token) => {
 };
 
 /** Add new driver time slot
- * @param {object} payload {driverId, transactionGroupId, startTime, endTime, startDate}
- * driverId (mandatory)(int)
- * transactionGroupId (mandatory)(int)
- * startTime (mandatory)(date_format:H:i)
- * endTime (mandatory)(date_format:H:i)
- * startDate (mandatory)(date_format:Y-m-d)
+ * @typedef {Object} ScheduleInfo
+ * @property {number} driverId (mandatory)
+ * @property {number} transactionGroupId (mandatory)
+ * @property {string} startAt (YYYY-MM-DD) (mandatory)
+ * @property {Array.<Window>} windows Array of window object (mandatory)
+ * @property {Array.<number>} recursions Array of day numbers for recurring window
+ * @param {ScheduleInfo} payload // Schdule info object
  * @param {string} token resolve/reject
  * @return {Object} Promise resolve/reject
  * If resolve, return value: boolean(To indicate update successful or failed)
@@ -623,11 +631,17 @@ export const deleteDriverScheduleAsync = async (scheduleId, token) => {
  */
 export const createDriverScheduleAsync = async (payload = {}, token) => {
   try {
+    const newPayload = {
+      ...payload,
+      windows: payload.windows
+        ? payload.windows.map((window) => camelToSnake(window))
+        : undefined,
+    };
     const result = await axios({
       method: 'post',
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', '')}`,
       headers: { Authorization: `Bearer ${token}` },
-      data: camelToSnake(payload),
+      data: camelToSnake(newPayload),
     });
     return camelize(result.data);
   } catch (e) {

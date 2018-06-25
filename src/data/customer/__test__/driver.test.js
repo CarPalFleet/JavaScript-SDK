@@ -144,7 +144,7 @@ describe('Create new driver ', async () => {
     expect(response.data instanceof Array).toBeTruthy();
   });
 
-  it('Test for pubsub live data for job', async () => {
+  it('Test for create, update and delete driver schedule', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     // const originalDriverDatum = {
     //   activeStatusCounts: { '1': 0, '2': 0, '3': 0, '4': 0 },
@@ -213,6 +213,19 @@ describe('Create new driver ', async () => {
       vehicleBrand: 'Scooter',
       vehicleModel: '12456',
       vehicleTypeId: 1,
+      schedules: [
+        {
+          transactionGroupId: 180,
+          startAt: new Date().toJSON().split('T')[0],
+          windows: [
+            {
+              startTime: '09:00',
+              endTime: '22:00',
+            },
+          ],
+          recursions: [1],
+        },
+      ],
     };
 
     try {
@@ -225,30 +238,29 @@ describe('Create new driver ', async () => {
       const payload = {
         driverId: responseCreatedriver.id,
         transactionGroupId: 180,
-        startTime: '10:01',
-        endTime: '13:02',
+        windows: [
+          {
+            startTime: '10:01',
+            endTime: '13:02',
+          },
+        ],
         startAt: '2020-03-01',
-        vehicleTypeId: 1,
       };
       const responseCreateSchedule = await createDriverScheduleAsync(
         payload,
         token.accessToken
       );
       expect('data' in responseCreateSchedule).toBeTruthy();
-
       const responseUpdateSchedule = await updateDriverScheduleAsync(
         responseCreateSchedule.data.id,
         payload,
         token.accessToken
       );
-
       expect('data' in responseUpdateSchedule).toBeTruthy();
-
       const responseDelete = await deleteDriverScheduleAsync(
         responseCreateSchedule.data.id,
         token.accessToken
       );
-
       expect('data' in responseDelete).toBeTruthy();
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 401);
@@ -261,8 +273,12 @@ describe('Create new driver ', async () => {
     const playload = {
       driverId: 99999999999912,
       transactionGroupId: 180,
-      startTime: '10:01',
-      endTime: '13:02',
+      windows: [
+        {
+          startTime: '09:00',
+          endTime: '22:00',
+        },
+      ],
       startAt: '2018-03-01',
     };
     try {
