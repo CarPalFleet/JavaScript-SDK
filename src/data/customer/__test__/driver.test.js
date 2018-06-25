@@ -47,6 +47,19 @@ describe('Create new driver ', async () => {
       vehicleBrand: 'Scooter',
       vehicleModel: '12456',
       vehicleTypeId: 1,
+      schedules: [
+        {
+          transactionGroupId: 180,
+          startAt: new Date().toJSON().split('T')[0],
+          windows: [
+            {
+              startTime: '09:00',
+              endTime: '22:00',
+            },
+          ],
+          recursions: [1],
+        },
+      ],
     };
 
     const newDriver = await createDriverAsync(
