@@ -144,8 +144,9 @@ describe('Create new driver ', async () => {
     expect(response.data instanceof Array).toBeTruthy();
   });
 
-  it('Test for create, update and delete driver schedule', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+  describe('Test for create, update and delete driver schedule', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 90000;
+    let schedule;
     // const originalDriverDatum = {
     //   activeStatusCounts: { '1': 0, '2': 0, '3': 0, '4': 0 },
     //   driverTypeCounts: { '1': 1, '2': 3, '3': 4 },
@@ -194,49 +195,9 @@ describe('Create new driver ', async () => {
     //   driverTypeIds: [1],
     // };
 
-    const driverInfo = {
-      transactionGroupIds: [180],
-      sendConfirmationSms: false,
-      sendConfirmationEmail: false,
-      driverTypeIds: [2, 3],
-      firstName: 'User',
-      lastName: generateDisplayName(10),
-      email: `${generateDisplayName(10)}@example.com`,
-      password: '123456',
-      birthday: '1980-01-01',
-      phone: `+6592${Math.floor(Math.random() * 1000000)}`,
-      vehicleColor: 'Red',
-      averageSpeed: 60,
-      maximumCapacity: 100,
-      vehicleModelYear: 2018,
-      vehicleLicenseNumber: '12456',
-      vehicleBrand: 'Scooter',
-      vehicleModel: '12456',
-      vehicleTypeId: 1,
-      schedules: [
-        {
-          transactionGroupId: 180,
-          startAt: new Date().toJSON().split('T')[0],
-          windows: [
-            {
-              startTime: '09:00',
-              endTime: '22:00',
-            },
-          ],
-          recursions: [1],
-        },
-      ],
-    };
-
-    try {
-      const responseCreatedriver = await createDriverAsync(
-        driverInfo,
-        token.accessToken
-      );
-      expect('id' in responseCreatedriver).toBeTruthy();
-
+    it('Test for creating the driver schedule', async () => {
       const payload = {
-        driverId: responseCreatedriver.id,
+        driverId: driver.id,
         transactionGroupId: 180,
         windows: [
           {
@@ -244,27 +205,60 @@ describe('Create new driver ', async () => {
             endTime: '13:02',
           },
         ],
-        startAt: '2020-03-01',
+        startAt: '2020-03-05',
       };
-      const responseCreateSchedule = await createDriverScheduleAsync(
-        payload,
-        token.accessToken
-      );
-      expect('data' in responseCreateSchedule).toBeTruthy();
+
+      schedule = await createDriverScheduleAsync(payload, token.accessToken);
+
+      expect('data' in schedule).toBeTruthy();
+    });
+
+    it('Test for updating the driver schedule', async () => {
+      const payload = {
+        driverId: driver.id,
+        transactionGroupId: 180,
+        windows: [
+          {
+            startTime: '10:01',
+            endTime: '13:02',
+          },
+        ],
+        startAt: '2020-03-05',
+      };
+
       const responseUpdateSchedule = await updateDriverScheduleAsync(
-        responseCreateSchedule.data.id,
+        schedule.data.id,
         payload,
         token.accessToken
       );
+
       expect('data' in responseUpdateSchedule).toBeTruthy();
-      const responseDelete = await deleteDriverScheduleAsync(
-        responseCreateSchedule.data.id,
-        token.accessToken
-      );
-      expect('data' in responseDelete).toBeTruthy();
-    } catch (error) {
-      expect(error).toHaveProperty('statusCode', 401);
-    }
+    });
+
+    it('Test for deleting the driver schedule', async () => {
+      setTimeout(async () => {
+        const responseDelete = await deleteDriverScheduleAsync(
+          schedule.data.id,
+          token.accessToken
+        );
+        expect('data' in responseDelete).toBeTruthy();
+      }, 1000);
+    });
+
+    it('should fail for deleting the driver schedule with wrong id', async () => {
+      try {
+        await deleteDriverScheduleAsync(1234, token.accessToken);
+      } catch (error) {
+        const expected = {
+          statusCode: 404,
+          statusText: 'Not Found',
+          errorMessage: [
+            { key: 'driverSchedule', messages: ['Driver Schedule not found'] },
+          ],
+        };
+        expect(error).toEqual(expected);
+      }
+    });
   });
 
   it('Test for create driver schedule with with driver that does not belong to requestor', async () => {
