@@ -9,4 +9,6 @@ install:
   - npm install
 script:
   - npm test
+  - eslint "src/**"
+  - jsdoc src -r
 repo: https://github.com/CarPalFleet/Javascript-SDK

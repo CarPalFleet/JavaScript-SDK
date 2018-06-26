@@ -5,7 +5,7 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../utility/Util';
+import { apiResponseErrorHandler } from '../utility/Util';
 
 /**
  * Get Token
@@ -20,7 +20,7 @@ export const getTokenAsync = async (email, password, clientId, secret) => {
     const response = await axios({
       method: 'POST',
       url: endpoints.OAUTH,
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       data: {
         username: email,
         password,
@@ -48,7 +48,7 @@ export const refreshTokenAsync = async (refreshToken, clientId, secret) => {
     const response = await axios({
       method: 'POST',
       url: endpoints.OAUTH,
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       data: {
         refreshToken,
         grantType: 'refresh_token',

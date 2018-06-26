@@ -9,15 +9,15 @@ import {
   convertObjectIntoURLString,
   apiResponseErrorHandler,
 } from '../utility/Util';
-import {camelToSnake} from '../utility/ChangeCase';
+import { camelToSnake } from '../utility/ChangeCase';
 import toArray from 'lodash.toarray';
 
 /**
  * Get Routes
- * @param {object} filterObject # {pickupDate (mandatory), routeStatusIds, includeOrders, limit, page}
- * pickupDate (optional)(string) = '2018-02-28'
+ * @param {object} filterObject # {pickupDate (mandatory), routeStatusIds, includeJobs, limit, page}
+ * pickupDate (optional)(string) = "2018-02-28"
  * routeStatusIds (optional)(int) = 1,2 (csv)
- * includeOrders (optional)(bollean) = true/false
+ * includeJobs (optional)(bollean) = true/false
  * limit = 20 (optional)(int)
  * page = 0 (optional)(int)
  * @param {string} token
@@ -30,7 +30,7 @@ export const getRoutesAsync = async (filterObject, token) => {
     const routes = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.ROUTE}${paramString.replace('&', '?')}`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     return camelize(routes.data);
@@ -47,7 +47,7 @@ export const getRoutesAsync = async (filterObject, token) => {
  * routeSettings (optional) (json string),
  * routeLocations (mandatory) (array),
  * sequence (mandatory) (int),
- * groupingLocationId (mandatory) (int)
+ * orderId (mandatory) (int)
  * locationTypeId  (mandatory) (int) (2 for Delivery Location or 3 for Pickup Location)
  * routeCapacity (optional) (decimal)
  * replaceAllExisting (boolean) (optional)
@@ -61,7 +61,7 @@ export const getRoutesAsync = async (filterObject, token) => {
        "routeLocations": [
          {
            "sequence": 1,
-           "groupingLocationId": 1,
+           "orderId": 1,
            "locationTypeId": 3,
            "routeCapacity": 10.5
          }
@@ -75,10 +75,10 @@ export const getRoutesAsync = async (filterObject, token) => {
  */
 export const storeRouteAsync = async (payload, token) => {
   try {
-      const routes = await axios({
+    const routes = await axios({
       method: 'POST',
       url: endpoints.API_V3.STORE_ROUTE,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
       data: camelToSnake(payload, 5),
     });
 
@@ -98,10 +98,10 @@ export const removeRouteAsync = async (routeIds, token) => {
     await axios({
       method: 'DELETE',
       url: `${endpoints.API_V3.ROUTE.replace('{0}', routeIds)}`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
     });
 
-    return {data: true};
+    return { data: true };
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
@@ -134,7 +134,7 @@ export const createRouteLocationAsync = async (
     const result = await axios({
       method: 'POST',
       url: `${endpoints.API_V3.ROUTE_LOCATION.replace('{0}', routeId)}`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
       data: toArray(camelToSnake(payload, 2)),
     });
 
@@ -178,7 +178,7 @@ export const updateRouteLocationAsync = async (
     const result = await axios({
       method: 'PUT',
       url: `${endpoints.API_V3.ROUTE_LOCATION.replace('{0}', routeId)}`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
       data: toArray(camelToSnake(payload, 2)),
     });
 
@@ -208,10 +208,10 @@ export const removeRouteLocationsAsync = async (
         '{0}',
         routeId
       )}?route_location_ids=${routeLocationIds}`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
     });
 
-    return {data: true};
+    return { data: true };
   } catch (e) {
     return apiResponseErrorHandler(e);
   }

@@ -1,4 +1,4 @@
-import {getTokenAsync} from '../../account/Auth';
+import { getTokenAsync } from '../../account/Auth';
 import {
   getCustomerPreferenceSettingsAsync,
   showCustomerSettingsAsync,
@@ -15,7 +15,7 @@ describe('Tests showCustomerSettingsAsync function', async () => {
   };
 
   beforeAll(async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     token = await getTokenAsync(
       CONFIG.email,
       CONFIG.password,
@@ -25,7 +25,7 @@ describe('Tests showCustomerSettingsAsync function', async () => {
   });
 
   it('should response object including customer settings', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     const response = getCustomerSettingsAsync(token.accessToken);
     const settings = await response;
@@ -33,7 +33,7 @@ describe('Tests showCustomerSettingsAsync function', async () => {
   });
 
   it('should get error statusCode', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     const response = getCustomerPreferenceSettingsAsync(
       CONFIG.invalidDomain,
@@ -43,7 +43,7 @@ describe('Tests showCustomerSettingsAsync function', async () => {
   });
 
   it('should return customer settings status 200', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     const response = await showCustomerSettingsAsync(
       token.accessToken,
@@ -54,7 +54,7 @@ describe('Tests showCustomerSettingsAsync function', async () => {
   });
 
   it('should get customer settings', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     const response = await showCustomerSettingsAsync(
       token.accessToken,
@@ -65,7 +65,7 @@ describe('Tests showCustomerSettingsAsync function', async () => {
   });
 
   it('should get error customer statusCode 400', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       await showCustomerSettingsAsync('');
@@ -75,7 +75,7 @@ describe('Tests showCustomerSettingsAsync function', async () => {
   });
 
   it('should get error customer statusCode 401', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       await showCustomerSettingsAsync(token.accessToken, customerId, payload);
@@ -85,7 +85,7 @@ describe('Tests showCustomerSettingsAsync function', async () => {
   });
 
   it('should get error customer statusCode 403', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       await showCustomerSettingsAsync(token.accessToken, '', payload);

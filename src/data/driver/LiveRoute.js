@@ -5,12 +5,12 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {apiResponseErrorHandler} from '../utility/Util';
+import { apiResponseErrorHandler } from '../utility/Util';
 
 /**
  * Send Live Data from driver app to Dynamodb
- * @param {object} liveRouteObj # {orderId, addressId, driverId, latitude, longitude, orderRouteType}
- * orderId (mandatory)(string) = 1234
+ * @param {object} liveRouteObj # {jobId, addressId, driverId, latitude, longitude, orderRouteType}
+ * jobId (mandatory)(string) = 1234
  * addressId (mandatory)(int) = 0 #pass 0 value if no addressId
  * driverId (mandatory)(int) = 134
  * latitude = 1.344 (mandatory)(int)
@@ -18,6 +18,7 @@ import {apiResponseErrorHandler} from '../utility/Util';
  * orderRouteType = 0 (mandatory)(int)
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * @deprecated since version 0.1.77
  */
 export const sendLiveRouteDataAsync = async (liveRouteObj, token) => {
   try {

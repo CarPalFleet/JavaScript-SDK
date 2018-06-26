@@ -1,11 +1,10 @@
 const CONFIG = {
-  email: "alpha.test@carpal.me",
-  password: "123456",
-  clientId: "2",
-  clientSecret: "8iQwaS8mJLvrW5KrGUrjDZ90bTrwk7frv4ygk7qt",
+  email: 'alpha.test@carpal.me',
+  password: '123456',
+  clientId: '2',
+  clientSecret: '8iQwaS8mJLvrW5KrGUrjDZ90bTrwk7frv4ygk7qt',
   groupingBatchId: '28088',
   orderWithErrorIds: ['56c719b7-93aa-420a-b9b1-140c4e03397b'],
-  token: `eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImNiMWY0MzMzNjczNzI1Y2ZiMGE3ZWZkYmQ1YjY3M2RkMTYyZjdmMmI1ZmI2NDI4ZmViYmRiNWNkNDg0ZTc5ZTU1MjA1N2JhNWViZTg1MzEwIn0.eyJhdWQiOiIyIiwianRpIjoiY2IxZjQzMzM2NzM3MjVjZmIwYTdlZmRiZDViNjczZGQxNjJmN2YyYjVmYjY0MjhmZWJiZGI1Y2Q0ODRlNzllNTUyMDU3YmE1ZWJlODUzMTAiLCJpYXQiOjE1MjA0ODM4MTcsIm5iZiI6MTUyMDQ4MzgxNywiZXhwIjoxNTIwNDg3NDE3LCJzdWIiOiIyNTE0MyIsInNjb3BlcyI6WyJmdWxsLWFjY2VzcyJdfQ.BboqYh1JYPVzOKflPGTehimPAPEzMUVW3csp7VNBGwu5m7D2OlolS0oH_nv2KWqLrGHEUlplBNmt4sjldY-ly3Dv_S5YwAcbCIv6g8cqCrCUOpI_T4Ov5OhXwMvNOW6nJRb7dQhMLWub8run2ePvgDpykOPG8HambXV4FMG3Y4XSYJCwew_lNW-GhGth5SuAv2Rq_fKzmuCNY4ZZit0Hx4xVk5XY0yvShI8J9bXPo2RzghTKgE506UXI01TTBBmGn8gA_r-R0bsDE5K_YLwFUikSl8mVog0u0Snu5DjcQz3YRU1gTFlm2NgDCvvrGPxt9pKN2MZjC0_fJbpzz4PvCK7g-1HOIsgF5XaBpHjS4jRn7L7q_MHUuKe5BTS0m2JifN2dpLeGhE3NZJ96dJN7Y5F_2Z-HoREP2c-5EqNBhLmtWWD6VntgJ-U94QnkCO7zsP7cFDda1WZz0AL0aL2wG0BFQQecun5vVwXDFMYYdJuvCc2QYVYLdzX17Fljb9qMxoV83GMlMeXFmyGOEeSWsiLspnreJjKF94bZuARiMeWgXcda9xgAX1qxhtm72pB9tCqH5nnaZbL1UnaxUzhjPxXURpku4tXpFMH71IRyztvFC0KElkQYUv2lIwDRfBDilgGHi3EXFkMvFvTOfg4eSa082-s1Dbl7KfSs35NwDPk`,
   domain: 'ezbuy.sg',
   emptyString: '',
   invalidDomain: 'aa.com',
@@ -39,7 +38,7 @@ const CONFIG = {
       route_locations: [
         {
           sequence: 1,
-          grouping_location_id: 1,
+          order_id: 1,
           location_type_id: 3,
           route_capacity: 10.5,
         },
@@ -85,10 +84,10 @@ const CONFIG = {
     deliveryTimeWindow: '17:00-17:00',
     driverEmailId: null,
   },
-  locationDataList: [
+  orderDataList: [
     {
-      groupingLocationId: 27318,
-      locationData: {
+      orderId: 27318,
+      orderData: {
         pickupLocationAddress: '22 Gim moh road',
         deliveryAddress: 'Holland Close',
         pickupDate: '28-02-2018',
@@ -99,8 +98,8 @@ const CONFIG = {
       },
     },
     {
-      groupingLocationId: 27312,
-      locationData: {
+      orderId: 27312,
+      orderData: {
         pickupLocationAddress: '22 Gim moh road',
         deliveryAddress: 'Holland Close',
         pickupDate: '28-02-2018',
@@ -157,7 +156,7 @@ const CONFIG = {
         customWaybillNumber: '234567',
         cashOnDeliveryAmount: 90,
         team: 'Team A',
-        groupingLocationStatusId: 4, // 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+        groupingLocationStatusId: 4, // 1 for "pending", 2 for "validated", 3 for "grouped", 4 for "failed"
         driver: [],
       },
       {
@@ -199,7 +198,7 @@ const CONFIG = {
         customWaybillNumber: '234567',
         cashOnDeliveryAmount: 90,
         team: 'Team A',
-        groupingLocationStatusId: 4, // 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+        groupingLocationStatusId: 4, // 1 for "pending", 2 for "validated", 3 for "grouped", 4 for "failed"
         driver: [],
       },
       {
@@ -241,7 +240,7 @@ const CONFIG = {
         customWaybillNumber: '234567',
         cashOnDeliveryAmount: 90,
         team: 'Team A',
-        groupingLocationStatusId: 4, // 1 for 'pending', 2 for 'validated', 3 for 'grouped', 4 for 'failed'
+        groupingLocationStatusId: 4, // 1 for "pending", 2 for "validated", 3 for "grouped", 4 for "failed"
         driver: [],
       },
     ],

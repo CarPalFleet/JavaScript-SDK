@@ -1,13 +1,12 @@
-import {getCustomerPublicProfileSettingsAsync} from '../Setting';
-import {apiResponseErrorHandler} from '../../utility/Util';
-import CONFIG from '../__test__/Config';
+import { getCustomerPublicProfileSettingsAsync } from '../Setting';
+import { apiResponseErrorHandler } from '../../utility/Util';
 
 describe('Test for getCustomerPublicProfileSettingsAsync function', () => {
   beforeEach(() => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
   });
-  // TODO put correct domain name, now it's throw an error 404
-  //   it('getCustomerPublicProfileSettingsAsync success response', async () => {
+  // TODO put correct domain name, now it"s throw an error 404
+  //   it("getCustomerPublicProfileSettingsAsync success response", async () => {
   //     const response = await getCustomerPublicProfileSettingsAsync(CONFIG.domain);
   //     expect(response).toMatchSnapshot();
   //     expect(response.length).toBeTruthy();

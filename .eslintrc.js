@@ -10,6 +10,7 @@ module.exports = {
   env: {
     es6: true,
     'jest/globals': true,
+    browser: true,
   },
   parserOptions: {
     ecmaVersion: 8,
@@ -23,5 +24,6 @@ module.exports = {
     'no-useless-escape': OFF, // For RegExp and String Escape
     'quote-props': OFF, // Handled by Prettier
     'max-len': OFF, // Handled by Prettier
+    'object-curly-spacing': ['error', 'always'],
   },
 };

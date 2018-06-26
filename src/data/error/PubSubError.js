@@ -1,6 +1,6 @@
 import BaseError from './BaseError';
 
-//TODO: not sure what the purpose of below class is, we should consider deprecating it.
+// TODO: not sure what the purpose of below class is, we should consider deprecating it.
 
 /**
  * A class that can return error
@@ -9,7 +9,7 @@ import BaseError from './BaseError';
  */
 export default class PubSubError extends BaseError {
   /**
-   * PubSubError Class's constructor
+   * PubSubError Class"s constructor
    * @param {int} message
    */
   constructor(message) {

@@ -12,101 +12,113 @@ import {
   getCSVStringFromArrayObject,
   arrayReduce,
 } from '../utility/Util';
-import {camelToSnake} from '../utility/ChangeCase';
+import { camelToSnake } from '../utility/ChangeCase';
 
 /**
  * Create Driver
- * @param {object} driverInfo {}
- * birthday (mandatory) (string)
- * driverTypeIds (mandatory) (string) #csv Eg. 2,3
- * email (mandatory) (string)
- * existingUserEmail (optional) (boolean)
- * firstName (mandatory) (string)
- * identityId (mandatory) (string)
- * isNewUser (optional) (boolean)
- * lastName (mandatory) (string)
- * password (mandatory) (string)
- * phone (mandatory) (string)
- * productTypeId (mandatory) (int)
- * sendConfirmationSms (optional) (boolean)
- * transactionGroupId (int) (int)
- * vehicleBrand (optional) (string)
- * vehicleColor (optional) (string)
- * vehicleLicenseNumber (optional) (int)
- * vehicleModel (optional) (string)
- * vehicleModelYear (optional) (int)
- * vehicleTypeId (optional) (int)
- * @param {int} customerId
+ * @typedef { Object } Window
+ * @property {string} startTime ("HH:MM") Format
+ * @property {string} endTime ("HH:MM") Format
+ * @typedef { Object } Schedule
+ * @property {number} transactionGroupId
+ * @property {string} startAt (YYYY-MM-DD)
+ * @property {Array.<Window>} windows Array of window object
+ * @property {Array.<number>} recursions Array of day numbers for recurring window
+ * @typedef { Object } Driver
+ * @property {Array.<number>} transactionGroupIds (mandatory)
+ * @property {boolean} sendConfirmationSms (optional)
+ * @property {boolean} sendConfirmationEmail (optional)
+ * @property {Array.<number>} driverTypeIds (mandatory)
+ * @property {string} firstName (mandatory)
+ * @property {string} lastName (mandatory)
+ * @property {string} email (mandatory)
+ * @property {string} password (mandatory)
+ * @property {string} birthday (mandatory) (Y-m-d)
+ * @property {string} phone (mandatory)
+ * @property {string} vehicleColor (optional)
+ * @property {number} averageSpeed (optional)
+ * @property {number} maximumCapacity (optional)
+ * @property {number} vehicleModelYear (optional)
+ * @property {string} vehicleLicenseNumber (optional)
+ * @property {string} vehicleBrand (optional)
+ * @property {string} vehicleModel (optional)
+ * @property {number} vehicleTypeId (optional)
+ * @property {Array.<Schedule>} schedules (optional) Array of schedule object
+ * @param {Driver} driverInfo {}
  * @param {string} token
- * @return {object} Promise resolve/reject
+ * @return {Object} Promise resolve/reject
  */
 export const createDriverAsync = async (
   {
-    birthday,
-    driverTypeIds,
-    email,
-    existingUserEmail = false,
-    firstName,
-    identityId,
-    isNewUser,
-    lastName,
-    password,
-    phone,
-    productTypeId,
-    // TODO: where is the sendConfirmationEmail?
+    transactionGroupIds,
     sendConfirmationSms = false,
-    transactionGroupId,
-    vehicleBrand,
+    sendConfirmationEmail = false,
+    driverTypeIds,
+    firstName,
+    lastName,
+    email,
+    password,
+    birthday,
+    phone,
     vehicleColor,
-    vehicleLicenseNumber,
-    vehicleModel,
+    averageSpeed,
+    maximumCapacity,
     vehicleModelYear,
+    vehicleLicenseNumber,
+    vehicleBrand,
+    vehicleModel,
     vehicleTypeId,
+    schedules,
   },
-  customerId,
   token
 ) => {
   try {
-    const defaultPayload = {
-      driverTypeIds,
-      identityId,
-      isNewUser,
-      productTypeId,
+    const data = {
+      transactionGroupIds,
       sendConfirmationSms,
-      transactionGroupId,
+      sendConfirmationEmail,
+      driverTypeIds,
+      firstName,
+      lastName,
+      email,
+      password,
+      birthday,
+      phone,
       vehicle: {
-        vehicleBrand,
         vehicleColor,
-        vehicleLicenseNumber,
-        vehicleModel,
+        averageSpeed,
+        maximumCapacity,
         vehicleModelYear,
+        vehicleLicenseNumber,
+        vehicleBrand,
+        vehicleModel,
         vehicleTypeId,
       },
+      schedules,
     };
 
-    let newPayload;
+    const driver = camelToSnake({
+      ...data,
+      vehicle: camelToSnake(data.vehicle),
+      schedules: data.schedules
+        ? data.schedules.map((schedule) => {
+            const newSchedule = {
+              ...schedule,
+              windows: schedule.windows.map((window) => camelToSnake(window)),
+            };
+            return camelToSnake(newSchedule);
+          })
+        : undefined,
+    });
 
-    if (isNewUser) {
-      newPayload = {
-        ...defaultPayload,
-        birthday: birthday || '',
-        email,
-        firstName,
-        lastName,
-        password,
-        phone: phone || '',
-      };
-    } else {
-      newPayload = {...defaultPayload, existingUserEmail};
-    }
     const response = await axios({
       method: 'POST',
-      url: endpoints.CUSTOMER_DRIVERS.replace('{0}', customerId),
+      url: endpoints.API_V3.CUSTOMER_DRIVER,
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      data: newPayload,
+      data: driver,
     });
 
     return camelize(response.data.data);
@@ -136,7 +148,7 @@ export const getDriverDetailAsync = async (
       url: endpoints.CUSTOMER_DRIVER_DETAIL.replace('{0}', customerId)
         .replace('{1}', identityId)
         .replace('{2}', driverId),
-      headers: {Authorization: token},
+      headers: { Authorization: token },
     });
     return camelize(response.data);
   } catch (e) {
@@ -151,7 +163,7 @@ export const getDriverDetailAsync = async (
  * page (optional) (int) #offset, start from 1 value
  * @param {string} token
  * @return {promise} reject/resolve
- * Will return [] array if there's no drivers
+ * Will return [] array if there"s no drivers
  */
 export const getDriversAsync = async (filterObject = {}, token) => {
   try {
@@ -160,7 +172,7 @@ export const getDriversAsync = async (filterObject = {}, token) => {
     const response = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.DRIVER}/${paramString.replace('&', '?')}`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     return camelize(response.data);
@@ -171,21 +183,137 @@ export const getDriversAsync = async (filterObject = {}, token) => {
 
 /**
  * Update Driver
- * @param {object} filterObject
+ * @typedef { Object } Window
+ * @property {string} startTime ("HH:MM") Format
+ * @property {string} endTime ("HH:MM") Format
+ * @typedef {Object} Schedule
+ * @property {number} transactionGroupId
+ * @property {string} startAt (YYYY-MM-DD)
+ * @property {Array.<Window>} windows Array of window object
+ * @property {Array.<number>} recursions Array of day numbers for recurring window
+ * @typedef {Object} Driver
+ * @property {number} id
+ * @property {number} driverStatusId
+ * @property {Array.<number>} transactionGroupIds
+ * @property {Array.<number>} languageIds
+ * @property {boolean} hasCriminalRecord
+ * @property {boolean} isAProfessionalDriver
+ * @property {boolean} hasWorkAsDriver
+ * @property {string} referredFrom
+ * @property {string} drivingReason
+ * @property {string} remarks
+ * @property {string} firstName
+ * @property {string} lastName
+ * @property {string} phone
+ * @property {string} password
+ * @property {string} passwordConfirmation
+ * @property {number} vehicleModelYear
+ * @property {number} averageSpeed
+ * @property {number} maximumCapacity
+ * @property {number} vehicleTypeId
+ * @property {string} vehicleModel
+ * @property {string} vehicleBrand
+ * @property {string} vehicleLicenseNumber
+ * @property {string} vehicleColor
+ * @property {string} branchCode // bank branch code
+ * @property {string} code // bank code
+ * @property {string} name // bank name
+ * @property {string} accountNumber // bank account number
+ * @property {Array.<Schedule>} schedules  Array of schedule object
+ * @param {Driver} driverDetailsInfo {}
  * @param {string} token
- * @return {promise} reject/resolve
- * @deprecated since version 0.1.77
+ * @return {object} Promise resolve/reject
  */
-export const updateDriverAsync = async (filterObject = {}, token) => {
+export const updateDriverAsync = async (
+  {
+    id,
+    driverStatusId,
+    languageIds,
+    transactionGroupIds,
+    driverTypeIds,
+    hasCriminalRecord,
+    isAProfessionalDriver,
+    hasWorkAsDriver,
+    hasWorkedForSameCompany,
+    referredFrom,
+    drivingReason,
+    remarks,
+    firstName,
+    lastName,
+    phone,
+    password,
+    passwordConfirmation,
+    vehicleModelYear,
+    averageSpeed,
+    maximumCapacity,
+    vehicleTypeId,
+    vehicleModel,
+    vehicleBrand,
+    vehicleLicenseNumber,
+    vehicleColor,
+    branchCode,
+    code,
+    name,
+    accountNumber,
+    schedules,
+  },
+  token
+) => {
   try {
-    let paramString = convertObjectIntoURLString(filterObject);
-
+    const driverInfo = camelToSnake({
+      id,
+      driverStatusId,
+      languageIds,
+      transactionGroupIds,
+      driverTypeIds,
+      interviewDetails: camelToSnake({
+        hasCriminalRecord,
+        isAProfessionalDriver,
+        hasWorkAsDriver,
+        hasWorkedForSameCompany,
+        referredFrom,
+        drivingReason,
+        remarks,
+      }),
+      user: camelToSnake({
+        firstName,
+        lastName,
+        phone,
+        password,
+        passwordConfirmation,
+      }),
+      vehicle: camelToSnake({
+        vehicleModelYear,
+        averageSpeed,
+        maximumCapacity,
+        vehicleTypeId,
+        vehicleModel,
+        vehicleBrand,
+        vehicleLicenseNumber,
+        vehicleColor,
+      }),
+      bank: camelToSnake({
+        branchCode,
+        code,
+        name,
+        accountNumber,
+      }),
+      schedules: schedules
+        ? schedules.map((schedule) => {
+            const newSchedule = {
+              ...schedule,
+              windows: schedule.windows.map((window) => camelToSnake(window)),
+            };
+            return camelToSnake(newSchedule);
+          })
+        : undefined,
+    });
     const response = await axios({
       method: 'PUT',
-      url: `${endpoints.API_V3.DRIVER}/${paramString.replace('&', '?')}`,
-      headers: {Authorization: `Bearer ${token}`},
+      url: endpoints.API_V3.DRIVER_UPDATE.replace('{0}', id),
+      headers: { Authorization: `Bearer ${token}` },
+      data: driverInfo,
     });
-
     return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
@@ -200,7 +328,7 @@ export const updateDriverAsync = async (filterObject = {}, token) => {
  * @param {array} searchResult
  * @param {string} token
  * @return {promise} reject/resolve
- * Will return [] array if there's no drivers
+ * Will return [] array if there"s no drivers
  * @deprecated since version 0.1.77
  */
 export const getDriversBasedOnSearchResult = async (
@@ -229,8 +357,8 @@ export const getDriversBasedOnSearchResult = async (
 
 /**
  * Get Driver with filters
- * @param {object} filterObject {orderRouteTypeIds, driverTypeIds, driverStatusId}
- * orderRouteTypeIds (string) (optinal) 1,2 #csv string
+ * @param {object} filterObject {jobRouteTypeIds, driverTypeIds, driverStatusId}
+ * jobRouteTypeIds (string) (optinal) 1,2 #csv string
  * * 1 means Live, 2 means POD
  * driverTypeIds (string) (optinal) 1 #csv string
  * * 1 means Inhouse, 2 means Public, 3 means Service Provider
@@ -240,7 +368,7 @@ export const getDriversBasedOnSearchResult = async (
  * @param {string} token
  * @param {boolean} validationStatus (optional)
  * @return {promise} reject/resolve
- * Will return [] array if there's no drivers
+ * Will return [] array if there"s no drivers
  */
 // TODO: needs unit testing
 export const getDriversWithFiltersAsync = async (
@@ -257,7 +385,7 @@ export const getDriversWithFiltersAsync = async (
         '{0}',
         customerId
       )}${paramString.replace('&', '?')}`,
-      headers: {Authorization: token},
+      headers: { Authorization: token },
     });
     return camelize(categoriesCustomerDrivers(response.data));
   } catch (e) {
@@ -267,8 +395,8 @@ export const getDriversWithFiltersAsync = async (
 
 /**
  * Get Driver Counts for Dashboard
- * @param {object} filterObject {orderRouteTypeIds, driverTypeIds, driverStatusId}
- * orderRouteTypeIds (string) (optinal) 1,2 #csv string
+ * @param {object} filterObject {jobRouteTypeIds, driverTypeIds, driverStatusId}
+ * jobRouteTypeIds (string) (optinal) 1,2 #csv string
  * * 1 means Live, 2 means POD
  * driverTypeIds (array) (optinal) [1] #csv string
  * * 1 means Inhouse, 2 means Public, 3 means Service Provider
@@ -277,7 +405,7 @@ export const getDriversWithFiltersAsync = async (
  * @param {string} customerId
  * @param {boolean} token (optional)
  * @return {promise} reject/resolve
- * Will return [] array if there's no drivers
+ * Will return [] array if there"s no drivers
  */
 // TODO: needs unit testing
 export const getDriverCountsAsync = async (
@@ -293,7 +421,7 @@ export const getDriverCountsAsync = async (
         '{0}',
         customerId
       )}${paramString.replace('&', '?')}`,
-      headers: {Authorization: token},
+      headers: { Authorization: token },
     });
 
     return calculateCustomerDriverCounts(
@@ -308,7 +436,7 @@ export const getDriverCountsAsync = async (
 /**
  * Get the Driver Routes
  * @param {object} filterObject # {pickupDate (mandatory), withAvailability, withSchedule, limit, offset}
- * pickupDate (optional)(string) = '2018-02-28'
+ * pickupDate (optional)(string) = "2018-02-28"
  * withAvailability (optional)(int) = 1/0
  * withSchedule (optional)(int) = 1/0
  * limit = 20 (optional)(int)
@@ -323,7 +451,7 @@ export const getDriverRoutesAsync = async (filterObject, token) => {
     const routes = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.DRIVER_ROUTE}${paramString.replace('&', '?')}`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     return camelize(routes.data);
@@ -339,7 +467,7 @@ export const getDriverRoutesAsync = async (filterObject, token) => {
  * @param {string} pubSubPayload
  * @param {boolean} filterObject
  * @return {promise} reject/resolve
- * Will return [] array if there's no drivers
+ * Will return [] array if there"s no drivers
  */
 export const getUpdatedDriverLiveData = (
   originalDriverDatum,
@@ -387,7 +515,7 @@ export const getUpdatedDriverLiveData = (
         }
         return matchedPayload;
       },
-      {isDataExist: false, statusId: 0, index: -1, data: {}}
+      { isDataExist: false, statusId: 0, index: -1, data: {} }
     );
 
     if (matchedPayload.isDataExist) {
@@ -424,12 +552,13 @@ export const getUpdatedDriverLiveData = (
 
 /** Update driver time slot
  * @param {int} scheduleId
- * @param {object} payload {driverId, transactionGroupId, startTime, endTime, startDate}
- * scheduleId (optional)(int)
- * transactionGroupId (optional)(int)
- * startTime (optional)(date_format:H:i)
- * endTime (optional)(date_format:H:i)
- * startDate (optional)(date_format:Y-m-d)
+ * @typedef {Object} ScheduleInfo
+ * @property {number} driverId
+ * @property {number} transactionGroupId
+ * @property {string} startAt (YYYY-MM-DD)
+ * @property {Array.<Window>} windows Array of window object
+ * @property {Array.<number>} recursions Array of day numbers for recurring window
+ * @param {ScheduleInfo} payload // Schdule info object
  * @param {string} token {driverId, transactionGroupId, startTime, endTime, startDate}
  * @return {Object} Promise resolve/reject
  * If resolve, return value: boolean(To indicate update successful or failed)
@@ -444,11 +573,17 @@ export const updateDriverScheduleAsync = async (
   token
 ) => {
   try {
+    const newPayload = {
+      ...payload,
+      windows: payload.windows
+        ? payload.windows.map((window) => camelToSnake(window))
+        : undefined,
+    };
     const result = await axios({
       method: 'put',
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', scheduleId)}`,
-      headers: {Authorization: `Bearer ${token}`},
-      data: camelToSnake(payload),
+      headers: { Authorization: `Bearer ${token}` },
+      data: camelToSnake(newPayload),
     });
     return camelize(result.data);
   } catch (e) {
@@ -470,21 +605,22 @@ export const deleteDriverScheduleAsync = async (scheduleId, token) => {
     await axios({
       method: 'delete',
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', scheduleId)}`,
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
     });
-    return {data: true};
+    return { data: true };
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
 };
 
 /** Add new driver time slot
- * @param {object} payload {driverId, transactionGroupId, startTime, endTime, startDate}
- * driverId (mandatory)(int)
- * transactionGroupId (mandatory)(int)
- * startTime (mandatory)(date_format:H:i)
- * endTime (mandatory)(date_format:H:i)
- * startDate (mandatory)(date_format:Y-m-d)
+ * @typedef {Object} ScheduleInfo
+ * @property {number} driverId (mandatory)
+ * @property {number} transactionGroupId (mandatory)
+ * @property {string} startAt (YYYY-MM-DD) (mandatory)
+ * @property {Array.<Window>} windows Array of window object (mandatory)
+ * @property {Array.<number>} recursions Array of day numbers for recurring window
+ * @param {ScheduleInfo} payload // Schdule info object
  * @param {string} token resolve/reject
  * @return {Object} Promise resolve/reject
  * If resolve, return value: boolean(To indicate update successful or failed)
@@ -495,11 +631,17 @@ export const deleteDriverScheduleAsync = async (scheduleId, token) => {
  */
 export const createDriverScheduleAsync = async (payload = {}, token) => {
   try {
+    const newPayload = {
+      ...payload,
+      windows: payload.windows
+        ? payload.windows.map((window) => camelToSnake(window))
+        : undefined,
+    };
     const result = await axios({
       method: 'post',
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', '')}`,
-      headers: {Authorization: `Bearer ${token}`},
-      data: camelToSnake(payload),
+      headers: { Authorization: `Bearer ${token}` },
+      data: camelToSnake(newPayload),
     });
     return camelize(result.data);
   } catch (e) {
@@ -512,13 +654,13 @@ export const createDriverScheduleAsync = async (payload = {}, token) => {
  * @param {object} data
  * @param {array} driverTypeIds
  * @return {object} total count object of live driver data
+ // TODO: needs unit testing
  */
-// TODO: needs unit testing
 function calculateCustomerDriverCounts(data, driverTypeIds) {
   const countData = {
     totalStatusCounts: 0,
-    activeStatusCounts: {1: 0, 2: 0, 3: 0, 4: 0},
-    driverTypeCounts: {1: 0, 2: 0, 3: 0},
+    activeStatusCounts: { 1: 0, 2: 0, 3: 0, 4: 0 },
+    driverTypeCounts: { 1: 0, 2: 0, 3: 0 },
   };
 
   let drivers = categoriesCustomerDriversForCount(data);
@@ -604,9 +746,9 @@ export const getActiveStatusCountsAndTotalCounts = (
  */
 export const categoriesCustomerDriversForCount = (drivers) => {
   let responseData = {
-    1: {1: [], 2: [], 3: [], 4: []},
-    2: {1: [], 2: [], 3: [], 4: []},
-    3: {1: [], 2: [], 3: [], 4: []},
+    1: { 1: [], 2: [], 3: [], 4: [] },
+    2: { 1: [], 2: [], 3: [], 4: [] },
+    3: { 1: [], 2: [], 3: [], 4: [] },
   };
   return {
     data: drivers['data'].reduce((data, value) => {
@@ -630,7 +772,7 @@ export const categoriesCustomerDriversForCount = (drivers) => {
  };
  */
 export const categoriesCustomerDrivers = (drivers) => {
-  let responseData = {1: [], 2: [], 3: [], 4: []};
+  let responseData = { 1: [], 2: [], 3: [], 4: [] };
   return {
     data: drivers['data'].reduce((data, value) => {
       if (data[value.driver_status_id]) {
