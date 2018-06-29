@@ -51,7 +51,7 @@ export const resetPasswordAsync = async (
         token,
         email,
         password,
-        confirmPassword,
+        password_confirmation: confirmPassword,
       },
     });
     return camelize(response.data);
