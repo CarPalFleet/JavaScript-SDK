@@ -22,6 +22,7 @@ import { camelToSnake } from '../utility/ChangeCase';
  * @typedef { Object } Schedule
  * @property {number} transactionGroupId
  * @property {string} startAt (YYYY-MM-DD)
+ * @property {boolean} isDefault // to set this Schedule as a default
  * @property {Array.<Window>} windows Array of window object
  * @property {Array.<number>} recursions Array of day numbers for recurring window
  * @typedef { Object } Driver
@@ -189,6 +190,7 @@ export const getDriversAsync = async (filterObject = {}, token) => {
  * @typedef {Object} Schedule
  * @property {number} transactionGroupId
  * @property {string} startAt (YYYY-MM-DD)
+ * @property {boolean} isDefault // to set this Schedule as a default
  * @property {Array.<Window>} windows Array of window object
  * @property {Array.<number>} recursions Array of day numbers for recurring window
  * @typedef {Object} Driver

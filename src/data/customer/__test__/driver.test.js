@@ -51,6 +51,7 @@ describe('Create new driver ', async () => {
         {
           transactionGroupId: 180,
           startAt: new Date().toJSON().split('T')[0],
+          isDefault: true,
           windows: [
             {
               startTime: '09:00',
