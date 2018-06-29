@@ -33,14 +33,14 @@ export const resetPasswordRequestAsync = async (email) => {
  * @param {string} token
  * @param {string} email
  * @param {string} password
- * @param {string} passwordConfirmation
+ * @param {string} confirmPassword
  * @return {object} Promise resolve/reject
  */
 export const resetPasswordAsync = async (
   token,
   email,
   password,
-  passwordConfirmation
+  confirmPassword
 ) => {
   try {
     const response = await axios({
@@ -51,7 +51,7 @@ export const resetPasswordAsync = async (
         token,
         email,
         password,
-        passwordConfirmation,
+        password_confirmation: confirmPassword,
       },
     });
     return camelize(response.data);
