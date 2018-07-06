@@ -140,7 +140,7 @@ describe('job create', async () => {
       expect('id' in job2).toBeTruthy();
     }
   });
-  it('should be failure', async () => {
+  it('should fail with status 400 when routeIds does not exists', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
     let errorResponse = null;
     try {

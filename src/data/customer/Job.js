@@ -246,7 +246,7 @@ export const getUpdatedJobLiveData = (
 
 /**
  * create Jobs
- * @param {string} routeIds comma seperated string ex: 1234,3455
+ * @param {string} routeIds comma separated string ex: 1234,3455
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
@@ -256,7 +256,7 @@ export const createJobsAsync = async (routeIds, token) => {
     const promises = routes.map((id) => {
       return axios({
         method: 'POST',
-        url: endpoints.API_V3.JOB_PRIVATE,
+        url: endpoints.API_V3.JOB_FROM_ROUTE,
         headers: { Authorization: `Bearer ${token}` },
         data: {
           route_id: id,
