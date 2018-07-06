@@ -39,6 +39,7 @@ const endpoints = {
     DRIVER: `${laravelUrlPrefix}/${version}/customer/driver`,
     DRIVER_ROUTE: `${laravelUrlPrefix}/${version}/customer/driver-route`,
     JOB: `${laravelUrlPrefix}/${version}/customer/job/{0}`,
+    JOB_PRIVATE: `${laravelUrlPrefix}/${version}/customer/job/private`,
     ROUTE: `${laravelUrlPrefix}/${version}/customer/route/{0}`,
     STORE_ROUTE: `${laravelUrlPrefix}/${version}/customer/route`,
     OPTIMIZE_ROUTE: `${laravelUrlPrefix}/${version}/customer/route/optimization`,

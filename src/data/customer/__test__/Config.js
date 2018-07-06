@@ -30,6 +30,10 @@ const CONFIG = {
   customerId: 14445,
   fuzzy: false,
   fuzziness: 1,
+  jobTest: {
+    orderIds: [45357, 45358],
+    date: '2030-01-01',
+  },
   createRoutePayload: [
     {
       driver_id: 2,
@@ -73,7 +77,7 @@ const CONFIG = {
     pickupTimeWindow: '14:35-16:00',
     deliveryDate: '28-02-2018',
     deliveryTimeWindow: '17:00-17:00',
-    driverEmailId: null,
+    capacity: 1,
   },
   locationObjectFutureDate: {
     pickupLocationAddress: '22 Gim moh road',
