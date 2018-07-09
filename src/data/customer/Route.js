@@ -81,7 +81,6 @@ export const storeRouteAsync = async (payload, token) => {
       headers: { Authorization: `Bearer ${token}` },
       data: camelToSnake(payload, 5),
     });
-
     return camelize(routes.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
