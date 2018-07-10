@@ -38,7 +38,7 @@ const CONFIG = {
       route_locations: [
         {
           sequence: 1,
-          grouping_location_id: 1,
+          order_id: 1,
           location_type_id: 3,
           route_capacity: 10.5,
         },
@@ -84,10 +84,10 @@ const CONFIG = {
     deliveryTimeWindow: '17:00-17:00',
     driverEmailId: null,
   },
-  locationDataList: [
+  orderDataList: [
     {
-      groupingLocationId: 27318,
-      locationData: {
+      orderId: 27318,
+      orderData: {
         pickupLocationAddress: '22 Gim moh road',
         deliveryAddress: 'Holland Close',
         pickupDate: '28-02-2018',
@@ -98,8 +98,8 @@ const CONFIG = {
       },
     },
     {
-      groupingLocationId: 27312,
-      locationData: {
+      orderId: 27312,
+      orderData: {
         pickupLocationAddress: '22 Gim moh road',
         deliveryAddress: 'Holland Close',
         pickupDate: '28-02-2018',

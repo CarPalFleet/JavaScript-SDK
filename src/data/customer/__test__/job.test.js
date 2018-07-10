@@ -5,7 +5,7 @@ import CONFIG from './Config';
 describe('Show job', async () => {
   let token;
   beforeAll(async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     token = await getTokenAsync(
       CONFIG.email,
       CONFIG.password,
@@ -15,7 +15,7 @@ describe('Show job', async () => {
   });
 
   it('Should get Job summary and expect job not found', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await getJobSummaryAsync(
@@ -30,7 +30,7 @@ describe('Show job', async () => {
   });
 
   it('Should get job details and expect job not found', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await getJobDetailAsync(
