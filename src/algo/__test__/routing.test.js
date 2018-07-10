@@ -4,7 +4,7 @@ import CONFIG from './Config';
 
 describe('Call route optimization endpoints', () => {
   it('should response true value', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     const result = getTokenAsync(
       CONFIG.email,
       CONFIG.password,
@@ -26,7 +26,10 @@ describe('Call route optimization endpoints', () => {
         statusCode: 400,
         statusText: 'Bad Request',
         errorMessage: [
-          { key: '0', messages: 'Route Setting does not belong to you' },
+          {
+            key: 'routeSettingId',
+            messages: ['Route Setting does not belong to you'],
+          },
         ],
       };
       expect(e).toEqual(expected);

@@ -17,7 +17,7 @@ describe('Create new driver ', async () => {
   let driver;
 
   beforeAll(async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     token = await getTokenAsync(
       CONFIG.email,
       CONFIG.password,
@@ -27,7 +27,7 @@ describe('Create new driver ', async () => {
   });
 
   it('should return success driver response and update driver', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     const driverInfoUpdate = {
       transactionGroupIds: [180],
       sendConfirmationSms: false,
@@ -38,7 +38,7 @@ describe('Create new driver ', async () => {
       email: `${generateDisplayName(10)}@example.com`,
       password: '123456',
       birthday: '1980-01-01',
-      phone: '+6592341092',
+      phone: `+6592${Math.floor(Math.random() * 1000000)}`,
       vehicleColor: 'Red',
       averageSpeed: 60,
       maximumCapacity: 100,
@@ -47,6 +47,20 @@ describe('Create new driver ', async () => {
       vehicleBrand: 'Scooter',
       vehicleModel: '12456',
       vehicleTypeId: 1,
+      schedules: [
+        {
+          transactionGroupId: 180,
+          startAt: new Date().toJSON().split('T')[0],
+          isDefault: true,
+          windows: [
+            {
+              startTime: '09:00',
+              endTime: '22:00',
+            },
+          ],
+          recursions: [1],
+        },
+      ],
     };
 
     const newDriver = await createDriverAsync(
@@ -56,7 +70,7 @@ describe('Create new driver ', async () => {
 
     driver = {
       ...newDriver,
-      isActive: true,
+      driverStatusId: 2,
       transactionGroupIds: driverInfoUpdate.transactionGroupIds,
       driverTypeIds: driverInfoUpdate.driverTypeIds,
       languageIds: [1], // not sure about this parameter
@@ -83,10 +97,10 @@ describe('Create new driver ', async () => {
 
   it('Update driver should return validation error statusCode 400', async () => {
     try {
-      jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
       await updateDriverAsync({}, token.accessToken);
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 400);
+      expect(error).toHaveProperty('statusCode', 404);
     }
   });
 
@@ -101,7 +115,7 @@ describe('Create new driver ', async () => {
       email: `${generateDisplayName(10)}@example.com`,
       password: '123456',
       birthday: '1980-01-01',
-      phone: '+6592341092',
+      phone: `+6592${Math.floor(Math.random() * 1000000)}`,
       vehicleColor: 'Red',
       averageSpeed: 60,
       maximumCapacity: 100,
@@ -119,7 +133,7 @@ describe('Create new driver ', async () => {
   });
 
   it('Test for retrieving V3 driver list', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     const filters = {
       limit: 2,
@@ -131,8 +145,9 @@ describe('Create new driver ', async () => {
     expect(response.data instanceof Array).toBeTruthy();
   });
 
-  it('Test for pubsub live data for job', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+  describe('Test for create, update and delete driver schedule', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 90000;
+    let schedule;
     // const originalDriverDatum = {
     //   activeStatusCounts: { '1': 0, '2': 0, '3': 0, '4': 0 },
     //   driverTypeCounts: { '1': 1, '2': 3, '3': 4 },
@@ -181,75 +196,84 @@ describe('Create new driver ', async () => {
     //   driverTypeIds: [1],
     // };
 
-    const driverInfo = {
-      transactionGroupIds: [180],
-      sendConfirmationSms: false,
-      sendConfirmationEmail: false,
-      driverTypeIds: [2, 3],
-      firstName: 'User',
-      lastName: generateDisplayName(10),
-      email: `${generateDisplayName(10)}@example.com`,
-      password: '123456',
-      birthday: '1980-01-01',
-      phone: '+6592341092',
-      vehicleColor: 'Red',
-      averageSpeed: 60,
-      maximumCapacity: 100,
-      vehicleModelYear: 2018,
-      vehicleLicenseNumber: '12456',
-      vehicleBrand: 'Scooter',
-      vehicleModel: '12456',
-      vehicleTypeId: 1,
-    };
-
-    try {
-      const responseCreatedriver = await createDriverAsync(
-        driverInfo,
-        token.accessToken
-      );
-      expect('id' in responseCreatedriver).toBeTruthy();
-
+    it('Test for creating the driver schedule', async () => {
       const payload = {
-        driverId: responseCreatedriver.id,
+        driverId: driver.id,
         transactionGroupId: 180,
-        startTime: '10:01',
-        endTime: '13:02',
-        startAt: '2020-03-01',
-        vehicleTypeId: 1,
+        windows: [
+          {
+            startTime: '10:01',
+            endTime: '13:02',
+          },
+        ],
+        startAt: '2020-03-05',
       };
-      const responseCreateSchedule = await createDriverScheduleAsync(
-        payload,
-        token.accessToken
-      );
-      expect('data' in responseCreateSchedule).toBeTruthy();
+
+      schedule = await createDriverScheduleAsync(payload, token.accessToken);
+
+      expect('data' in schedule).toBeTruthy();
+    });
+
+    it('Test for updating the driver schedule', async () => {
+      const payload = {
+        driverId: driver.id,
+        transactionGroupId: 180,
+        windows: [
+          {
+            startTime: '10:01',
+            endTime: '13:02',
+          },
+        ],
+        startAt: '2020-03-05',
+      };
 
       const responseUpdateSchedule = await updateDriverScheduleAsync(
-        responseCreateSchedule.data.id,
+        schedule.data.id,
         payload,
         token.accessToken
       );
 
       expect('data' in responseUpdateSchedule).toBeTruthy();
+    });
 
-      const responseDelete = await deleteDriverScheduleAsync(
-        responseCreateSchedule.data.id,
-        token.accessToken
-      );
+    it('Test for deleting the driver schedule', async () => {
+      setTimeout(async () => {
+        const responseDelete = await deleteDriverScheduleAsync(
+          schedule.data.id,
+          token.accessToken
+        );
+        expect('data' in responseDelete).toBeTruthy();
+      }, 1000);
+    });
 
-      expect('data' in responseDelete).toBeTruthy();
-    } catch (error) {
-      expect(error).toHaveProperty('statusCode', 401);
-    }
+    it('should fail for deleting the driver schedule with wrong id', async () => {
+      try {
+        await deleteDriverScheduleAsync(1234, token.accessToken);
+      } catch (error) {
+        const expected = {
+          statusCode: 404,
+          statusText: 'Not Found',
+          errorMessage: [
+            { key: 'driverSchedule', messages: ['Driver Schedule not found'] },
+          ],
+        };
+        expect(error).toEqual(expected);
+      }
+    });
   });
 
   it('Test for create driver schedule with with driver that does not belong to requestor', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     const playload = {
       driverId: 99999999999912,
       transactionGroupId: 180,
-      startTime: '10:01',
-      endTime: '13:02',
+      windows: [
+        {
+          startTime: '09:00',
+          endTime: '22:00',
+        },
+      ],
       startAt: '2018-03-01',
     };
     try {
@@ -261,10 +285,12 @@ describe('Create new driver ', async () => {
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 400);
       expect(error).toHaveProperty('errorMessage', [
-        { key: '0', messages: 'Driver does not belong to you' },
         {
-          key: '1',
-          messages: ' Driver does not match Transaction Group',
+          key: 'driverId',
+          messages: [
+            'Driver does not belong to you',
+            'Driver does not match Transaction Group',
+          ],
         },
       ]);
     }
@@ -278,6 +304,8 @@ describe('Create new driver ', async () => {
   const customerId = 14445;
 
   it('should get getDriversWithFiltersAsync success response', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
     try {
       const response = await getDriversWithFiltersAsync(
         filterObject,
@@ -303,7 +331,7 @@ describe('Create new driver ', async () => {
     driverTypeIds: [1],
   };
   it('should get getDriverCountsAsync success response', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       const response = await getDriverCountsAsync(
@@ -317,7 +345,7 @@ describe('Create new driver ', async () => {
     }
   });
   it('should throw getDriverCountsAsync 401 error status', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       await getDriverCountsAsync();
@@ -365,7 +393,7 @@ describe('Create new driver ', async () => {
   });
 
   it('should throw getDriverRoutesAsync 401 error status', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       await getDriverCountsAsync();

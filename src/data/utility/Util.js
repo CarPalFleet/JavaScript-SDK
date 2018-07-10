@@ -3,6 +3,7 @@
  */
 
 import isObject from 'lodash.isobject';
+import camelize from 'camelize';
 
 /**
  * Convert Object into string as URL params
@@ -26,16 +27,32 @@ export const apiResponseErrorHandler = (e) => {
   let rejectObj = {};
   let messages = null;
   if (e.response) {
-    if (e.response.data.error && e.response.data.error.message) {
-      messages = e.response.data.error.message.split(',');
+    if (e.response.data && e.response.data.errors) {
+      let errors = [];
+      let errorObj = e.response.data.errors;
+      if (errorObj.location_data) {
+        errorObj = errorObj.location_data;
+      }
+      const camelizedObj = camelize(errorObj);
+      const keys = Object.keys(camelizedObj);
+      keys.forEach((key) => {
+        errors.push({
+          key,
+          messages: camelizedObj[key],
+        });
+      });
+      if (errors.length) {
+        messages = errors;
+      }
     }
     rejectObj = {
       statusCode: e.response.status,
       statusText: e.response.statusText,
-      errorMessage: getFormattedErrorArray(
-        messages || e.response.data['Message']
-      ),
+      errorMessage:
+        messages || getFormattedErrorArray(e.response.data['Message']),
     };
+  } else if (e.statusCode) {
+    rejectObj = e;
   } else {
     /* Catch error of e.response
     That will be undefined when status code is 403 Forbidden */
@@ -90,7 +107,14 @@ export const getFormattedErrorArray = (errorMessage) => {
  * @return {array} [key, value]
  */
 export const convertObjectIntoKeyValueArray = (object) => {
-  return Object.entries(object);
+  // implementation of Object.entries as it is not available in all browsers
+  const ownProps = Object.keys(object);
+  let i = ownProps.length;
+  const resArray = new Array(i); // preallocate the Array
+  while (i--) {
+    resArray[i] = [ownProps[i], object[ownProps[i]]];
+  }
+  return resArray;
 };
 
 /**

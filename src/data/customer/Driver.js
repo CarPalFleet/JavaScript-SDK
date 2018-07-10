@@ -16,28 +16,38 @@ import { camelToSnake } from '../utility/ChangeCase';
 
 /**
  * Create Driver
- * transactionGroupIds (mandatory) (array)
- * sendConfirmationSms (optional) (boolean)
- * sendConfirmationEmail (optional) (boolean)
- * driverTypeIds (mandatory) (array) #csv Eg. [2,3]
- * firstName (mandatory) (string)
- * lastName (mandatory) (string)
- * email (mandatory) (string)
- * password (mandatory) (string)
- * birthday (mandatory) (string) (Y-m-d)
- * phone (mandatory) (string)
- * vehicle (array) contains vehicle info
- * vehicle.vehicleColor (optional) (string)
- * vehicle.averageSpeed (int) (string)
- * vehicle.maximumCapacity (int) number
- * vehicle.vehicleModelYear (optional) (int)
- * vehicle.vehicleLicenseNumber (optional) (int)
- * vehicle.vehicleBrand (optional) (string)
- * vehicle.vehicleModel (optional) (string)
- * vehicle.vehicleTypeId (optional) (int)
- * @param {object} driverInfo {}
+ * @typedef { Object } Window
+ * @property {string} startTime ("HH:MM") Format
+ * @property {string} endTime ("HH:MM") Format
+ * @typedef { Object } Schedule
+ * @property {number} transactionGroupId
+ * @property {string} startAt (YYYY-MM-DD)
+ * @property {boolean} isDefault // to set this Schedule as a default
+ * @property {Array.<Window>} windows Array of window object
+ * @property {Array.<number>} recursions Array of day numbers for recurring window
+ * @typedef { Object } Driver
+ * @property {Array.<number>} transactionGroupIds (mandatory)
+ * @property {boolean} sendConfirmationSms (optional)
+ * @property {boolean} sendConfirmationEmail (optional)
+ * @property {Array.<number>} driverTypeIds (mandatory)
+ * @property {string} firstName (mandatory)
+ * @property {string} lastName (mandatory)
+ * @property {string} email (mandatory)
+ * @property {string} password (mandatory)
+ * @property {string} birthday (mandatory) (Y-m-d)
+ * @property {string} phone (mandatory)
+ * @property {string} vehicleColor (optional)
+ * @property {number} averageSpeed (optional)
+ * @property {number} maximumCapacity (optional)
+ * @property {number} vehicleModelYear (optional)
+ * @property {string} vehicleLicenseNumber (optional)
+ * @property {string} vehicleBrand (optional)
+ * @property {string} vehicleModel (optional)
+ * @property {number} vehicleTypeId (optional)
+ * @property {Array.<Schedule>} schedules (optional) Array of schedule object
+ * @param {Driver} driverInfo {}
  * @param {string} token
- * @return {object} Promise resolve/reject
+ * @return {Object} Promise resolve/reject
  */
 export const createDriverAsync = async (
   {
@@ -59,8 +69,9 @@ export const createDriverAsync = async (
     vehicleBrand,
     vehicleModel,
     vehicleTypeId,
+    schedules,
   },
-  token,
+  token
 ) => {
   try {
     const data = {
@@ -84,11 +95,21 @@ export const createDriverAsync = async (
         vehicleModel,
         vehicleTypeId,
       },
+      schedules,
     };
 
     const driver = camelToSnake({
       ...data,
       vehicle: camelToSnake(data.vehicle),
+      schedules: data.schedules
+        ? data.schedules.map((schedule) => {
+            const newSchedule = {
+              ...schedule,
+              windows: schedule.windows.map((window) => camelToSnake(window)),
+            };
+            return camelToSnake(newSchedule);
+          })
+        : undefined,
     });
 
     const response = await axios({
@@ -163,78 +184,87 @@ export const getDriversAsync = async (filterObject = {}, token) => {
 
 /**
  * Update Driver
- * @param {object} driverDetailsInfo {}
- * id (int)
- * isActive (boolean)
- * languageIds (array)
- * transactionGroupIds (array)
- * driverTypeIds (array)
- * interviewDetails (object)
- * interviewDetails.hasCriminalRecord (boolean)
- * interviewDetails.isAProfessionalDriver (boolean)
- * interviewDetails.hasWorkAsDriver (boolean)
- * interviewDetails.hasWorkedForSameCompany (boolean)
- * interviewDetails.referredFrom (string)
- * interviewDetails.drivingReason (string)
- * interviewDetails.remarks (string)
- * user (object)
- * user.firstName (string)
- * user.lastName (string)
- * user.phone (string|regex:/^(00|\+)\d{1,4}\d{4,11}$/)
- * user.password (string)
- * user.passwordConfirmation (string)
- * vehicle (object)
- * vehicle.modelYear (optional) (int)
- * vehicle.averageSpeed (optional) (int) min: 0
- * vehicle.maximumCapacity (optional) (int) min: 0
- * vehicle.typeId (optional) (int)
- * vehicle.model (optional) (string)
- * vehicle.brand (optional) (string)
- * vehicle.licenseNumber (optional) (string)
- * vehicle.color (optional) (string)
- * bank (object)
- * bank.branchCode (optional) (string)
- * bank.code (optional) (string)
- * bank.name (optional) (string)
- * bank.accountNumber (optional) (string)
+ * @typedef { Object } Window
+ * @property {string} startTime ("HH:MM") Format
+ * @property {string} endTime ("HH:MM") Format
+ * @typedef {Object} Schedule
+ * @property {number} transactionGroupId
+ * @property {string} startAt (YYYY-MM-DD)
+ * @property {boolean} isDefault // to set this Schedule as a default
+ * @property {Array.<Window>} windows Array of window object
+ * @property {Array.<number>} recursions Array of day numbers for recurring window
+ * @typedef {Object} Driver
+ * @property {number} id
+ * @property {number} driverStatusId
+ * @property {Array.<number>} transactionGroupIds
+ * @property {Array.<number>} languageIds
+ * @property {boolean} hasCriminalRecord
+ * @property {boolean} isAProfessionalDriver
+ * @property {boolean} hasWorkAsDriver
+ * @property {string} referredFrom
+ * @property {string} drivingReason
+ * @property {string} remarks
+ * @property {string} firstName
+ * @property {string} lastName
+ * @property {string} phone
+ * @property {string} password
+ * @property {string} passwordConfirmation
+ * @property {number} vehicleModelYear
+ * @property {number} averageSpeed
+ * @property {number} maximumCapacity
+ * @property {number} vehicleTypeId
+ * @property {string} vehicleModel
+ * @property {string} vehicleBrand
+ * @property {string} vehicleLicenseNumber
+ * @property {string} vehicleColor
+ * @property {string} branchCode // bank branch code
+ * @property {string} code // bank code
+ * @property {string} name // bank name
+ * @property {string} accountNumber // bank account number
+ * @property {Array.<Schedule>} schedules  Array of schedule object
+ * @param {Driver} driverDetailsInfo {}
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const updateDriverAsync = async ({
-  id,
-  isActive,
-  languageIds,
-  transactionGroupIds,
-  driverTypeIds,
-  hasCriminalRecord,
-  isAProfessionalDriver,
-  hasWorkAsDriver,
-  hasWorkedForSameCompany,
-  referredFrom,
-  drivingReason,
-  remarks,
-  firstName,
-  lastName,
-  phone,
-  password,
-  passwordConfirmation,
-  modelYear,
-  averageSpeed,
-  maximumCapacity,
-  typeId,
-  model,
-  brand,
-  licenseNumber,
-  color,
-  branchCode,
-  code,
-  name,
-  accountNumber,
-}, token) => {
+export const updateDriverAsync = async (
+  {
+    id,
+    driverStatusId,
+    languageIds,
+    transactionGroupIds,
+    driverTypeIds,
+    hasCriminalRecord,
+    isAProfessionalDriver,
+    hasWorkAsDriver,
+    hasWorkedForSameCompany,
+    referredFrom,
+    drivingReason,
+    remarks,
+    firstName,
+    lastName,
+    phone,
+    password,
+    passwordConfirmation,
+    vehicleModelYear,
+    averageSpeed,
+    maximumCapacity,
+    vehicleTypeId,
+    vehicleModel,
+    vehicleBrand,
+    vehicleLicenseNumber,
+    vehicleColor,
+    branchCode,
+    code,
+    name,
+    accountNumber,
+    schedules,
+  },
+  token
+) => {
   try {
     const driverInfo = camelToSnake({
       id,
-      isActive,
+      driverStatusId,
       languageIds,
       transactionGroupIds,
       driverTypeIds,
@@ -255,14 +285,14 @@ export const updateDriverAsync = async ({
         passwordConfirmation,
       }),
       vehicle: camelToSnake({
-        modelYear,
+        vehicleModelYear,
         averageSpeed,
         maximumCapacity,
-        typeId,
-        model,
-        brand,
-        licenseNumber,
-        color,
+        vehicleTypeId,
+        vehicleModel,
+        vehicleBrand,
+        vehicleLicenseNumber,
+        vehicleColor,
       }),
       bank: camelToSnake({
         branchCode,
@@ -270,6 +300,15 @@ export const updateDriverAsync = async ({
         name,
         accountNumber,
       }),
+      schedules: schedules
+        ? schedules.map((schedule) => {
+            const newSchedule = {
+              ...schedule,
+              windows: schedule.windows.map((window) => camelToSnake(window)),
+            };
+            return camelToSnake(newSchedule);
+          })
+        : undefined,
     });
     const response = await axios({
       method: 'PUT',
@@ -320,8 +359,8 @@ export const getDriversBasedOnSearchResult = async (
 
 /**
  * Get Driver with filters
- * @param {object} filterObject {orderRouteTypeIds, driverTypeIds, driverStatusId}
- * orderRouteTypeIds (string) (optinal) 1,2 #csv string
+ * @param {object} filterObject {jobRouteTypeIds, driverTypeIds, driverStatusId}
+ * jobRouteTypeIds (string) (optinal) 1,2 #csv string
  * * 1 means Live, 2 means POD
  * driverTypeIds (string) (optinal) 1 #csv string
  * * 1 means Inhouse, 2 means Public, 3 means Service Provider
@@ -358,8 +397,8 @@ export const getDriversWithFiltersAsync = async (
 
 /**
  * Get Driver Counts for Dashboard
- * @param {object} filterObject {orderRouteTypeIds, driverTypeIds, driverStatusId}
- * orderRouteTypeIds (string) (optinal) 1,2 #csv string
+ * @param {object} filterObject {jobRouteTypeIds, driverTypeIds, driverStatusId}
+ * jobRouteTypeIds (string) (optinal) 1,2 #csv string
  * * 1 means Live, 2 means POD
  * driverTypeIds (array) (optinal) [1] #csv string
  * * 1 means Inhouse, 2 means Public, 3 means Service Provider
@@ -515,12 +554,13 @@ export const getUpdatedDriverLiveData = (
 
 /** Update driver time slot
  * @param {int} scheduleId
- * @param {object} payload {driverId, transactionGroupId, startTime, endTime, startDate}
- * scheduleId (optional)(int)
- * transactionGroupId (optional)(int)
- * startTime (optional)(date_format:H:i)
- * endTime (optional)(date_format:H:i)
- * startDate (optional)(date_format:Y-m-d)
+ * @typedef {Object} ScheduleInfo
+ * @property {number} driverId
+ * @property {number} transactionGroupId
+ * @property {string} startAt (YYYY-MM-DD)
+ * @property {Array.<Window>} windows Array of window object
+ * @property {Array.<number>} recursions Array of day numbers for recurring window
+ * @param {ScheduleInfo} payload // Schdule info object
  * @param {string} token {driverId, transactionGroupId, startTime, endTime, startDate}
  * @return {Object} Promise resolve/reject
  * If resolve, return value: boolean(To indicate update successful or failed)
@@ -535,11 +575,17 @@ export const updateDriverScheduleAsync = async (
   token
 ) => {
   try {
+    const newPayload = {
+      ...payload,
+      windows: payload.windows
+        ? payload.windows.map((window) => camelToSnake(window))
+        : undefined,
+    };
     const result = await axios({
       method: 'put',
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', scheduleId)}`,
       headers: { Authorization: `Bearer ${token}` },
-      data: camelToSnake(payload),
+      data: camelToSnake(newPayload),
     });
     return camelize(result.data);
   } catch (e) {
@@ -570,12 +616,13 @@ export const deleteDriverScheduleAsync = async (scheduleId, token) => {
 };
 
 /** Add new driver time slot
- * @param {object} payload {driverId, transactionGroupId, startTime, endTime, startDate}
- * driverId (mandatory)(int)
- * transactionGroupId (mandatory)(int)
- * startTime (mandatory)(date_format:H:i)
- * endTime (mandatory)(date_format:H:i)
- * startDate (mandatory)(date_format:Y-m-d)
+ * @typedef {Object} ScheduleInfo
+ * @property {number} driverId (mandatory)
+ * @property {number} transactionGroupId (mandatory)
+ * @property {string} startAt (YYYY-MM-DD) (mandatory)
+ * @property {Array.<Window>} windows Array of window object (mandatory)
+ * @property {Array.<number>} recursions Array of day numbers for recurring window
+ * @param {ScheduleInfo} payload // Schdule info object
  * @param {string} token resolve/reject
  * @return {Object} Promise resolve/reject
  * If resolve, return value: boolean(To indicate update successful or failed)
@@ -586,11 +633,17 @@ export const deleteDriverScheduleAsync = async (scheduleId, token) => {
  */
 export const createDriverScheduleAsync = async (payload = {}, token) => {
   try {
+    const newPayload = {
+      ...payload,
+      windows: payload.windows
+        ? payload.windows.map((window) => camelToSnake(window))
+        : undefined,
+    };
     const result = await axios({
       method: 'post',
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', '')}`,
       headers: { Authorization: `Bearer ${token}` },
-      data: camelToSnake(payload),
+      data: camelToSnake(newPayload),
     });
     return camelize(result.data);
   } catch (e) {
