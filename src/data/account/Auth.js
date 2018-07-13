@@ -54,7 +54,7 @@ export const refreshTokenAsync = async (refreshToken, clientId, secret) => {
         grantType: 'refresh_token',
         clientId,
         clientSecret: secret,
-        scope: '',
+        scope: 'full-access',
       },
     });
 
