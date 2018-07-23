@@ -243,3 +243,35 @@ export const getUpdatedJobLiveData = (
     return { statusCode: '500', statusText: 'Error in updating job live data' };
   }
 };
+
+/**
+ * create Jobs
+ * @param {string} routeIds comma separated string ex: 1234,3455
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const createJobsAsync = async (routeIds, token) => {
+  try {
+    const routes = routeIds.split(',');
+    const promises = routes.map((id) => {
+      return axios({
+        method: 'POST',
+        url: endpoints.API_V3.JOB_FROM_ROUTE,
+        headers: { Authorization: `Bearer ${token}` },
+        data: {
+          route_id: id,
+        },
+      });
+    });
+    const responses = await axios.all(promises);
+    return responses.map((res, index) => {
+      const returnObj = {
+        routeId: routes[index],
+        job: camelize(res.data).data,
+      };
+      return returnObj;
+    });
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
