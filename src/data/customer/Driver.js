@@ -135,9 +135,9 @@ export const createDriverAsync = async (
  * @param {int} driverId
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * @deprecated since version 0.3.24
  */
 export const getDriverDetailAsync = async (
-  // TODO: customerId is not required?
   customerId,
   identityId,
   driverId,
@@ -159,9 +159,10 @@ export const getDriverDetailAsync = async (
 
 /**
  * Get Driver List
- * @param {object} filterObject {limit, page}
+ * @param {object} filterObject {limit, page, driverIds}
  * limit (optional) (int)
  * page (optional) (int) #offset, start from 1 value
+ * driverIds (optional) (csv)
  * @param {string} token
  * @return {promise} reject/resolve
  * Will return [] array if there"s no drivers
@@ -396,7 +397,7 @@ export const getDriversWithFiltersAsync = async (
 };
 
 /**
- * Get Driver Counts for Dashboard
+ * Get Driver Counts for Dashboard including the driver data
  * @param {object} filterObject {jobRouteTypeIds, driverTypeIds, driverStatusId}
  * jobRouteTypeIds (string) (optinal) 1,2 #csv string
  * * 1 means Live, 2 means POD
@@ -463,23 +464,25 @@ export const getDriverRoutesAsync = async (filterObject, token) => {
 };
 
 /**
- * Get updated driver live data for Dashboard
+ * Get updated driver live data for Dashboard by comparing old payload with new
  * This function will calculate all of driver counts
- * @param {object} originalDriverDatum
+ * @param {object} originalDriversObject
  * @param {string} pubSubPayload
  * @param {boolean} filterObject
  * @return {promise} reject/resolve
  * Will return [] array if there"s no drivers
+ //TODO: Needs unit testing
  */
 export const getUpdatedDriverLiveData = (
-  originalDriverDatum,
+  originalDriversObject,
   pubSubPayload,
   filterObject
 ) => {
   try {
     pubSubPayload = camelize(pubSubPayload);
-    pubSubPayload.data.driverStatusId = pubSubPayload.data.orderId > 0 ? 2 : 1;
-    let payload = pubSubPayload.data;
+    pubSubPayload.payload.driverStatusId =
+      pubSubPayload.payload.jobId > 0 ? 2 : 1;
+    let payload = pubSubPayload.payload;
     const driverStatusIds = [1, 2, 3, 4];
     // 1 = Active Driver, 2 = With Route, 3 = Idle, 4 = Inactive driver
     const isValidStatus = driverStatusIds.includes(payload.driverStatusId);
@@ -500,20 +503,20 @@ export const getUpdatedDriverLiveData = (
     } else isIncludeInDriverTypeIds = true;
 
     if (!(isValidStatus && isIncludeInDriverTypeIds && isIncludeInStatusIds)) {
-      return originalDriverDatum;
+      return originalDriversObject;
     }
 
-    let driverStatusKeys = Object.keys(originalDriverDatum['data']);
+    let driverStatusKeys = Object.keys(originalDriversObject['data']);
     let matchedPayload = driverStatusKeys.reduce(
       (matchedPayload, statusId) => {
-        let index = originalDriverDatum['data'][statusId].findIndex((order) => {
-          return payload.driverId === parseInt(order.driverId); // order.driverId might be string/integer;
+        let index = originalDriversObject['data'][statusId].findIndex((job) => {
+          return payload.driverId === parseInt(job.driverId); // order.driverId might be string/integer;
         });
         if (index >= 0) {
           matchedPayload.isDataExist = true;
           matchedPayload.statusId = statusId;
           matchedPayload.index = index;
-          matchedPayload.data = originalDriverDatum['data'][statusId][index];
+          matchedPayload.data = originalDriversObject['data'][statusId][index];
         }
         return matchedPayload;
       },
@@ -522,28 +525,30 @@ export const getUpdatedDriverLiveData = (
 
     if (matchedPayload.isDataExist) {
       // update activeStatusCounts
-      originalDriverDatum['activeStatusCounts'][payload.driverStatusId] += 1;
+      originalDriversObject['activeStatusCounts'][payload.driverStatusId] += 1;
       const currentStatusCounts =
-        originalDriverDatum['activeStatusCounts'][matchedPayload.statusId];
+        originalDriversObject['activeStatusCounts'][matchedPayload.statusId];
 
       if (currentStatusCounts) {
-        originalDriverDatum['activeStatusCounts'][matchedPayload.statusId] -= 1;
+        originalDriversObject['activeStatusCounts'][
+          matchedPayload.statusId
+        ] -= 1;
       }
 
-      originalDriverDatum['data'][matchedPayload.statusId].splice(
+      originalDriversObject['data'][matchedPayload.statusId].splice(
         matchedPayload.index,
         1
       );
     } else {
-      originalDriverDatum['totalStatusCounts'] += 1;
+      originalDriversObject['totalStatusCounts'] += 1;
       filterObject.driverTypeIds.map((driverTypeId) => {
-        originalDriverDatum['driverTypeCounts'][driverTypeId] += 1;
+        originalDriversObject['driverTypeCounts'][driverTypeId] += 1;
       });
-      originalDriverDatum['activeStatusCounts'][payload.driverStatusId] += 1;
+      originalDriversObject['activeStatusCounts'][payload.driverStatusId] += 1;
     }
     // update data Object
-    originalDriverDatum['data'][payload.driverStatusId].push(payload);
-    return originalDriverDatum;
+    originalDriversObject['data'][payload.driverStatusId].push(payload);
+    return originalDriversObject;
   } catch (e) {
     return {
       statusCode: '500',
