@@ -1,6 +1,6 @@
 const urlPrefix =
-  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/prod';
-const laravelUrlPrefix = 'https://api.carpal.me';
+  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/alpha';
+const laravelUrlPrefix = 'https://alpha-api.carpal.me';
 const version = 'v3';
 
 const endpoints = {
@@ -49,6 +49,7 @@ const endpoints = {
     CUSTOMER_DRIVER: `${laravelUrlPrefix}/${version}/customer/driver`,
     REQUEST_PASSWORD_RESET: `${laravelUrlPrefix}/${version}/user/password/email`,
     VALIDATE_PASSWORD_RESET_TOKEN: `${laravelUrlPrefix}/${version}/user/password/{token}`,
+    LATEST_BACKGROUND_JOB: `${laravelUrlPrefix}/${version}/customer/background-job/latest/{0}`,
   },
 };
 
