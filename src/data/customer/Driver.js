@@ -135,9 +135,9 @@ export const createDriverAsync = async (
  * @param {int} driverId
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * @deprecated since version 0.3.24
  */
 export const getDriverDetailAsync = async (
-  // TODO: customerId is not required?
   customerId,
   identityId,
   driverId,
