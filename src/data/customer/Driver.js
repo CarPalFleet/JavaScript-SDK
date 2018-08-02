@@ -135,9 +135,9 @@ export const createDriverAsync = async (
  * @param {int} driverId
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * @deprecated since version 0.3.24
  */
 export const getDriverDetailAsync = async (
-  // TODO: customerId is not required?
   customerId,
   identityId,
   driverId,
@@ -159,9 +159,10 @@ export const getDriverDetailAsync = async (
 
 /**
  * Get Driver List
- * @param {object} filterObject {limit, page}
+ * @param {object} filterObject {limit, page, driverIds}
  * limit (optional) (int)
  * page (optional) (int) #offset, start from 1 value
+ * driverIds (optional) (csv)
  * @param {string} token
  * @return {promise} reject/resolve
  * Will return [] array if there"s no drivers
