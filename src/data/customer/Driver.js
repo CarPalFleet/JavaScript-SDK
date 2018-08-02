@@ -479,8 +479,9 @@ export const getUpdatedDriverLiveData = (
 ) => {
   try {
     pubSubPayload = camelize(pubSubPayload);
-    pubSubPayload.data.driverStatusId = pubSubPayload.data.jobId > 0 ? 2 : 1;
-    let payload = pubSubPayload.data;
+    pubSubPayload.payload.driverStatusId =
+      pubSubPayload.payload.jobId > 0 ? 2 : 1;
+    let payload = pubSubPayload.payload;
     const driverStatusIds = [1, 2, 3, 4];
     // 1 = Active Driver, 2 = With Route, 3 = Idle, 4 = Inactive driver
     const isValidStatus = driverStatusIds.includes(payload.driverStatusId);
