@@ -159,9 +159,10 @@ export const getDriverDetailAsync = async (
 
 /**
  * Get Driver List
- * @param {object} filterObject {limit, page}
+ * @param {object} filterObject {limit, page, driverIds}
  * limit (optional) (int)
  * page (optional) (int) #offset, start from 1 value
+ * driverIds (optional) (csv)
  * @param {string} token
  * @return {promise} reject/resolve
  * Will return [] array if there"s no drivers
