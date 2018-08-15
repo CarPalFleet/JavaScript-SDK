@@ -275,3 +275,26 @@ export const createJobsAsync = async (routeIds, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * delete Jobs
+ * @param {string} jobIds comma separated string ex: 1234,3455
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const removeJobsAsync = async (jobIds, token) => {
+  try {
+    await axios({
+      method: 'DELETE',
+      // TODO: need to update this endpoint again when API starts accepting multiple job ids
+      url: endpoints.API_V3.JOB.replace('{0}', jobIds),
+      headers: { Authorization: `Bearer ${token}` },
+      data: {
+        cascade: true, // to delete the routes also
+      },
+    });
+    return { data: true };
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
