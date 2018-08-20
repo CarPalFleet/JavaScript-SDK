@@ -196,7 +196,7 @@ describe('job create and delete test', async () => {
         statusText: 'Bad Request',
         errorMessage: [
           {
-            key: 'jobId',
+            key: 'jobIds',
             messages: ['Job not found'],
           },
         ],

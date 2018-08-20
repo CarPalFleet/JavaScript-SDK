@@ -288,7 +288,7 @@ export const removeJobsAsync = async (jobIds, token) => {
       method: 'DELETE',
       url: `${endpoints.API_V3.JOB.replace(
         '/{0}',
-        `?job_ids=${jobIds}&cascade=true`
+        `?job_ids=${jobIds}&cascade=1`
       )}`,
       headers: { Authorization: `Bearer ${token}` },
     });
