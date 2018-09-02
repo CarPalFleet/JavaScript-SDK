@@ -1,4 +1,3 @@
-// TODO: update url when api is merged to develop
 const urlPrefix =
   'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
 const laravelUrlPrefix = 'https://api-test.carpal.me';
