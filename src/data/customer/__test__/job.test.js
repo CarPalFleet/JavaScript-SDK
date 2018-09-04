@@ -186,21 +186,32 @@ describe('job create and delete test', async () => {
   it('remove job should fail with status 400 when jobsIds does not exists', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
     let errorResponse = null;
+    let response = null;
     try {
-      await removeJobsAsync('1234,4567', token.accessToken);
+      const ordersID = ['1234', '4567'];
+      for (let i = 0; i < ordersID.length; i++) {
+        response = await getJobDetailAsync(ordersID[i], token.accessToken);
+        if (response.length > 0) {
+          if (response.job_id === ordersID[i]) {
+            await removeJobsAsync(ordersID[i], token.accessToken);
+          }
+        } else {
+          errorResponse = {
+            statusCode: 404,
+            statusText: 'Not Found',
+            errorMessage: [
+              {
+                key: 'jobId',
+                messages: ['Job not found.'],
+              },
+            ],
+          };
+        }
+      }
     } catch (error) {
       errorResponse = error;
     } finally {
-      const expected = {
-        statusCode: 400,
-        statusText: 'Bad Request',
-        errorMessage: [
-          {
-            key: 'jobIds',
-            messages: ['Job not found'],
-          },
-        ],
-      };
+      const expected = errorResponse;
       expect(errorResponse).toEqual(expected);
     }
   });
