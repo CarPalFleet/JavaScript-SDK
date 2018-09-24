@@ -71,7 +71,7 @@ describe('job create and delete test', async () => {
     );
 
     routePayload = {
-      driverId: 10714,
+      driverId: 11997,
       pickupDate: CONFIG.jobTest.date,
       route_settings: '{}',
     };
@@ -108,7 +108,7 @@ describe('job create and delete test', async () => {
         routes: [
           {
             ...routePayload,
-            driverId: 10715,
+            driverId: 12030,
             routeLocations: [
               {
                 sequence: 1,
@@ -147,6 +147,21 @@ describe('job create and delete test', async () => {
       expect('id' in job2).toBeTruthy();
     }
   });
+
+  it('should delete the jobs', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+    let response;
+    try {
+      // this test is passing right now because API only considers one job Id right now although two are passed with request
+      response = await removeJobsAsync(
+        `${job1.id},${job2.id}`,
+        token.accessToken
+      );
+    } finally {
+      expect('data' in response).toBeTruthy();
+    }
+  });
+
   it('create job should fail with status 400 when routeIds does not exists', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
     let errorResponse = null;
@@ -169,50 +184,21 @@ describe('job create and delete test', async () => {
     }
   });
 
-  it('should delete the jobs', async () => {
+  it('remove job should fail with status 400 when jobsId does not exists', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
-    let response;
-    try {
-      // this test is passing right now because API only considers one job Id right now although two are passed with request
-      response = await removeJobsAsync(
-        `${job1.id},${job2.id}`,
-        token.accessToken
-      );
-    } finally {
-      expect('data' in response).toBeTruthy();
-    }
-  });
 
-  it('remove job should fail with status 400 when jobsIds does not exists', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
-    let errorResponse = null;
-    let response = null;
     try {
-      const ordersID = ['1234', '4567'];
-      for (let i = 0; i < ordersID.length; i++) {
-        response = await getJobDetailAsync(ordersID[i], token.accessToken);
-        if (response.length > 0) {
-          if (response.job_id === ordersID[i]) {
-            await removeJobsAsync(ordersID[i], token.accessToken);
-          }
-        } else {
-          errorResponse = {
-            statusCode: 404,
-            statusText: 'Not Found',
-            errorMessage: [
-              {
-                key: 'jobId',
-                messages: ['Job not found.'],
-              },
-            ],
-          };
-        }
-      }
+      const jobIDs = ['1234'];
+      await removeJobsAsync(jobIDs, token.accessToken);
     } catch (error) {
-      errorResponse = error;
-    } finally {
-      const expected = errorResponse;
-      expect(errorResponse).toEqual(expected);
+      const expected = {
+        statusCode: 400,
+        statusText: 'Bad Request',
+        errorMessage: [
+          { key: 'jobIds', messages: ['One or more job(s) not found.'] },
+        ],
+      };
+      expect(error).toEqual(expected);
     }
   });
 });
