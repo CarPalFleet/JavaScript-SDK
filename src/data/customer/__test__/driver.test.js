@@ -29,7 +29,7 @@ describe('Create new driver ', async () => {
   it('should return success driver response and update driver', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     const driverInfoUpdate = {
-      transactionGroupIds: [180],
+      transactionGroupIds: [185],
       sendConfirmationSms: false,
       sendConfirmationEmail: false,
       driverTypeIds: [2, 3],
@@ -49,7 +49,7 @@ describe('Create new driver ', async () => {
       vehicleTypeId: 1,
       schedules: [
         {
-          transactionGroupId: 180,
+          transactionGroupId: 185,
           startAt: new Date().toJSON().split('T')[0],
           isDefault: true,
           windows: [
@@ -106,7 +106,7 @@ describe('Create new driver ', async () => {
 
   it('should respond new driver object including id details and perform a show request on that driver', async () => {
     const driverInfo = {
-      transactionGroupIds: [180],
+      transactionGroupIds: [185],
       sendConfirmationSms: false,
       sendConfirmationEmail: false,
       driverTypeIds: [2, 3],
@@ -199,7 +199,7 @@ describe('Create new driver ', async () => {
     it('Test for creating the driver schedule', async () => {
       const payload = {
         driverId: driver.id,
-        transactionGroupId: 180,
+        transactionGroupId: 185,
         windows: [
           {
             startTime: '10:01',
@@ -217,7 +217,7 @@ describe('Create new driver ', async () => {
     it('Test for updating the driver schedule', async () => {
       const payload = {
         driverId: driver.id,
-        transactionGroupId: 180,
+        transactionGroupId: 185,
         windows: [
           {
             startTime: '10:01',
@@ -267,7 +267,7 @@ describe('Create new driver ', async () => {
 
     const playload = {
       driverId: 99999999999912,
-      transactionGroupId: 180,
+      transactionGroupId: 185,
       windows: [
         {
           startTime: '09:00',
