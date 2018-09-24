@@ -275,3 +275,25 @@ export const createJobsAsync = async (routeIds, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * delete Jobs
+ * @param {string} jobIds comma separated string ex: 1234,3455
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const removeJobsAsync = async (jobIds, token) => {
+  try {
+    await axios({
+      method: 'DELETE',
+      url: `${endpoints.API_V3.JOB.replace(
+        '/{0}',
+        `?job_ids=${jobIds}&cascade=1`
+      )}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return { data: true };
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};

@@ -11,7 +11,7 @@ describe('Tests showCustomerSettingsAsync function', async () => {
   const customerId = 65;
   const payload = {
     identityId: 1,
-    transactionGroupId: 180,
+    transactionGroupId: 185,
   };
 
   beforeAll(async () => {
