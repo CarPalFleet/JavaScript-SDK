@@ -10,7 +10,6 @@ import {
   apiResponseErrorHandler,
 } from '../utility/Util';
 
-
 /**
  * Returns jobs created by the customer
  * @param {object} filterObject # {pickupDateStart, pickupDateEnd, transactionGroupIds, jobStatusIds, includes, page, limit}
@@ -23,8 +22,8 @@ export const getJobsAsync = async (token, filterObject = {}) => {
   try {
     const jobs = await axios({
       method: 'GET',
-      url: `${endpoints.JOB.replace('{0}', paramString)}`,
-      headers: { Authorization: `bearer ${token}` },
+      url: `${endpoints.API_V3.JOB}${paramString.replace('&', '?')}`,
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     return camelize(jobs.data);

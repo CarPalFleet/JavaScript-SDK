@@ -32,11 +32,10 @@ describe('should show the list of customers jobs', async () => {
       const response = await getJobsAsync('123');
       expect('data' in response).toBeTruthy();
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 403);
+      expect(error).toHaveProperty('statusCode', 401);
     }
   });
 });
-
 
 describe('Show job', async () => {
   let token;
