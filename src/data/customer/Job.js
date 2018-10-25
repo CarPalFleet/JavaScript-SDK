@@ -11,6 +11,28 @@ import {
 } from '../utility/Util';
 
 /**
+ * Returns jobs created by the customer
+ * @param {object} filterObject # {pickupDateStart, pickupDateEnd, transactionGroupIds, jobStatusIds, includes, page, limit}
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+
+export const getJobsAsync = async (token, filterObject = {}) => {
+  let paramString = convertObjectIntoURLString(filterObject);
+  try {
+    const jobs = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.JOB}${paramString.replace('&', '?')}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return camelize(jobs.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
  * Get Job Detail
  * @param {int} jobId
  * @param {string} token
