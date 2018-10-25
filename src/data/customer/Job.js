@@ -22,7 +22,7 @@ export const getJobsAsync = async (token, filterObject = {}) => {
   try {
     const jobs = await axios({
       method: 'GET',
-      url: `${endpoints.API_V3.JOB}${paramString.replace('&', '?')}`,
+      url: `${endpoints.API_V3.JOB.replace('{0}', paramString)}`,
       headers: { Authorization: `Bearer ${token}` },
     });
 
