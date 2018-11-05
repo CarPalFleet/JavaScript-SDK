@@ -4,10 +4,42 @@ import {
   createJobsAsync,
   removeJobsAsync,
   getJobsAsync,
+  getJobTimelineAsync,
 } from '../Job';
 import { getTokenAsync } from '../../account/Auth';
 import CONFIG from './Config';
 import { storeRouteAsync } from '../Route';
+
+describe('should show job timeline', async () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+  it('Should get job timeline data', async () => {
+    try {
+      const token = await getTokenAsync(
+        CONFIG.email,
+        CONFIG.password,
+        CONFIG.clientId,
+        CONFIG.clientSecret
+      );
+      const response = await getJobTimelineAsync(
+        CONFIG.orderId,
+        token.accessToken
+      );
+      expect('data' in response).toBeTruthy();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 404);
+    }
+  });
+
+  it('Should get auth error if there is no proper token', async () => {
+    try {
+      const response = await getJobTimelineAsync(CONFIG.orderId, '123');
+      expect('data' in response).toBeTruthy();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 401);
+    }
+  });
+});
 
 describe('should show the list of customers jobs', async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
