@@ -5,15 +5,31 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import { apiResponseErrorHandler } from '../utility/Util';
+import {
+  apiResponseErrorHandler,
+  convertObjectIntoURLString,
+} from '../utility/Util';
 
 /**
  * Retrieve all countries
+ * @param {object} filterObject # {sort}
+ * Available sorts:
+ * - country_name
+ * - country_code
+ * - dialing_code
+ * Available orders:
+ * - asc
+ * - desc
+ * Example: dialing_code,desc
  * @return {object} Promise resolve/reject
  */
-export const getCountriesAsync = async () => {
+
+export const getCountriesAsync = async (filterObject = {}) => {
+  let paramString = convertObjectIntoURLString(filterObject);
   try {
-    const response = await axios.get(endpoints.COUNTRIES);
+    const response = await axios.get(
+      endpoints.API_V3.COUNTRIES.replace('{0}', paramString.replace('&', '?'))
+    );
     return camelize(response.data.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
