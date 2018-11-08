@@ -21,8 +21,42 @@ describe('should show job timeline', async () => {
         CONFIG.clientId,
         CONFIG.clientSecret
       );
+
+      const routePayload = {
+        driverId: 11997,
+        pickupDate: CONFIG.jobTest.date,
+        route_settings: '{}',
+      };
+
+      const route1Res = await storeRouteAsync(
+        {
+          routes: [
+            {
+              ...routePayload,
+              routeLocations: [
+                {
+                  sequence: 1,
+                  orderId: CONFIG.jobTest.orderIds[0],
+                  locationTypeId: 3,
+                },
+                {
+                  sequence: 2,
+                  orderId: CONFIG.jobTest.orderIds[0],
+                  locationTypeId: 2,
+                },
+              ],
+            },
+          ],
+          replaceAllExisting: false,
+        },
+        token.accessToken
+      );
+      const route1 = route1Res.data[0];
+
+      const jobs = await createJobsAsync(`${route1.id}`, token.accessToken);
+
       const response = await getJobTimelineAsync(
-        CONFIG.orderId,
+        jobs[0].job.id,
         token.accessToken
       );
       expect('data' in response).toBeTruthy();
