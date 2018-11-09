@@ -11,6 +11,31 @@ import {
 } from '../utility/Util';
 
 /**
+ * Returns job timeline
+ * @param {int} jobId
+ * @param {string} token
+ * @param {object} filterObject # {nextCursor, limit}
+ * @return {object} Promise resolve/reject
+ */
+
+export const getJobTimelineAsync = async (jobId, token, filterObject = {}) => {
+  let paramString = convertObjectIntoURLString(filterObject);
+  try {
+    const timeline = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.JOB_TIMELINE.replace('{0}', jobId).replace(
+        '{1}',
+        paramString.replace('&', '?')
+      )}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return camelize(timeline.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
  * Returns jobs created by the customer
  * @param {object} filterObject # {pickupDateStart, pickupDateEnd, transactionGroupIds, jobStatusIds, includes, page, limit}
  * @param {string} token
