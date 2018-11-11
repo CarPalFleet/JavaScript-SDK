@@ -30,7 +30,7 @@ export const getCountriesAsync = async (filterObject = {}) => {
     const response = await axios.get(
       endpoints.API_V3.COUNTRIES.replace('{0}', paramString.replace('&', '?'))
     );
-    return camelize(response.data.data);
+    return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
