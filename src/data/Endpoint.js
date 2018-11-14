@@ -6,7 +6,6 @@ const version = 'v3';
 const endpoints = {
   LANGUAGES: `${urlPrefix}/languages`,
   IDENTITIES: `${urlPrefix}/identities`,
-  COUNTRIES: `${urlPrefix}/countries`,
   OAUTH: `${urlPrefix}/authentication`,
   MY_JOBS: `${urlPrefix}/drivers/{0}/jobs?date={1}`,
   MY_LEGS: `${urlPrefix}/drivers/{0}/legs?date={1}`,
@@ -51,6 +50,7 @@ const endpoints = {
     REQUEST_PASSWORD_RESET: `${laravelUrlPrefix}/${version}/user/password/email`,
     VALIDATE_PASSWORD_RESET_TOKEN: `${laravelUrlPrefix}/${version}/user/password/{token}`,
     LATEST_BACKGROUND_JOB: `${laravelUrlPrefix}/${version}/customer/background-job/latest/{0}`,
+    COUNTRIES: `${laravelUrlPrefix}/${version}/countries/{0}`,
   },
 };
 
