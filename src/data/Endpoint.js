@@ -38,6 +38,7 @@ const endpoints = {
     JOB: `${laravelUrlPrefix}/${version}/customer/job/{0}`,
     JOB_FROM_ROUTE: `${laravelUrlPrefix}/${version}/customer/job/private`,
     JOB_TIMELINE: `${laravelUrlPrefix}/${version}/customer/job/{0}/timeline/{1}`,
+    JOB_DRIVER_LOCATIONS: `${laravelUrlPrefix}/${version}/customer/job/{0}/driver/location`,
     ROUTE: `${laravelUrlPrefix}/${version}/customer/route/{0}`,
     STORE_ROUTE: `${laravelUrlPrefix}/${version}/customer/route`,
     OPTIMIZE_ROUTE: `${laravelUrlPrefix}/${version}/customer/route/optimization`,
