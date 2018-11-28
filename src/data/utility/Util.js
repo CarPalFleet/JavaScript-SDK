@@ -234,7 +234,7 @@ export const mergeArraysWithObjects = (a = [], b = [], prop, mergeProp) => {
  * @param {Number} timestamp datetime timestamp - moment in time
  * @param {Number} userIdentityId identity id of the user
  * @param {Array} identities collection of identities
- * @return {Object Moment instance} moment instance which will have all moment methods
+ * @return {Object} moment instance which will have all moment methods
  * Example of usage:
  * getUserUTCDateTime(
  *  new Date.getTime(),
