@@ -186,6 +186,7 @@ describe('Return proper UTC datetime based on timezone and timestamp', () => {
     const timestamp = moment('2018-11-11 20:30')
       .tz('Europe/Warsaw')
       .valueOf();
+    const mockedUserIdentityId = 1;
     const mockedIdentities = [
       {
         id: 1,
@@ -194,7 +195,15 @@ describe('Return proper UTC datetime based on timezone and timestamp', () => {
         },
       },
     ];
-    const utcDateTime = getUserUTCDateTime(timestamp, 1, mockedIdentities);
-    expect(utcDateTime.format('YYYY-MM-DD HH:mm')).toEqual('2018-11-12 03:30');
+    const utcDateTime = getUserUTCDateTime(
+      timestamp,
+      mockedUserIdentityId,
+      mockedIdentities
+    );
+    expect(utcDateTime.format('YYYY-MM-DD HH:mm')).toEqual(
+      moment(timestamp)
+        .tz('Singapore')
+        .format('YYYY-MM-DD HH:mm')
+    );
   });
 });
