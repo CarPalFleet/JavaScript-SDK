@@ -4,6 +4,8 @@
 
 import isObject from 'lodash.isobject';
 import camelize from 'camelize';
+import moment from 'moment-timezone';
+import get from 'lodash.get';
 
 /**
  * Convert Object into string as URL params
@@ -224,4 +226,31 @@ export const mergeArraysWithObjects = (a = [], b = [], prop, mergeProp) => {
   });
 
   return updatedArray;
+};
+
+/**
+ * It converts timestamps to UTC based on timezone from user identity.
+ * timestamp, userIdentityId, identities
+ * @param {Number} timestamp datetime timestamp - moment in time
+ * @param {Number} userIdentityId identity id of the user
+ * @param {Array} identities collection of identities
+ * @return {Object Moment instance} moment instance which will have all moment methods
+ * Example of usage:
+ * getUserUTCDateTime(
+ *  new Date.getTime(),
+ *  1,
+ *  [...identities...]
+ * ).format('YYYY-MM-DD HH:mm')
+ */
+
+export const getUserUTCDateTime = (timestamp, userIdentityId, identities) => {
+  if (timestamp && userIdentityId && identities) {
+    const timezone = get(
+      identities.find((i) => i.id === userIdentityId),
+      'identityDetail.timezone',
+      ''
+    );
+    return moment(timestamp).tz(timezone);
+  }
+  return moment();
 };
