@@ -11,6 +11,25 @@ import {
 } from '../utility/Util';
 
 /**
+ * Get Job Driver Locations
+ * @param {int} jobId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getJobDriverLocationsAsync = async (jobId, token) => {
+  try {
+    const jobDriverLocations = await axios({
+      method: 'GET',
+      url: endpoints.API_V3.JOB_DRIVER_LOCATIONS.replace('{0}', jobId),
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return camelize(jobDriverLocations.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
  * Returns job timeline
  * @param {int} jobId
  * @param {string} token
