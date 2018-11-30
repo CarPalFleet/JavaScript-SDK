@@ -1,12 +1,11 @@
 const urlPrefix =
-  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/alpha';
-const laravelUrlPrefix = 'https://alpha-api.carpal.me';
+  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
+const laravelUrlPrefix = 'https://api-test.carpal.me';
 const version = 'v3';
 
 const endpoints = {
   LANGUAGES: `${urlPrefix}/languages`,
   IDENTITIES: `${urlPrefix}/identities`,
-  COUNTRIES: `${urlPrefix}/countries`,
   OAUTH: `${urlPrefix}/authentication`,
   MY_JOBS: `${urlPrefix}/drivers/{0}/jobs?date={1}`,
   MY_LEGS: `${urlPrefix}/drivers/{0}/legs?date={1}`,
@@ -39,6 +38,7 @@ const endpoints = {
     JOB: `${laravelUrlPrefix}/${version}/customer/job/{0}`,
     JOB_FROM_ROUTE: `${laravelUrlPrefix}/${version}/customer/job/private`,
     JOB_TIMELINE: `${laravelUrlPrefix}/${version}/customer/job/{0}/timeline/{1}`,
+    JOB_DRIVER_LOCATIONS: `${laravelUrlPrefix}/${version}/customer/job/{0}/driver/location`,
     ROUTE: `${laravelUrlPrefix}/${version}/customer/route/{0}`,
     STORE_ROUTE: `${laravelUrlPrefix}/${version}/customer/route`,
     OPTIMIZE_ROUTE: `${laravelUrlPrefix}/${version}/customer/route/optimization`,
@@ -51,6 +51,7 @@ const endpoints = {
     REQUEST_PASSWORD_RESET: `${laravelUrlPrefix}/${version}/user/password/email`,
     VALIDATE_PASSWORD_RESET_TOKEN: `${laravelUrlPrefix}/${version}/user/password/{token}`,
     LATEST_BACKGROUND_JOB: `${laravelUrlPrefix}/${version}/customer/background-job/latest/{0}`,
+    COUNTRIES: `${laravelUrlPrefix}/${version}/countries/{0}`,
   },
 };
 
