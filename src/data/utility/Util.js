@@ -244,7 +244,7 @@ export const mergeArraysWithObjects = (a = [], b = [], prop, mergeProp) => {
  */
 
 export const getUserUTCDateTime = (timestamp, userIdentityId, identities) => {
-  if (timestamp && userIdentityId && identities) {
+  if (timestamp && userIdentityId && identities && identities.length) {
     const timezone = get(
       identities.find((i) => i.id === userIdentityId),
       'identityDetail.timezone',
@@ -252,5 +252,5 @@ export const getUserUTCDateTime = (timestamp, userIdentityId, identities) => {
     );
     return moment(timestamp).tz(timezone);
   }
-  return moment();
+  return null;
 };
