@@ -229,9 +229,9 @@ export const mergeArraysWithObjects = (a = [], b = [], prop, mergeProp) => {
 };
 
 /**
- * It converts timestamps to UTC based on timezone from user identity.
+ * It takes UTC unix timestamp in seconds and convert it to the timezone where user is active depending on his identity.
  * timestamp, userIdentityId, identities
- * @param {Number} timestamp datetime timestamp - moment in time
+ * @param {Number} timestamp datetime unix timestamp in seconds
  * @param {Number} userIdentityId identity id of the user
  * @param {Array} identities collection of identities
  * @return {Object} moment instance which will have all moment methods

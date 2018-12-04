@@ -185,7 +185,7 @@ describe('Return proper UTC datetime based on timezone and timestamp', () => {
   it('convert timestamp', () => {
     const timestamp = moment('2018-11-11 20:30')
       .tz('Europe/Warsaw')
-      .valueOf();
+      .unix();
     const mockedUserIdentityId = 1;
     const mockedIdentities = [
       {
