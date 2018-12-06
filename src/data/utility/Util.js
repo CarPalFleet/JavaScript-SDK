@@ -236,21 +236,25 @@ export const mergeArraysWithObjects = (a = [], b = [], prop, mergeProp) => {
  * @param {Array} identities collection of identities
  * @return {Object} moment instance which will have all moment methods
  * Example of usage:
- * getUserUTCDateTime(
- *  new Date.getTime(),
+ * getUserDateTimefromUTC(
+ *  new Date.getTime() / 1000,
  *  1,
  *  [...identities...]
  * ).format('YYYY-MM-DD HH:mm')
  */
 
-export const getUserUTCDateTime = (timestamp, userIdentityId, identities) => {
+export const getUserDateTimefromUTC = (
+  timestamp,
+  userIdentityId,
+  identities
+) => {
   if (timestamp && userIdentityId && identities && identities.length) {
     const timezone = get(
       identities.find((i) => i.id === userIdentityId),
       'identityDetail.timezone',
       ''
     );
-    return moment(timestamp).tz(timezone);
+    return moment(timestamp * 1000).tz(timezone);
   }
   return null;
 };

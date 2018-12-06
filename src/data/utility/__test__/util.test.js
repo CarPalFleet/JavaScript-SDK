@@ -4,7 +4,7 @@ import {
   convertObjectIntoKeyValueArray,
   customError,
   mergeArraysWithObjects,
-  getUserUTCDateTime,
+  getUserDateTimefromUTC,
 } from '../Util';
 
 describe('Convert object key/value into url string', () => {
@@ -195,13 +195,13 @@ describe('Return proper UTC datetime based on timezone and timestamp', () => {
         },
       },
     ];
-    const utcDateTime = getUserUTCDateTime(
+    const utcDateTime = getUserDateTimefromUTC(
       timestamp,
       mockedUserIdentityId,
       mockedIdentities
     );
     expect(utcDateTime.format('YYYY-MM-DD HH:mm')).toEqual(
-      moment(timestamp)
+      moment(timestamp * 1000)
         .tz('Singapore')
         .format('YYYY-MM-DD HH:mm')
     );
