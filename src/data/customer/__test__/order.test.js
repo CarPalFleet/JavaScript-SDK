@@ -11,6 +11,7 @@ import {
   updateAndTruncateOrderErrorsAsync,
   removeOrderErrorRecordsAsync,
   getRemainingOrdersCountAsync,
+  getOrderUploadTemplateAsync,
 } from '../Order';
 import { getTokenAsync } from '../../account/Auth';
 import { getCSVStringFromArrayObject } from '../../utility/Util';
@@ -29,6 +30,17 @@ beforeAll(async () => {
 });
 
 describe('Order tests', async () => {
+  it('Should get template file for order upload', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+    try {
+      const response = await getOrderUploadTemplateAsync(token.accessToken);
+      expect(response).toEqual(jasmine.any(Object));
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 404);
+    }
+  });
+
   it('Retrieving single order, expect 404', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
