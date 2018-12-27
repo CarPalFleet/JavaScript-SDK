@@ -53,6 +53,7 @@ const endpoints = {
     VALIDATE_PASSWORD_RESET_TOKEN: `${laravelUrlPrefix}/${version}/user/password/{token}`,
     LATEST_BACKGROUND_JOB: `${laravelUrlPrefix}/${version}/customer/background-job/latest/{0}`,
     COUNTRIES: `${laravelUrlPrefix}/${version}/countries/{0}`,
+    ORDER_ERRORS: `${laravelUrlPrefix}/${version}/customer/order/validation-error`,
   },
 };
 
