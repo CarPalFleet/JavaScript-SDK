@@ -23,6 +23,7 @@ Object {
     "dateFormat": null,
     "id": 88,
     "identityId": 1,
+    "logisticsModelId": 1,
     "orderCreationSettingId": null,
     "orderCreationSettings": null,
     "orderSmsSetting": null,
