@@ -1,6 +1,5 @@
 import { getTokenAsync } from '../../account/Auth';
 import {
-  getCustomerPreferenceSettingsAsync,
   showCustomerSettingsAsync,
   getCustomerSettingsAsync,
 } from '../Setting';
@@ -30,16 +29,6 @@ describe('Tests showCustomerSettingsAsync function', async () => {
     const response = getCustomerSettingsAsync(token.accessToken);
     const settings = await response;
     expect('data' in settings).toBeTruthy();
-  });
-
-  it('should get error statusCode', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
-
-    const response = getCustomerPreferenceSettingsAsync(
-      CONFIG.invalidDomain,
-      token.accessToken
-    );
-    await expect(response).rejects.toHaveProperty('statusCode', 404);
   });
 
   it('should return customer settings status 200', async () => {
