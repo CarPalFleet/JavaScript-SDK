@@ -19,6 +19,25 @@ import {
 } from '../utility/Util';
 
 /**
+ * Get template for order upload
+ * @param {string} token
+ * @return {object} file data
+ */
+export const getOrderUploadTemplateAsync = async (token) => {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: endpoints.API_V3.GROUPING_BATCH_TEMPLATE,
+      responseType: 'blob',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
  * Retrieve Remaining Orders Count
  * @param {object} filterObject # {pickupDate, withJob}
  * pickupDate (mandatory)(string) = "2018-02-28"
