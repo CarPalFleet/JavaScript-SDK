@@ -1,6 +1,6 @@
 const urlPrefix =
-  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
-const laravelUrlPrefix = 'https://api-test.carpal.me';
+  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/alpha';
+const laravelUrlPrefix = 'https://alpha-api.carpal.me';
 const version = 'v3';
 
 const endpoints = {
@@ -49,6 +49,7 @@ const endpoints = {
     VALIDATE_PASSWORD_RESET_TOKEN: `${laravelUrlPrefix}/${version}/user/password/{token}`,
     LATEST_BACKGROUND_JOB: `${laravelUrlPrefix}/${version}/customer/background-job/latest/{0}`,
     COUNTRIES: `${laravelUrlPrefix}/${version}/countries/{0}`,
+    DEPOTS: `${laravelUrlPrefix}/${version}/customer/depot`,
   },
 };
 
