@@ -10,7 +10,7 @@ import {
   convertObjectIntoURLString,
 } from '../utility/Util';
 
-/** Retrieve Customer"s Settings (reduced)
+/** Retrieve Customer"s Settings
  * @param {string} token
  * @param {int} customerId
  * @param {Object} payload {identityId, transactionGroupId}
