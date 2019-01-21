@@ -1,8 +1,5 @@
 import { getTokenAsync } from '../../account/Auth';
-import {
-  showCustomerSettingsAsync,
-  getCustomerSettingsAsync,
-} from '../Setting';
+import { showCustomerSettingsAsync } from '../Setting';
 import CONFIG from './Config';
 
 describe('Tests showCustomerSettingsAsync function', async () => {
@@ -21,14 +18,6 @@ describe('Tests showCustomerSettingsAsync function', async () => {
       CONFIG.clientId,
       CONFIG.clientSecret
     );
-  });
-
-  it('should response object including customer settings', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
-
-    const response = getCustomerSettingsAsync(token.accessToken);
-    const settings = await response;
-    expect('data' in settings).toBeTruthy();
   });
 
   it('should return customer settings status 200', async () => {

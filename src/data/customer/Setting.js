@@ -10,25 +10,7 @@ import {
   convertObjectIntoURLString,
 } from '../utility/Util';
 
-/** Retrieve Customer' Settings
- * @param {string} token
- * @return {Promise} settingObject
- */
-export const getCustomerSettingsAsync = async (token) => {
-  try {
-    const CustomerSettings = await axios({
-      method: 'GET',
-      url: endpoints.CUSTOMER_SETTINGS,
-      headers: { Authorization: token },
-    });
-
-    return camelize(CustomerSettings.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-/** Retrieve Customer"s Settings (reduced)
+/** Retrieve Customer"s Settings
  * @param {string} token
  * @param {int} customerId
  * @param {Object} payload {identityId, transactionGroupId}
