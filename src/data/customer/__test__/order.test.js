@@ -8,7 +8,6 @@ import {
   editOrderAsync,
   deleteOrderAsync,
   deleteOrdersAsync,
-  updateAndTruncateOrderErrorsAsync,
   removeOrderErrorRecordsAsync,
   getRemainingOrdersCountAsync,
   getOrderUploadTemplateAsync,
@@ -134,32 +133,11 @@ describe('Order tests', async () => {
     try {
       const response = await getErrorOrderContentsAsync(
         CONFIG.pickupDate,
-        CONFIG.customerId,
         token.accessToken
       );
       expect(response.data instanceof Array).toBeTruthy();
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 401);
-    }
-  });
-
-  it('Should return not found', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
-
-    try {
-      const response = await updateAndTruncateOrderErrorsAsync(
-        CONFIG.orderWithErrorIds,
-        CONFIG.orderDataList,
-        token.accessToken
-      );
-      expect('data' in response).toBeTruthy();
-    } catch (error) {
-      const expected = {
-        statusCode: 404,
-        statusText: 'Not Found',
-        errorMessage: [{ key: 'orderIds', messages: ['Order not found'] }],
-      };
-      expect(error).toEqual(expected);
     }
   });
 
