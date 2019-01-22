@@ -8,7 +8,6 @@ import {
   editOrderAsync,
   deleteOrderAsync,
   deleteOrdersAsync,
-  removeOrderErrorRecordsAsync,
   getRemainingOrdersCountAsync,
   getOrderUploadTemplateAsync,
 } from '../Order';
@@ -281,48 +280,6 @@ describe('Convert Ids into CSV string', () => {
       CONFIG.fieldName
     );
     expect.stringContaining(response);
-  });
-});
-
-describe('Remove batch errors of order from Dynamodb', () => {
-  it('Should response an object and data should be true.', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
-    try {
-      const response = await removeOrderErrorRecordsAsync(
-        CONFIG.orderWithErrorIds,
-        token.accessToken
-      );
-      expect('data' in response).toBeTruthy();
-      expect(response.data).toBeTruthy();
-    } catch (error) {
-      const expected = {
-        statusCode: 404,
-        statusText: 'Not Found',
-        errorMessage: [{ key: 'orderIds', messages: ['Order not found'] }],
-      };
-      expect(error).toEqual(expected);
-    }
-  });
-});
-
-describe('Remove one error record of order from Dynamodb', () => {
-  it('Should response an object and data should be true.', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
-    try {
-      const response = await removeOrderErrorRecordsAsync(
-        CONFIG.groupingBatchId,
-        token.accessToken
-      );
-      expect('data' in response).toBeTruthy();
-      expect(response.data).toBeTruthy();
-    } catch (error) {
-      const expected = {
-        statusCode: 404,
-        statusText: 'Not Found',
-        errorMessage: ['Order not found'],
-      };
-      expect(error).toEqual(expected);
-    }
   });
 });
 

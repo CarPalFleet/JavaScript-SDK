@@ -363,29 +363,6 @@ export const getErrorOrderContentsAsync = async (pickupDate, token) => {
 };
 
 /**
- * Remove Order Error Records (multiple records) from Dynamodb
- * @param {array} errorIds
- Example ["56c719b7-93aa-420a-b9b1-140c4e03397b"]
- * @param {string} token
- * @return {promise} reject/resolve
- * if resolve, will return {data: true}
- */
-export const removeOrderErrorRecordsAsync = async (errorIds = [], token) => {
-  try {
-    await axios({
-      method: 'DELETE',
-      url: `${endpoints.BATCH_ORDER_WITH_ERRORS}`,
-      headers: { Authorization: token },
-      data: { errorIds },
-    });
-
-    return { data: true };
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-/**
  * Get pickup group
  * @param {object} filterObject # {pickupDate (mandatory), withJob}
  * pickupDate (optional)(string) = "2018-02-28"

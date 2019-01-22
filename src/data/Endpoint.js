@@ -18,7 +18,6 @@ const endpoints = {
   NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
   ORDER_ERRORS: `${urlPrefix}/customers/{0}/order/errors`,
   ORDER_WITH_ERRORS: `${urlPrefix}/order-error`,
-  BATCH_ORDER_WITH_ERRORS: `${urlPrefix}/order-errors`,
   VEHICLES: `${urlPrefix}/vehicles`,
   USER_SETTINGS: `${urlPrefix}/users/{0}/settings`,
   CUSTOMER_SETTINGS: `${urlPrefix}/settings`,
