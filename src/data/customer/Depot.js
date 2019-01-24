@@ -5,6 +5,7 @@ import {
   convertObjectIntoURLString,
   apiResponseErrorHandler,
 } from '../utility/Util';
+import { camelToSnake } from '../utility/ChangeCase';
 
 /**
  * Returns list of depots
@@ -25,6 +26,26 @@ export const getDepotsAsync = async (token, filterObject = {}) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     return camelize(depots.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * create Jobs
+ * @param {string} token
+ * @param {object} data depot data object
+ * @return {object} Promise resolve/reject
+ */
+export const createDepotAsync = async (token, data) => {
+  try {
+    const depot = await axios({
+      method: 'POST',
+      url: endpoints.API_V3.DEPOTS,
+      headers: { Authorization: `Bearer ${token}` },
+      data: camelToSnake(data),
+    });
+    return camelize(depot.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
