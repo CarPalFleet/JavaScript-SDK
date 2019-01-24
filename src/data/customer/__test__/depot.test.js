@@ -40,7 +40,7 @@ describe('Depot creation', async () => {
         CONFIG.clientSecret
       );
       const data = {
-        code: 'depot-123',
+        code: `depot-${Math.floor(Math.random() * (999 - 100 + 1) + 100)}`,
         operating_time_start: '06:00',
         operating_time_end: '20:00',
         start_service_time_in_seconds: 1800,
