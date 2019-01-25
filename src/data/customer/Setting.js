@@ -10,45 +10,7 @@ import {
   convertObjectIntoURLString,
 } from '../utility/Util';
 
-/** Retrieve Customer' (Logo and Background)
- * Return customer' logo and background image if it exists in database
- * @param {integer} domain # customer' webside domain name
- * @param {string} token
- * @return {object} promise (resolve/reject)
- * @deprecated since version 0.1.77
- */
-export const getCustomerPreferenceSettingsAsync = async (domain, token) => {
-  try {
-    const response = await axios({
-      method: 'GET',
-      url: endpoints.TRANSACTION_GROUP_SETTING.replace('{1}', domain),
-      headers: { Authorization: token },
-    });
-    return camelize(response.data.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-/** Retrieve Customer' Settings
- * @param {string} token
- * @return {Promise} settingObject
- */
-export const getCustomerSettingsAsync = async (token) => {
-  try {
-    const CustomerSettings = await axios({
-      method: 'GET',
-      url: endpoints.CUSTOMER_SETTINGS,
-      headers: { Authorization: token },
-    });
-
-    return camelize(CustomerSettings.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-/** Retrieve Customer"s Settings (reduced)
+/** Retrieve Customer"s Settings
  * @param {string} token
  * @param {int} customerId
  * @param {Object} payload {identityId, transactionGroupId}

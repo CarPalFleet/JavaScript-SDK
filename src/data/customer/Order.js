@@ -218,7 +218,6 @@ export const getOrdersGroupByPickUpAddressAsync = async (
     if (statusId === 4) {
       errorContents = await getErrorOrderContentsAsync(
         filterObject.pickupDate,
-        customerId,
         token
       );
     }
@@ -347,60 +346,17 @@ export const getOrdersAsync = async (filterObject, token) => {
  * Get upload order"s error contents from Dynamodb
  * @param {object} pickupDate # {pickupDate (mandatory)}
  * pickupDate (optional)(string) = "2018-02-28"
- * @param {int} customerId
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const getErrorOrderContentsAsync = async (
-  pickupDate,
-  customerId,
-  token
-) => {
+export const getErrorOrderContentsAsync = async (pickupDate, token) => {
   try {
     let response = await axios({
       method: 'GET',
-      url: `${endpoints.ORDER_ERRORS.replace(
-        '{0}',
-        customerId
-      )}?pickupDate=${pickupDate}`,
-      headers: { Authorization: token },
+      url: `${endpoints.API_V3.ORDER_ERRORS}/?pickup_date=${pickupDate}`,
+      headers: { Authorization: `Bearer ${token}` },
     });
     return camelize(response.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-/**
- * Fixed error records in RDS
-  and Truncate existing error records from Dynamodb
- * This function call 2 API endpoints one after another
- * Call editOrdersAsync to edit the error grouping locations
- * on success, call removeOrderErrorRecordsAsync to truncate records from Dynamodb
- * if both API call is success, it will return isUpdatedOrder and isTruncateErrorReords as true
- * @param {array} errorIds
- * @param {array} locationDataList
- * @param {string} token
- * @return {promise} reject/resolve
- * In resolve, it will return object. Example. {data, isUpdatedOrder, isTruncateErrorReords}
- * data = response object from edit endpoint
- * isUpdatedOrder = true means successfullly edited the orders
- * isTruncateErrorReords = true means successfully truncated errors
- */
-export const updateAndTruncateOrderErrorsAsync = async (
-  errorIds = [],
-  locationDataList = [],
-  token
-) => {
-  try {
-    let editResponse = await editOrdersAsync(locationDataList, token);
-    await removeOrderErrorRecordsAsync(errorIds, token);
-
-    return {
-      data: editResponse,
-      isUpdatedOrder: true,
-      isTruncateErrorReords: true,
-    };
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
