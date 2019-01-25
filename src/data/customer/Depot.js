@@ -32,7 +32,7 @@ export const getDepotsAsync = async (token, filterObject = {}) => {
 };
 
 /**
- * create Jobs
+ * create Depot
  * @param {string} token
  * @param {object} data depot data object
  * @return {object} Promise resolve/reject
