@@ -363,51 +363,6 @@ export const getErrorOrderContentsAsync = async (pickupDate, token) => {
 };
 
 /**
- * Remove Order Error Record (single record) from Dynamodb
- * @param {int} orderId
- * @param {string} token
- * @return {promise} reject/resolve
- * if resolve, will return {data: true}
- TODO: needs unit testing, is this function used?
- */
-export const removeErrorOrderRecordAsync = async (orderId, token) => {
-  try {
-    await axios({
-      method: 'DELETE',
-      url: `${endpoints.ORDER_WITH_ERRORS}/${orderId}`,
-      headers: { Authorization: token },
-    });
-
-    return { data: true };
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-/**
- * Remove Order Error Records (multiple records) from Dynamodb
- * @param {array} errorIds
- Example ["56c719b7-93aa-420a-b9b1-140c4e03397b"]
- * @param {string} token
- * @return {promise} reject/resolve
- * if resolve, will return {data: true}
- */
-export const removeOrderErrorRecordsAsync = async (errorIds = [], token) => {
-  try {
-    await axios({
-      method: 'DELETE',
-      url: `${endpoints.BATCH_ORDER_WITH_ERRORS}`,
-      headers: { Authorization: token },
-      data: { errorIds },
-    });
-
-    return { data: true };
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-/**
  * Get pickup group
  * @param {object} filterObject # {pickupDate (mandatory), withJob}
  * pickupDate (optional)(string) = "2018-02-28"
@@ -603,27 +558,6 @@ export const deleteOrdersAsync = async (orderIds = [], token) => {
     });
 
     return { data: true };
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-/** API is not ready yet
- * Cancel Batch File Process
- * @param {int} batchId
- * @param {string} token
- * @return {object} Promise resolve/reject
- * @deprecated since version 0.1.77
- */
-export const cancelBatchFileProcessAsync = async (batchId, token) => {
-  try {
-    let response = await axios({
-      method: 'DELETE',
-      url: `${endpoints.API_V3.ORDER}/${batchId}`,
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }

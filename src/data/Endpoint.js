@@ -16,12 +16,8 @@ const endpoints = {
   CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
   DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
   NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
-  ORDER_ERRORS: `${urlPrefix}/customers/{0}/order/errors`,
-  ORDER_WITH_ERRORS: `${urlPrefix}/order-error`,
-  BATCH_ORDER_WITH_ERRORS: `${urlPrefix}/order-errors`,
   VEHICLES: `${urlPrefix}/vehicles`,
   USER_SETTINGS: `${urlPrefix}/users/{0}/settings`,
-  CUSTOMER_SETTINGS: `${urlPrefix}/settings`,
   CUSTOMER_SETTINGS_SHOW: `${urlPrefix}/settings/{0}`,
   API_V3: {
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
