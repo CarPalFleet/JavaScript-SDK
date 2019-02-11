@@ -129,35 +129,6 @@ export const createDriverAsync = async (
 };
 
 /**
- * Get Driver Detail
- * @param {int} customerId
- * @param {int} identityId
- * @param {int} driverId
- * @param {string} token
- * @return {object} Promise resolve/reject
- * @deprecated since version 0.3.24
- */
-export const getDriverDetailAsync = async (
-  customerId,
-  identityId,
-  driverId,
-  token
-) => {
-  try {
-    const response = await axios({
-      method: 'GET',
-      url: endpoints.CUSTOMER_DRIVER_DETAIL.replace('{0}', customerId)
-        .replace('{1}', identityId)
-        .replace('{2}', driverId),
-      headers: { Authorization: token },
-    });
-    return camelize(response.data);
-  } catch (e) {
-    return apiResponseErrorHandler(e);
-  }
-};
-
-/**
  * Get Driver List
  * @param {object} filterObject {limit, page, driverIds}
  * limit (optional) (int)

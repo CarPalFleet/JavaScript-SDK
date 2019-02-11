@@ -28,7 +28,10 @@ describe('Auth integration test', () => {
     } catch (error) {
       const expected = {
         errorMessage: [
-          { key: null, messages: ['The user credentials were incorrect.'] },
+          {
+            key: null,
+            messages: ['No Account Found or Incorrect Credentials'],
+          },
         ],
         statusCode: 401,
         statusText: 'Unauthorized',
