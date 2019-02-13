@@ -17,6 +17,7 @@ import {
  * @param {int} fuzziness
  * @param {string} token
  * @return {object} Promise (resolve/reject)
+ * Deprecated since 0.3.60
  */
 export const searchAsync = async (
   keyword,
@@ -60,6 +61,7 @@ export const searchAsync = async (
  * @param {string} pickupDate (optional) # yyyy-mm-dd
  * @param {string} token
  * @return {object} response
+ * Deprecated since 0.3.60
  */
 export const generalSearch = async (
   customerId,

@@ -15,6 +15,7 @@ import {
  * @param {int} customerId
  * @param {Object} payload {identityId, transactionGroupId}
  * @return {Promise} settings object
+ * Deprecated since 0.3.60
  */
 export const showCustomerSettingsAsync = async (
   token,

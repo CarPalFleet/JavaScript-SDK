@@ -7,6 +7,7 @@ import { apiResponseErrorHandler } from '../utility/Util';
  * Get Vehicles Types
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * Deprecated since 0.3.60
  */
 // TODO: we should move this to Customer/Driver.js as it is a Driver related function and delete this file
 export const getVehicleTypesAsync = async (token) => {

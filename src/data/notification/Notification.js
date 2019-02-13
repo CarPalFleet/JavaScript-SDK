@@ -14,6 +14,7 @@ import { apiResponseErrorHandler } from '../utility/Util';
  * @param {string} userId
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * Deprecated since 0.3.60
  */
 export const getNotificationsAsync = async (all = false, userId, token) => {
   try {
@@ -35,6 +36,7 @@ export const getNotificationsAsync = async (all = false, userId, token) => {
  * @param {string} userId
  * @param {string} token
  * @return {object} Promise resolve/reject
+ * Deprecated since 0.3.60
  */
 export const deleteNotificationAsync = async (
   notificationId,

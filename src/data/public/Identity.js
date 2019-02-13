@@ -10,6 +10,7 @@ import { apiResponseErrorHandler } from '../utility/Util';
 /**
  * Retrieve all Identities
  * @return {object} Promise resolve/reject
+ * Deprecated since 0.3.60
  */
 export const getIdentitiesAsync = async () => {
   try {

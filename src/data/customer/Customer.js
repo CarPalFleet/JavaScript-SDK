@@ -20,6 +20,7 @@ import { apiResponseErrorHandler } from '../utility/Util';
  * @param {string} coPhone
  * @param {string} coVatNo
  * @return {object} Promise resolve/reject
+ * Deprecated since 0.3.60
  */
 export const createNewCustomerAsync = async ({
   email,
