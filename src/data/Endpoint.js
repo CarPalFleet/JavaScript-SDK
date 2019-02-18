@@ -7,7 +7,6 @@ const endpoints = {
   LANGUAGES: `${urlPrefix}/languages`,
   IDENTITIES: `${urlPrefix}/identities`,
   OAUTH: `${urlPrefix}/authentication`,
-  NEW_CUSTOMER: `${urlPrefix}/customers`,
   TRANSACTION_GROUP_SETTING: `${urlPrefix}/transaction-groups/{1}`,
   CUSTOMER_JOBS: `${urlPrefix}/customers/{0}/jobs`,
   ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`,
