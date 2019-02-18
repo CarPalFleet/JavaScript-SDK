@@ -20,6 +20,7 @@ const endpoints = {
   USER_SETTINGS: `${urlPrefix}/users/{0}/settings`,
   CUSTOMER_SETTINGS_SHOW: `${urlPrefix}/settings/{0}`,
   API_V3: {
+    NEW_CUSTOMER: `${laravelUrlPrefix}/${version}/customer`,
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
     ORDER: `${laravelUrlPrefix}/${version}/customer/order`,
     ORDER_COUNT: `${laravelUrlPrefix}/${version}/customer/order/total`,
