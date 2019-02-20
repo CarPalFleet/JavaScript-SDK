@@ -4,21 +4,21 @@ const laravelUrlPrefix = 'https://api-test.carpal.me';
 const version = 'v3';
 
 const endpoints = {
-  LANGUAGES: `${urlPrefix}/languages`, //Deprecated since 0.3.60
-  IDENTITIES: `${urlPrefix}/identities`, //Deprecated since 0.3.60 
+  LANGUAGES: `${urlPrefix}/languages`, // Deprecated since 0.3.60
+  IDENTITIES: `${urlPrefix}/identities`, // Deprecated since 0.3.60 
   OAUTH: `${urlPrefix}/authentication`,
-  NEW_CUSTOMER: `${urlPrefix}/customers`, //Deprecated since 0.3.60
+  NEW_CUSTOMER: `${urlPrefix}/customers`, // Deprecated since 0.3.60
   TRANSACTION_GROUP_SETTING: `${urlPrefix}/transaction-groups/{1}`,
   CUSTOMER_JOBS: `${urlPrefix}/customers/{0}/jobs`,
-  ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`, //Deprecated since 0.3.60
-  GENERAL_SEARCH: `${urlPrefix}/search`, //Deprecated since 0.3.60
-  DRIVER_LIST_ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`, //Deprecated since 0.3.60
+  ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`, // Deprecated since 0.3.60
+  GENERAL_SEARCH: `${urlPrefix}/search`, // Deprecated since 0.3.60
+  DRIVER_LIST_ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`, // Deprecated since 0.3.60
   CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
   DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
-  NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`, //Deprecated since 0.3.60
-  VEHICLES: `${urlPrefix}/vehicles`, //Deprecated since 0.3.60
-  USER_SETTINGS: `${urlPrefix}/users/{0}/settings`, //Deprecated since 0.3.60
-  CUSTOMER_SETTINGS_SHOW: `${urlPrefix}/settings/{0}`, //Deprecated since 0.3.60
+  NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`, // Deprecated since 0.3.60
+  VEHICLES: `${urlPrefix}/vehicles`, // Deprecated since 0.3.60
+  USER_SETTINGS: `${urlPrefix}/users/{0}/settings`, // Deprecated since 0.3.60
+  CUSTOMER_SETTINGS_SHOW: `${urlPrefix}/settings/{0}`, // Deprecated since 0.3.60
   API_V3: {
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
     ORDER: `${laravelUrlPrefix}/${version}/customer/order`,
