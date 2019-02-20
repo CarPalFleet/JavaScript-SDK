@@ -32,7 +32,11 @@ describe('Order tests', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
-      const response = await getOrderUploadTemplateAsync(token.accessToken);
+      const response = await getOrderUploadTemplateAsync(
+        CONFIG.pickupDate,
+        token.accessToken
+      );
+
       expect(response).toEqual(jasmine.any(Object));
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 404);
