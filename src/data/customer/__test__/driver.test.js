@@ -10,7 +10,7 @@ import {
   getDriverCountsAsync,
   getDriverRoutesAsync,
   updateDriverAsync,
-  deleteDriversAsync,
+  // deleteDriversAsync,
 } from '../Driver';
 
 describe('Create new driver ', async () => {
@@ -403,7 +403,7 @@ describe('Create new driver ', async () => {
     }
   });
 
-  it('should delete drivers', async () => {
+  /*  it('should delete drivers', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
     const driverInfo = {
       transactionGroupIds: [185],
@@ -432,7 +432,7 @@ describe('Create new driver ', async () => {
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 401);
     }
-  });
+  });*/
 });
 
 /**
