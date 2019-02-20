@@ -85,7 +85,7 @@ const CONFIG = {
     pickupDate: '28-02-2050',
     pickupTimeWindow: '14:35-16:00',
     deliveryDate: '28-02-2050',
-    deliveryTimeWindow: '17:00-17:00',
+    deliveryTimeWindow: '17:00-17:30',
     driverEmailId: null,
   },
   orderDataList: [
