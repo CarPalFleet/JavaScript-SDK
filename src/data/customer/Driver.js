@@ -760,3 +760,25 @@ export const categoriesCustomerDrivers = (drivers) => {
     }, responseData),
   };
 };
+
+/**
+ * delete Drivers
+ * @param {string} driverIds Comma separated values of IDs belonging to drivers to remove. Only In-house drivers can be deleted. Example: ?driver_ids=1,2,3
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const deleteDriversAsync = async (driverIds, token) => {
+  try {
+    await axios({
+      method: 'DELETE',
+      url: `${endpoints.API_V3.DRIVER_UPDATE.replace(
+        '/{0}',
+        `?driver_ids=${driverIds}`
+      )}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return { data: true };
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
