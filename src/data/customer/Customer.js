@@ -6,6 +6,7 @@ import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
 import { apiResponseErrorHandler } from '../utility/Util';
+import { camelToSnake } from '../utility/ChangeCase';
 
 /**
  * Create New Customer
@@ -14,7 +15,6 @@ import { apiResponseErrorHandler } from '../utility/Util';
  * @param {string} firstName
  * @param {string} lastName
  * @param {string} phone
- * @param {string} birthday
  * @param {int} identityId
  * @param {string} coName
  * @param {string} coPhone
@@ -27,7 +27,6 @@ export const createNewCustomerAsync = async ({
   firstName,
   lastName,
   phone,
-  birthday,
   identityId,
   coName,
   coPhone,
@@ -36,20 +35,19 @@ export const createNewCustomerAsync = async ({
   try {
     const response = await axios({
       method: 'POST',
-      url: endpoints.NEW_CUSTOMER,
+      url: endpoints.API_V3.NEW_CUSTOMER,
       headers: { 'Content-Type': 'application/json' },
-      data: {
+      data: camelToSnake({
         email,
         password,
         firstName,
         lastName,
         phone,
         identityId,
-        birthday,
         companyName: coName,
         companyPhone: coPhone,
         companyVatNumber: coVatNo,
-      },
+      }),
     });
     return camelize(response.data.data);
   } catch (e) {

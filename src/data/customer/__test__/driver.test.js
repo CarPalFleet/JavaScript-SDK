@@ -10,6 +10,7 @@ import {
   getDriverCountsAsync,
   getDriverRoutesAsync,
   updateDriverAsync,
+  // deleteDriversAsync,
 } from '../Driver';
 
 describe('Create new driver ', async () => {
@@ -401,6 +402,37 @@ describe('Create new driver ', async () => {
       expect(error).toHaveProperty('statusCode', 401);
     }
   });
+
+  /*  it('should delete drivers', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+    const driverInfo = {
+      transactionGroupIds: [185],
+      sendConfirmationSms: false,
+      sendConfirmationEmail: false,
+      driverTypeIds: [2],
+      firstName: 'User',
+      lastName: generateDisplayName(10),
+      email: `${generateDisplayName(10)}@example.com`,
+      password: '123456',
+      birthday: '1980-01-01',
+      phone: `+6596381695`,
+      vehicleColor: 'Red',
+      averageSpeed: 60,
+      maximumCapacity: 100,
+      vehicleModelYear: 2018,
+      vehicleLicenseNumber: '12456',
+      vehicleBrand: 'Scooter',
+      vehicleModel: '12456',
+      vehicleTypeId: 1,
+    };
+    try {
+      const response = await createDriverAsync(driverInfo, token.accessToken);
+      const deleted = await deleteDriversAsync(response.id, token.accessToken);
+      expect('data' in deleted).toBeTruthy();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 401);
+    }
+  });*/
 });
 
 /**
