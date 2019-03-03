@@ -5,7 +5,6 @@ const version = 'v3';
 
 const endpoints = {
   LANGUAGES: `${urlPrefix}/languages`,
-  IDENTITIES: `${urlPrefix}/identities`,
   OAUTH: `${urlPrefix}/authentication`,
   TRANSACTION_GROUP_SETTING: `${urlPrefix}/transaction-groups/{1}`,
   CUSTOMER_JOBS: `${urlPrefix}/customers/{0}/jobs`,
@@ -47,6 +46,7 @@ const endpoints = {
     COUNTRIES: `${laravelUrlPrefix}/${version}/countries/{0}`,
     ORDER_ERRORS: `${laravelUrlPrefix}/${version}/customer/order/validation-error`,
     DEPOTS: `${laravelUrlPrefix}/${version}/customer/depot`,
+    IDENTITIES: `${laravelUrlPrefix}/identities`,
   },
 };
 
