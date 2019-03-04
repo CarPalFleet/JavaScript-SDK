@@ -46,7 +46,7 @@ const endpoints = {
     COUNTRIES: `${laravelUrlPrefix}/${version}/countries/{0}`,
     ORDER_ERRORS: `${laravelUrlPrefix}/${version}/customer/order/validation-error`,
     DEPOTS: `${laravelUrlPrefix}/${version}/customer/depot`,
-    IDENTITIES: `${laravelUrlPrefix}/identities`,
+    IDENTITIES: `${laravelUrlPrefix}/${version}/identities`,
   },
 };
 
