@@ -46,7 +46,7 @@ const endpoints = {
     COUNTRIES: `${laravelUrlPrefix}/${version}/countries/{0}`,
     ORDER_ERRORS: `${laravelUrlPrefix}/${version}/customer/order/validation-error`,
     DEPOTS: `${laravelUrlPrefix}/${version}/customer/depot`,
-    TRANSACTION_GROUP_SETTING: `${laravelUrlPrefix}/transaction-groups/{1}`,
+    TRANSACTION_GROUP_SETTING: `${laravelUrlPrefix}/${version}/transaction-groups/{1}`,
   },
 };
 
