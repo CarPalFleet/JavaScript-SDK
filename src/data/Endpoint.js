@@ -5,7 +5,6 @@ const version = 'v3';
 
 const endpoints = {
   LANGUAGES: `${urlPrefix}/languages`,
-  IDENTITIES: `${urlPrefix}/identities`,
   OAUTH: `${urlPrefix}/authentication`,
   CUSTOMER_JOBS: `${urlPrefix}/customers/{0}/jobs`,
   ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`,
@@ -14,7 +13,6 @@ const endpoints = {
   CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
   DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
   NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
-  VEHICLES: `${urlPrefix}/vehicles`,
   USER_SETTINGS: `${urlPrefix}/users/{0}/settings`,
   CUSTOMER_SETTINGS_SHOW: `${urlPrefix}/settings/{0}`,
   API_V3: {
@@ -47,6 +45,8 @@ const endpoints = {
     ORDER_ERRORS: `${laravelUrlPrefix}/${version}/customer/order/validation-error`,
     DEPOTS: `${laravelUrlPrefix}/${version}/customer/depot`,
     TRANSACTION_GROUP_SETTING: `${laravelUrlPrefix}/${version}/transaction-groups/{1}`,
+    IDENTITIES: `${laravelUrlPrefix}/${version}/identities`,
+    VEHICLE_TYPE: `${laravelUrlPrefix}/${version}/vehicle-type`,
   },
 };
 
