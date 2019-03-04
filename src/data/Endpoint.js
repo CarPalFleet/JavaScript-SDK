@@ -6,7 +6,6 @@ const version = 'v3';
 const endpoints = {
   LANGUAGES: `${urlPrefix}/languages`,
   OAUTH: `${urlPrefix}/authentication`,
-  TRANSACTION_GROUP_SETTING: `${urlPrefix}/transaction-groups/{1}`,
   CUSTOMER_JOBS: `${urlPrefix}/customers/{0}/jobs`,
   ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`,
   GENERAL_SEARCH: `${urlPrefix}/search`,
@@ -45,6 +44,7 @@ const endpoints = {
     COUNTRIES: `${laravelUrlPrefix}/${version}/countries/{0}`,
     ORDER_ERRORS: `${laravelUrlPrefix}/${version}/customer/order/validation-error`,
     DEPOTS: `${laravelUrlPrefix}/${version}/customer/depot`,
+    TRANSACTION_GROUP_SETTING: `${laravelUrlPrefix}/${version}/transaction-groups/{1}`,
     IDENTITIES: `${laravelUrlPrefix}/${version}/identities`,
     VEHICLE_TYPE: `${laravelUrlPrefix}/${version}/vehicle-type`,
   },
