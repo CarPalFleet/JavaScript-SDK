@@ -15,7 +15,6 @@ const endpoints = {
   CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
   DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
   NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
-  VEHICLES: `${urlPrefix}/vehicles`,
   USER_SETTINGS: `${urlPrefix}/users/{0}/settings`,
   CUSTOMER_SETTINGS_SHOW: `${urlPrefix}/settings/{0}`,
   API_V3: {
@@ -47,6 +46,7 @@ const endpoints = {
     COUNTRIES: `${laravelUrlPrefix}/${version}/countries/{0}`,
     ORDER_ERRORS: `${laravelUrlPrefix}/${version}/customer/order/validation-error`,
     DEPOTS: `${laravelUrlPrefix}/${version}/customer/depot`,
+    VEHICLE_TYPE: `${laravelUrlPrefix}/${version}/vehicle-type`,
   },
 };
 

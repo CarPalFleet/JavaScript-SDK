@@ -87,6 +87,7 @@ const CONFIG = {
     deliveryDate: '28-02-2050',
     deliveryTimeWindow: '17:00-17:30',
     driverEmailId: null,
+    capacity: 12,
   },
   orderDataList: [
     {

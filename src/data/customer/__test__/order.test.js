@@ -178,14 +178,8 @@ describe('Order tests', async () => {
           {
             key: 'orderData',
             messages: {
-              deliveryTimeWindow: [
-                'The delivery time window end time should be after the start time.',
-              ],
               pickupDate: [
                 'The pickup date should be after or equal current date.',
-              ],
-              pickupTimeWindow: [
-                'The pickup time window end time should be after the current time.',
               ],
             },
           },
