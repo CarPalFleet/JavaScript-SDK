@@ -17,7 +17,6 @@ const endpoints = {
   NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
   VEHICLES: `${urlPrefix}/vehicles`,
   USER_SETTINGS: `${urlPrefix}/users/{0}/settings`,
-  CUSTOMER_SETTINGS_SHOW: `${urlPrefix}/settings/{0}`,
   API_V3: {
     NEW_CUSTOMER: `${laravelUrlPrefix}/${version}/customer`,
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
@@ -47,6 +46,7 @@ const endpoints = {
     COUNTRIES: `${laravelUrlPrefix}/${version}/countries/{0}`,
     ORDER_ERRORS: `${laravelUrlPrefix}/${version}/customer/order/validation-error`,
     DEPOTS: `${laravelUrlPrefix}/${version}/customer/depot`,
+    CUSTOMER_SETTINGS_SHOW: `${laravelUrlPrefix}/${version}/customer/setting/first`,
   },
 };
 
