@@ -13,7 +13,7 @@ import { apiResponseErrorHandler } from '../utility/Util';
  */
 export const getIdentitiesAsync = async () => {
   try {
-    const response = await axios.get(endpoints.IDENTITIES);
+    const response = await axios.get(endpoints.API_V3.IDENTITIES);
     return camelize(response.data.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
