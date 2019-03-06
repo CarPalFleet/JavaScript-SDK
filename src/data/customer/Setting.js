@@ -17,7 +17,7 @@ export const showCustomerSettingsAsync = async (token) => {
     const CustomerSettingsShow = await axios({
       method: 'GET',
       url: endpoints.API_V3.CUSTOMER_SETTINGS_SHOW,
-      headers: { Authorization: token },
+      headers: { Authorization: `Bearer ${token}` },
     });
     return {
       ...CustomerSettingsShow,
