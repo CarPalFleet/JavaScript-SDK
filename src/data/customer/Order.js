@@ -330,11 +330,16 @@ export const getOrdersAsync = async (filterObject, token) => {
       limit = 20
       offset = 0
     */
+
+    const url = filterObject.search
+      ? endpoints.API_V3.ORDER_SEARCH
+      : endpoints.API_V3.ORDER;
+
     let filters = camelToSnake(filterObject);
     let paramString = convertObjectIntoURLString(filters);
     let response = await axios({
       method: 'GET',
-      url: `${endpoints.API_V3.ORDER}${paramString.replace('&', '?')}`,
+      url: `${url}${paramString.replace('&', '?')}`,
       headers: { Authorization: `Bearer ${token}` },
     });
 
