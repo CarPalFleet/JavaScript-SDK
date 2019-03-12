@@ -331,7 +331,7 @@ export const getOrdersAsync = async (filterObject, token) => {
       offset = 0
     */
 
-    const url = filterObject.search
+    const url = filterObject.keyword
       ? endpoints.API_V3.ORDER_SEARCH
       : endpoints.API_V3.ORDER;
 
