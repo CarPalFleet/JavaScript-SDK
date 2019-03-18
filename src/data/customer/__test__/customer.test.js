@@ -10,7 +10,7 @@ describe('Creating new customer account', () => {
       password: 'darthvader',
       firstName: 'Chen',
       lastName: 'Cheng',
-      phone: `+659${Math.floor(Math.random() * 10000000)}`,
+      phone: `+6592${Math.floor(Math.random() * 1000000)}`,
       identityId: 1,
       birthday: '01-01-1970',
       coName: 'NASA',
