@@ -5,16 +5,11 @@ describe('Test for getCustomerPublicProfileSettingsAsync function', () => {
   beforeEach(() => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
   });
-  // TODO put correct domain name, now it"s throw an error 404
-  //   it("getCustomerPublicProfileSettingsAsync success response", async () => {
-  //     const response = await getCustomerPublicProfileSettingsAsync(CONFIG.domain);
-  //     expect(response).toMatchSnapshot();
-  //     expect(response.length).toBeTruthy();
-  //   });
 
   it('should test getCustomerPublicProfileSettingsAsync error', async () => {
     try {
-      await getCustomerPublicProfileSettingsAsync();
+      const response = await getCustomerPublicProfileSettingsAsync();
+      expect(response.length).toBeTruthy();
     } catch (error) {
       const mockError = apiResponseErrorHandler(error);
       expect(mockError).toEqual(Promise.reject(error));

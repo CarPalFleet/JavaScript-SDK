@@ -5,7 +5,7 @@ const CONFIG = {
   clientSecret: '8iQwaS8mJLvrW5KrGUrjDZ90bTrwk7frv4ygk7qt',
   groupingBatchId: '28088',
   orderWithErrorIds: ['56c719b7-93aa-420a-b9b1-140c4e03397b'],
-  domain: 'ezbuy.sg',
+  domain: 'wtmec.carpal.me',
   emptyString: '',
   invalidDomain: 'aa.com',
   identityId: 1,
