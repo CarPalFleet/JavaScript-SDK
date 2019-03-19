@@ -201,7 +201,7 @@ describe('Order tests', async () => {
       );
       expect('data' in response).toBeTruthy();
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 401);
+      expect(error).toHaveProperty('statusCode', 400);
     }
   });
 
