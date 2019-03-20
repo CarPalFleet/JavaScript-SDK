@@ -15,4 +15,14 @@ describe('Test for identities', () => {
       expect(mockError).toEqual(Promise.reject(error));
     }
   });
+
+  it('should test single identity by its id response', async () => {
+    try {
+      const result = await getIdentitiesAsync(30);
+      expect(result.length).toBeTruthy();
+    } catch (error) {
+      const mockError = apiResponseErrorHandler(error);
+      expect(mockError).toEqual(Promise.reject(error));
+    }
+  });
 });
