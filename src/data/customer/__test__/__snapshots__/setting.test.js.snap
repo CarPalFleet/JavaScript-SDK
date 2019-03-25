@@ -19,7 +19,7 @@ Object {
     },
     "createdAt": "2018-03-13 08:25:28",
     "customerId": 14821,
-    "dateFormat": "",
+    "dateFormat": "d-m-Y",
     "id": 88,
     "identityId": 1,
     "logisticsModelId": 1,
