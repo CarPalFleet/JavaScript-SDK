@@ -1,4 +1,4 @@
-import { getIdentitiesAsync } from '../Identity';
+import { getIdentitiesAsync, getIdentityAsync } from '../Identity';
 import { apiResponseErrorHandler } from '../../utility/Util';
 
 describe('Test for identities', () => {
@@ -18,7 +18,7 @@ describe('Test for identities', () => {
 
   it('should test single identity by its id response', async () => {
     try {
-      const result = await getIdentitiesAsync(30);
+      const result = await getIdentityAsync(30);
       expect(result.length).toBeTruthy();
     } catch (error) {
       const mockError = apiResponseErrorHandler(error);
