@@ -1,5 +1,5 @@
 import { getTokenAsync } from '../../account/Auth';
-import { showCustomerSettingsAsync } from '../Setting';
+import { putCustomerSettings, showCustomerSettingsAsync } from '../Setting';
 import CONFIG from './Config';
 
 describe('Tests showCustomerSettingsAsync function', async () => {
@@ -52,6 +52,32 @@ describe('Tests showCustomerSettingsAsync function', async () => {
       await showCustomerSettingsAsync(token.accessToken);
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 401);
+    }
+  });
+});
+
+describe('test updating customer settings', async () => {
+  let token;
+  beforeAll(async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    token = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+  });
+
+  it('should return 200', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    try {
+      const settings = await showCustomerSettingsAsync(token.accessToken);
+      const response = await putCustomerSettings(token.accessToken, settings.id, {
+        logisticsModelId: 3,
+      });
+      expect(response).toHaveProperty('status', 200);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode');
     }
   });
 });
