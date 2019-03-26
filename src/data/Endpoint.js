@@ -45,6 +45,7 @@ const endpoints = {
     ORDER_ERRORS: `${laravelUrlPrefix}/${version}/customer/order/validation-error`,
     DEPOTS: `${laravelUrlPrefix}/${version}/customer/depot`,
     CUSTOMER_SETTINGS_SHOW: `${laravelUrlPrefix}/${version}/customer/setting/first`,
+    CUSTOMER_SETTINGS: `${laravelUrlPrefix}/${version}/customer/setting/{0}`,
     TRANSACTION_GROUP_SETTING: `${laravelUrlPrefix}/${version}/transaction-groups/{1}`,
     IDENTITIES: `${laravelUrlPrefix}/${version}/identities`,
     VEHICLE_TYPE: `${laravelUrlPrefix}/${version}/vehicle-type`,
