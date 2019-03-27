@@ -48,6 +48,7 @@ const endpoints = {
     CUSTOMER_SETTINGS: `${laravelUrlPrefix}/${version}/customer/setting/{0}`,
     TRANSACTION_GROUP_SETTING: `${laravelUrlPrefix}/${version}/transaction-groups/{1}`,
     IDENTITIES: `${laravelUrlPrefix}/${version}/identities`,
+    IDENTITY: `${laravelUrlPrefix}/${version}/identities/{0}`,
     VEHICLE_TYPE: `${laravelUrlPrefix}/${version}/vehicle-type`,
   },
 };
