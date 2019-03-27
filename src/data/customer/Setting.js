@@ -29,6 +29,14 @@ export const showCustomerSettingsAsync = async (token) => {
   }
 };
 
+
+/** Updates the customer's settings.
+ * @param {string} token
+ * @param {int} id
+ * @param {Object} data
+ * @return {Promise} settings object
+ */
+
 export const putCustomerSettings = async (token, id, data) => {
   try {
     const response = await axios({
