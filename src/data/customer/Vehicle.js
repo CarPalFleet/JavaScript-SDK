@@ -13,7 +13,7 @@ export const getVehicleTypesAsync = async (token) => {
   try {
     const vehicles = await axios({
       method: 'GET',
-      url: `${endpoints.VEHICLES}/types`,
+      url: endpoints.API_V3.VEHICLE_TYPE,
       headers: { Authorization: `bearer ${token}` },
     });
 
