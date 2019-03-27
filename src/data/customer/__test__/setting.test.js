@@ -70,14 +70,12 @@ describe('test updating customer settings', async () => {
 
   it('should return 200', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
-    try {
-      const settings = await showCustomerSettingsAsync(token.accessToken);
-      const response = await putCustomerSettings(token.accessToken, settings.id, {
-        logisticsModelId: 3,
-      });
-      expect(response).toHaveProperty('status', 200);
-    } catch (error) {
-      expect(error).toHaveProperty('statusCode');
-    }
+    const settings = await showCustomerSettingsAsync(token.accessToken);
+    const response = await putCustomerSettings(token.accessToken, settings.data.data.id, {
+      logisticsModelId: 2,
+    });
+
+    expect(response).toHaveProperty('status', 200);
+    expect(response.data.data).toHaveProperty('logisticsModelId', 2);
   });
 });
