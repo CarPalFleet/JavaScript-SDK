@@ -4,8 +4,6 @@
 
 import isObject from 'lodash.isobject';
 import camelize from 'camelize';
-import moment from 'moment-timezone';
-import get from 'lodash.get';
 
 /**
  * Convert Object into string as URL params
@@ -229,32 +227,20 @@ export const mergeArraysWithObjects = (a = [], b = [], prop, mergeProp) => {
 };
 
 /**
- * It takes UTC unix timestamp in seconds and convert it to the timezone where user is active depending on his identity.
- * timestamp, userIdentityId, identities
- * @param {Number} timestamp datetime unix timestamp in seconds
- * @param {Number} userIdentityId identity id of the user
- * @param {Array} identities collection of identities
+ * It takes moment() instance and convert it to the timezone where user is active depending on his identity. Then returns also moment() instance.
+ * @param {Object} datetime datetime moment instance
+ * @param {String} timezone timezone string name
  * @return {Object} moment instance which will have all moment methods
  * Example of usage:
  * getUserDateTimefromUTC(
- *  new Date.getTime() / 1000,
- *  1,
- *  [...identities...]
+ *  moment(),
+ *  'Singapore',
  * ).format('YYYY-MM-DD HH:mm')
  */
 
-export const getUserDateTimefromUTC = (
-  timestamp,
-  userIdentityId,
-  identities
-) => {
-  if (timestamp && userIdentityId && identities && identities.length) {
-    const timezone = get(
-      identities.find((i) => i.id === userIdentityId),
-      'identityDetail.timezone',
-      ''
-    );
-    return moment(timestamp * 1000).tz(timezone);
+export const getUserDateTimeInTimezone = (datetime, timezone) => {
+  if (datetime && timezone) {
+    return datetime.tz(timezone);
   }
   return null;
 };
