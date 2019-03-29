@@ -2,7 +2,7 @@ import { getTokenAsync } from '../../account/Auth';
 import { putCustomerSettings, showCustomerSettingsAsync } from '../Setting';
 import CONFIG from './Config';
 
-describe('Tests showCustomerSettingsAsync function', async () => {
+describe('Test showCustomerSettingsAsync function', async () => {
   let token;
 
   beforeAll(async () => {
