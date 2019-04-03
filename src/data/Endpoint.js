@@ -9,7 +9,6 @@ const endpoints = {
   CUSTOMER_JOBS: `${urlPrefix}/customers/{0}/jobs`,
   ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`,
   GENERAL_SEARCH: `${urlPrefix}/search`,
-  DRIVER_LIST_ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`, // url will be updated after backend is finished
   CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
   DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
   NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
