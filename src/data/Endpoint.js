@@ -1,5 +1,5 @@
 const urlPrefix =
-  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/pre-test';
+  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
 const laravelUrlPrefix = 'https://api-staging.carpalfleet.com';
 const version = 'v1';
 
