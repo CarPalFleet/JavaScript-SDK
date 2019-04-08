@@ -1,6 +1,6 @@
 const urlPrefix =
   'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
-const laravelUrlPrefix = 'http://api-staging.carpalfleet.com';
+const laravelUrlPrefix = 'https://api-staging.carpalfleet.com';
 const version = 'v1';
 
 const endpoints = {
