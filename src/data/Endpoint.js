@@ -1,7 +1,7 @@
 const urlPrefix =
   'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/alpha';
-const laravelUrlPrefix = 'https://alpha-api.carpal.me';
-const version = 'v3';
+const laravelUrlPrefix = 'https://api-alpha.carpalfleet.com';
+const version = 'v1';
 
 const endpoints = {
   LANGUAGES: `${urlPrefix}/languages`,
