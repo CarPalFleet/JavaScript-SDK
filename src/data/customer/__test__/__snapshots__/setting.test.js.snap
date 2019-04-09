@@ -28,7 +28,6 @@ Object {
     "orderCreationSettingId": null,
     "orderSmsSettingsId": null,
     "orderUpdateTransactionSubcustomersSettingId": null,
-    "productTypeId": 3,
     "settingRouteSettings": Array [
       Object {
         "createdAt": "2019-03-27 03:18:02",

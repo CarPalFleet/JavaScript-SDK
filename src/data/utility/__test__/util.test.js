@@ -5,6 +5,7 @@ import {
   customError,
   mergeArraysWithObjects,
   getUserDateTimeInTimezone,
+  getUserDateTimefromUTC,
 } from '../Util';
 
 describe('Convert object key/value into url string', () => {
@@ -179,7 +180,7 @@ describe('Union two arrays into one if ids are equal', () => {
   });
 });
 
-describe('Return proper UTC datetime based on timezone and timestamp', () => {
+describe('Return proper UTC datetime based on moment in time and timezone', () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
   it('convert timestamp', () => {
@@ -187,6 +188,36 @@ describe('Return proper UTC datetime based on timezone and timestamp', () => {
     const singaporeDateTime = getUserDateTimeInTimezone(datetime, 'Singapore');
     expect(singaporeDateTime.format('YYYY-MM-DD HH:mm')).toEqual(
       datetime.tz('Singapore').format('YYYY-MM-DD HH:mm')
+    );
+  });
+});
+
+// getUserDateTimefromUTC is DEPRECATED
+describe('Return proper UTC datetime based on timezone and timestamp', () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+  it('convert timestamp', () => {
+    const timestamp = moment('2018-11-11 20:30')
+      .tz('Europe/Warsaw')
+      .unix();
+    const mockedUserIdentityId = 1;
+    const mockedIdentities = [
+      {
+        id: 1,
+        identityDetail: {
+          timezone: 'Singapore',
+        },
+      },
+    ];
+    const utcDateTime = getUserDateTimefromUTC(
+      timestamp,
+      mockedUserIdentityId,
+      mockedIdentities
+    );
+    expect(utcDateTime.format('YYYY-MM-DD HH:mm')).toEqual(
+      moment(timestamp * 1000)
+        .tz('Singapore')
+        .format('YYYY-MM-DD HH:mm')
     );
   });
 });
