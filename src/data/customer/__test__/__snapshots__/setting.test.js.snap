@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Tests showCustomerSettingsAsync function should get customer settings 1`] = `
+exports[`Test showCustomerSettingsAsync function should get customer settings 1`] = `
 Object {
   "data": Object {
     "capacityUnitSetting": Object {

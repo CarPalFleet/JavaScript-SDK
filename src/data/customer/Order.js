@@ -335,6 +335,10 @@ export const getOrdersAsync = async (filterObject, token) => {
       ? endpoints.API_V3.ORDER_SEARCH
       : endpoints.API_V3.ORDER;
 
+    if (filterObject.keyword) {
+      filterObject.validationStatusId = filterObject.statusIds;
+    }
+
     let filters = camelToSnake(filterObject);
     let paramString = convertObjectIntoURLString(filters);
     let response = await axios({
