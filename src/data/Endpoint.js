@@ -5,9 +5,7 @@ const version = 'v1';
 
 const endpoints = {
   LANGUAGES: `${urlPrefix}/languages`,
-  IDENTITIES: `${urlPrefix}/identities`,
   OAUTH: `${urlPrefix}/authentication`,
-  TRANSACTION_GROUP_SETTING: `${urlPrefix}/transaction-groups/{1}`,
   CUSTOMER_JOBS: `${urlPrefix}/customers/{0}/jobs`,
   ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`,
   GENERAL_SEARCH: `${urlPrefix}/search`,
@@ -15,13 +13,12 @@ const endpoints = {
   CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
   DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
   NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
-  VEHICLES: `${urlPrefix}/vehicles`,
   USER_SETTINGS: `${urlPrefix}/users/{0}/settings`,
-  CUSTOMER_SETTINGS_SHOW: `${urlPrefix}/settings/{0}`,
   API_V3: {
     NEW_CUSTOMER: `${laravelUrlPrefix}/${version}/customer`,
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
     ORDER: `${laravelUrlPrefix}/${version}/customer/order`,
+    ORDER_SEARCH: `${laravelUrlPrefix}/${version}/customer/order/search`,
     ORDER_COUNT: `${laravelUrlPrefix}/${version}/customer/order/total`,
     GROUPING_BATCH_TEMPLATE: `${laravelUrlPrefix}/${version}/customer/grouping-batch/template`,
     GROUPING_BATCH_PROGRESSION: `${laravelUrlPrefix}/${version}/customer/grouping-batch/show-recent-pending`,
@@ -47,6 +44,10 @@ const endpoints = {
     COUNTRIES: `${laravelUrlPrefix}/${version}/countries/{0}`,
     ORDER_ERRORS: `${laravelUrlPrefix}/${version}/customer/order/validation-error`,
     DEPOTS: `${laravelUrlPrefix}/${version}/customer/depot`,
+    CUSTOMER_SETTINGS_SHOW: `${laravelUrlPrefix}/${version}/customer/setting/first`,
+    TRANSACTION_GROUP_SETTING: `${laravelUrlPrefix}/${version}/transaction-groups/{1}`,
+    IDENTITIES: `${laravelUrlPrefix}/${version}/identities`,
+    VEHICLE_TYPE: `${laravelUrlPrefix}/${version}/vehicle-type`,
   },
 };
 

@@ -178,14 +178,8 @@ describe('Order tests', async () => {
           {
             key: 'orderData',
             messages: {
-              deliveryTimeWindow: [
-                'The delivery time window end time should be after the start time.',
-              ],
               pickupDate: [
                 'The pickup date should be after or equal current date.',
-              ],
-              pickupTimeWindow: [
-                'The pickup time window end time should be after the current time.',
               ],
             },
           },
@@ -207,7 +201,7 @@ describe('Order tests', async () => {
       );
       expect('data' in response).toBeTruthy();
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 401);
+      expect(error).toHaveProperty('statusCode', 400);
     }
   });
 
