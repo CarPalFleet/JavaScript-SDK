@@ -3,8 +3,6 @@ const urlPrefix =
 const laravelUrlPrefix = 'https://api-alpha.carpalfleet.com';
 const version = 'v1';
 
-
-
 const endpoints = {
   LANGUAGES: `${urlPrefix}/languages`,
   OAUTH: `${urlPrefix}/authentication`,
