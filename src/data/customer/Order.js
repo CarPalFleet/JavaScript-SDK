@@ -355,8 +355,7 @@ export const getOrdersAsync = async (filterObject, token) => {
 
 /**
  * Get upload order"s error contents from Dynamodb
- * @param {object} pickupDate # {pickupDate (mandatory)}
- * pickupDate (optional)(string) = "2018-02-28"
+ * @param {object} filterObject # {pickupDateStart (mandatory), pickupDateEnd (mandatory)}
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
