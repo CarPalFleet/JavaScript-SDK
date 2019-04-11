@@ -219,7 +219,7 @@ export const getOrdersGroupByPickUpAddressAsync = async (
     */
     if (statusId === 4) {
       errorContents = await getErrorOrderContentsAsync(
-        filterObject.pickupDate,
+        filterObject,
         token
       );
     }
@@ -360,11 +360,11 @@ export const getOrdersAsync = async (filterObject, token) => {
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const getErrorOrderContentsAsync = async (pickupDate, token) => {
+export const getErrorOrderContentsAsync = async ({ pickupDateStart, pickupDateEnd }, token) => {
   try {
     let response = await axios({
       method: 'GET',
-      url: `${endpoints.API_V3.ORDER_ERRORS}/?pickup_date=${pickupDate}`,
+      url: `${endpoints.API_V3.ORDER_ERRORS}/?pickup_date_start=${pickupDateStart}&pickup_date_end=${pickupDateEnd}`,
       headers: { Authorization: `Bearer ${token}` },
     });
     return camelize(response.data);
