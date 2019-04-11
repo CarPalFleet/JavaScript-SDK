@@ -135,7 +135,10 @@ describe('Order tests', async () => {
 
     try {
       const response = await getErrorOrderContentsAsync(
-        CONFIG.pickupDate,
+        {
+          pickupDateStart: CONFIG.pickupDate,
+          pickupDateEnd: CONFIG.pickupDate,
+        },
         token.accessToken
       );
       expect(response.data instanceof Array).toBeTruthy();
