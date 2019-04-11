@@ -1,19 +1,18 @@
 const urlPrefix =
   'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
-const laravelUrlPrefix = 'https://api-test.carpal.me';
-const version = 'v3';
+const laravelUrlPrefix = 'https://api-staging.carpalfleet.com';
+const version = 'v1';
 
 const endpoints = {
-  LANGUAGES: `${urlPrefix}/languages`,
+  //LANGUAGES: `${urlPrefix}/languages`,
   OAUTH: `${urlPrefix}/authentication`,
   CUSTOMER_JOBS: `${urlPrefix}/customers/{0}/jobs`,
   ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`,
   GENERAL_SEARCH: `${urlPrefix}/search`,
-  DRIVER_LIST_ELASTIC_SEARCH: `${urlPrefix}/dashboard/search`, // url will be updated after backend is finished
   CUSTOMER_DRIVERS: `${urlPrefix}/customers/{0}/drivers`,
   DRIVER_LIVE_ROUTES: `${urlPrefix}/drivers/{0}/live-routes`,
   NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
-  USER_SETTINGS: `${urlPrefix}/users/{0}/settings`,
+  //USER_SETTINGS: `${urlPrefix}/users/{0}/settings`,
   API_V3: {
     NEW_CUSTOMER: `${laravelUrlPrefix}/${version}/customer`,
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,

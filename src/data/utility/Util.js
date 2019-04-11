@@ -229,6 +229,25 @@ export const mergeArraysWithObjects = (a = [], b = [], prop, mergeProp) => {
 };
 
 /**
+ * It takes moment() instance and convert it to the timezone where user is active depending on his identity. Then returns also moment() instance.
+ * @param {Object} datetime datetime moment instance
+ * @param {String} timezone timezone string name
+ * @return {Object} moment instance which will have all moment methods
+ * Example of usage:
+ * getUserDateTimefromUTC(
+ *  moment(),
+ *  'Singapore',
+ * ).format('YYYY-MM-DD HH:mm')
+ */
+
+export const getUserDateTimeInTimezone = (datetime, timezone) => {
+  if (datetime && timezone) {
+    return datetime.tz(timezone);
+  }
+  return null;
+};
+
+/** DEPRECATED in favor of getUserDateTimeInTimezone
  * It takes UTC unix timestamp in seconds and convert it to the timezone where user is active depending on his identity.
  * timestamp, userIdentityId, identities
  * @param {Number} timestamp datetime unix timestamp in seconds
