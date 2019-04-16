@@ -10,6 +10,7 @@ import { apiResponseErrorHandler } from '../utility/Util';
 /**
  * Retrieve all Languages
  * @return {object} Promise resolve/reject
+ * @deprecated since version 0.3.71
  */
 export const getLanguagesAsync = async () => {
   try {
