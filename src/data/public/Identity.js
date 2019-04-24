@@ -19,3 +19,19 @@ export const getIdentitiesAsync = async () => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * Retrieve Identity by id
+ * @param {number} identityId
+ * @return {object} Promise resolve/reject
+ */
+export const getIdentityAsync = async (identityId) => {
+  try {
+    const response = await axios.get(
+      endpoints.API_V3.IDENTITY.replace('{0}', identityId)
+    );
+    return camelize(response.data.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};

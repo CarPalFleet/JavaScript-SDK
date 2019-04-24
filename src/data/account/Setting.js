@@ -16,6 +16,7 @@ import { apiResponseErrorHandler } from '../utility/Util';
  * @param {string} type # routing, my-order, driver-list
  * @param {string} token
  * @return {object} promise (resolve/reject)
+ * @deprecated since version 0.3.71
  */
 export const getUserSettingsAsync = async (userId, type, token) => {
   try {
