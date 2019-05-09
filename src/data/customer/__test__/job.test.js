@@ -285,6 +285,7 @@ describe('job create and delete test', async () => {
       const expected = {
         statusCode: 400,
         statusText: 'Bad Request',
+        message: 'Bad Request',
         errorMessage: [
           {
             key: 'routeId',
@@ -306,6 +307,7 @@ describe('job create and delete test', async () => {
       const expected = {
         statusCode: 400,
         statusText: 'Bad Request',
+        message: 'Bad Request',
         errorMessage: [
           { key: 'jobIds', messages: ['One or more job(s) not found.'] },
         ],
