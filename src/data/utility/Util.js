@@ -26,14 +26,13 @@ export const convertObjectIntoURLString = (filters) => {
  * @return {object} Promise reject with statusCode and statusText
  */
 export const apiResponseErrorHandler = (e) => {
-  let rejectObj = {
-    statusCode: e.response.status,
-    statusText: e.response.statusText,
-  };
+  let rejectObj = {};
 
   let messages = null;
   const { response } = e;
   if (response) {
+    rejectObj.statusCode = e.response.status;
+    rejectObj.statusText = e.response.statusText;
     if (response.data) {
       const { message } = response.data;
       rejectObj.message = message;
