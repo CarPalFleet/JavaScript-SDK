@@ -12,51 +12,53 @@ import CONFIG from './Config';
 import { storeRouteAsync } from '../Route';
 
 const testMethodWithJobId = async (methodName) => {
+  const token = await getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+
+  const routePayload = {
+    driverId: 11997,
+    pickupDate: CONFIG.jobTest.date,
+    route_settings: '{}',
+  };
+
+  const route1Res = await storeRouteAsync(
+    {
+      routes: [
+        {
+          ...routePayload,
+          routeLocations: [
+            {
+              sequence: 1,
+              orderId: CONFIG.jobTest.orderIds[0],
+              locationTypeId: 3,
+            },
+            {
+              sequence: 2,
+              orderId: CONFIG.jobTest.orderIds[0],
+              locationTypeId: 2,
+            },
+          ],
+        },
+      ],
+      replaceAllExisting: false,
+    },
+    token.accessToken
+  );
+
+  const route1 = route1Res.data[0];
+  const jobs = await createJobsAsync(`${route1.id}`, token.accessToken);
+
   try {
-    const token = await getTokenAsync(
-      CONFIG.email,
-      CONFIG.password,
-      CONFIG.clientId,
-      CONFIG.clientSecret
-    );
-
-    const routePayload = {
-      driverId: 11997,
-      pickupDate: CONFIG.jobTest.date,
-      route_settings: '{}',
-    };
-
-    const route1Res = await storeRouteAsync(
-      {
-        routes: [
-          {
-            ...routePayload,
-            routeLocations: [
-              {
-                sequence: 1,
-                orderId: CONFIG.jobTest.orderIds[0],
-                locationTypeId: 3,
-              },
-              {
-                sequence: 2,
-                orderId: CONFIG.jobTest.orderIds[0],
-                locationTypeId: 2,
-              },
-            ],
-          },
-        ],
-        replaceAllExisting: false,
-      },
-      token.accessToken
-    );
-    const route1 = route1Res.data[0];
-
-    const jobs = await createJobsAsync(`${route1.id}`, token.accessToken);
-
     const response = await methodName(jobs[0].job.id, token.accessToken);
     expect('data' in response).toBeTruthy();
-  } catch (error) {
-    expect(error).toHaveProperty('statusCode', 404);
+  } catch (e) {
+    expect(e).toHaveProperty('statusCode', 404);
+  } finally {
+    await removeJobsAsync(jobs[0].job.id, token.accessToken);
   }
 };
 
