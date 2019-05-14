@@ -28,6 +28,7 @@ Object {
     "orderCreationSettingId": null,
     "orderSmsSettingsId": null,
     "orderUpdateTransactionSubcustomersSettingId": null,
+    "routePlanningModeId": 1,
     "settingRouteSettings": Array [
       Object {
         "createdAt": "2019-03-27 03:18:02",
@@ -75,7 +76,7 @@ Object {
       },
     ],
     "transactionGroupId": 185,
-    "updatedAt": "2019-03-27 03:18:02",
+    "updatedAt": "2019-04-24 06:40:29",
   },
 }
 `;

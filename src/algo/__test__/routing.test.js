@@ -25,6 +25,7 @@ describe('Call route optimization endpoints', () => {
       const expected = {
         statusCode: 400,
         statusText: 'Bad Request',
+        message: 'Bad Request',
         errorMessage: [
           {
             key: 'routeSettingId',

@@ -189,6 +189,7 @@ describe('Order tests', async () => {
         ],
         statusCode: 400,
         statusText: 'Bad Request',
+        message: 'Bad Request',
       };
       expect(error).toEqual(expected);
     }
@@ -224,6 +225,7 @@ describe('Order tests', async () => {
         errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
         statusCode: 404,
         statusText: 'Not Found',
+        message: 'Not Found',
       };
       expect(error).toEqual(expected);
     }
@@ -253,6 +255,7 @@ describe('Order tests', async () => {
       const expected = {
         statusCode: 404,
         statusText: 'Not Found',
+        message: 'Not Found',
         errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
@@ -272,6 +275,7 @@ describe('Order tests', async () => {
       const expected = {
         statusCode: 404,
         statusText: 'Not Found',
+        message: 'Not Found',
         errorMessage: [{ key: 'orderIds', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);

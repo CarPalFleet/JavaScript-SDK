@@ -31,7 +31,7 @@ const CONFIG = {
   fuzzy: false,
   fuzziness: 1,
   jobTest: {
-    orderIds: [31974, 31975],
+    orderIds: [107034, 107035],
     date: '2030-01-01',
   },
   createRoutePayload: [
