@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Test for retrieving all notifications should return all counts for notifications 1`] = `
+Object {
+  "read": 0,
+  "unread": 0,
+}
+`;
+
 exports[`Test for retrieving all notifications should return all notifications 1`] = `
 Array [
   Object {
@@ -18,3 +25,5 @@ Array [
   },
 ]
 `;
+
+exports[`Test for retrieving all notifications should return all users notifications 1`] = `Array []`;

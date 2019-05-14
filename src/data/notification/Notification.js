@@ -76,7 +76,7 @@ export const getUserNotificationsAsync = async (filters, userId, token) => {
 
     let response = await axios({
       method: 'GET',
-      url: `${endpoints.API_V3.NOTIFICATIONS}?${paramString.replace('&', '?')}`,
+      url: `${endpoints.API_V3.NOTIFICATIONS}${paramString.replace('&', '?')}`,
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -108,9 +108,7 @@ export const putUserNotification = async (reqeustData, token) => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      data: {
-        reqeustData,
-      },
+      data: reqeustData,
     });
     return camelize(response.data);
   } catch (e) {
