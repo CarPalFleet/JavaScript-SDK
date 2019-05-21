@@ -49,6 +49,8 @@ const endpoints = {
     IDENTITIES: `${laravelUrlPrefix}/${version}/identities`,
     IDENTITY: `${laravelUrlPrefix}/${version}/identities/{0}`,
     VEHICLE_TYPE: `${laravelUrlPrefix}/${version}/vehicle-type`,
+    NOTIFICATIONS: `${laravelUrlPrefix}/${version}/user/notification`,
+    NOTIFICATIONS_COUNT: `${laravelUrlPrefix}/${version}/user/notification/count`,
   },
 };
 
