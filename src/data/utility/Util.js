@@ -27,32 +27,37 @@ export const convertObjectIntoURLString = (filters) => {
  */
 export const apiResponseErrorHandler = (e) => {
   let rejectObj = {};
+
   let messages = null;
-  if (e.response) {
-    if (e.response.data && e.response.data.errors) {
-      let errors = [];
-      let errorObj = e.response.data.errors;
-      if (errorObj.location_data) {
-        errorObj = errorObj.location_data;
-      }
-      const camelizedObj = camelize(errorObj);
-      const keys = Object.keys(camelizedObj);
-      keys.forEach((key) => {
-        errors.push({
-          key,
-          messages: camelizedObj[key],
+  const { response } = e;
+  if (response) {
+    rejectObj.statusCode = e.response.status;
+    rejectObj.statusText = e.response.statusText;
+    if (response.data) {
+      const { message } = response.data;
+      rejectObj.message = message;
+      if (response.data.errors) {
+        let errors = [];
+        let { errors: errorObj } = e.response.data;
+        if (errorObj.location_data) {
+          errorObj = errorObj.location_data;
+        }
+        const camelizedObj = camelize(errorObj);
+        const keys = Object.keys(camelizedObj);
+        keys.forEach((key) => {
+          errors.push({
+            key,
+            messages: camelizedObj[key],
+          });
         });
-      });
-      if (errors.length) {
-        messages = errors;
+        if (errors.length) {
+          messages = errors;
+        }
       }
     }
-    rejectObj = {
-      statusCode: e.response.status,
-      statusText: e.response.statusText,
-      errorMessage:
-        messages || getFormattedErrorArray(e.response.data['Message']),
-    };
+
+    rejectObj.errorMessage =
+      messages || getFormattedErrorArray(e.response.data['Message']);
   } else if (e.statusCode) {
     rejectObj = e;
   } else {
