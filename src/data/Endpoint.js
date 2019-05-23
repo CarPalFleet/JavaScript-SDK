@@ -51,6 +51,7 @@ const endpoints = {
     VEHICLE_TYPE: `${laravelUrlPrefix}/${version}/vehicle-type`,
     NOTIFICATIONS: `${laravelUrlPrefix}/${version}/user/notification`,
     NOTIFICATIONS_COUNT: `${laravelUrlPrefix}/${version}/user/notification/count`,
+    DISPATCH_3PL: `${laravelUrlPrefix}/${version}/customer/order/dispatch-3pl`,
   },
 };
 
