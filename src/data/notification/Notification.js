@@ -95,11 +95,11 @@ export const getUserNotificationsAsync = async (filters, userId, token) => {
         "is_read": 1
     }
   ]
- * @param {object} reqeustData
+ * @param {object} requestData
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const putUserNotification = async (reqeustData, token) => {
+export const putUserNotification = async (requestData, token) => {
   try {
     const response = await axios({
       method: 'PUT',
@@ -108,7 +108,7 @@ export const putUserNotification = async (reqeustData, token) => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      data: reqeustData,
+      data: requestData,
     });
     return camelize(response.data);
   } catch (e) {

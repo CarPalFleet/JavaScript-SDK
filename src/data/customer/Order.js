@@ -690,11 +690,11 @@ export const mergeLocationDataWithErrors = (errorContents, order) => {
       1
     ]
  }
- * @param {object} reqeustData
+ * @param {object} requestData
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const updateOrderDispatchTo3PL = async (reqeustData, token) => {
+export const updateOrderDispatchTo3PL = async (requestData, token) => {
   try {
     const response = await axios({
       method: 'POST',
@@ -703,7 +703,7 @@ export const updateOrderDispatchTo3PL = async (reqeustData, token) => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      data: reqeustData,
+      data: requestData,
     });
     return camelize(response.data);
   } catch (e) {
