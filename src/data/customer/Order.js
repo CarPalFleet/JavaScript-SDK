@@ -208,20 +208,17 @@ export const getOrdersGroupByPickUpAddressAsync = async (
 ) => {
   try {
     /* If there"s no statusId is passed.
-    * Use 2 as default. It means validated orders
-    */
+     * Use 2 as default. It means validated orders
+     */
     let statusId = filterObject.statusIds || 2;
     let orders = await getOrdersAsync(filterObject, token);
     let errorContents;
 
     /* Check statusId whethere 4 or not
-    * If statusId is 4, need to combine the response with error contents
-    */
+     * If statusId is 4, need to combine the response with error contents
+     */
     if (statusId === 4) {
-      errorContents = await getErrorOrderContentsAsync(
-        filterObject,
-        token
-      );
+      errorContents = await getErrorOrderContentsAsync(filterObject, token);
     }
 
     return groupOrders(orders, errorContents ? errorContents : null);
@@ -359,11 +356,16 @@ export const getOrdersAsync = async (filterObject, token) => {
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const getErrorOrderContentsAsync = async ({ pickupDateStart, pickupDateEnd }, token) => {
+export const getErrorOrderContentsAsync = async (
+  { pickupDateStart, pickupDateEnd },
+  token
+) => {
   try {
     let response = await axios({
       method: 'GET',
-      url: `${endpoints.API_V3.ORDER_ERRORS}/?pickup_date_start=${pickupDateStart}&pickup_date_end=${pickupDateEnd}`,
+      url: `${
+        endpoints.API_V3.ORDER_ERRORS
+      }/?pickup_date_start=${pickupDateStart}&pickup_date_end=${pickupDateEnd}`,
       headers: { Authorization: `Bearer ${token}` },
     });
     return camelize(response.data);
@@ -677,4 +679,34 @@ export const mergeLocationDataWithErrors = (errorContents, order) => {
 
   /* Response empty array if there's no error from dynamodb */
   return [];
+};
+
+/**
+ * Update requested data
+ * Example :
+ {
+    "type_id": 1,
+    "order_ids": [
+      1
+    ]
+ }
+ * @param {object} requestData
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const updateOrderDispatchTo3PL = async (requestData, token) => {
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: endpoints.API_V3.DISPATCH_3PL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: requestData,
+    });
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
 };
