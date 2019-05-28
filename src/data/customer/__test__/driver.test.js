@@ -254,6 +254,7 @@ describe('Create new driver ', async () => {
         const expected = {
           statusCode: 404,
           statusText: 'Not Found',
+          message: 'Not Found',
           errorMessage: [
             { key: 'driverSchedule', messages: ['Driver Schedule not found'] },
           ],

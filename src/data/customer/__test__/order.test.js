@@ -10,6 +10,7 @@ import {
   deleteOrdersAsync,
   getRemainingOrdersCountAsync,
   getOrderUploadTemplateAsync,
+  updateOrderDispatchTo3PL,
 } from '../Order';
 import { getTokenAsync } from '../../account/Auth';
 import { getCSVStringFromArrayObject } from '../../utility/Util';
@@ -189,6 +190,7 @@ describe('Order tests', async () => {
         ],
         statusCode: 400,
         statusText: 'Bad Request',
+        message: 'Bad Request',
       };
       expect(error).toEqual(expected);
     }
@@ -224,6 +226,7 @@ describe('Order tests', async () => {
         errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
         statusCode: 404,
         statusText: 'Not Found',
+        message: 'Not Found',
       };
       expect(error).toEqual(expected);
     }
@@ -253,6 +256,7 @@ describe('Order tests', async () => {
       const expected = {
         statusCode: 404,
         statusText: 'Not Found',
+        message: 'Not Found',
         errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
@@ -272,9 +276,20 @@ describe('Order tests', async () => {
       const expected = {
         statusCode: 404,
         statusText: 'Not Found',
+        message: 'Not Found',
         errorMessage: [{ key: 'orderIds', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
+    }
+  });
+
+  it('Update orders to dispatch to 3PL', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+    try {
+      await updateOrderDispatchTo3PL([], token.accessToken);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 400);
     }
   });
 });
