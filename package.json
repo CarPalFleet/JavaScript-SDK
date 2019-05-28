@@ -1,6 +1,6 @@
 {
   "name": "carpal",
-  "version": "0.3.87",
+  "version": "0.3.89",
   "description": "The SDK for CarPal fleet solution development.",
   "main": "dist/build.js",
   "scripts": {
@@ -50,7 +50,7 @@
     "jest": "^21.2.1",
     "jsdoc": "^3.5.5",
     "lint-staged": "^7.3.0",
-    "prettier": "1.11.1",
+    "prettier": "^1.17.1",
     "webpack": "^2.7.0"
   },
   "dependencies": {

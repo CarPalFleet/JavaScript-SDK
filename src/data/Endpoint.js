@@ -1,6 +1,6 @@
 const urlPrefix =
-  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/prod';
-const laravelUrlPrefix = 'https://api.carpalfleet.com';
+  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
+const laravelUrlPrefix = 'https://api-staging.carpalfleet.com';
 const version = 'v1';
 
 const endpoints = {
@@ -49,6 +49,9 @@ const endpoints = {
     IDENTITIES: `${laravelUrlPrefix}/${version}/identities`,
     IDENTITY: `${laravelUrlPrefix}/${version}/identities/{0}`,
     VEHICLE_TYPE: `${laravelUrlPrefix}/${version}/vehicle-type`,
+    NOTIFICATIONS: `${laravelUrlPrefix}/${version}/user/notification`,
+    NOTIFICATIONS_COUNT: `${laravelUrlPrefix}/${version}/user/notification/count`,
+    DISPATCH_3PL: `${laravelUrlPrefix}/${version}/customer/order/dispatch-3pl`,
   },
 };
 
