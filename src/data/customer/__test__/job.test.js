@@ -319,14 +319,14 @@ describe('job create and delete test', async () => {
     }
   });
 
-  it('remove job should fail with status 400 when jobsId does not exists', async () => {
+  it('remove job should fail with status 404 when jobsId does not exists', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
     try {
       const jobID = '1234';
       await cancelJobAsync(jobID, token.accessToken);
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 400);
+      expect(error).toHaveProperty('statusCode', 404);
     }
   });
 });

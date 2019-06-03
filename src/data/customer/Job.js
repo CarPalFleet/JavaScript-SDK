@@ -375,15 +375,18 @@ export const removeJobsAsync = async (jobIds, token) => {
  */
 export const cancelJobAsync = async (jobId, token) => {
   try {
-    const jobData = axios({
+    const response = await axios({
       method: 'PUT',
-      url: `${endpoints.API_V3.JOB}/${jobId}`,
-      headers: { Authorization: `Bearer ${token}` },
+      url: `${endpoints.API_V3.JOB.replace('/{0}', `/${jobId}`)}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
       data: {
         status_id: 4, // cancelled
       },
     });
-    return camelize(jobData.data);
+    return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
