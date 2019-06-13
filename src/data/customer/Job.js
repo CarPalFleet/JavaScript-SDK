@@ -366,3 +366,28 @@ export const removeJobsAsync = async (jobIds, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * delete Jobs
+ * @param {string} jobId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const cancelJobAsync = async (jobId, token) => {
+  try {
+    const response = await axios({
+      method: 'PUT',
+      url: `${endpoints.API_V3.JOB.replace('/{0}', `/${jobId}`)}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        status_id: 4, // cancelled
+      },
+    });
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
