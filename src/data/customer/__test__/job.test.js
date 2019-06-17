@@ -6,6 +6,7 @@ import {
   getJobsAsync,
   getJobTimelineAsync,
   getJobDriverLocationsAsync,
+  cancelJobAsync,
 } from '../Job';
 import { getTokenAsync } from '../../account/Auth';
 import CONFIG from './Config';
@@ -299,7 +300,7 @@ describe('job create and delete test', async () => {
     }
   });
 
-  it('remove job should fail with status 400 when jobsId does not exists', async () => {
+  it('remove job should fail with status 400 when jobsIds does not exists', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
     try {
@@ -315,6 +316,17 @@ describe('job create and delete test', async () => {
         ],
       };
       expect(error).toEqual(expected);
+    }
+  });
+
+  it('remove job should fail with status 404 when jobsId does not exists', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+
+    try {
+      const jobID = '1234';
+      await cancelJobAsync(jobID, token.accessToken);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 404);
     }
   });
 });
