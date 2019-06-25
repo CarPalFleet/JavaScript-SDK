@@ -270,7 +270,9 @@ export const updateRoutedOrder = async (
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      data: camelToSnake(requestData),
+      data: {
+        order_data: camelToSnake(requestData),
+      },
     });
 
     return camelize(routes.data);
