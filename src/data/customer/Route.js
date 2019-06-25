@@ -215,3 +215,66 @@ export const removeRouteLocationsAsync = async (
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * Update requested data
+ * Example :
+    {
+      "pickup_time_window": "14:40-16:00",
+      "delivery_time_window": "18:00-20:00",
+      "delivery_address": "184 Jalan Toa Payoh, Singapore",
+      "pickup_location_address": "184 Jalan Toa Payoh, Singapore",
+      "pickup_coordinates": "1.3139961,103.7041625",
+      "pickup_contact_name": "Joe Doe",
+      "pickup_contact_company_name": "CarPal SG",
+      "pickup_contact_email": "jdoe@carpal.me",
+      "pickup_contact_phone": "+65999999",
+      "delivery_contact_name": "Luke Walker",
+      "delivery_contact_company_name": "LW Pte Ltd",
+      "delivery_contact_email": "luke@walker.com",
+      "delivery_contact_phone": "+65213123",
+      "delivery_coordinates": "1.3139961,103.7041625",
+      "delivery_notes": "Leave package at the door",
+      "item_quantity": 2,
+      "weight_per_item": 2,
+      "item_description": "Cakes and stuff",
+      "capacity": 1,
+      "customer_order_number": "X-1234-9876",
+      "cash_on_delivery_amount": "100.50"
+    }
+ * @param {array} requestData
+ * @param {int} routeId
+ * @param {int} routeLocationId
+ * @param {int} orderId
+ * @param {string} token
+ * @return {Object} Promise resolve/reject
+ * If resolve, return { data: true }
+ */
+export const updateRoutedOrder = async (
+  requestData,
+  routeId,
+  routeLocationId,
+  orderId,
+  token
+) => {
+  try {
+    const url = `${endpoints.API_V3.ROUTE_LOCATION.replace(
+      '{0}',
+      routeId
+    )}/${routeLocationId}/order/${orderId}`;
+
+    const routes = await axios({
+      method: 'PUT',
+      url,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: camelToSnake(requestData),
+    });
+
+    return camelize(routes.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
