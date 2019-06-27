@@ -1,4 +1,4 @@
-import { removeRouteAsync, storeRouteAsync } from '../Route';
+import { removeRouteAsync, storeRouteAsync, updateRoutedOrder } from '../Route';
 import { getTokenAsync } from '../../account/Auth';
 
 import CONFIG from './Config.js';
@@ -42,5 +42,33 @@ it('should test storeRouteAsync get statusCode 400', async () => {
     await storeRouteAsync({}, accessToken);
   } catch (error) {
     expect(error).toHaveProperty('statusCode', 400);
+  }
+});
+
+it('should test update routed order', async () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+  const requestedData = {};
+  const routeId = 1;
+  const routeLocationId = 1;
+  const orderId = 1;
+
+  const { accessToken } = await getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+
+  try {
+    await updateRoutedOrder(
+      requestedData,
+      routeId,
+      routeLocationId,
+      orderId,
+      accessToken
+    );
+  } catch (error) {
+    expect(error).toHaveProperty('statusCode', 404);
   }
 });
