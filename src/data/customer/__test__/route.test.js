@@ -1,4 +1,9 @@
-import { removeRouteAsync, storeRouteAsync, updateRoutedOrder } from '../Route';
+import {
+  removeRouteAsync,
+  storeRouteAsync,
+  updateRoutedOrder,
+  recalculateRouteOrder,
+} from '../Route';
 import { getTokenAsync } from '../../account/Auth';
 
 import CONFIG from './Config.js';
@@ -68,6 +73,25 @@ it('should test update routed order', async () => {
       orderId,
       accessToken
     );
+  } catch (error) {
+    expect(error).toHaveProperty('statusCode', 404);
+  }
+});
+
+it('should test to recalculate route', async () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+  const routeId = 1;
+
+  const { accessToken } = await getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+
+  try {
+    await recalculateRouteOrder(routeId, accessToken);
   } catch (error) {
     expect(error).toHaveProperty('statusCode', 404);
   }

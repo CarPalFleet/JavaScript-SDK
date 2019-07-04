@@ -280,3 +280,45 @@ export const updateRoutedOrder = async (
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * Recalculate Order
+ * @param {int} routeId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ * @deprecated since version 0.3.1
+ */
+export const recalculateRouteOrder = async (routeId, token) => {
+  try {
+    const routes = await axios({
+      method: 'POST',
+      url: `${endpoints.API_V3.ROUTE.replace('{0}', routeId)}/recalculate`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return camelize(routes.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Recalculate Order
+ * @param {int} routeId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ * @deprecated since version 0.3.1
+ */
+export const getRouteAsync = async (routeId, token) => {
+  try {
+    const routes = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.ROUTE.replace('{0}', routeId)}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return camelize(routes.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
