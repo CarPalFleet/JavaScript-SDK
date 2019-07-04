@@ -285,8 +285,7 @@ export const updateRoutedOrder = async (
  * Recalculate Order
  * @param {int} routeId
  * @param {string} token
- * @return {object} Promise resolve/reject
- * @deprecated since version 0.3.1
+ * @return {object} return recalculated route
  */
 export const recalculateRouteOrder = async (routeId, token) => {
   try {
@@ -306,8 +305,7 @@ export const recalculateRouteOrder = async (routeId, token) => {
  * Recalculate Order
  * @param {int} routeId
  * @param {string} token
- * @return {object} Promise resolve/reject
- * @deprecated since version 0.3.1
+ * @return {object} return updated route
  */
 export const getRouteAsync = async (routeId, token) => {
   try {
