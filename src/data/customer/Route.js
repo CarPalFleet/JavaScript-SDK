@@ -320,3 +320,31 @@ export const getRouteAsync = async (routeId, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * Ger Route Location Order
+ * @param {int} routeId
+ * @param {int} routeLocationId
+ * @param {string} token
+ * @return {Object} Promise resolve/reject
+ */
+export const getRouteLocationOrder = async (
+  routeId,
+  routeLocationId,
+  token
+) => {
+  try {
+    const result = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.ROUTE_LOCATION.replace(
+        '{0}',
+        routeId
+      )}/${routeLocationId}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return camelize(result.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};

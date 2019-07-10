@@ -1,4 +1,5 @@
 import {
+  getRouteLocationOrder,
   removeRouteAsync,
   storeRouteAsync,
   updateRoutedOrder,
@@ -92,6 +93,26 @@ it('should test to recalculate route', async () => {
 
   try {
     await recalculateRouteOrder(routeId, accessToken);
+  } catch (error) {
+    expect(error).toHaveProperty('statusCode', 404);
+  }
+});
+
+it('should test to get route location order', async () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+  const routeId = 1001;
+  const routeLocationId = 10001;
+
+  const { accessToken } = await getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+
+  try {
+    await getRouteLocationOrder(routeId, routeLocationId, accessToken);
   } catch (error) {
     expect(error).toHaveProperty('statusCode', 404);
   }
