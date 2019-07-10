@@ -327,8 +327,7 @@ export const getRouteAsync = async (routeId, token) => {
  * @param {int} routeLocationId
  * @param {string} token
  * @return {Object} Promise resolve/reject
- //TODO: needs unit testing
-*/
+ */
 export const getRouteLocationOrder = async (
   routeId,
   routeLocationId,
