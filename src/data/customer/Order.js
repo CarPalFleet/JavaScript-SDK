@@ -521,8 +521,12 @@ export const editOrdersAsync = async (
 
     let url = `${endpoints.API_V3.ORDER}`;
     if (filterObject) {
-      const { pickupDateStart, pickupDateEnd } = filterObject;
-      url += `?pickup_date_start=${pickupDateStart}&pickup_date_end=${pickupDateEnd}`;
+      const {
+        pickupDateStart,
+        pickupDateEnd,
+        validationStatusId,
+      } = filterObject;
+      url += `?pickup_date_start=${pickupDateStart}&pickup_date_end=${pickupDateEnd}&validation_status_id=${validationStatusId}`;
     }
 
     let response = await axios({
