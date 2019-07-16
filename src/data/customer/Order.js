@@ -363,9 +363,7 @@ export const getErrorOrderContentsAsync = async (
   try {
     let response = await axios({
       method: 'GET',
-      url: `${
-        endpoints.API_V3.ORDER_ERRORS
-      }/?pickup_date_start=${pickupDateStart}&pickup_date_end=${pickupDateEnd}`,
+      url: `${endpoints.API_V3.ORDER_ERRORS}/?pickup_date_start=${pickupDateStart}&pickup_date_end=${pickupDateEnd}`,
       headers: { Authorization: `Bearer ${token}` },
     });
     return camelize(response.data);
@@ -503,10 +501,15 @@ export const editOrderAsync = async (orderId, orderObject, token) => {
      },
    },
  ]
+ * @param {object} filterObject {pickupDateStart, pickupDateEnd}
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const editOrdersAsync = async (orderDataList = [], token) => {
+export const editOrdersAsync = async (
+  orderDataList = [],
+  filterObject,
+  token
+) => {
   try {
     let updatedOrderDataList = orderDataList.map((data) => {
       let tmpObject = {
@@ -516,9 +519,19 @@ export const editOrdersAsync = async (orderDataList = [], token) => {
       return tmpObject;
     });
 
+    let url = `${endpoints.API_V3.ORDER}`;
+    if (filterObject) {
+      const {
+        pickupDateStart,
+        pickupDateEnd,
+        validationStatusId,
+      } = filterObject;
+      url += `?pickup_date_start=${pickupDateStart}&pickup_date_end=${pickupDateEnd}&validation_status_id=${validationStatusId}`;
+    }
+
     let response = await axios({
       method: 'PUT',
-      url: endpoints.API_V3.ORDER,
+      url,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -597,6 +610,7 @@ export const groupOrders = (orders, errorContents = null) => {
     totalLocationCount: orders['meta'].totalLocationCount, // total_location_count
     successLocationCount: orders['meta'].validatedLocationCount, // validated_location_count
     failedLocationCount: orders['meta'].failedLocationCount, // failed_location_count
+    totalValidatedOrdersCount: orders['meta'].validatedOrdersWithoutRoutesCount, // total of routes with status created
     data: orderGroups.data,
   };
 
