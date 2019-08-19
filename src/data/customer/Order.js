@@ -724,3 +724,22 @@ export const updateOrderDispatchTo3PL = async (requestData, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * @param {array} orderIds
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const broadcastToFreelancers = async (orderIds, token) => {
+  try {
+    const result = await axios({
+      method: 'POST',
+      url: `${endpoints.API_V3.DRIVER_UPDATE}`,
+      headers: { Authorization: `Bearer ${token}` },
+      data: orderIds,
+    });
+    return camelize(result.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};

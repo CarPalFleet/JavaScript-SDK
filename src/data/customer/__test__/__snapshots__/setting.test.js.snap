@@ -3,6 +3,7 @@
 exports[`Test showCustomerSettingsAsync function should get customer settings 1`] = `
 Object {
   "data": Object {
+    "autoAllocateOrders": false,
     "capacityUnitSetting": Object {
       "capacityUnit": Object {
         "abbreviation": "Location",

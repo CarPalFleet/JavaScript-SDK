@@ -782,3 +782,22 @@ export const deleteDriversAsync = async (driverIds, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * assign to freelance driver
+ * @param {number} driverId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const assignToFreelancer = async (driverId, token) => {
+  try {
+    const result = await axios({
+      method: 'POST',
+      url: `${endpoints.API_V3.BROADCASR_TO_FREELANCERS}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return camelize(result.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
