@@ -734,7 +734,7 @@ export const broadcastToFreelancers = async (orderIds, token) => {
   try {
     const result = await axios({
       method: 'POST',
-      url: `${endpoints.API_V3.DRIVER_UPDATE}`,
+      url: `${endpoints.API_V3.BROADCAST_TO_FREELANCERS}`,
       headers: { Authorization: `Bearer ${token}` },
       data: orderIds,
     });
