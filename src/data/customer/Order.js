@@ -726,17 +726,17 @@ export const updateOrderDispatchTo3PL = async (requestData, token) => {
 };
 
 /**
- * @param {array} orderIds
+ * @param {object} requestData
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const broadcastToFreelancers = async (orderIds, token) => {
+export const broadcastToFreelancers = async (requestData, token) => {
   try {
     const result = await axios({
       method: 'POST',
       url: `${endpoints.API_V3.BROADCAST_TO_FREELANCERS}`,
       headers: { Authorization: `Bearer ${token}` },
-      data: orderIds,
+      data: requestData,
     });
     return camelize(result.data);
   } catch (e) {
