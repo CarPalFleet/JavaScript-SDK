@@ -1,15 +1,16 @@
 import {
-  getUploadedOrderProgressionAsync,
+  broadcastToFreelancers,
+  createOrderAsync,
+  deleteOrderAsync,
+  deleteOrdersAsync,
+  editOrderAsync,
   getErrorOrderContentsAsync,
   getOrderAsync,
   getOrdersGroupByPickUpAddressAsync,
-  getUniquePickupAddressesAsync,
-  createOrderAsync,
-  editOrderAsync,
-  deleteOrderAsync,
-  deleteOrdersAsync,
-  getRemainingOrdersCountAsync,
   getOrderUploadTemplateAsync,
+  getRemainingOrdersCountAsync,
+  getUniquePickupAddressesAsync,
+  getUploadedOrderProgressionAsync,
   updateOrderDispatchTo3PL,
 } from '../Order';
 import { getTokenAsync } from '../../account/Auth';
@@ -288,6 +289,21 @@ describe('Order tests', async () => {
 
     try {
       await updateOrderDispatchTo3PL([], token.accessToken);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 400);
+    }
+  });
+
+  it('Broadcast orders to freelancers', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+    const params = {
+      order_ids: [10001],
+    };
+
+    try {
+      const response = await broadcastToFreelancers(params, token.accessToken);
+      expect(response).toMatchSnapshot();
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 400);
     }

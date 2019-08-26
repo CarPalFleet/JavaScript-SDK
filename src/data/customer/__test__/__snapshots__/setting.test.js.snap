@@ -3,7 +3,7 @@
 exports[`Test showCustomerSettingsAsync function should get customer settings 1`] = `
 Object {
   "data": Object {
-    "autoAllocateOrders": false,
+    "autoDispatchOrders": false,
     "capacityUnitSetting": Object {
       "capacityUnit": Object {
         "abbreviation": "Location",
@@ -22,11 +22,15 @@ Object {
     "customer3pls": Array [],
     "customerId": 14821,
     "dateFormat": "DD-MM-YYYY",
+    "fleetTypeIds": Array [
+      1,
+    ],
     "id": 88,
     "identityId": 1,
     "logisticsModelId": 2,
     "logisticsModelName": "Transportation",
     "nextDayDelivery": false,
+    "orderBroadcastDaysToDelivery": 0,
     "orderCreationSettingId": null,
     "orderSmsSettingsId": null,
     "orderUpdateTransactionSubcustomersSettingId": null,
@@ -78,7 +82,7 @@ Object {
       },
     ],
     "transactionGroupId": 185,
-    "updatedAt": "2019-04-24 06:40:29",
+    "updatedAt": "2019-08-22 09:22:04",
   },
 }
 `;

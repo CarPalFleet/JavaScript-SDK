@@ -1,15 +1,17 @@
 import CONFIG from './Config';
 import { getTokenAsync } from '../../account/Auth';
 import {
+  assignToFreelancer,
   createDriverAsync,
-  getDriversAsync,
-  deleteDriverScheduleAsync,
   createDriverScheduleAsync,
-  updateDriverScheduleAsync,
-  getDriversWithFiltersAsync,
+  deleteDriverScheduleAsync,
   getDriverCountsAsync,
+  getDriversWithFiltersAsync,
   getDriverRoutesAsync,
+  getDriversAsync,
+  getSearchedDrivers,
   updateDriverAsync,
+  updateDriverScheduleAsync,
   // deleteDriversAsync,
 } from '../Driver';
 
@@ -434,6 +436,40 @@ describe('Create new driver ', async () => {
       expect(error).toHaveProperty('statusCode', 401);
     }
   });*/
+
+  it('should throw assignToFreelancer 404 error status', async () => {
+    try {
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+      const params = {
+        order_ids: [10001],
+        single_order_per_job: true,
+      };
+
+      await assignToFreelancer(123, params, token.accessToken);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 404);
+    }
+  });
+
+  it('should get getSearchedDrivers success response', async () => {
+    try {
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+      const params = {
+        keyword: 'test',
+        driver_status_id: 2, // Activated
+        driver_type_id: 1, // Public/Freelance
+        limit: 10,
+        offset: 0,
+      };
+
+      const response = await getSearchedDrivers(params, token.accessToken);
+      expect(response).toMatchSnapshot();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 400);
+    }
+  });
 });
 
 /**
