@@ -782,3 +782,53 @@ export const deleteDriversAsync = async (driverIds, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * assign to freelance driver
+ * @param {number} driverId
+ * @param {object} params
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const assignToFreelancer = async (driverId, params, token) => {
+  try {
+    const result = await axios({
+      method: 'POST',
+      url: `${endpoints.API_V3.ASSIGN_TO_FREELANCER.replace('{0}', driverId)}`,
+      headers: { Authorization: `Bearer ${token}` },
+      data: params,
+    });
+    return camelize(result.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Get Searched Drivers
+ * @param {object} params driver_status_id, driver_type_id, limit, offset
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getSearchedDrivers = async (params, token) => {
+  try {
+    /*
+      Add following params for searching drivers
+      driver_status_id = 2; // Activated
+      driver_type_id = 1; // Public/Freelance
+      limit = 10
+      offset = 0
+    */
+
+    let response = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.DRIVER_SEARCH}`,
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};

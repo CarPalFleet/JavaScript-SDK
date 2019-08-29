@@ -63,7 +63,7 @@ describe('Depot creation', async () => {
       const response = await createDepotAsync(token.accessToken, data);
       expect('data' in response).toBeTruthy();
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 404);
+      expect(error).toHaveProperty('statusCode', 400 || 404);
     }
   });
 });

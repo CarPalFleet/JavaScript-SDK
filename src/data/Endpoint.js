@@ -1,6 +1,6 @@
 const urlPrefix =
-  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/prod';
-const laravelUrlPrefix = 'https://api.carpalfleet.com';
+  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/alpha';
+const laravelUrlPrefix = 'https://api-alpha.carpalfleet.com';
 const version = 'v1';
 
 const endpoints = {
@@ -52,6 +52,9 @@ const endpoints = {
     NOTIFICATIONS: `${laravelUrlPrefix}/${version}/user/notification`,
     NOTIFICATIONS_COUNT: `${laravelUrlPrefix}/${version}/user/notification/count`,
     DISPATCH_3PL: `${laravelUrlPrefix}/${version}/customer/order/dispatch-3pl`,
+    ASSIGN_TO_FREELANCER: `${laravelUrlPrefix}/${version}/customer/job/driver/{0}`,
+    BROADCAST_TO_FREELANCERS: `${laravelUrlPrefix}/${version}/customer/order/broadcast`,
+    DRIVER_SEARCH: `${laravelUrlPrefix}/${version}/customer/driver/search`,
   },
 };
 

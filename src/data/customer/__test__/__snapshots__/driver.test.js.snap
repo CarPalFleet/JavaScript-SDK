@@ -27,3 +27,9 @@ Object {
   },
 }
 `;
+
+exports[`Create new driver  should get getSearchedDrivers success response 1`] = `
+Object {
+  "data": Array [],
+}
+`;
