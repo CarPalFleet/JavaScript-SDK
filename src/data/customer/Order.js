@@ -483,6 +483,41 @@ export const editOrderAsync = async (orderId, orderObject, token) => {
 };
 
 /**
+ * Edit single order (sync address)
+ * @param {int} orderId
+ * @param {object} orderObject
+ * @param {object} params
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const editOrderSync = async (
+  orderId,
+  orderObject,
+  params = {},
+  token
+) => {
+  try {
+    let updatedLocationDataObject = {
+      order_data: camelToSnake(orderObject),
+    };
+
+    let response = await axios({
+      method: 'PUT',
+      url: `${endpoints.API_V3.ORDER}/${orderId}/sync`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: updatedLocationDataObject,
+      params,
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+/**
  * Edit multiple orders
  * @param {array} orderDataList
  //TODO: this object is not complete, an order can have much more parameters
