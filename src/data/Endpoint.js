@@ -52,6 +52,9 @@ const endpoints = {
     NOTIFICATIONS: `${laravelUrlPrefix}/${version}/user/notification`,
     NOTIFICATIONS_COUNT: `${laravelUrlPrefix}/${version}/user/notification/count`,
     DISPATCH_3PL: `${laravelUrlPrefix}/${version}/customer/order/dispatch-3pl`,
+    ASSIGN_TO_FREELANCER: `${laravelUrlPrefix}/${version}/customer/job/driver/{0}`,
+    BROADCAST_TO_FREELANCERS: `${laravelUrlPrefix}/${version}/customer/order/broadcast`,
+    DRIVER_SEARCH: `${laravelUrlPrefix}/${version}/customer/driver/search`,
   },
 };
 
