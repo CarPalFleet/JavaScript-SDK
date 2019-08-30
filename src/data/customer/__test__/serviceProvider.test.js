@@ -1,4 +1,7 @@
 import { getServiceProviderAsync } from '../ServiceProvider';
+
+import CONFIG from './Config.js';
+import { getTokenAsync } from '../../account/Auth';
 import { apiResponseErrorHandler } from '../../utility/Util';
 
 describe('Test for Service Provider', () => {
@@ -7,8 +10,15 @@ describe('Test for Service Provider', () => {
   });
 
   it('should get service provider details by its id response', async () => {
+    const { accessToken } = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+
     try {
-      const result = await getServiceProviderAsync(10001);
+      const result = await getServiceProviderAsync(10001, accessToken);
       expect(result.length).toBeTruthy();
     } catch (error) {
       const mockError = apiResponseErrorHandler(error);
