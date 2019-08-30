@@ -497,11 +497,11 @@ export const editOrderSync = async (
   token
 ) => {
   try {
-    let updatedLocationDataObject = {
+    const updatedLocationDataObject = {
       order_data: camelToSnake(orderObject),
     };
 
-    let response = await axios({
+    const response = await axios({
       method: 'PUT',
       url: `${endpoints.API_V3.ORDER}/${orderId}/sync`,
       headers: {
