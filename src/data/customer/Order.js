@@ -743,3 +743,23 @@ export const broadcastToFreelancers = async (requestData, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * @param {object} params
+ * @param {int} orderId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getOrderDetails = async (params, orderId, token) => {
+  try {
+    const result = await axios({
+      method: 'GET',
+      url: endpoints.API_V3.ORDER_DETAILS.replace('{0}', orderId),
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    });
+    return camelize(result.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
