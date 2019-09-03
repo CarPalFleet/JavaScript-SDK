@@ -1,11 +1,12 @@
 {
   "name": "carpal",
-  "version": "0.4.3",
+  "version": "0.4.7",
   "description": "The SDK for CarPal fleet solution development.",
   "main": "dist/build.js",
   "scripts": {
     "build": "babel src --presets babel-preset-es2015 --out-dir dist",
     "lint": "node_modules/.bin/eslint src",
+    "lint:fix": "node_modules/.bin/eslint src --fix",
     "precommit": "lint-staged",
     "precommit:lint": "node_modules/.bin/eslint",
     "precommit:prettier": "node_modules/.bin/prettier --single-quote --trailing-comma es5 --arrow-parens always --write",
