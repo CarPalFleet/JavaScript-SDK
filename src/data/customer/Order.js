@@ -128,13 +128,13 @@ export const getUploadedOrderProgressionAsync = async (customerId, token) => {
 
 /**
  * Retrieve single order
- * @param {object} params
  * @param {int} orderId
+ * @param {object} params
  * @param {string} token
  * @return {object} Promise resolve/reject
  //TODO: needs more extensive unit testing
  */
-export const getOrderAsync = async (params, orderId, token) => {
+export const getOrderAsync = async (orderId, params, token) => {
   try {
     let response = await axios({
       method: 'GET',

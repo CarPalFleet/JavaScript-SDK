@@ -55,8 +55,8 @@ describe('Order tests', async () => {
 
     try {
       const response = await getOrderAsync(
-        params,
         CONFIG.groupingLocationId,
+        params,
         token.accessToken
       );
       expect('data' in response).toBeTruthy();
