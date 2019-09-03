@@ -56,7 +56,6 @@ const endpoints = {
     BROADCAST_TO_FREELANCERS: `${laravelUrlPrefix}/${version}/customer/order/broadcast`,
     DRIVER_SEARCH: `${laravelUrlPrefix}/${version}/customer/driver/search`,
     SERVICE_PROVIDER: `${laravelUrlPrefix}/${version}/customer/service-provider/{0}/service`,
-    ORDER_DETAILS: `${laravelUrlPrefix}/${version}/customer/order/{0}`,
   },
 };
 
