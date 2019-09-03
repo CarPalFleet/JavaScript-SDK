@@ -31,12 +31,11 @@ export const getUserSettingMyOrdersColumnAsync = async (token) => {
 
 /** Updates the customer's settings.
  * @param {string} token
- * @param {int} id
  * @param {Object} data
  * @return {Promise} settings object
  */
 
-export const putUserSettingMyOrdersColumn = async (token, data) => {
+export const putUserSettingMyOrdersColumn = async (data, token) => {
   try {
     const response = await axios({
       method: 'PUT',
