@@ -4,6 +4,7 @@ import {
   deleteOrderAsync,
   deleteOrdersAsync,
   editOrderAsync,
+  editOrderSync,
   getErrorOrderContentsAsync,
   getOrderAsync,
   getOrdersGroupByPickUpAddressAsync,
@@ -224,6 +225,29 @@ describe('Order tests', async () => {
       const response = await editOrderAsync(
         1,
         { pickupDate: '28-02-2018' },
+        token.accessToken
+      );
+
+      expect('data' in response).toBeTruthy();
+    } catch (error) {
+      const expected = {
+        errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
+        statusCode: 404,
+        statusText: 'Not Found',
+        message: 'Not Found',
+      };
+      expect(error).toEqual(expected);
+    }
+  });
+
+  it('Edit Order Sync not found', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+    try {
+      const response = await editOrderSync(
+        1,
+        { pickupDate: '28-02-2018' },
+        {},
         token.accessToken
       );
 
