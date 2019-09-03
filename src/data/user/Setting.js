@@ -30,8 +30,8 @@ export const getUserSettingMyOrdersColumnAsync = async (token) => {
 };
 
 /** Updates the customer's settings.
- * @param {string} token
  * @param {Object} data
+ * @param {string} token
  * @return {Promise} settings object
  */
 

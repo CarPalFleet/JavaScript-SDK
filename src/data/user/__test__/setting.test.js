@@ -45,13 +45,16 @@ describe('test updating user settings', async () => {
 
   it('should return 200', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
-    const response = await putUserSettingMyOrdersColumn(token.accessToken, [
-      {
-        key: 'customerOrderNumber',
-        isFixed: false,
-        isVisible: true,
-      },
-    ]);
+    const response = await putUserSettingMyOrdersColumn(
+      [
+        {
+          key: 'customerOrderNumber',
+          isFixed: false,
+          isVisible: true,
+        },
+      ],
+      token.accessToken
+    );
 
     expect(response).toHaveProperty('status', 200);
     expect(response.data).toHaveProperty('myOrdersColumns', [
