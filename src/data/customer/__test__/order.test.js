@@ -6,7 +6,6 @@ import {
   editOrderAsync,
   getErrorOrderContentsAsync,
   getOrderAsync,
-  getOrderDetails,
   getOrdersGroupByPickUpAddressAsync,
   getOrderUploadTemplateAsync,
   getRemainingOrdersCountAsync,
@@ -49,8 +48,14 @@ describe('Order tests', async () => {
   it('Retrieving single order, expect 404', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
+    const params = {
+      include:
+        'route_locations,service_providers.customer.user,quote,service_type,vehicle_service,job_driver.user,driver_fee',
+    };
+
     try {
       const response = await getOrderAsync(
+        params,
         CONFIG.groupingLocationId,
         token.accessToken
       );
@@ -307,28 +312,6 @@ describe('Order tests', async () => {
       expect(response).toMatchSnapshot();
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 400);
-    }
-  });
-
-  it('Get order details', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
-
-    const params = {
-      include:
-        'route_locations,service_providers.customer.user,quote,service_type,vehicle_service,job_driver.user,driver_fee',
-    };
-
-    const orderId = '100001';
-
-    try {
-      const response = await getOrderDetails(
-        params,
-        orderId,
-        token.accessToken
-      );
-      expect(response).toMatchSnapshot();
-    } catch (error) {
-      expect(error).toHaveProperty('statusCode', 404);
     }
   });
 });
