@@ -49,9 +49,15 @@ describe('Order tests', async () => {
   it('Retrieving single order, expect 404', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
+    const params = {
+      include:
+        'route_locations,service_providers.customer.user,quote,service_type,vehicle_service,job_driver.user,driver_fee',
+    };
+
     try {
       const response = await getOrderAsync(
         CONFIG.groupingLocationId,
+        params,
         token.accessToken
       );
       expect('data' in response).toBeTruthy();
