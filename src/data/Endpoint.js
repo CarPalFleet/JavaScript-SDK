@@ -55,6 +55,7 @@ const endpoints = {
     ASSIGN_TO_FREELANCER: `${laravelUrlPrefix}/${version}/customer/job/driver/{0}`,
     BROADCAST_TO_FREELANCERS: `${laravelUrlPrefix}/${version}/customer/order/broadcast`,
     DRIVER_SEARCH: `${laravelUrlPrefix}/${version}/customer/driver/search`,
+    USER_SETTING_MY_ORDERS_COLUMN: `${laravelUrlPrefix}/${version}/user/setting/my-orders-columns`,
     SERVICE_PROVIDER: `${laravelUrlPrefix}/${version}/customer/service-provider/{0}/service`,
   },
 };
