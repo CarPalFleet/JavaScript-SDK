@@ -781,3 +781,24 @@ export const broadcastToFreelancers = async (requestData, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/** Stop dispatching order
+ * @param {int} orderId
+ * @param {string} token
+ * @return {Object} Promise resolve/reject
+ * If resolve, return { data: true }
+ //TODO: needs unit testing
+ */
+export const deleteOrderDispatchAsync = async (orderId, token) => {
+  try {
+    await axios({
+      method: 'DELETE',
+      url: `${endpoints.API_V3.ORDER_ID.replace('{0}', orderId)}/dispatch`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return { data: true };
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};

@@ -17,6 +17,7 @@ const endpoints = {
     NEW_CUSTOMER: `${laravelUrlPrefix}/${version}/customer`,
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
     ORDER: `${laravelUrlPrefix}/${version}/customer/order`,
+    ORDER_ID: `${laravelUrlPrefix}/${version}/customer/order/{0}`,
     ORDER_SEARCH: `${laravelUrlPrefix}/${version}/customer/order/search`,
     ORDER_COUNT: `${laravelUrlPrefix}/${version}/customer/order/total`,
     GROUPING_BATCH_TEMPLATE: `${laravelUrlPrefix}/${version}/customer/grouping-batch/template`,

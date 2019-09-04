@@ -5,6 +5,7 @@ import {
   deleteOrdersAsync,
   editOrderAsync,
   editOrderSync,
+  deleteOrderDispatchAsync,
   getErrorOrderContentsAsync,
   getOrderAsync,
   getOrdersGroupByPickUpAddressAsync,
@@ -336,6 +337,22 @@ describe('Order tests', async () => {
       expect(response).toMatchSnapshot();
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 400);
+    }
+  });
+
+  it('Delete Order dispatch', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    try {
+      const response = await deleteOrderDispatchAsync(1, token.accessToken);
+      expect(response.data).toBeTruthy();
+    } catch (error) {
+      const expected = {
+        statusCode: 404,
+        statusText: 'Not Found',
+        message: 'Not Found',
+        errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
+      };
+      expect(error).toEqual(expected);
     }
   });
 });
