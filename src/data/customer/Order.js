@@ -791,13 +791,13 @@ export const broadcastToFreelancers = async (requestData, token) => {
  */
 export const deleteOrderDispatchAsync = async (orderId, token) => {
   try {
-    await axios({
+    const result = await axios({
       method: 'DELETE',
       url: `${endpoints.API_V3.ORDER_ID.replace('{0}', orderId)}/dispatch`,
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    return { data: true };
+    return camelize(result.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
