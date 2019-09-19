@@ -17,6 +17,7 @@ const endpoints = {
     NEW_CUSTOMER: `${laravelUrlPrefix}/${version}/customer`,
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
     ORDER: `${laravelUrlPrefix}/${version}/customer/order`,
+    ORDER_ID: `${laravelUrlPrefix}/${version}/customer/order/{0}`,
     ORDER_SEARCH: `${laravelUrlPrefix}/${version}/customer/order/search`,
     ORDER_COUNT: `${laravelUrlPrefix}/${version}/customer/order/total`,
     GROUPING_BATCH_TEMPLATE: `${laravelUrlPrefix}/${version}/customer/grouping-batch/template`,
@@ -55,6 +56,8 @@ const endpoints = {
     ASSIGN_TO_FREELANCER: `${laravelUrlPrefix}/${version}/customer/job/driver/{0}`,
     BROADCAST_TO_FREELANCERS: `${laravelUrlPrefix}/${version}/customer/order/broadcast`,
     DRIVER_SEARCH: `${laravelUrlPrefix}/${version}/customer/driver/search`,
+    USER_SETTING_MY_ORDERS_COLUMN: `${laravelUrlPrefix}/${version}/user/setting/my-orders-columns`,
+    SERVICE_PROVIDER: `${laravelUrlPrefix}/${version}/customer/service-provider/{0}/service`,
   },
 };
 
