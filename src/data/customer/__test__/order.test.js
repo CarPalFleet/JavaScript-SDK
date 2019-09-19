@@ -4,6 +4,8 @@ import {
   deleteOrderAsync,
   deleteOrdersAsync,
   editOrderAsync,
+  editOrderSync,
+  deleteOrderDispatchAsync,
   getErrorOrderContentsAsync,
   getOrderAsync,
   getOrdersGroupByPickUpAddressAsync,
@@ -48,9 +50,15 @@ describe('Order tests', async () => {
   it('Retrieving single order, expect 404', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
+    const params = {
+      include:
+        'route_locations,service_providers.customer.user,quote,service_type,vehicle_service,job_driver.user,driver_fee',
+    };
+
     try {
       const response = await getOrderAsync(
         CONFIG.groupingLocationId,
+        params,
         token.accessToken
       );
       expect('data' in response).toBeTruthy();
@@ -233,6 +241,29 @@ describe('Order tests', async () => {
     }
   });
 
+  it('Edit Order Sync not found', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+    try {
+      const response = await editOrderSync(
+        1,
+        { pickupDate: '28-02-2018' },
+        {},
+        token.accessToken
+      );
+
+      expect('data' in response).toBeTruthy();
+    } catch (error) {
+      const expected = {
+        errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
+        statusCode: 404,
+        statusText: 'Not Found',
+        message: 'Not Found',
+      };
+      expect(error).toEqual(expected);
+    }
+  });
+
   it('Test for uploading batch order progression', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
@@ -306,6 +337,22 @@ describe('Order tests', async () => {
       expect(response).toMatchSnapshot();
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 400);
+    }
+  });
+
+  it('Delete Order dispatch', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    try {
+      const response = await deleteOrderDispatchAsync(1, token.accessToken);
+      expect(response.data).toBeTruthy();
+    } catch (error) {
+      const expected = {
+        statusCode: 404,
+        statusText: 'Not Found',
+        message: 'Not Found',
+        errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
+      };
+      expect(error).toEqual(expected);
     }
   });
 });

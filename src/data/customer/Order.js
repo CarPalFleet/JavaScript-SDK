@@ -128,17 +128,19 @@ export const getUploadedOrderProgressionAsync = async (customerId, token) => {
 
 /**
  * Retrieve single order
- * @param {object} orderId
+ * @param {int} orderId
+ * @param {object} params
  * @param {string} token
  * @return {object} Promise resolve/reject
  //TODO: needs more extensive unit testing
  */
-export const getOrderAsync = async (orderId, token) => {
+export const getOrderAsync = async (orderId, params, token) => {
   try {
     let response = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.ORDER}/${orderId}`,
       headers: { Authorization: `Bearer ${token}` },
+      params,
     });
 
     return camelize(response.data);
@@ -483,6 +485,42 @@ export const editOrderAsync = async (orderId, orderObject, token) => {
 };
 
 /**
+ * Edit single order (sync address)
+ * @param {int} orderId
+ * @param {object} orderObject
+ * @param {object} params
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const editOrderSync = async (
+  orderId,
+  orderObject,
+  params = {},
+  token
+) => {
+  try {
+    const updatedLocationDataObject = {
+      order_data: camelToSnake(orderObject),
+    };
+
+    const response = await axios({
+      method: 'PUT',
+      url: `${endpoints.API_V3.ORDER}/${orderId}/sync`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: updatedLocationDataObject,
+      params,
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
  * Edit multiple orders
  * @param {array} orderDataList
  //TODO: this object is not complete, an order can have much more parameters
@@ -738,6 +776,27 @@ export const broadcastToFreelancers = async (requestData, token) => {
       headers: { Authorization: `Bearer ${token}` },
       data: requestData,
     });
+    return camelize(result.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/** Stop dispatching order
+ * @param {int} orderId
+ * @param {string} token
+ * @return {Object} Promise resolve/reject
+ * If resolve, return { data: true }
+ //TODO: needs unit testing
+ */
+export const deleteOrderDispatchAsync = async (orderId, token) => {
+  try {
+    const result = await axios({
+      method: 'DELETE',
+      url: `${endpoints.API_V3.ORDER_ID.replace('{0}', orderId)}/dispatch`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
     return camelize(result.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
