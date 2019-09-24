@@ -21,3 +21,23 @@ export const getServiceProviderAsync = async (serviceProviderId, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * Search Service Provider customers
+ * @param {object} params
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const searchServiceProviderCustomerAsync = async (params, token) => {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: endpoints.API_V3.SERVICE_PROVIDER_CUSTOMER_SEARCH,
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    });
+    return camelize(response.data.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
