@@ -454,7 +454,7 @@ export const createServiceProviderOrderAsync = async (orderObject, token) => {
   try {
     const { orderCustomerEmail, ...rest } = orderObject;
     orderObject = camelToSnake(rest);
-    let response = await axios({
+    const response = await axios({
       method: 'POST',
       url: endpoints.API_V3.SERVICE_PROVIDER_ORDER,
       headers: {
