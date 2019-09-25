@@ -1,6 +1,7 @@
 import {
   broadcastToFreelancers,
   createOrderAsync,
+  createServiceProviderOrderAsync,
   deleteOrderAsync,
   deleteOrdersAsync,
   editOrderAsync,
@@ -202,6 +203,20 @@ describe('Order tests', async () => {
         message: 'Bad Request',
       };
       expect(error).toEqual(expected);
+    }
+  });
+
+  it('Create Service Provider Order ', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+
+    try {
+      const response = await createServiceProviderOrderAsync(
+        CONFIG.locationObjectFutureDate,
+        token.accessToken
+      );
+      expect('data' in response).toBeTruthy();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 403);
     }
   });
 

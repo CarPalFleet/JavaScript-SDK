@@ -445,6 +445,35 @@ export const createOrderAsync = async (orderObject, token) => {
 };
 
 /**
+ * Create service provider single order
+ * @param {object} orderObject
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const createServiceProviderOrderAsync = async (orderObject, token) => {
+  try {
+    const { customerContactEmail, ...rest } = orderObject;
+    orderObject = camelToSnake(rest);
+    let response = await axios({
+      method: 'POST',
+      url: endpoints.API_V3.SERVICE_PROVIDER_ORDER,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        order_data: orderObject,
+        order_customer_email: customerContactEmail,
+      },
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
  * Edit single order
  * @param {int} orderId
  * @param {object} orderObject
