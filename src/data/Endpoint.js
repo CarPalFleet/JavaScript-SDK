@@ -19,6 +19,7 @@ const endpoints = {
     ORDER: `${laravelUrlPrefix}/${version}/customer/order`,
     ORDER_ID: `${laravelUrlPrefix}/${version}/customer/order/{0}`,
     ORDER_SEARCH: `${laravelUrlPrefix}/${version}/customer/order/search`,
+    ORDER_STATUS_REASON: `${laravelUrlPrefix}/${version}/customer/order-status-reason`,
     ORDER_COUNT: `${laravelUrlPrefix}/${version}/customer/order/total`,
     GROUPING_BATCH_TEMPLATE: `${laravelUrlPrefix}/${version}/customer/grouping-batch/template`,
     GROUPING_BATCH_PROGRESSION: `${laravelUrlPrefix}/${version}/customer/grouping-batch/show-recent-pending`,

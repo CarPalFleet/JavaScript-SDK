@@ -831,3 +831,55 @@ export const deleteOrderDispatchAsync = async (orderId, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * Retrieve Order Status reason
+ * @param {int} statusId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ //TODO: needs more extensive unit testing
+ */
+export const getOrderStatusReasonAsync = async (statusId, token) => {
+  try {
+    let response = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.ORDER_STATUS_REASON}`,
+      headers: { Authorization: `Bearer ${token}` },
+      params: { status_id: statusId },
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Update order status
+ * Example :
+ {
+    "status_id": "11",
+    "order_status_reason_id": 0,
+    "notes": "string"
+ }
+ * @param {object} orderId
+ * @param {object} payload
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const updateOrderStatus = async (orderId, payload, token) => {
+  try {
+    const response = await axios({
+      method: 'PUT',
+      url: `${endpoints.API_V3.ORDER_ID.replace('{0}', orderId)}/status`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: camelToSnake(payload),
+    });
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};

@@ -9,12 +9,14 @@ import {
   deleteOrderDispatchAsync,
   getErrorOrderContentsAsync,
   getOrderAsync,
+  getOrderStatusReasonAsync,
   getOrdersGroupByPickUpAddressAsync,
   getOrderUploadTemplateAsync,
   getRemainingOrdersCountAsync,
   getUniquePickupAddressesAsync,
   getUploadedOrderProgressionAsync,
   updateOrderDispatchTo3PL,
+  updateOrderStatus,
 } from '../Order';
 import { getTokenAsync } from '../../account/Auth';
 import { getCSVStringFromArrayObject } from '../../utility/Util';
@@ -380,6 +382,39 @@ describe('Convert Ids into CSV string', () => {
       CONFIG.fieldName
     );
     expect.stringContaining(response);
+  });
+});
+
+describe('Cancel Order', () => {
+  it('Retrieve getOrderStatusReasonAsync, expect 404', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+    const statusId = 11;
+
+    try {
+      const response = await getOrderStatusReasonAsync(
+        statusId,
+        token.accessToken
+      );
+      expect('data' in response).toBeTruthy();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 404);
+    }
+  });
+
+  it('Update orders status', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    const orderId = 1;
+    const payload = {
+      status_id: '11',
+      order_status_reason_id: 0,
+      notes: 'string',
+    };
+    try {
+      await updateOrderStatus(orderId, payload, token.accessToken);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 404);
+    }
   });
 });
 
