@@ -59,6 +59,8 @@ const endpoints = {
     DRIVER_SEARCH: `${laravelUrlPrefix}/${version}/customer/driver/search`,
     USER_SETTING_MY_ORDERS_COLUMN: `${laravelUrlPrefix}/${version}/user/setting/my-orders-columns`,
     SERVICE_PROVIDER: `${laravelUrlPrefix}/${version}/customer/service-provider/{0}/service`,
+    SERVICE_PROVIDER_CUSTOMER_SEARCH: `${laravelUrlPrefix}/${version}/service-provider/customer/search`,
+    SERVICE_PROVIDER_ORDER: `${laravelUrlPrefix}/${version}/service-provider/order`,
   },
 };
 
