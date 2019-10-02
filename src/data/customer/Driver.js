@@ -70,8 +70,8 @@ export const createDriverAsync = async (
     vehicleModel,
     vehicleTypeId,
     schedules,
-    interviewDetails,
-    bank,
+    interviewDetails = {},
+    bank = {},
   },
   token
 ) => {
@@ -98,8 +98,8 @@ export const createDriverAsync = async (
         vehicleTypeId,
       },
       schedules,
-      interviewDetails,
-      bank,
+      interviewDetails: camelToSnake(interviewDetails),
+      bank: camelToSnake(bank),
     };
 
     const driver = camelToSnake({
@@ -234,6 +234,8 @@ export const updateDriverAsync = async (
     name,
     accountNumber,
     schedules,
+    interviewDetails = {},
+    bank = {},
   },
   token
 ) => {
@@ -244,15 +246,7 @@ export const updateDriverAsync = async (
       languageIds,
       transactionGroupIds,
       driverTypeIds,
-      interviewDetails: camelToSnake({
-        hasCriminalRecord,
-        isAProfessionalDriver,
-        hasWorkAsDriver,
-        hasWorkedForSameCompany,
-        referredFrom,
-        drivingReason,
-        remarks,
-      }),
+      interviewDetails: camelToSnake(interviewDetails),
       user: camelToSnake({
         firstName,
         lastName,
@@ -270,12 +264,7 @@ export const updateDriverAsync = async (
         vehicleLicenseNumber,
         vehicleColor,
       }),
-      bank: camelToSnake({
-        branchCode,
-        code,
-        name,
-        accountNumber,
-      }),
+      bank: camelToSnake(bank),
       schedules: schedules
         ? schedules.map((schedule) => {
             const newSchedule = {
