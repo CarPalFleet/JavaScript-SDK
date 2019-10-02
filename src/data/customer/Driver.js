@@ -70,6 +70,8 @@ export const createDriverAsync = async (
     vehicleModel,
     vehicleTypeId,
     schedules,
+    interviewDetails,
+    bank,
   },
   token
 ) => {
@@ -96,6 +98,8 @@ export const createDriverAsync = async (
         vehicleTypeId,
       },
       schedules,
+      interviewDetails,
+      bank,
     };
 
     const driver = camelToSnake({
