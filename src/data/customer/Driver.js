@@ -825,3 +825,83 @@ export const getSearchedDrivers = async (params, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * Get the Driver Payments
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getDriverPaymentAsync = async (token) => {
+  try {
+    const res = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.DRIVER_PAYMENT}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return camelize(res.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Create Driver Payment Batch
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const createDriverPaymentAsync = async (token) => {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: `${endpoints.API_V3.DRIVER_PAYMENT}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return camelize(res.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Update Driver Payment Batch
+ * @param {string} id
+ * @param {object} payload {limit, page, driverIds}
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const updateDriverPaymentAsync = async (id, payload, token) => {
+  try {
+    const res = await axios({
+      method: 'PUT',
+      url: `${endpoints.API_V3.DRIVER_PAYMENT}/${id}`,
+      headers: { Authorization: `Bearer ${token}` },
+      data: camelToSnake(payload),
+    });
+
+    return camelize(res.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Download Driver Payment Batch
+ * @param {string} id
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const downloadDriverPaymentAsync = async (id, token) => {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: `${endpoints.API_V3.DRIVER_PAYMENT}/${id}/download`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return camelize(res.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};

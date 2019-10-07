@@ -26,6 +26,7 @@ const endpoints = {
     PICKUP_GROUP: `${laravelUrlPrefix}/${version}/customer/pickup-group`,
     DRIVER: `${laravelUrlPrefix}/${version}/customer/driver`,
     DRIVER_ROUTE: `${laravelUrlPrefix}/${version}/customer/driver-route`,
+    DRIVER_PAYMENT: `${laravelUrlPrefix}/${version}/customer/driver-payment-batch`,
     JOB: `${laravelUrlPrefix}/${version}/customer/job/{0}`,
     JOB_FROM_ROUTE: `${laravelUrlPrefix}/${version}/customer/job/private`,
     JOB_TIMELINE: `${laravelUrlPrefix}/${version}/customer/job/{0}/timeline/{1}`,
