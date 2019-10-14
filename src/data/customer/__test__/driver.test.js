@@ -4,14 +4,18 @@ import {
   assignToFreelancer,
   createDriverAsync,
   createDriverScheduleAsync,
+  createDriverPaymentAsync,
   deleteDriverScheduleAsync,
+  downloadDriverPaymentAsync,
   getDriverCountsAsync,
   getDriversWithFiltersAsync,
   getDriverRoutesAsync,
   getDriversAsync,
+  getDriverPaymentAsync,
   getSearchedDrivers,
   updateDriverAsync,
   updateDriverScheduleAsync,
+  updateDriverPaymentAsync,
   // deleteDriversAsync,
 } from '../Driver';
 
@@ -488,3 +492,65 @@ function generateDisplayName(size) {
 
   return text;
 }
+
+describe('Create Driver Payment ', async () => {
+  let token;
+
+  beforeAll(async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    token = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+  });
+
+  it('should get driver payments', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    try {
+      const response = await getDriverPaymentAsync(token.accessToken);
+      expect('data' in response).toBeTruthy();
+      expect(response.data instanceof Array).toBeTruthy();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 403);
+    }
+  });
+
+  it('should create driver payments', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    try {
+      const response = await createDriverPaymentAsync(token.accessToken);
+      expect('data' in response).toBeTruthy();
+      expect(response.data instanceof Array).toBeTruthy();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 403);
+    }
+  });
+
+  it('should update driver payments', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    try {
+      const response = await updateDriverPaymentAsync(
+        1,
+        { status_id: 2 },
+        token.accessToken
+      );
+      expect('data' in response).toBeTruthy();
+      expect(response.data instanceof Array).toBeTruthy();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 403);
+    }
+  });
+
+  it('should download driver payments', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    try {
+      const response = await downloadDriverPaymentAsync(1, token.accessToken);
+      expect('data' in response).toBeTruthy();
+      expect(response.data instanceof Array).toBeTruthy();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 403);
+    }
+  });
+});
