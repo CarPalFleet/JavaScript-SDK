@@ -131,8 +131,8 @@ describe('Create new driver ', async () => {
       vehicleBrand: 'Scooter',
       vehicleModel: '12456',
       vehicleTypeId: 1,
+      identificationNumber: '1',
     };
-
     const response = await createDriverAsync(driverInfo, token.accessToken);
     expect('id' in response).toBeTruthy();
     expect('vehicle' in response).toBeTruthy();
