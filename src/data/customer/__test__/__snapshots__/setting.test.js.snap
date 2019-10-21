@@ -33,6 +33,7 @@ Object {
     "nextDayDelivery": false,
     "orderBroadcastDaysToDelivery": 0,
     "orderCreationSettingId": null,
+    "orderDispatchSequenceSettings": Array [],
     "orderSmsSettingsId": null,
     "orderUpdateTransactionSubcustomersSettingId": null,
     "routePlanningModeId": 1,
