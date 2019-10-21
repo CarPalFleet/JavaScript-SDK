@@ -18,6 +18,7 @@ import {
   updateDriverPaymentAsync,
   // deleteDriversAsync,
 } from '../Driver';
+import moment from 'moment-timezone';
 
 describe('Create new driver ', async () => {
   let token;
@@ -273,7 +274,7 @@ describe('Create new driver ', async () => {
   it('Test for create driver schedule with with driver that does not belong to requestor', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
-    const playload = {
+    const payload = {
       driverId: 99999999999912,
       transactionGroupId: 185,
       windows: [
@@ -282,11 +283,11 @@ describe('Create new driver ', async () => {
           endTime: '22:00',
         },
       ],
-      startAt: '2018-03-01',
+      startAt: moment().format('YYYY-MM-DD'),
     };
     try {
       const response = await createDriverScheduleAsync(
-        playload,
+        payload,
         token.accessToken
       );
       expect('data' in response).toBeTruthy();
