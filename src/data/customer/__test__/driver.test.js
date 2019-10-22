@@ -217,7 +217,11 @@ describe('Create new driver ', async () => {
         startAt: '2020-03-05',
       };
 
-      schedule = await createDriverScheduleAsync(payload, token.accessToken);
+      schedule = await createDriverScheduleAsync(
+        payload,
+        {},
+        token.accessToken
+      );
 
       expect('data' in schedule).toBeTruthy();
     });
@@ -288,6 +292,7 @@ describe('Create new driver ', async () => {
     try {
       const response = await createDriverScheduleAsync(
         payload,
+        {},
         token.accessToken
       );
       expect('data' in response).toBeTruthy();
