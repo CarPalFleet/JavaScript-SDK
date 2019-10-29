@@ -201,6 +201,7 @@ export const getDriversAsync = async (filterObject = {}, token) => {
  * @property {string} accountNumber // bank account number
  * @property {Array.<Schedule>} schedules  Array of schedule object
  * @param {Driver} driverDetailsInfo {}
+ * @param {object} params
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
@@ -229,6 +230,7 @@ export const updateDriverAsync = async (
     interviewDetails = {},
     bank = {},
   },
+  params,
   token
 ) => {
   try {
@@ -272,6 +274,7 @@ export const updateDriverAsync = async (
       method: 'PUT',
       url: endpoints.API_V3.DRIVER_UPDATE.replace('{0}', id),
       headers: { Authorization: `Bearer ${token}` },
+      params: camelToSnake(params),
       data: driverInfo,
     });
     return camelize(response.data);
