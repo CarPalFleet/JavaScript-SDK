@@ -84,7 +84,7 @@ describe('Create new driver ', async () => {
       languageIds: [1], // not sure about this parameter
     };
 
-    const response = await updateDriverAsync(driver, token.accessToken);
+    const response = await updateDriverAsync(driver, {}, token.accessToken);
     expect('data' in response).toBeTruthy();
     const { data } = response;
     expect('id' in data).toBeTruthy();
@@ -106,7 +106,7 @@ describe('Create new driver ', async () => {
   it('Update driver should return validation error statusCode 400', async () => {
     try {
       jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
-      await updateDriverAsync({}, token.accessToken);
+      await updateDriverAsync({}, {}, token.accessToken);
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 404);
     }
