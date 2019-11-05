@@ -1,5 +1,10 @@
 import { getTokenAsync } from '../../account/Auth';
-import { putCustomerSettings, showCustomerSettingsAsync } from '../Setting';
+import {
+  putCustomerSettings,
+  showCustomerSettingsAsync,
+  getDispatchType,
+  getDispatchMode,
+} from '../Setting';
 import CONFIG from './Config';
 
 describe('Test showCustomerSettingsAsync function', async () => {
@@ -71,11 +76,29 @@ describe('test updating customer settings', async () => {
   it('should return 200', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     const settings = await showCustomerSettingsAsync(token.accessToken);
-    const response = await putCustomerSettings(token.accessToken, settings.data.data.id, {
-      logisticsModelId: 2,
-    });
+    const response = await putCustomerSettings(
+      token.accessToken,
+      settings.data.data.id,
+      {
+        logisticsModelId: 2,
+      }
+    );
 
     expect(response).toHaveProperty('status', 200);
     expect(response.data.data).toHaveProperty('logisticsModelId', 2);
+  });
+});
+
+describe('test getDispatchType', async () => {
+  it('should return getDispatchType data', async () => {
+    const response = await getDispatchType();
+    expect(response.data.data instanceof Array).toBeTruthy();
+  });
+});
+
+describe('test getDispatchMode', async () => {
+  it('should return getDispatchMode data', async () => {
+    const response = await getDispatchMode();
+    expect(response.data.data instanceof Array).toBeTruthy();
   });
 });

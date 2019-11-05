@@ -201,6 +201,7 @@ export const getDriversAsync = async (filterObject = {}, token) => {
  * @property {string} accountNumber // bank account number
  * @property {Array.<Schedule>} schedules  Array of schedule object
  * @param {Driver} driverDetailsInfo {}
+ * @param {object} params
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
@@ -229,6 +230,7 @@ export const updateDriverAsync = async (
     interviewDetails = {},
     bank = {},
   },
+  params,
   token
 ) => {
   try {
@@ -272,6 +274,7 @@ export const updateDriverAsync = async (
       method: 'PUT',
       url: endpoints.API_V3.DRIVER_UPDATE.replace('{0}', id),
       headers: { Authorization: `Bearer ${token}` },
+      params: camelToSnake(params),
       data: driverInfo,
     });
     return camelize(response.data);
@@ -523,6 +526,7 @@ export const getUpdatedDriverLiveData = (
  * @property {Array.<Window>} windows Array of window object
  * @property {Array.<number>} recursions Array of day numbers for recurring window
  * @param {ScheduleInfo} payload // Schdule info object
+ * @param {Object} params
  * @param {string} token {driverId, transactionGroupId, startTime, endTime, startDate}
  * @return {Object} Promise resolve/reject
  * If resolve, return value: boolean(To indicate update successful or failed)
@@ -534,6 +538,7 @@ export const getUpdatedDriverLiveData = (
 export const updateDriverScheduleAsync = async (
   scheduleId,
   payload = {},
+  params = {},
   token
 ) => {
   try {
@@ -548,6 +553,7 @@ export const updateDriverScheduleAsync = async (
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', scheduleId)}`,
       headers: { Authorization: `Bearer ${token}` },
       data: camelToSnake(newPayload),
+      params: camelToSnake(params),
     });
     return camelize(result.data);
   } catch (e) {
@@ -585,6 +591,7 @@ export const deleteDriverScheduleAsync = async (scheduleId, token) => {
  * @property {Array.<Window>} windows Array of window object (mandatory)
  * @property {Array.<number>} recursions Array of day numbers for recurring window
  * @param {ScheduleInfo} payload // Schdule info object
+ * @param {Object} params url params
  * @param {string} token resolve/reject
  * @return {Object} Promise resolve/reject
  * If resolve, return value: boolean(To indicate update successful or failed)
@@ -593,7 +600,11 @@ export const deleteDriverScheduleAsync = async (scheduleId, token) => {
  * 400: Driver Schedule with same values exists
  * 200: Success
  */
-export const createDriverScheduleAsync = async (payload = {}, token) => {
+export const createDriverScheduleAsync = async (
+  payload = {},
+  params,
+  token
+) => {
   try {
     const newPayload = {
       ...payload,
@@ -606,6 +617,7 @@ export const createDriverScheduleAsync = async (payload = {}, token) => {
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', '')}`,
       headers: { Authorization: `Bearer ${token}` },
       data: camelToSnake(newPayload),
+      params: camelToSnake(params),
     });
     return camelize(result.data);
   } catch (e) {
