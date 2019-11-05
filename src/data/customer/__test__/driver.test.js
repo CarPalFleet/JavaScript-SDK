@@ -18,6 +18,7 @@ import {
   updateDriverPaymentAsync,
   // deleteDriversAsync,
 } from '../Driver';
+import moment from 'moment-timezone';
 
 describe('Create new driver ', async () => {
   let token;
@@ -83,7 +84,7 @@ describe('Create new driver ', async () => {
       languageIds: [1], // not sure about this parameter
     };
 
-    const response = await updateDriverAsync(driver, token.accessToken);
+    const response = await updateDriverAsync(driver, {}, token.accessToken);
     expect('data' in response).toBeTruthy();
     const { data } = response;
     expect('id' in data).toBeTruthy();
@@ -105,7 +106,7 @@ describe('Create new driver ', async () => {
   it('Update driver should return validation error statusCode 400', async () => {
     try {
       jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
-      await updateDriverAsync({}, token.accessToken);
+      await updateDriverAsync({}, {}, token.accessToken);
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 404);
     }
@@ -216,7 +217,11 @@ describe('Create new driver ', async () => {
         startAt: '2020-03-05',
       };
 
-      schedule = await createDriverScheduleAsync(payload, token.accessToken);
+      schedule = await createDriverScheduleAsync(
+        payload,
+        {},
+        token.accessToken
+      );
 
       expect('data' in schedule).toBeTruthy();
     });
@@ -273,7 +278,7 @@ describe('Create new driver ', async () => {
   it('Test for create driver schedule with with driver that does not belong to requestor', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
-    const playload = {
+    const payload = {
       driverId: 99999999999912,
       transactionGroupId: 185,
       windows: [
@@ -282,11 +287,12 @@ describe('Create new driver ', async () => {
           endTime: '22:00',
         },
       ],
-      startAt: '2018-03-01',
+      startAt: moment().format('YYYY-MM-DD'),
     };
     try {
       const response = await createDriverScheduleAsync(
-        playload,
+        payload,
+        {},
         token.accessToken
       );
       expect('data' in response).toBeTruthy();

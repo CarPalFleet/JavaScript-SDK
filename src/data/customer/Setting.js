@@ -29,7 +29,6 @@ export const showCustomerSettingsAsync = async (token) => {
   }
 };
 
-
 /** Updates the customer's settings.
  * @param {string} token
  * @param {int} id
@@ -47,6 +46,40 @@ export const putCustomerSettings = async (token, id, data) => {
     });
     return {
       ...response,
+      data: camelize(response.data),
+    };
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/** Retrieve Dispatch Mode
+ * @return {Promise} settings object
+ */
+export const getDispatchMode = async () => {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: endpoints.API_V3.DISPATCH_MODE,
+    });
+    return {
+      data: camelize(response.data),
+    };
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/** Retrieve Dispatch Type
+ * @return {Promise} settings object
+ */
+export const getDispatchType = async () => {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: endpoints.API_V3.DISPATCH_TYPE,
+    });
+    return {
       data: camelize(response.data),
     };
   } catch (e) {

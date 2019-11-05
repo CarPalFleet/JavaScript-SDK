@@ -14,6 +14,8 @@ const endpoints = {
   NOTIFICATIONS: `${urlPrefix}/users/{0}/notifications`,
   // USER_SETTINGS: `${urlPrefix}/users/{0}/settings`,
   API_V3: {
+    DISPATCH_MODE: `${laravelUrlPrefix}/${version}/dispatch-mode`,
+    DISPATCH_TYPE: `${laravelUrlPrefix}/${version}/dispatch-type`,
     NEW_CUSTOMER: `${laravelUrlPrefix}/${version}/customer`,
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
     ORDER: `${laravelUrlPrefix}/${version}/customer/order`,
