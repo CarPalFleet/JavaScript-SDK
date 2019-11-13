@@ -408,8 +408,9 @@ export const getProofDownload = async ({ jobId, locationId, token }) => {
         jobId
       )}/location/${locationId}/proof/download`,
       headers: { Authorization: `Bearer ${token}` },
+      responseType: 'arraybuffer',
     });
-    return camelize(response.data);
+    return response.data;
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
