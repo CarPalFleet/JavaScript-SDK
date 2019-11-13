@@ -4,7 +4,7 @@ import camelize from 'camelize';
 import { apiResponseErrorHandler } from '../utility/Util';
 
 /**
- * Retrieve Service Provider by id
+ * Retrieve list of languages
  * @return {object} Promise resolve/reject
  */
 export const getLanguages = async () => {

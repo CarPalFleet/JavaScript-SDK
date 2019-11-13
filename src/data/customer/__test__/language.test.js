@@ -1,6 +1,6 @@
 import { getLanguages } from '../Languages';
 
-describe('Test for Language', () => {
+describe('Test for Languages', () => {
   beforeEach(() => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
   });
