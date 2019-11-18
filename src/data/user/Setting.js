@@ -8,6 +8,24 @@ import camelize from 'camelize';
 import { apiResponseErrorHandler } from '../utility/Util';
 import { camelToSnake } from '../utility/ChangeCase';
 
+/** Retrieve Users Settings
+ * @param {string} token
+ * @return {Promise} settings object
+ */
+
+export const getUserSettingsAsync = async (token) => {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: endpoints.API_V3.USER_SETTINGS,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return camelize(response.data.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
 /** Retrieve Customer"s Settings
  * @param {string} token
  * @return {Promise} settings object
