@@ -910,3 +910,27 @@ export const updateOrderStatus = async (orderId, payload, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * Split order to multiple order
+ * @param {object} orderId
+ * @param {object} payload
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const splitToMultipleOrder = async (orderId, payload, token) => {
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: `${endpoints.API_V3.ORDER_ID.replace('{0}', orderId)}/split`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: camelToSnake(payload),
+    });
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};

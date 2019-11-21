@@ -391,3 +391,27 @@ export const cancelJobAsync = async (jobId, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * get download proof
+ * @param {string} jobId
+ * @param {string} locationId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getProofDownload = async ({ jobId, locationId, token }) => {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.JOB.replace(
+        '{0}',
+        jobId
+      )}/location/${locationId}/proof/download`,
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: 'arraybuffer',
+    });
+    return response.data;
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
