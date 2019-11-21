@@ -310,6 +310,41 @@ export const getRemainingOrdersAsync = async (filterObject, token) => {
 };
 
 /**
+ * Get search orders
+ * @param {object} filterObject # {pickupDate (mandatory), limit, offset}
+ * pickupDate (optional)(string) = "2018-02-28"
+ * limit = 20 (optional)(int)
+ * page = 0 (optional)(int)
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getSearchOrdersAsync = async (filterObject, token) => {
+  try {
+    /*
+      Add following filter for remaining order
+      statusIds = 2; // Success Orders
+      withRoute = 0; // Orders without routes
+      withJob = 1; // Order should have included jobId
+      include = "pickup_group,delivery_address"
+      limit = 20
+      offset = 0
+    */
+
+    let filters = camelToSnake(filterObject);
+    let paramString = convertObjectIntoURLString(filters);
+    let response = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.ORDER_SEARCH}${paramString.replace('&', '?')}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
  * Get orders
  * @param {object} filterObject # {pickupDate (mandatory), limit, offset}
  * pickupDate (optional)(string) = "2018-02-28"
@@ -330,19 +365,11 @@ export const getOrdersAsync = async (filterObject, token) => {
       offset = 0
     */
 
-    const url = filterObject.keyword
-      ? endpoints.API_V3.ORDER_SEARCH
-      : endpoints.API_V3.ORDER;
-
-    if (filterObject.keyword) {
-      filterObject.validationStatusId = filterObject.statusIds;
-    }
-
     let filters = camelToSnake(filterObject);
     let paramString = convertObjectIntoURLString(filters);
     let response = await axios({
       method: 'GET',
-      url: `${url}${paramString.replace('&', '?')}`,
+      url: `${endpoints.API_V3.ORDER}${paramString.replace('&', '?')}`,
       headers: { Authorization: `Bearer ${token}` },
     });
 
