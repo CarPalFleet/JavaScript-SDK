@@ -310,7 +310,7 @@ export const getRemainingOrdersAsync = async (filterObject, token) => {
 };
 
 /**
- * Get orders
+ * Get search orders
  * @param {object} filterObject # {pickupDate (mandatory), limit, offset}
  * pickupDate (optional)(string) = "2018-02-28"
  * limit = 20 (optional)(int)
