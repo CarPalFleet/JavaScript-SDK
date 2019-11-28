@@ -49,7 +49,7 @@ export const createNewCustomerAsync = async ({
         companyPhone: coPhone,
         companyVatNumber: coVatNo,
         userSettings: {
-          defaultLanguageCode: language,
+          default_language_code: language,
         },
       }),
     });
