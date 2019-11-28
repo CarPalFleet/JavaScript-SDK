@@ -4,6 +4,7 @@ exports[`Test showCustomerSettingsAsync function should get customer settings 1`
 Object {
   "data": Object {
     "allowDriverPayments": false,
+    "allowOrderSplit": false,
     "autoDispatchOrders": false,
     "capacityUnitSetting": Object {
       "capacityUnit": Object {

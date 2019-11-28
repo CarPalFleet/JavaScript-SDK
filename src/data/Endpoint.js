@@ -60,10 +60,13 @@ const endpoints = {
     ASSIGN_TO_FREELANCER: `${laravelUrlPrefix}/${version}/customer/job/driver/{0}`,
     BROADCAST_TO_FREELANCERS: `${laravelUrlPrefix}/${version}/customer/order/broadcast`,
     DRIVER_SEARCH: `${laravelUrlPrefix}/${version}/customer/driver/search`,
-    USER_SETTING_MY_ORDERS_COLUMN: `${laravelUrlPrefix}/${version}/user/setting/my-orders-columns`,
+    USER: `${laravelUrlPrefix}/${version}/user`,
+    USER_SETTINGS: `${laravelUrlPrefix}/${version}/user/setting`,
+    USER_SETTING_MY_ORDERS_COLUMN: `${laravelUrlPrefix}/${version}/user/setting/my_orders_columns`,
     SERVICE_PROVIDER: `${laravelUrlPrefix}/${version}/customer/service-provider/{0}/service`,
     SERVICE_PROVIDER_CUSTOMER_SEARCH: `${laravelUrlPrefix}/${version}/service-provider/customer/search`,
     SERVICE_PROVIDER_ORDER: `${laravelUrlPrefix}/${version}/service-provider/order`,
+    LANGUAGES: `${laravelUrlPrefix}/${version}/languages`,
   },
 };
 

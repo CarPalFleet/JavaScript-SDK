@@ -31,6 +31,7 @@ export const createNewCustomerAsync = async ({
   coName,
   coPhone,
   coVatNo,
+  language,
 }) => {
   try {
     const response = await axios({
@@ -47,6 +48,9 @@ export const createNewCustomerAsync = async ({
         companyName: coName,
         companyPhone: coPhone,
         companyVatNumber: coVatNo,
+        userSettings: {
+          default_language_code: language,
+        },
       }),
     });
     return camelize(response.data.data);

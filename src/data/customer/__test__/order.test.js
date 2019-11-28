@@ -17,6 +17,7 @@ import {
   getUploadedOrderProgressionAsync,
   updateOrderDispatchTo3PL,
   updateOrderStatus,
+  splitToMultipleOrder,
 } from '../Order';
 import { getTokenAsync } from '../../account/Auth';
 import { getCSVStringFromArrayObject } from '../../utility/Util';
@@ -414,6 +415,19 @@ describe('Cancel Order', () => {
       await updateOrderStatus(orderId, payload, token.accessToken);
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 404);
+    }
+  });
+
+  it('Split order to mutliple order status', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    const orderId = 1;
+    const payload = {
+      number_of_orders: 1,
+    };
+    try {
+      await splitToMultipleOrder(orderId, payload, token.accessToken);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 403);
     }
   });
 });
