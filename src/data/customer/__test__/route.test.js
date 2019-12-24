@@ -1,4 +1,5 @@
 import {
+  getRouteDraftDetails,
   getRouteLocationOrder,
   removeRouteAsync,
   storeRouteAsync,
@@ -113,6 +114,34 @@ it('should test to get route location order', async () => {
 
   try {
     await getRouteLocationOrder(routeId, routeLocationId, accessToken);
+  } catch (error) {
+    expect(error).toHaveProperty('statusCode', 404);
+  }
+});
+
+it('should test to get order draft details', async () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+  const routeId = 1001;
+  const routeLocationId = 10001;
+  const orderId = 111111;
+  const filterObj = {};
+
+  const { accessToken } = await getTokenAsync(
+    CONFIG.email,
+    CONFIG.password,
+    CONFIG.clientId,
+    CONFIG.clientSecret
+  );
+
+  try {
+    await getRouteDraftDetails(
+      routeId,
+      routeLocationId,
+      orderId,
+      filterObj,
+      accessToken
+    );
   } catch (error) {
     expect(error).toHaveProperty('statusCode', 404);
   }
