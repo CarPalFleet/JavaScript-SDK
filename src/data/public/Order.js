@@ -1,5 +1,5 @@
 /**
- * @fileoverview This file contains all Country related functions that are triggered by a (public) User
+ * @fileoverview This file contains all Order related functions that are triggered by a (public) User
  */
 
 import axios from 'axios';
