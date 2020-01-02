@@ -348,3 +348,36 @@ export const getRouteLocationOrder = async (
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * Get route draft orders
+ * @param {int} routeId
+ * @param {int} routeLocationId
+ * @param {int} orderId
+ * @param {string} filterObj
+ * @param {string} token
+ * @return {object} return updated route
+ */
+export const getRouteDraftDetails = async (
+  routeId,
+  routeLocationId,
+  orderId,
+  filterObj,
+  token
+) => {
+  try {
+    const routes = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.ROUTE_LOCATION.replace(
+        '{0}',
+        routeId
+      )}/${routeLocationId}/order/${orderId}`,
+      headers: { Authorization: `Bearer ${token}` },
+      params: camelToSnake(filterObj),
+    });
+
+    return camelize(routes.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};

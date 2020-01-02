@@ -1,12 +1,13 @@
 import {
+  cancelJobAsync,
+  createJobsAsync,
   getJobDetailAsync,
   getJobSummaryAsync,
-  createJobsAsync,
-  removeJobsAsync,
-  getJobTimelineAsync,
   getJobDriverLocationsAsync,
-  cancelJobAsync,
+  getJobTimelineAsync,
   getProofDownload,
+  removeDraftJobAsync,
+  removeJobsAsync,
 } from '../Job';
 import { getTokenAsync } from '../../account/Auth';
 import CONFIG from './Config';
@@ -339,6 +340,19 @@ describe('job create and delete test', async () => {
           locationId: '123',
           token: '123',
         });
+        expect('data' in response).toBeTruthy();
+      } catch (error) {
+        expect(error).toHaveProperty('statusCode', 401);
+      }
+    });
+  });
+
+  describe('delete draft job', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+    it('Should get auth error if there is no proper token', async () => {
+      try {
+        const response = await removeDraftJobAsync(CONFIG.orderId, '123');
         expect('data' in response).toBeTruthy();
       } catch (error) {
         expect(error).toHaveProperty('statusCode', 401);
