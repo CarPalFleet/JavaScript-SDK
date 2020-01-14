@@ -67,6 +67,7 @@ const endpoints = {
     SERVICE_PROVIDER_CUSTOMER_SEARCH: `${laravelUrlPrefix}/${version}/service-provider/customer/search`,
     SERVICE_PROVIDER_ORDER: `${laravelUrlPrefix}/${version}/service-provider/order`,
     LANGUAGES: `${laravelUrlPrefix}/${version}/languages`,
+    ORDER_STATUS: `${laravelUrlPrefix}/${version}/order-status`,
   },
 };
 

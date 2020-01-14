@@ -415,3 +415,22 @@ export const getProofDownload = async ({ jobId, locationId, token }) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * delete Draft Job
+ * @param {string} jobId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const removeDraftJobAsync = async ({ jobId, token }) => {
+  try {
+    const response = await axios({
+      method: 'DELETE',
+      url: `${endpoints.API_V3.JOB.replace('{0}', jobId)}/draft`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
