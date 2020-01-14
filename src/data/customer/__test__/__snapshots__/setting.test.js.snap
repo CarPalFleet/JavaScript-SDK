@@ -24,6 +24,7 @@ Object {
     "customer3pls": Array [],
     "customerId": 14821,
     "dateFormat": "DD-MM-YYYY",
+    "driverOrderServiceMatching": false,
     "fleetTypeIds": Array [
       1,
     ],
@@ -46,9 +47,11 @@ Object {
         "routeSetting": Object {
           "assignTaggedDrivers": 0,
           "autoDispatch": 0,
+          "considerAveragePickupTime": 0,
           "considerAverageTimePerDropOff": 1,
           "considerDeliveryWindows": 0,
           "considerDistanceOverTimeWindow": 1,
+          "considerDriverOrderServices": 0,
           "considerEndDepot": 0,
           "considerOrderPairing": 1,
           "considerRouteRenewals": 0,
@@ -74,6 +77,7 @@ Object {
           "includeAverageSpeedOfVehicle": 0,
           "includeDriverAvailability": 1,
           "maxViolationTimeInMinutes": 10,
+          "pickupServiceTimeInSeconds": 0,
           "serviceTimeInSeconds": 1800,
           "softAssignDrivers": 0,
           "updatedAt": "2019-03-27 03:18:02",
