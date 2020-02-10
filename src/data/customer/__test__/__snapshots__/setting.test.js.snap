@@ -6,6 +6,7 @@ Object {
     "allowDriverPayments": false,
     "allowOrderSplit": false,
     "autoDispatchOrders": false,
+    "broadcastSequenceSettings": Array [],
     "capacityUnitSetting": Object {
       "capacityUnit": Object {
         "abbreviation": "Location",
@@ -22,7 +23,20 @@ Object {
     },
     "createdAt": "2018-03-13 08:25:28",
     "customer3pls": Array [],
+    "customerDriverSetting": Object {
+      "allowDriverFeedback": true,
+      "createdAt": "2019-06-13 04:32:11",
+      "customerId": 14821,
+      "displayTimeWindow": false,
+      "driverOrderAssignment": false,
+      "id": 14825,
+      "jobTransitionStrict": true,
+      "locationGeofenceRadiusInMeters": null,
+      "updatedAt": "2019-10-16 08:27:46",
+    },
     "customerId": 14821,
+    "customerReportSettings": Array [],
+    "customerServiceProviderSettings": null,
     "dateFormat": "DD-MM-YYYY",
     "driverOrderServiceMatching": false,
     "fleetTypeIds": Array [
@@ -39,6 +53,7 @@ Object {
     "orderSmsSettingsId": null,
     "orderUpdateTransactionSubcustomersSettingId": null,
     "routePlanningModeId": 1,
+    "serviceProviderSettings": null,
     "settingRouteSettings": Array [
       Object {
         "createdAt": "2019-03-27 03:18:02",
@@ -74,10 +89,12 @@ Object {
           "groupRouteSettingTypeId": 235,
           "hardAssignDrivers": 1,
           "id": 1303,
+          "ignoreStartWaitingTime": 0,
           "includeAverageSpeedOfVehicle": 0,
           "includeDriverAvailability": 1,
           "maxViolationTimeInMinutes": 10,
           "pickupServiceTimeInSeconds": 0,
+          "removeStartingEndingAddress": 0,
           "serviceTimeInSeconds": 1800,
           "softAssignDrivers": 0,
           "updatedAt": "2019-03-27 03:18:02",
