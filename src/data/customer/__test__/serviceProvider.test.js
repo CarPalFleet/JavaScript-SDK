@@ -1,5 +1,4 @@
 import {
-  getListOfDriverService,
   getServiceProviderAsync,
   searchServiceProviderCustomerAsync,
 } from '../ServiceProvider';
@@ -46,23 +45,6 @@ describe('Test for Service Provider', () => {
 
     try {
       const result = await getServiceProviderAsync(10001, accessToken);
-      expect(result.length).toBeTruthy();
-    } catch (error) {
-      const mockError = apiResponseErrorHandler(error);
-      expect(mockError).toEqual(Promise.reject(error));
-    }
-  });
-
-  it('should get list of driver services', async () => {
-    const { accessToken } = await getTokenAsync(
-      CONFIG.email,
-      CONFIG.password,
-      CONFIG.clientId,
-      CONFIG.clientSecret
-    );
-
-    try {
-      const result = await getListOfDriverService(accessToken);
       expect(result.length).toBeTruthy();
     } catch (error) {
       const mockError = apiResponseErrorHandler(error);
