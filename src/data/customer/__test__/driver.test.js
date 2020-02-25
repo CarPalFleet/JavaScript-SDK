@@ -69,6 +69,7 @@ describe('Create new driver ', async () => {
           recursions: [1],
         },
       ],
+      serviceProviderDriverServiceIds: [],
     };
 
     const newDriver = await createDriverAsync(
@@ -133,6 +134,7 @@ describe('Create new driver ', async () => {
       vehicleModel: '12456',
       vehicleTypeId: 1,
       identificationNumber: '1',
+      serviceProviderDriverServiceIds: [],
     };
     const response = await createDriverAsync(driverInfo, token.accessToken);
     expect('id' in response).toBeTruthy();

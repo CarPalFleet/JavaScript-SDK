@@ -73,6 +73,7 @@ export const createDriverAsync = async (
     interviewDetails = {},
     bank = {},
     identificationNumber,
+    serviceProviderDriverServiceIds,
   },
   token
 ) => {
@@ -102,6 +103,7 @@ export const createDriverAsync = async (
       interviewDetails: camelToSnake(interviewDetails),
       bank: camelToSnake(bank),
       identificationNumber,
+      serviceProviderDriverServiceIds,
     };
 
     const driver = camelToSnake({
@@ -229,6 +231,7 @@ export const updateDriverAsync = async (
     schedules,
     interviewDetails = {},
     bank = {},
+    serviceProviderDriverServiceIds,
   },
   params,
   token
@@ -269,6 +272,7 @@ export const updateDriverAsync = async (
             return camelToSnake(newSchedule);
           })
         : undefined,
+      serviceProviderDriverServiceIds,
     });
     const response = await axios({
       method: 'PUT',
