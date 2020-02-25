@@ -57,7 +57,7 @@
   "dependencies": {
     "ably": "^1.1.12",
     "aws-sdk": "^2.386.0",
-    "axios": "^0.17.0",
+    "axios": "^0.18.1",
     "camelize": "^1.0.0",
     "dotenv": "^5.0.1",
     "form-data": "^2.3.3",
