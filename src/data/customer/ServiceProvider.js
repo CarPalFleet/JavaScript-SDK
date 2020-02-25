@@ -41,3 +41,21 @@ export const searchServiceProviderCustomerAsync = async (params, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * Get list of drivers services
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getListOfDriverService = async (token) => {
+  try {
+    const res = await axios({
+      method: 'GET',
+      url: endpoints.API_V3.SERVICE_PROVIDER_DRIVER_SERVICES,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return camelize(res.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
