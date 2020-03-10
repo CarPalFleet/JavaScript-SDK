@@ -366,3 +366,71 @@ export const removeJobsAsync = async (jobIds, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * delete Jobs
+ * @param {string} jobId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const cancelJobAsync = async (jobId, token) => {
+  try {
+    const response = await axios({
+      method: 'PUT',
+      url: `${endpoints.API_V3.JOB.replace('/{0}', `/${jobId}`)}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        status_id: 4, // cancelled
+      },
+    });
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * get download proof
+ * @param {string} jobId
+ * @param {string} locationId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getProofDownload = async ({ jobId, locationId, token }) => {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.JOB.replace(
+        '{0}',
+        jobId
+      )}/location/${locationId}/proof/download`,
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: 'arraybuffer',
+    });
+    return response.data;
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * delete Draft Job
+ * @param {string} jobId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const removeDraftJobAsync = async ({ jobId, token }) => {
+  try {
+    const response = await axios({
+      method: 'DELETE',
+      url: `${endpoints.API_V3.JOB.replace('{0}', jobId)}/draft`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};

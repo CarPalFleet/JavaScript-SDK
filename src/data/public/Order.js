@@ -1,5 +1,5 @@
 /**
- * @fileoverview This file contains all Language related functions that are triggered by a (public) User
+ * @fileoverview This file contains all Order related functions that are triggered by a (public) User
  */
 
 import axios from 'axios';
@@ -8,13 +8,12 @@ import camelize from 'camelize';
 import { apiResponseErrorHandler } from '../utility/Util';
 
 /**
- * Retrieve all Languages
+ * Retrieve all Order Status
  * @return {object} Promise resolve/reject
- * @deprecated since version 0.3.71
  */
-export const getLanguagesAsync = async () => {
+export const getListOfOrderStatus = async () => {
   try {
-    const response = await axios.get(endpoints.LANGUAGES);
+    const response = await axios.get(endpoints.API_V3.ORDER_STATUS);
     return camelize(response.data.data);
   } catch (e) {
     return apiResponseErrorHandler(e);

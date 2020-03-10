@@ -1,15 +1,23 @@
 import {
-  getUploadedOrderProgressionAsync,
-  getErrorOrderContentsAsync,
-  getOrderAsync,
-  getOrdersGroupByPickUpAddressAsync,
-  getUniquePickupAddressesAsync,
+  broadcastToFreelancers,
   createOrderAsync,
-  editOrderAsync,
+  createServiceProviderOrderAsync,
   deleteOrderAsync,
   deleteOrdersAsync,
-  getRemainingOrdersCountAsync,
+  editOrderAsync,
+  editOrderSync,
+  deleteOrderDispatchAsync,
+  getErrorOrderContentsAsync,
+  getOrderAsync,
+  getOrderStatusReasonAsync,
+  getOrdersGroupByPickUpAddressAsync,
   getOrderUploadTemplateAsync,
+  getRemainingOrdersCountAsync,
+  getUniquePickupAddressesAsync,
+  getUploadedOrderProgressionAsync,
+  updateOrderDispatchTo3PL,
+  updateOrderStatus,
+  splitToMultipleOrder,
 } from '../Order';
 import { getTokenAsync } from '../../account/Auth';
 import { getCSVStringFromArrayObject } from '../../utility/Util';
@@ -32,7 +40,11 @@ describe('Order tests', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
-      const response = await getOrderUploadTemplateAsync(token.accessToken);
+      const response = await getOrderUploadTemplateAsync(
+        CONFIG.pickupDate,
+        token.accessToken
+      );
+
       expect(response).toEqual(jasmine.any(Object));
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 404);
@@ -42,9 +54,15 @@ describe('Order tests', async () => {
   it('Retrieving single order, expect 404', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
+    const params = {
+      include:
+        'route_locations,service_providers.customer.user,quote,service_type,vehicle_service,job_driver.user,driver_fee',
+    };
+
     try {
       const response = await getOrderAsync(
         CONFIG.groupingLocationId,
+        params,
         token.accessToken
       );
       expect('data' in response).toBeTruthy();
@@ -131,7 +149,10 @@ describe('Order tests', async () => {
 
     try {
       const response = await getErrorOrderContentsAsync(
-        CONFIG.pickupDate,
+        {
+          pickupDateStart: CONFIG.pickupDate,
+          pickupDateEnd: CONFIG.pickupDate,
+        },
         token.accessToken
       );
       expect(response.data instanceof Array).toBeTruthy();
@@ -182,8 +203,23 @@ describe('Order tests', async () => {
         ],
         statusCode: 400,
         statusText: 'Bad Request',
+        message: 'Bad Request',
       };
       expect(error).toEqual(expected);
+    }
+  });
+
+  it('Create Service Provider Order ', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+
+    try {
+      const response = await createServiceProviderOrderAsync(
+        CONFIG.locationObjectFutureDate,
+        token.accessToken
+      );
+      expect('data' in response).toBeTruthy();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 403);
     }
   });
 
@@ -197,7 +233,7 @@ describe('Order tests', async () => {
       );
       expect('data' in response).toBeTruthy();
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 401);
+      expect(error).toHaveProperty('statusCode', 400);
     }
   });
 
@@ -217,6 +253,30 @@ describe('Order tests', async () => {
         errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
         statusCode: 404,
         statusText: 'Not Found',
+        message: 'Not Found',
+      };
+      expect(error).toEqual(expected);
+    }
+  });
+
+  it('Edit Order Sync not found', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+    try {
+      const response = await editOrderSync(
+        1,
+        { pickupDate: '28-02-2018' },
+        {},
+        token.accessToken
+      );
+
+      expect('data' in response).toBeTruthy();
+    } catch (error) {
+      const expected = {
+        errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
+        statusCode: 404,
+        statusText: 'Not Found',
+        message: 'Not Found',
       };
       expect(error).toEqual(expected);
     }
@@ -246,6 +306,7 @@ describe('Order tests', async () => {
       const expected = {
         statusCode: 404,
         statusText: 'Not Found',
+        message: 'Not Found',
         errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
@@ -265,7 +326,49 @@ describe('Order tests', async () => {
       const expected = {
         statusCode: 404,
         statusText: 'Not Found',
+        message: 'Not Found',
         errorMessage: [{ key: 'orderIds', messages: ['Order not found'] }],
+      };
+      expect(error).toEqual(expected);
+    }
+  });
+
+  it('Update orders to dispatch to 3PL', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+    try {
+      await updateOrderDispatchTo3PL([], token.accessToken);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 400);
+    }
+  });
+
+  it('Broadcast orders to freelancers', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+    const params = {
+      order_ids: [10001],
+    };
+
+    try {
+      const response = await broadcastToFreelancers(params, token.accessToken);
+      expect(response).toMatchSnapshot();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 400);
+    }
+  });
+
+  it('Delete Order dispatch', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    try {
+      const response = await deleteOrderDispatchAsync(1, token.accessToken);
+      expect(response.data).toBeTruthy();
+    } catch (error) {
+      const expected = {
+        statusCode: 404,
+        statusText: 'Not Found',
+        message: 'Not Found',
+        errorMessage: [{ key: 'orderId', messages: ['Order not found'] }],
       };
       expect(error).toEqual(expected);
     }
@@ -280,6 +383,52 @@ describe('Convert Ids into CSV string', () => {
       CONFIG.fieldName
     );
     expect.stringContaining(response);
+  });
+});
+
+describe('Cancel Order', () => {
+  it('Retrieve getOrderStatusReasonAsync, expect 404', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+    const statusId = 11;
+
+    try {
+      const response = await getOrderStatusReasonAsync(
+        statusId,
+        token.accessToken
+      );
+      expect('data' in response).toBeTruthy();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 404);
+    }
+  });
+
+  it('Update orders status', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    const orderId = 1;
+    const payload = {
+      status_id: '11',
+      order_status_reason_id: 0,
+      notes: 'string',
+    };
+    try {
+      await updateOrderStatus(orderId, payload, token.accessToken);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 404);
+    }
+  });
+
+  it('Split order to mutliple order status', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    const orderId = 1;
+    const payload = {
+      number_of_orders: 1,
+    };
+    try {
+      await splitToMultipleOrder(orderId, payload, token.accessToken);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode', 403);
+    }
   });
 });
 

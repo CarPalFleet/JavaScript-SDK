@@ -1,14 +1,14 @@
 import { getTokenAsync } from '../../account/Auth';
-import { showCustomerSettingsAsync } from '../Setting';
+import {
+  putCustomerSettings,
+  showCustomerSettingsAsync,
+  getDispatchType,
+  getDispatchMode,
+} from '../Setting';
 import CONFIG from './Config';
 
-describe('Tests showCustomerSettingsAsync function', async () => {
+describe('Test showCustomerSettingsAsync function', async () => {
   let token;
-  const customerId = 65;
-  const payload = {
-    identityId: 1,
-    transactionGroupId: 185,
-  };
 
   beforeAll(async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -22,33 +22,31 @@ describe('Tests showCustomerSettingsAsync function', async () => {
 
   it('should return customer settings status 200', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
-
-    const response = await showCustomerSettingsAsync(
-      token.accessToken,
-      customerId,
-      payload
-    );
-    expect(response).toHaveProperty('status', 200);
+    try {
+      const response = await showCustomerSettingsAsync(token.accessToken);
+      expect(response).toHaveProperty('status', 200);
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode');
+    }
   });
 
   it('should get customer settings', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
-
-    const response = await showCustomerSettingsAsync(
-      token.accessToken,
-      customerId,
-      payload
-    );
-    expect(response.data).toMatchSnapshot();
+    try {
+      const response = await showCustomerSettingsAsync(token.accessToken);
+      expect(response.data).toMatchSnapshot();
+    } catch (error) {
+      expect(error).toHaveProperty('statusCode');
+    }
   });
 
-  it('should get error customer statusCode 400', async () => {
+  it('should get error customer statusCode 401 unauthorized', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
       await showCustomerSettingsAsync('');
     } catch (error) {
-      expect(error).toHaveProperty('statusCode', 400);
+      expect(error).toHaveProperty('statusCode', 401);
     }
   });
 
@@ -56,19 +54,51 @@ describe('Tests showCustomerSettingsAsync function', async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 
     try {
-      await showCustomerSettingsAsync(token.accessToken, customerId, payload);
+      await showCustomerSettingsAsync(token.accessToken);
     } catch (error) {
       expect(error).toHaveProperty('statusCode', 401);
     }
   });
+});
 
-  it('should get error customer statusCode 403', async () => {
+describe('test updating customer settings', async () => {
+  let token;
+  beforeAll(async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    token = await getTokenAsync(
+      CONFIG.email,
+      CONFIG.password,
+      CONFIG.clientId,
+      CONFIG.clientSecret
+    );
+  });
 
-    try {
-      await showCustomerSettingsAsync(token.accessToken, '', payload);
-    } catch (error) {
-      expect(error).toHaveProperty('statusCode', 403);
-    }
+  it('should return 200', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+    const settings = await showCustomerSettingsAsync(token.accessToken);
+    const response = await putCustomerSettings(
+      token.accessToken,
+      settings.data.data.id,
+      {
+        logisticsModelId: 2,
+      }
+    );
+
+    expect(response).toHaveProperty('status', 200);
+    expect(response.data.data).toHaveProperty('logisticsModelId', 2);
+  });
+});
+
+describe('test getDispatchType', async () => {
+  it('should return getDispatchType data', async () => {
+    const response = await getDispatchType();
+    expect(response.data.data instanceof Array).toBeTruthy();
+  });
+});
+
+describe('test getDispatchMode', async () => {
+  it('should return getDispatchMode data', async () => {
+    const response = await getDispatchMode();
+    expect(response.data.data instanceof Array).toBeTruthy();
   });
 });

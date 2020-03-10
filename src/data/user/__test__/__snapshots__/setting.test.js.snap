@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test getUserSettingMyOrdersColumnAsync function should get user settings 1`] = `
+Object {
+  "myOrdersColumns": Array [
+    Object {
+      "isFixed": false,
+      "isVisible": true,
+      "key": "customerOrderNumber",
+    },
+  ],
+}
+`;
+
+exports[`Test getUserSettingsAsync function should return user settings status 200 1`] = `
+Array [
+  Object {
+    "defaultLanguageCode": "en",
+  },
+  Object {
+    "myOrdersColumns": Array [
+      Object {
+        "isFixed": false,
+        "isVisible": true,
+        "key": "customerOrderNumber",
+      },
+    ],
+  },
+]
+`;

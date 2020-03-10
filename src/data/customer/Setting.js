@@ -5,36 +5,82 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
-import {
-  apiResponseErrorHandler,
-  convertObjectIntoURLString,
-} from '../utility/Util';
+import { apiResponseErrorHandler } from '../utility/Util';
+import { camelToSnake } from '../utility/ChangeCase';
 
 /** Retrieve Customer"s Settings
  * @param {string} token
- * @param {int} customerId
- * @param {Object} payload {identityId, transactionGroupId}
  * @return {Promise} settings object
  */
-export const showCustomerSettingsAsync = async (
-  token,
-  customerId,
-  payload = {}
-) => {
+
+export const showCustomerSettingsAsync = async (token) => {
   try {
-    const paramsString = convertObjectIntoURLString(payload);
-    const query = paramsString ? `/?${paramsString}` : '';
     const CustomerSettingsShow = await axios({
       method: 'GET',
-      url: `${endpoints.CUSTOMER_SETTINGS_SHOW.replace(
-        '{0}',
-        customerId
-      )}${query}`,
-      headers: { Authorization: token },
+      url: endpoints.API_V3.CUSTOMER_SETTINGS_SHOW,
+      headers: { Authorization: `Bearer ${token}` },
     });
     return {
       ...CustomerSettingsShow,
       data: camelize(CustomerSettingsShow.data),
+    };
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/** Updates the customer's settings.
+ * @param {string} token
+ * @param {int} id
+ * @param {Object} data
+ * @return {Promise} settings object
+ */
+
+export const putCustomerSettings = async (token, id, data) => {
+  try {
+    const response = await axios({
+      method: 'PUT',
+      url: endpoints.API_V3.CUSTOMER_SETTINGS.replace('{0}', id),
+      headers: { Authorization: `Bearer ${token}` },
+      data: camelToSnake(data),
+    });
+    return {
+      ...response,
+      data: camelize(response.data),
+    };
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/** Retrieve Dispatch Mode
+ * @return {Promise} settings object
+ */
+export const getDispatchMode = async () => {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: endpoints.API_V3.DISPATCH_MODE,
+    });
+    return {
+      data: camelize(response.data),
+    };
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/** Retrieve Dispatch Type
+ * @return {Promise} settings object
+ */
+export const getDispatchType = async () => {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: endpoints.API_V3.DISPATCH_TYPE,
+    });
+    return {
+      data: camelize(response.data),
     };
   } catch (e) {
     return apiResponseErrorHandler(e);

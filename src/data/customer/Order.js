@@ -20,17 +20,19 @@ import {
 
 /**
  * Get template for order upload
+ * @param {string} pickupDate (optional)(string) = "2018-02-28"
  * @param {string} token
  * @return {object} file data
  */
-export const getOrderUploadTemplateAsync = async (token) => {
+export const getOrderUploadTemplateAsync = async (pickupDate, token) => {
   try {
     const response = await axios({
       method: 'GET',
-      url: endpoints.API_V3.GROUPING_BATCH_TEMPLATE,
+      url: `${endpoints.API_V3.GROUPING_BATCH_TEMPLATE}?date=${pickupDate}`,
       responseType: 'blob',
       headers: { Authorization: `Bearer ${token}` },
     });
+
     return response.data;
   } catch (e) {
     return apiResponseErrorHandler(e);
@@ -126,17 +128,19 @@ export const getUploadedOrderProgressionAsync = async (customerId, token) => {
 
 /**
  * Retrieve single order
- * @param {object} orderId
+ * @param {int} orderId
+ * @param {object} params
  * @param {string} token
  * @return {object} Promise resolve/reject
  //TODO: needs more extensive unit testing
  */
-export const getOrderAsync = async (orderId, token) => {
+export const getOrderAsync = async (orderId, params, token) => {
   try {
     let response = await axios({
       method: 'GET',
       url: `${endpoints.API_V3.ORDER}/${orderId}`,
       headers: { Authorization: `Bearer ${token}` },
+      params,
     });
 
     return camelize(response.data);
@@ -206,20 +210,17 @@ export const getOrdersGroupByPickUpAddressAsync = async (
 ) => {
   try {
     /* If there"s no statusId is passed.
-    * Use 2 as default. It means validated orders
-    */
+     * Use 2 as default. It means validated orders
+     */
     let statusId = filterObject.statusIds || 2;
     let orders = await getOrdersAsync(filterObject, token);
     let errorContents;
 
     /* Check statusId whethere 4 or not
-    * If statusId is 4, need to combine the response with error contents
-    */
+     * If statusId is 4, need to combine the response with error contents
+     */
     if (statusId === 4) {
-      errorContents = await getErrorOrderContentsAsync(
-        filterObject.pickupDate,
-        token
-      );
+      errorContents = await getErrorOrderContentsAsync(filterObject, token);
     }
 
     return groupOrders(orders, errorContents ? errorContents : null);
@@ -309,6 +310,41 @@ export const getRemainingOrdersAsync = async (filterObject, token) => {
 };
 
 /**
+ * Get search orders
+ * @param {object} filterObject # {pickupDate (mandatory), limit, offset}
+ * pickupDate (optional)(string) = "2018-02-28"
+ * limit = 20 (optional)(int)
+ * page = 0 (optional)(int)
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getSearchOrdersAsync = async (filterObject, token) => {
+  try {
+    /*
+      Add following filter for remaining order
+      statusIds = 2; // Success Orders
+      withRoute = 0; // Orders without routes
+      withJob = 1; // Order should have included jobId
+      include = "pickup_group,delivery_address"
+      limit = 20
+      offset = 0
+    */
+
+    let filters = camelToSnake(filterObject);
+    let paramString = convertObjectIntoURLString(filters);
+    let response = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.ORDER_SEARCH}${paramString.replace('&', '?')}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
  * Get orders
  * @param {object} filterObject # {pickupDate (mandatory), limit, offset}
  * pickupDate (optional)(string) = "2018-02-28"
@@ -328,6 +364,7 @@ export const getOrdersAsync = async (filterObject, token) => {
       limit = 20
       offset = 0
     */
+
     let filters = camelToSnake(filterObject);
     let paramString = convertObjectIntoURLString(filters);
     let response = await axios({
@@ -344,16 +381,18 @@ export const getOrdersAsync = async (filterObject, token) => {
 
 /**
  * Get upload order"s error contents from Dynamodb
- * @param {object} pickupDate # {pickupDate (mandatory)}
- * pickupDate (optional)(string) = "2018-02-28"
+ * @param {object} filterObject # {pickupDateStart (mandatory), pickupDateEnd (mandatory)}
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const getErrorOrderContentsAsync = async (pickupDate, token) => {
+export const getErrorOrderContentsAsync = async (
+  { pickupDateStart, pickupDateEnd },
+  token
+) => {
   try {
     let response = await axios({
       method: 'GET',
-      url: `${endpoints.API_V3.ORDER_ERRORS}/?pickup_date=${pickupDate}`,
+      url: `${endpoints.API_V3.ORDER_ERRORS}/?pickup_date_start=${pickupDateStart}&pickup_date_end=${pickupDateEnd}`,
       headers: { Authorization: `Bearer ${token}` },
     });
     return camelize(response.data);
@@ -433,6 +472,35 @@ export const createOrderAsync = async (orderObject, token) => {
 };
 
 /**
+ * Create service provider single order
+ * @param {object} orderObject
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const createServiceProviderOrderAsync = async (orderObject, token) => {
+  try {
+    const { orderCustomerEmail, ...rest } = orderObject;
+    orderObject = camelToSnake(rest);
+    const response = await axios({
+      method: 'POST',
+      url: endpoints.API_V3.SERVICE_PROVIDER_ORDER,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        order_data: orderObject,
+        order_customer_email: orderCustomerEmail,
+      },
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
  * Edit single order
  * @param {int} orderId
  * @param {object} orderObject
@@ -473,6 +541,42 @@ export const editOrderAsync = async (orderId, orderObject, token) => {
 };
 
 /**
+ * Edit single order (sync address)
+ * @param {int} orderId
+ * @param {object} orderObject
+ * @param {object} params
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const editOrderSync = async (
+  orderId,
+  orderObject,
+  params = {},
+  token
+) => {
+  try {
+    const updatedLocationDataObject = {
+      order_data: camelToSnake(orderObject),
+    };
+
+    const response = await axios({
+      method: 'PUT',
+      url: `${endpoints.API_V3.ORDER}/${orderId}/sync`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: updatedLocationDataObject,
+      params,
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
  * Edit multiple orders
  * @param {array} orderDataList
  //TODO: this object is not complete, an order can have much more parameters
@@ -491,10 +595,15 @@ export const editOrderAsync = async (orderId, orderObject, token) => {
      },
    },
  ]
+ * @param {object} filterObject {pickupDateStart, pickupDateEnd}
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const editOrdersAsync = async (orderDataList = [], token) => {
+export const editOrdersAsync = async (
+  orderDataList = [],
+  filterObject,
+  token
+) => {
   try {
     let updatedOrderDataList = orderDataList.map((data) => {
       let tmpObject = {
@@ -504,9 +613,19 @@ export const editOrdersAsync = async (orderDataList = [], token) => {
       return tmpObject;
     });
 
+    let url = `${endpoints.API_V3.ORDER}`;
+    if (filterObject) {
+      const {
+        pickupDateStart,
+        pickupDateEnd,
+        validationStatusId,
+      } = filterObject;
+      url += `?pickup_date_start=${pickupDateStart}&pickup_date_end=${pickupDateEnd}&validation_status_id=${validationStatusId}`;
+    }
+
     let response = await axios({
       method: 'PUT',
-      url: endpoints.API_V3.ORDER,
+      url,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -585,6 +704,7 @@ export const groupOrders = (orders, errorContents = null) => {
     totalLocationCount: orders['meta'].totalLocationCount, // total_location_count
     successLocationCount: orders['meta'].validatedLocationCount, // validated_location_count
     failedLocationCount: orders['meta'].failedLocationCount, // failed_location_count
+    totalValidatedOrdersCount: orders['meta'].validatedOrdersWithoutRoutesCount, // total of routes with status created
     data: orderGroups.data,
   };
 
@@ -667,4 +787,150 @@ export const mergeLocationDataWithErrors = (errorContents, order) => {
 
   /* Response empty array if there's no error from dynamodb */
   return [];
+};
+
+/**
+ * Update requested data
+ * Example :
+ {
+    "type_id": 1,
+    "order_ids": [
+      1
+    ]
+ }
+ * @param {object} requestData
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const updateOrderDispatchTo3PL = async (requestData, token) => {
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: endpoints.API_V3.DISPATCH_3PL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: requestData,
+    });
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * @param {object} requestData
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const broadcastToFreelancers = async (requestData, token) => {
+  try {
+    const result = await axios({
+      method: 'POST',
+      url: `${endpoints.API_V3.BROADCAST_TO_FREELANCERS}`,
+      headers: { Authorization: `Bearer ${token}` },
+      data: requestData,
+    });
+    return camelize(result.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/** Stop dispatching order
+ * @param {int} orderId
+ * @param {string} token
+ * @return {Object} Promise resolve/reject
+ * If resolve, return { data: true }
+ //TODO: needs unit testing
+ */
+export const deleteOrderDispatchAsync = async (orderId, token) => {
+  try {
+    const result = await axios({
+      method: 'DELETE',
+      url: `${endpoints.API_V3.ORDER_ID.replace('{0}', orderId)}/dispatch`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return camelize(result.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Retrieve Order Status reason
+ * @param {int} statusId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ //TODO: needs more extensive unit testing
+ */
+export const getOrderStatusReasonAsync = async (statusId, token) => {
+  try {
+    let response = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.ORDER_STATUS_REASON}`,
+      headers: { Authorization: `Bearer ${token}` },
+      params: { status_id: statusId },
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Update order status
+ * Example :
+ {
+    "status_id": "11",
+    "order_status_reason_id": 0,
+    "notes": "string"
+ }
+ * @param {object} orderId
+ * @param {object} payload
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const updateOrderStatus = async (orderId, payload, token) => {
+  try {
+    const response = await axios({
+      method: 'PUT',
+      url: `${endpoints.API_V3.ORDER_ID.replace('{0}', orderId)}/status`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: camelToSnake(payload),
+    });
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Split order to multiple order
+ * @param {object} orderId
+ * @param {object} payload
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const splitToMultipleOrder = async (orderId, payload, token) => {
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: `${endpoints.API_V3.ORDER_ID.replace('{0}', orderId)}/split`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: camelToSnake(payload),
+    });
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
 };

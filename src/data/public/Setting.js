@@ -16,7 +16,7 @@ export const getCustomerPublicProfileSettingsAsync = async (domain) => {
   try {
     const response = await axios({
       method: 'GET',
-      url: endpoints.TRANSACTION_GROUP_SETTING.replace('{1}', domain),
+      url: endpoints.API_V3.TRANSACTION_GROUP_SETTING.replace('{1}', domain),
     });
     return camelize(response.data.data);
   } catch (e) {

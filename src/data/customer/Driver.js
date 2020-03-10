@@ -70,6 +70,10 @@ export const createDriverAsync = async (
     vehicleModel,
     vehicleTypeId,
     schedules,
+    interviewDetails = {},
+    bank = {},
+    identificationNumber,
+    serviceProviderDriverServiceIds,
   },
   token
 ) => {
@@ -96,6 +100,10 @@ export const createDriverAsync = async (
         vehicleTypeId,
       },
       schedules,
+      interviewDetails: camelToSnake(interviewDetails),
+      bank: camelToSnake(bank),
+      identificationNumber,
+      serviceProviderDriverServiceIds,
     };
 
     const driver = camelToSnake({
@@ -195,23 +203,18 @@ export const getDriversAsync = async (filterObject = {}, token) => {
  * @property {string} accountNumber // bank account number
  * @property {Array.<Schedule>} schedules  Array of schedule object
  * @param {Driver} driverDetailsInfo {}
+ * @param {object} params
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
 export const updateDriverAsync = async (
   {
     id,
+    identificationNumber,
     driverStatusId,
     languageIds,
     transactionGroupIds,
     driverTypeIds,
-    hasCriminalRecord,
-    isAProfessionalDriver,
-    hasWorkAsDriver,
-    hasWorkedForSameCompany,
-    referredFrom,
-    drivingReason,
-    remarks,
     firstName,
     lastName,
     phone,
@@ -225,30 +228,23 @@ export const updateDriverAsync = async (
     vehicleBrand,
     vehicleLicenseNumber,
     vehicleColor,
-    branchCode,
-    code,
-    name,
-    accountNumber,
     schedules,
+    interviewDetails = {},
+    bank = {},
+    serviceProviderDriverServiceIds,
   },
+  params,
   token
 ) => {
   try {
     const driverInfo = camelToSnake({
       id,
+      identificationNumber,
       driverStatusId,
       languageIds,
       transactionGroupIds,
       driverTypeIds,
-      interviewDetails: camelToSnake({
-        hasCriminalRecord,
-        isAProfessionalDriver,
-        hasWorkAsDriver,
-        hasWorkedForSameCompany,
-        referredFrom,
-        drivingReason,
-        remarks,
-      }),
+      interviewDetails: camelToSnake(interviewDetails),
       user: camelToSnake({
         firstName,
         lastName,
@@ -266,12 +262,7 @@ export const updateDriverAsync = async (
         vehicleLicenseNumber,
         vehicleColor,
       }),
-      bank: camelToSnake({
-        branchCode,
-        code,
-        name,
-        accountNumber,
-      }),
+      bank: camelToSnake(bank),
       schedules: schedules
         ? schedules.map((schedule) => {
             const newSchedule = {
@@ -281,11 +272,13 @@ export const updateDriverAsync = async (
             return camelToSnake(newSchedule);
           })
         : undefined,
+      serviceProviderDriverServiceIds,
     });
     const response = await axios({
       method: 'PUT',
       url: endpoints.API_V3.DRIVER_UPDATE.replace('{0}', id),
       headers: { Authorization: `Bearer ${token}` },
+      params: camelToSnake(params),
       data: driverInfo,
     });
     return camelize(response.data);
@@ -537,6 +530,7 @@ export const getUpdatedDriverLiveData = (
  * @property {Array.<Window>} windows Array of window object
  * @property {Array.<number>} recursions Array of day numbers for recurring window
  * @param {ScheduleInfo} payload // Schdule info object
+ * @param {Object} params
  * @param {string} token {driverId, transactionGroupId, startTime, endTime, startDate}
  * @return {Object} Promise resolve/reject
  * If resolve, return value: boolean(To indicate update successful or failed)
@@ -548,6 +542,7 @@ export const getUpdatedDriverLiveData = (
 export const updateDriverScheduleAsync = async (
   scheduleId,
   payload = {},
+  params = {},
   token
 ) => {
   try {
@@ -562,6 +557,7 @@ export const updateDriverScheduleAsync = async (
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', scheduleId)}`,
       headers: { Authorization: `Bearer ${token}` },
       data: camelToSnake(newPayload),
+      params: camelToSnake(params),
     });
     return camelize(result.data);
   } catch (e) {
@@ -599,6 +595,7 @@ export const deleteDriverScheduleAsync = async (scheduleId, token) => {
  * @property {Array.<Window>} windows Array of window object (mandatory)
  * @property {Array.<number>} recursions Array of day numbers for recurring window
  * @param {ScheduleInfo} payload // Schdule info object
+ * @param {Object} params url params
  * @param {string} token resolve/reject
  * @return {Object} Promise resolve/reject
  * If resolve, return value: boolean(To indicate update successful or failed)
@@ -607,7 +604,11 @@ export const deleteDriverScheduleAsync = async (scheduleId, token) => {
  * 400: Driver Schedule with same values exists
  * 200: Success
  */
-export const createDriverScheduleAsync = async (payload = {}, token) => {
+export const createDriverScheduleAsync = async (
+  payload = {},
+  params,
+  token
+) => {
   try {
     const newPayload = {
       ...payload,
@@ -620,6 +621,7 @@ export const createDriverScheduleAsync = async (payload = {}, token) => {
       url: `${endpoints.API_V3.DRIVER_SCHEDULE.replace('{0}', '')}`,
       headers: { Authorization: `Bearer ${token}` },
       data: camelToSnake(newPayload),
+      params: camelToSnake(params),
     });
     return camelize(result.data);
   } catch (e) {
@@ -759,4 +761,156 @@ export const categoriesCustomerDrivers = (drivers) => {
       return data;
     }, responseData),
   };
+};
+
+/**
+ * delete Drivers
+ * @param {string} driverIds Comma separated values of IDs belonging to drivers to remove. Only In-house drivers can be deleted. Example: ?driver_ids=1,2,3
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const deleteDriversAsync = async (driverIds, token) => {
+  try {
+    await axios({
+      method: 'DELETE',
+      url: `${endpoints.API_V3.DRIVER_UPDATE.replace(
+        '/{0}',
+        `?driver_ids=${driverIds}`
+      )}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return { data: true };
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * assign to freelance driver
+ * @param {number} driverId
+ * @param {object} params
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const assignToFreelancer = async (driverId, params, token) => {
+  try {
+    const result = await axios({
+      method: 'POST',
+      url: `${endpoints.API_V3.ASSIGN_TO_FREELANCER.replace('{0}', driverId)}`,
+      headers: { Authorization: `Bearer ${token}` },
+      data: params,
+    });
+    return camelize(result.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Get Searched Drivers
+ * @param {object} params driver_status_id, driver_type_id, limit, offset
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getSearchedDrivers = async (params, token) => {
+  try {
+    /*
+      Add following params for searching drivers
+      driver_status_id = 2; // Activated
+      driver_type_id = 1; // Public/Freelance
+      limit = 10
+      offset = 0
+    */
+
+    let response = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.DRIVER_SEARCH}`,
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Get the Driver Payments
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const getDriverPaymentAsync = async (token) => {
+  try {
+    const res = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.DRIVER_PAYMENT}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return camelize(res.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Create Driver Payment Batch
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const createDriverPaymentAsync = async (token) => {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: `${endpoints.API_V3.DRIVER_PAYMENT}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return camelize(res.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Update Driver Payment Batch
+ * @param {string} id
+ * @param {object} payload {limit, page, driverIds}
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const updateDriverPaymentAsync = async (id, payload, token) => {
+  try {
+    const res = await axios({
+      method: 'PUT',
+      url: `${endpoints.API_V3.DRIVER_PAYMENT}/${id}`,
+      headers: { Authorization: `Bearer ${token}` },
+      data: camelToSnake(payload),
+    });
+
+    return camelize(res.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Download Driver Payment Batch
+ * @param {string} id
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const downloadDriverPaymentAsync = async (id, token) => {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: `${endpoints.API_V3.DRIVER_PAYMENT}/${id}/download`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return camelize(res.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
 };
