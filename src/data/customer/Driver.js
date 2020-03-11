@@ -914,3 +914,25 @@ export const downloadDriverPaymentAsync = async (id, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+export const getSelectedDriverRoutesAsync = async (
+  driverId,
+  filterObject,
+  token
+) => {
+  try {
+    let paramString = convertObjectIntoURLString(camelToSnake(filterObject));
+    const routes = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.DRIVER_ROUTE}/${driverId}${paramString.replace(
+        '&',
+        '?'
+      )}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return camelize(routes.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
