@@ -33,3 +33,14 @@ Object {
   "data": Array [],
 }
 `;
+
+exports[`Create new driver  should throw getDriversWithFiltersAsync 401 error status 1`] = `
+Object {
+  "data": Object {
+    "1": Array [],
+    "2": Array [],
+    "3": Array [],
+    "4": Array [],
+  },
+}
+`;

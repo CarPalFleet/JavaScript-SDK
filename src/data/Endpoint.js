@@ -1,6 +1,6 @@
 const urlPrefix =
-  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/alpha';
-const laravelUrlPrefix = 'https://api-alpha.carpalfleet.com';
+  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
+const laravelUrlPrefix = 'https://api-staging.carpalfleet.com';
 const version = 'v1';
 
 const endpoints = {
@@ -19,6 +19,7 @@ const endpoints = {
     NEW_CUSTOMER: `${laravelUrlPrefix}/${version}/customer`,
     BATCH_FILE_UPLOAD: `${laravelUrlPrefix}/${version}/customer/grouping-batch`,
     ORDER: `${laravelUrlPrefix}/${version}/customer/order`,
+    ORDER_CREATE: `${laravelUrlPrefix}/${version}/customer/order/sync`,
     ORDER_ID: `${laravelUrlPrefix}/${version}/customer/order/{0}`,
     ORDER_SEARCH: `${laravelUrlPrefix}/${version}/customer/order/search`,
     ORDER_STATUS_REASON: `${laravelUrlPrefix}/${version}/customer/order-status-reason`,
