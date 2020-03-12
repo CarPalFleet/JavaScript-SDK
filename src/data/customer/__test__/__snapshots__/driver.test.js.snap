@@ -34,7 +34,7 @@ Object {
 }
 `;
 
-exports[`Create new driver  should throw getDriversWithFiltersAsync 401 error status 1`] = `
+exports[`Create new driver  should throw getDriverCountsAsync 401 error status 1`] = `
 Object {
   "data": Object {
     "1": Array [],
