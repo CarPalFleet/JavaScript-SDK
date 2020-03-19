@@ -455,7 +455,7 @@ export const createOrderAsync = async (orderObject, token) => {
     orderObject = camelToSnake(orderObject);
     let response = await axios({
       method: 'POST',
-      url: endpoints.API_V3.ORDER,
+      url: endpoints.API_V3.ORDER_CREATE,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
