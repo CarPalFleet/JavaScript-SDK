@@ -63,7 +63,7 @@ export const getListOfDriverService = async (token) => {
 };
 
 /**
- * Get list of drivers services
+ * Update customer credits
  * @param {object} params
  * @param {string} token
  * @return {object} Promise resolve/reject
