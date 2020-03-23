@@ -1,6 +1,8 @@
 import axios from 'axios';
 import endpoints from '../Endpoint';
 import camelize from 'camelize';
+
+import { camelToSnake } from '../utility/ChangeCase';
 import { apiResponseErrorHandler } from '../utility/Util';
 
 /**
@@ -55,6 +57,32 @@ export const getListOfDriverService = async (token) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     return camelize(res.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Get list of drivers services
+ * @param {object} params
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const addCustomerCredits = async (params, token) => {
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: `${endpoints.API_V3.SERVICE_PROVIDER_CUSTOMER.replace(
+        '{0}',
+        params.customerId
+      )}/credit`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: camelToSnake(params.payload),
+    });
+    return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
