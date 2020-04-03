@@ -421,7 +421,7 @@ export const getDriverRoutesAsync = async (filterObject, token) => {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    return camelize(routes.data);
+    return camelize(routes);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
