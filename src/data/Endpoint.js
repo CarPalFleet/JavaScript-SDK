@@ -1,6 +1,6 @@
 const urlPrefix =
-  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/alpha';
-const laravelUrlPrefix = 'https://api-alpha.carpalfleet.com';
+  'https://b2gp6sn1o4.execute-api.ap-southeast-1.amazonaws.com/staging';
+const laravelUrlPrefix = 'https://api-staging.carpalfleet.com';
 const version = 'v1';
 
 const endpoints = {
@@ -69,8 +69,11 @@ const endpoints = {
     SERVICE_PROVIDER_CUSTOMER: `${laravelUrlPrefix}/${version}/service-provider/customer/{0}`,
     SERVICE_PROVIDER_CUSTOMER_SEARCH: `${laravelUrlPrefix}/${version}/service-provider/customer/search`,
     SERVICE_PROVIDER_ORDER: `${laravelUrlPrefix}/${version}/service-provider/order`,
+    SERVICE_PROVIDER_QUOTE: `${laravelUrlPrefix}/${version}/service-provider/quote`,
     LANGUAGES: `${laravelUrlPrefix}/${version}/languages`,
     ORDER_STATUS: `${laravelUrlPrefix}/${version}/order-status`,
+    EXPORT_ORDER_ANALYTICS: `${laravelUrlPrefix}/${version}/customer/report/order-analytics`,
+    REPORT_FIELDS: `${laravelUrlPrefix}/${version}/report/{0}/fields`,
   },
 };
 
