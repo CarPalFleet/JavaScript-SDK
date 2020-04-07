@@ -80,7 +80,11 @@ export const addCustomerCredits = async (params, token) => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      data: camelToSnake(params.payload),
+
+      data: {
+        order_data: camelToSnake(params),
+        order_customer_email: params.orderCustomerEmail,
+      },
     });
     return camelize(response.data);
   } catch (e) {

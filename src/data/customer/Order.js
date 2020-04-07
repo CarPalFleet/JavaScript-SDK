@@ -934,3 +934,24 @@ export const splitToMultipleOrder = async (orderId, payload, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * Generate order quote for service provider
+ * @param {object} requestData
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const generateOrderQuoteAsync = async (requestData, token) => {
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: endpoints.API_V3.SERVICE_PROVIDER_QUOTE,
+      headers: { Authorization: `Bearer ${token}` },
+      data: requestData,
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
