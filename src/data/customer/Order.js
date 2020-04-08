@@ -934,3 +934,27 @@ export const splitToMultipleOrder = async (orderId, payload, token) => {
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * Generate order quote for service provider
+ * @param {object} params
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const generateOrderQuoteAsync = async (params, token) => {
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: endpoints.API_V3.SERVICE_PROVIDER_QUOTE,
+      headers: { Authorization: `Bearer ${token}` },
+      data: {
+        order_data: camelToSnake(params),
+        order_customer_email: params.orderCustomerEmail,
+      },
+    });
+
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
