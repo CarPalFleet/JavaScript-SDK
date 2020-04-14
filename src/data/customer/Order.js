@@ -479,7 +479,7 @@ export const createOrderAsync = async (orderObject, token) => {
  */
 export const createServiceProviderOrderAsync = async (orderObject, token) => {
   try {
-    const { orderCustomerEmail, ...rest } = orderObject;
+    const { include, orderCustomerEmail, ...rest } = orderObject;
     orderObject = camelToSnake(rest);
     const response = await axios({
       method: 'POST',
@@ -491,6 +491,7 @@ export const createServiceProviderOrderAsync = async (orderObject, token) => {
       data: {
         order_data: orderObject,
         order_customer_email: orderCustomerEmail,
+        include,
       },
     });
 
