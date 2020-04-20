@@ -42,6 +42,8 @@ export const getExportURL = (type) => {
   switch (type) {
     case 'driver-list':
       return endpoints.API_V3.EXPORT_DRIVER_LIST;
+    case 'order-analytics':
+      return endpoints.API_V3.EXPORT_ORDER_ANALYTICS;
     case 'routing':
       return endpoints.API_V3.EXPORT_ROUTE;
     default:
