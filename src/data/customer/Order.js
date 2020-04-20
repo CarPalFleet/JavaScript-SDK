@@ -479,7 +479,7 @@ export const createOrderAsync = async (orderObject, token) => {
  */
 export const createServiceProviderOrderAsync = async (orderObject, token) => {
   try {
-    const { orderCustomerEmail, ...rest } = orderObject;
+    const { include, orderCustomerEmail, ...rest } = orderObject;
     orderObject = camelToSnake(rest);
     const response = await axios({
       method: 'POST',
@@ -491,6 +491,7 @@ export const createServiceProviderOrderAsync = async (orderObject, token) => {
       data: {
         order_data: orderObject,
         order_customer_email: orderCustomerEmail,
+        include,
       },
     });
 
@@ -929,6 +930,30 @@ export const splitToMultipleOrder = async (orderId, payload, token) => {
       },
       data: camelToSnake(payload),
     });
+    return camelize(response.data);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * Generate order quote for service provider
+ * @param {object} params
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const generateOrderQuoteAsync = async (params, token) => {
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: endpoints.API_V3.SERVICE_PROVIDER_QUOTE,
+      headers: { Authorization: `Bearer ${token}` },
+      data: {
+        order_data: camelToSnake(params),
+        order_customer_email: params.orderCustomerEmail,
+      },
+    });
+
     return camelize(response.data);
   } catch (e) {
     return apiResponseErrorHandler(e);
