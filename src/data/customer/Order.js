@@ -938,11 +938,18 @@ export const splitToMultipleOrder = async (orderId, payload, token) => {
 
 /**
  * Generate order quote for service provider
+ * @param {int} orderId
+ * @param {string} customerEmail
  * @param {object} params
  * @param {string} token
  * @return {object} Promise resolve/reject
  */
-export const generateOrderQuoteAsync = async (params, token) => {
+export const generateOrderQuoteAsync = async (
+  orderId,
+  customerEmail,
+  params,
+  token
+) => {
   try {
     const response = await axios({
       method: 'POST',
@@ -950,7 +957,8 @@ export const generateOrderQuoteAsync = async (params, token) => {
       headers: { Authorization: `Bearer ${token}` },
       data: {
         order_data: camelToSnake(params),
-        order_customer_email: params.orderCustomerEmail,
+        order_id: orderId,
+        order_customer_email: customerEmail,
       },
     });
 
