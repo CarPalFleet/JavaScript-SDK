@@ -156,7 +156,7 @@ export const getDriversAsync = async (filterObject = {}, token) => {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    return camelize(response.data);
+    return camelize(response);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
