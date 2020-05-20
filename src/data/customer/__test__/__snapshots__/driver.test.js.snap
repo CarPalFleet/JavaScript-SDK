@@ -2,6 +2,17 @@
 
 exports[`Create new driver  should get getDriverCountsAsync success response 1`] = `
 Object {
+  "data": Object {
+    "1": Array [],
+    "2": Array [],
+    "3": Array [],
+    "4": Array [],
+  },
+}
+`;
+
+exports[`Create new driver  should get getDriverCountsAsync success response 2`] = `
+Object {
   "activeStatusCounts": Object {
     "1": 0,
     "2": 0,
@@ -31,16 +42,5 @@ Object {
 exports[`Create new driver  should get getSearchedDrivers success response 1`] = `
 Object {
   "data": Array [],
-}
-`;
-
-exports[`Create new driver  should throw getDriversWithFiltersAsync 401 error status 1`] = `
-Object {
-  "data": Object {
-    "1": Array [],
-    "2": Array [],
-    "3": Array [],
-    "4": Array [],
-  },
 }
 `;
