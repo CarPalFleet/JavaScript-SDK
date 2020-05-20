@@ -18,6 +18,9 @@ Array [
     "defaultLanguageCode": "en",
   },
   Object {
+    "defaultLanguageCode": "en",
+  },
+  Object {
     "myOrdersColumns": Array [
       Object {
         "isFixed": false,
