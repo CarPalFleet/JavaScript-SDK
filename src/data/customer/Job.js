@@ -23,7 +23,7 @@ export const getJobDriverLocationsAsync = async (jobId, token) => {
       url: endpoints.API_V3.JOB_DRIVER_LOCATIONS.replace('{0}', jobId),
       headers: { Authorization: `Bearer ${token}` },
     });
-    return camelize(jobDriverLocations.data);
+    return camelize(jobDriverLocations);
   } catch (e) {
     return apiResponseErrorHandler(e);
   }
