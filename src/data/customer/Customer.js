@@ -91,7 +91,7 @@ export const deleteSavedAddress = async (customerAddressId, token) => {
   try {
     await axios({
       method: 'DELETE',
-      url: `${endpoints.API_V3.DRIVER_UPDATE}/${customerAddressId}`,
+      url: `${endpoints.API_V3.CUSTOMER_ADDRESS}/${customerAddressId}`,
       headers: { Authorization: `Bearer ${token}` },
     });
     return { data: true };
