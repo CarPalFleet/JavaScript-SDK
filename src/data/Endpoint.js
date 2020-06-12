@@ -77,6 +77,7 @@ const endpoints = {
     ORDER_ANALYTICS_METRIC: `${laravelUrlPrefix}/${version}/customer/order-analytics/metric`,
     ORDER_ANALYTICS_CHART: `${laravelUrlPrefix}/${version}/customer/order-analytics/chart`,
     EXPORT_CUSTOMER_LIST: `${laravelUrlPrefix}/${version}/service-provider/report/customers-export`,
+    CUSTOMER_ADDRESS: `${laravelUrlPrefix}/${version}/customer/address`,
   },
 };
 
