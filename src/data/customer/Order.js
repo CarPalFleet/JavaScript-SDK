@@ -684,6 +684,28 @@ export const deleteOrdersAsync = async (orderIds = [], token) => {
 };
 
 /**
+ * Delete Multiple Orders
+ * @param {object} params
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ * return {data: true} if deleting is success
+ */
+export const deleteAllOrdersAsync = async (params, token) => {
+  try {
+    await axios({
+      method: 'DELETE',
+      url: `${endpoints.API_V3.ORDER}`,
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    });
+
+    return { data: true };
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
  * Group Orders with error contents
  * @param {object} orders
  * @param {object} errorContents
