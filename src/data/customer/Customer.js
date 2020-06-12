@@ -58,3 +58,44 @@ export const createNewCustomerAsync = async ({
     return apiResponseErrorHandler(e);
   }
 };
+
+/**
+ * Returns list of saved address
+ * @param {object} params # {page, limit, customerId}
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+
+export const getSavedAddress = async (params, token) => {
+  try {
+    const routes = await axios({
+      method: 'GET',
+      url: `${endpoints.API_V3.CUSTOMER_ADDRESS}`,
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    });
+
+    return camelize(routes);
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
+
+/**
+ * delete saved address by address id
+ * @param {string} customerAddressId
+ * @param {string} token
+ * @return {object} Promise resolve/reject
+ */
+export const deleteSavedAddress = async (customerAddressId, token) => {
+  try {
+    await axios({
+      method: 'DELETE',
+      url: `${endpoints.API_V3.CUSTOMER_ADDRESS}/${customerAddressId}`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return { data: true };
+  } catch (e) {
+    return apiResponseErrorHandler(e);
+  }
+};
